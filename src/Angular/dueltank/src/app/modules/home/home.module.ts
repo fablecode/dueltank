@@ -1,8 +1,11 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule} from "@angular/core";
+import {HomePage} from "./pages/home/home.page";
 
 @NgModule({
-  declarations : [],
+  declarations : [
+    HomePage
+  ],
   imports: [
     BrowserModule
   ],
