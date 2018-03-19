@@ -19,9 +19,24 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "../node_modules/bootstrap/dist/css/bootstrap.min.css",
+        "../node_modules/font-awesome/css/font-awesome.css",
+        "../node_modules/animate.css/animate.css",
+        "../node_modules/metismenu/dist/metisMenu.css",
+        "../src/assets/styles/google-open-sans.css",
+        "../src/assets/styles/google-roboto.css",
+        "../node_modules/isteven-angular-multiselect/isteven-multi-select.css",
+        "../node_modules/toastr/build/toastr.css",
+        "../src/assets/styles/styles.css",
+        "../src/assets/styles/main.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/jquery/dist/jquery.min.js",
+        "../node_modules/popper.js/dist/umd/popper.js",
+        "../node_modules/popper.js/dist/umd/popper-utils.js",
+        "../node_modules/bootstrap/dist/js/bootstrap.js",
+        "../node_modules/metismenu/dist/metisMenu.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

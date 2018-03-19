@@ -5,5 +5,5 @@ import { Component} from "@angular/core";
   templateUrl: './home.page.html'
 })
 export class HomePage {
-  title = "home";
+  title = "Home";
 }
