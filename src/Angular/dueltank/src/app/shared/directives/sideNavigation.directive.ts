@@ -1,7 +1,7 @@
 
 import {AfterViewInit, Directive, ElementRef} from "@angular/core";
-import "metismenu";
 import * as $ from "jquery";
+import "metismenu";
 
 @Directive({
   selector: "[sideNavigation]"
