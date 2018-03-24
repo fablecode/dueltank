@@ -9,6 +9,7 @@ import {HomePage} from "./modules/home/pages/home/home.page";
 import {NavbarComponent} from "./shared/components/navbar/navbar.component";
 import {SideNavigationComponent} from "./shared/components/sidenavigation/sidenavigation.component";
 import {SideNavigationDirective} from "./shared/directives/sideNavigation.directive";
+import {AccountModule} from "./modules/account/account.module";
 
 const appRoutes: Routes = [
   {   path: "", component: HomePage, pathMatch: "full"}
@@ -24,6 +25,7 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     HomeModule,
+    AccountModule,
     RouterModule.forRoot(appRoutes)
   ],
   exports: [RouterModule],
