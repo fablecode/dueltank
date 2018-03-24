@@ -1,6 +1,6 @@
 <div class="row border-bottom white-bg page">
   <div class="col-lg-10">
-    <h2 style="margin-top: 10px;"><i class="fa fa-user-circle"></i>&nbsp;Login</h2>
+    <h2 style="margin-top: 10px;"><i class="fa fa-user-circle"></i>&nbsp;Register</h2>
   </div>
 </div>
 <div class="row wrapper wrapper-content animated fadeIn ng-scope">
@@ -22,27 +22,18 @@
                 <input type="password" class="form-control" placeholder="Password">
               </div>
               <button type="submit" class="btn btn-primary block full-width m-b">Register</button>
-
-              <div ng-if="$ctrl.errorMessage" class="alert alert-danger" role="alert">
-                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                <span class="sr-only">Error:</span>
-                &nbsp;{{$ctrl.errorMessage}}
-              </div>
-
               <p class="text-muted">
                 <small>Got an account?</small>
               </p>
-
-              <a ng-link="['Login']">
+              <a href="">
                 <small>Login?</small>
               </a>
-
             </form>
           </div>
         </div>
         <div class="col-md-6">
           <h2 class="font-bold">Connect</h2>
-          <p>Using social network.</p>
+          <p>Using a social network.</p>
           <div class="ibox-content">
             <socialLogin></socialLogin>
           </div>
