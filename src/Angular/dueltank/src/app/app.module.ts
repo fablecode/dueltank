@@ -10,6 +10,7 @@ import {NavbarComponent} from "./shared/components/navbar/navbar.component";
 import {SideNavigationComponent} from "./shared/components/sidenavigation/sidenavigation.component";
 import {SideNavigationDirective} from "./shared/directives/sideNavigation.directive";
 import {AccountModule} from "./modules/account/account.module";
+import {ShowAuthedDirective} from "./shared/directives/showAuthed.directive";
 
 const appRoutes: Routes = [
   {   path: "", component: HomePage, pathMatch: "full"}
@@ -20,7 +21,8 @@ const appRoutes: Routes = [
     AppComponent,
     NavbarComponent,
     SideNavigationComponent,
-    SideNavigationDirective
+    SideNavigationDirective,
+    ShowAuthedDirective
   ],
   imports: [
     BrowserModule,
