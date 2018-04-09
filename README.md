@@ -4,7 +4,7 @@
 A [Yu-Gi-Oh](http://www.yugioh-card.com/en/) Deck building application.
 
 ## Why?
-To create or upload Yugioh decks and provide access to the latest banlist, Archetypes & card errata.
+To create or upload Yugioh a **Deck** and provide access to the **Latest Banlist** and **Archetypes**.
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details.
