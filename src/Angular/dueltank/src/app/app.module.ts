@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 
 
 import { AppComponent } from './app.component';
@@ -11,10 +11,22 @@ import {SideNavigationComponent} from "./shared/components/sidenavigation/sidena
 import {SideNavigationDirective} from "./shared/directives/sideNavigation.directive";
 import {AccountModule} from "./modules/account/account.module";
 import {ShowAuthedDirective} from "./shared/directives/showAuthed.directive";
+import {AppConfigService} from "./shared/services/app-config.service";
+import {HttpClientModule} from "@angular/common/http";
 
 const appRoutes: Routes = [
   {   path: "", component: HomePage, pathMatch: "full"}
 ];
+
+/**
+ * Exported function so that it works with AOT
+ * @param {AppConfigService} configService
+ * @returns {Function}
+ */
+export function loadConfigService(configService: AppConfigService): Function
+{
+  return () => { return configService.load() };
+}
 
 @NgModule({
   declarations: [
@@ -26,12 +38,16 @@ const appRoutes: Routes = [
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     HomeModule,
     AccountModule,
     RouterModule.forRoot(appRoutes)
   ],
   exports: [RouterModule],
-  providers: [],
+  providers: [
+    AppConfigService,
+    { provide: APP_INITIALIZER, useFactory: loadConfigService , deps: [AppConfigService], multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
