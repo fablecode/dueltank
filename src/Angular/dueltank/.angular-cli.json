@@ -10,7 +10,7 @@
       "assets": [
         "assets",
         "favicon.ico",
-        "config.json"
+        "assets/config/config.json"
       ],
       "index": "index.html",
       "main": "main.ts",
