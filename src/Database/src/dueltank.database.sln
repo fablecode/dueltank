@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2027
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "dueltank", "src\dueltank\dueltank.sqlproj", "{D0967D06-54D7-48C8-AA57-88B0C7E233FE}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "dueltank", "dueltank\dueltank.sqlproj", "{D0967D06-54D7-48C8-AA57-88B0C7E233FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
