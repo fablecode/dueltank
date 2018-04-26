@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 using dueltank.api.ServiceExtensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,7 +34,15 @@ namespace dueltank.api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSwaggerDocumentation();
-            services.AddMvc();
+            services.AddIdentityConfiguration(Configuration);
+            services.AddMvc(setupAction =>
+            {
+                // 406 Not Acceptable response, if accept header not supported.
+                setupAction.ReturnHttpNotAcceptable = true;
+
+                // Xml Formatters support
+                setupAction.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,32 +52,21 @@ namespace dueltank.api
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseSwaggerDocumentation();
-            app.UseMvc();
-        }
-    }
-
-    public class AuthorizationHeaderParameterOperationFilter : IOperationFilter
-    {
-        public void Apply(Operation operation, OperationFilterContext context)
-        {
-            var filterPipeline = context.ApiDescription.ActionDescriptor.FilterDescriptors;
-            var isAuthorized = filterPipeline.Select(filterInfo => filterInfo.Filter).Any(filter => filter is AuthorizeFilter);
-            var allowAnonymous = filterPipeline.Select(filterInfo => filterInfo.Filter).Any(filter => filter is IAllowAnonymousFilter);
-            if (isAuthorized && !allowAnonymous)
+            else
             {
-                if (operation.Parameters == null)
-                    operation.Parameters = new List<IParameter>();
-                operation.Parameters.Add(new NonBodyParameter
+                app.UseExceptionHandler(appBuilder =>
                 {
-                    Name = "Authorization",
-                    In = "header",
-                    Description = "access token",
-                    Required = true,
-                    Type = "string"
+                    appBuilder.Run(async context =>
+                    {
+                        context.Response.StatusCode = 500;
+                        await context.Response.WriteAsync("An unexpected fault happened. Try again later.");
+                    });
                 });
             }
+
+            app.UseSwaggerDocumentation();
+            app.AddIdentityConfiguration();
+            app.UseMvc();
         }
     }
 }
