@@ -40,10 +40,10 @@ namespace dueltank.api
         {
             if (env.IsDevelopment())
             {
-                app.UseSwaggerDocumentation();
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSwaggerDocumentation();
             app.UseMvc();
         }
     }

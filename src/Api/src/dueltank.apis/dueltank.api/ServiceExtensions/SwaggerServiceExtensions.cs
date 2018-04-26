@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -36,6 +38,8 @@ namespace dueltank.api.ServiceExtensions
 
                 c.DocExpansion(DocExpansion.None);
             });
+            app.UseRewriter(new RewriteOptions()
+                .AddRedirect(@"^$", "swagger", (int)HttpStatusCode.Redirect));
 
             return app;
         }
