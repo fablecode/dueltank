@@ -11,6 +11,9 @@ import {AccountModule} from "./modules/account/account.module";
 import {ShowAuthedDirective} from "./shared/directives/showAuthed.directive";
 import {AppConfigService} from "./shared/services/app-config.service";
 import {HttpClientModule} from "@angular/common/http";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {SignInLoadingComponent} from "./shared/components/signin-loading/signin-loading.component";
+import {CommonModule} from "@angular/common";
 
 const appRoutes: Routes = [
   {   path: "", component: HomePage, pathMatch: "full"}
@@ -35,7 +38,9 @@ export function loadConfigService(configService: AppConfigService): Function
     ShowAuthedDirective
   ],
   imports: [
+    CommonModule,
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     HomeModule,
     AccountModule,

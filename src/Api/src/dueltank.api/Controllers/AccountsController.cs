@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using dueltank.api.Models;
 using dueltank.api.Models.AccountViewModels;
@@ -92,7 +93,7 @@ namespace dueltank.api.Controllers
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
-        public Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
+        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
         {
             throw new NotImplementedException();
         }

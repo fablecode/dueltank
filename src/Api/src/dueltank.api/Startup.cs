@@ -23,9 +23,19 @@ namespace dueltank.api
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder();
+
+            if (env.IsDevelopment())
+            {
+                builder.AddUserSecrets<Startup>();
+                Configuration = builder.Build();
+            }
+            else
+            {
+                Configuration = configuration;
+            }
         }
 
         public IConfiguration Configuration { get; }
