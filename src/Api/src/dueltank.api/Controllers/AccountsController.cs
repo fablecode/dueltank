@@ -74,7 +74,7 @@ namespace dueltank.api.Controllers
         /// <param name="provider"></param>
         /// <param name="returnUrl"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpGet]
         [AllowAnonymous]
         public IActionResult ExternalLogin(string provider, string returnUrl = null)
         {

@@ -1,7 +1,28 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams, HttpResponse} from "@angular/common/http";
+import {ExternalLoginResponse} from "../interfaces/externallogin.response";
+import {APP_CONFIG} from "./app-config.service";
+import {Externallogin} from "../models/externallogin";
+import {Observable} from "rxjs/Observable";
 
-@Injectable
+@Injectable()
 export class AuthenticationService {
-  constructor(private httpClient: HttpClient){}
+  constructor(private http: HttpClient){}
+
+  public externalLogin(externallogin : Externallogin) : Observable<HttpResponse<ExternalLoginResponse>> {
+    // Setup log namespace query parameter
+    let params = new HttpParams();
+
+    // Begin assigning parameters
+    params.append("provider", externallogin.provider);
+    params.append("returnUrl", externallogin.returnUrl);
+    params.append("observe", "response");
+
+    // Make the API call using the new parameters.
+    return this.http.get<HttpResponse<ExternalLoginResponse>>
+      (
+        APP_CONFIG.apiEndpoint + "/api/accounts/externalLogin",
+        {params: params}
+      );
+  }
 }
