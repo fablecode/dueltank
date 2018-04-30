@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
+using Serilog.Formatting.Compact;
 
 namespace dueltank.api
 {
@@ -21,7 +22,7 @@ namespace dueltank.api
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
-                .WriteTo.File(
+                .WriteTo.File(new CompactJsonFormatter(),
                     @"D:\logs\web\dueltank\dueltank.log",
                     fileSizeLimitBytes: 1_000_000,
                     rollOnFileSizeLimit: true,
