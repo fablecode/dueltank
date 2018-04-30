@@ -6,15 +6,17 @@ import {RegisterPage} from "./pages/register/register.page";
 import {ForgotPage} from "./pages/password/forgot/forgot.page";
 import {ResetPage} from "./pages/password/reset/reset.page";
 import {SignInLoadingComponent} from "../../shared/components/signin-loading/signin-loading.component";
-import {SignInFacebookPage} from "./pages/signin-facebook/signin-facebook.page";
+import {ExternalLoginCompletePage} from "./pages/external-login-complete/external-login-complete.page";
 import {CommonModule} from "@angular/common";
+import {AuthenticationService} from "../../shared/services/authentication.service";
+import {BsModalRef, BsModalService, ModalModule} from "ngx-bootstrap";
 
 const accountRoutes: Routes = [
   {   path: "login", component: LoginPage},
   {   path: "register", component: RegisterPage},
   {   path: "password/forgot", component: ForgotPage},
   {   path: "password/reset", component: ResetPage},
-  {   path: "signin-facebook", component: SignInFacebookPage}
+  {   path: "external-login-complete", component: ExternalLoginCompletePage}
 ];
 
 @NgModule({
@@ -23,12 +25,17 @@ const accountRoutes: Routes = [
     RegisterPage,
     ForgotPage,
     ResetPage,
-    SignInFacebookPage,
+    ExternalLoginCompletePage,
     SocialLoginComponent,
     SignInLoadingComponent
   ],
   imports: [
+    CommonModule,
+    ModalModule.forRoot(),
     RouterModule.forChild(accountRoutes)
+  ],
+  providers: [
+    AuthenticationService
   ]
 })
 export class AccountModule {}

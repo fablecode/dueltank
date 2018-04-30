@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using dueltank.api.ServiceExtensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -52,15 +53,24 @@ namespace dueltank.api
 
                 // Xml Formatters support
                 setupAction.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
+
+                // Single authorization policy used globally
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+                setupAction.Filters.Add(new AuthorizeFilter(policy));
             });
 
             services.AddCors(options => {
                 options.AddPolicy("CorsPolicy",
-                    builder => builder.AllowAnyOrigin()
+                    builder => builder
+                        .AllowAnyOrigin()
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials());
             });
+
+            services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -84,6 +94,7 @@ namespace dueltank.api
 
             app.UseSwaggerDocumentation();
             app.AddIdentityConfiguration();
+            app.UseCors("CorsPolicy");
             app.UseMvc();
         }
     }

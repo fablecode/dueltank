@@ -13,9 +13,9 @@ export class AuthenticationService {
     let params = new HttpParams();
 
     // Begin assigning parameters
-    params.append("provider", externallogin.provider);
-    params.append("returnUrl", externallogin.returnUrl);
-    params.append("observe", "response");
+    params = params.append("provider", externallogin.provider);
+    params = params.append("returnUrl", externallogin.returnUrl);
+    params = params.append("observe", "response");
 
     // Make the API call using the new parameters.
     return this.http.get<HttpResponse<any>>

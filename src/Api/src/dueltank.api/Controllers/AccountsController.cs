@@ -1,13 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using dueltank.api.Models;
+﻿using dueltank.api.Models;
 using dueltank.api.Models.AccountViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace dueltank.api.Controllers
 {
@@ -16,11 +20,21 @@ namespace dueltank.api.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ILogger<AccountsController> _logger;
+        private readonly IConfiguration _config;
 
-        public AccountsController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountsController
+        (
+            UserManager<ApplicationUser> userManager, 
+            SignInManager<ApplicationUser> signInManager, 
+            ILogger<AccountsController> logger,
+            IConfiguration config
+        )
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _logger = logger;
+            _config = config;
         }
         /// <summary>
         /// Register a new user
@@ -57,7 +71,28 @@ namespace dueltank.api.Controllers
         public Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
             throw new NotImplementedException();
+            //if (ModelState.IsValid)
+            //{
+            //    // This doesn't count login failures towards account lockout
+            //    // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+            //    var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, true);
+
+            //    if (result.Succeeded)
+            //    {
+            //        var user = await _userManager.FindByEmailAsync(model.Email);
+            //        _logger.LogInformation($"User {user.Email} logged in.");
+            //        var token = await BuildToken(user);
+            //        return Ok(new
+            //        {
+            //            token = token,
+
+            //        });
+            //    }
+            //}
+
+            //return BadRequest();
         }
+
 
         /// <summary>
         /// Logout an authenticated user
@@ -77,11 +112,12 @@ namespace dueltank.api.Controllers
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult ExternalLogin(string provider, string returnUrl = null)
+        public IActionResult ExternalLogin([FromQuery]string provider, [FromQuery]string returnUrl = null)
         {
             // Request a redirect to the external login provider.
             var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Accounts", new { returnUrl });
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+
             return Challenge(properties, provider);
         }
 
@@ -95,20 +131,113 @@ namespace dueltank.api.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
         {
-            throw new NotImplementedException();
+            if (Uri.TryCreate(returnUrl, UriKind.Absolute, out var returnUri))
+            {
+                // Get the information about the user from the external login provider
+                var info = await _signInManager.GetExternalLoginInfoAsync();
+                if (info == null)
+                {
+                    throw new ApplicationException("Error loading external login information during confirmation.");
+                }
+
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                var name = info.Principal.FindFirstValue(ClaimTypes.Name);
+                var user = new ApplicationUser { UserName = email, Email = email, FullName = name };
+
+
+
+                // Sign in the user with this external login provider if the user already has a login.
+                var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false, true);
+                if (signInResult.Succeeded)
+                {
+                    _logger.LogInformation("User logged in with {Name} provider.", info.LoginProvider);
+
+                    // Append token to returnUrl
+                    returnUrl = AppendTokenToReturnUrl(returnUrl, user);
+
+                    return Redirect(returnUrl);
+                }
+
+                // Is the user locked out?
+                if (signInResult.IsLockedOut)
+                {
+                    return Redirect(returnUri.Host + "/accounts/lockout");
+                }
+                
+                // create new user
+                var identityResult = await _userManager.CreateAsync(user);
+                if (identityResult.Succeeded)
+                {
+                    // Add new user to default role
+                    await _userManager.AddToRoleAsync(user, "User");
+
+                    // add login
+                    identityResult = await _userManager.AddLoginAsync(user, info);
+                    if (identityResult.Succeeded)
+                    {
+                        // sign in new user
+                        await _signInManager.SignInAsync(user, false);
+                        _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+
+                        // Append token to returnUrl
+                        returnUrl = AppendTokenToReturnUrl(returnUrl, user);
+
+                        return Redirect(returnUrl);
+                        
+                    }
+
+                    throw new ApplicationException($"Error creating an account for {email} using {info.LoginProvider}.");
+                }
+            }
+
+            throw new UriFormatException("Invalid returnUrl url. ReturnUrl should be an absolute url, not relative.");
         }
 
         /// <summary>
-        /// Social login confirmation
+        /// Get user profile data
         /// </summary>
-        /// <param name="model"></param>
-        /// <param name="returnUrl"></param>
         /// <returns></returns>
-        [HttpPost]
-        [AllowAnonymous]
-        public Task<IActionResult> ExternalLoginConfirmation(ExternalLoginViewModel model, string returnUrl = null)
+        [HttpGet]
+        public async Task<IActionResult> Profile()
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByIdAsync(User.Identity.Name);
+
+            return Json(new
+            {
+                User.Identity.IsAuthenticated,
+                Id = User.Identity.Name,
+                Name = user.FullName,
+            });
         }
+
+        #region private helpers
+
+        private string AppendTokenToReturnUrl(string returnUrl, ApplicationUser user)
+        {
+            var token = BuildToken(user);
+            return QueryHelpers.AddQueryString(returnUrl, "token", token);
+        }
+
+        private string BuildToken(ApplicationUser user)
+        {
+            var claims = new[] {
+                new Claim(JwtRegisteredClaimNames.GivenName, user.FullName),
+                new Claim(JwtRegisteredClaimNames.NameId, user.Id),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
+                _config["Jwt:Issuer"],
+                claims,
+                expires: DateTime.Now.AddMinutes(30),
+                signingCredentials: creds);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        #endregion
     }
 }

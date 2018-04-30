@@ -1,7 +1,20 @@
 <a href="" class="btn azm-social azm-btn azm-border-bottom azm-google-plus"><i class="fa fa-google-plus"></i> Sign in with Google+</a>
 <br />
-<a href="" class="btn azm-social azm-btn azm-border-bottom azm-facebook"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
+<a class="btn azm-social azm-btn azm-border-bottom azm-facebook" (click)="openExternalLogin('Facebook')"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
 <br />
 <a href="" class="btn azm-social azm-btn azm-border-bottom azm-twitter"><i class="fa fa-twitter"></i> Sign in with Twitter</a>
 <br/>
 <a href="" class="btn azm-social azm-btn azm-border-bottom azm-windows"><i class="fa fa-windows"></i> Sign in with Microsoft</a>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Modal</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <iframe width="420" height="345" src="https://www.google.com/" frameborder="0" allowfullscreen>
+    </iframe>
+  </div>
+</ng-template>
