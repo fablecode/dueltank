@@ -3,6 +3,7 @@ import {HttpClient, HttpParams, HttpResponse} from "@angular/common/http";
 import {APP_CONFIG} from "./app-config.service";
 import {Externallogin} from "../models/externallogin";
 import {Observable} from "rxjs/Observable";
+import {UserProfile} from "../models/userprofile";
 
 @Injectable()
 export class AuthenticationService {
@@ -23,5 +24,13 @@ export class AuthenticationService {
         APP_CONFIG.apiEndpoint + "/api/accounts/externalLogin",
         {params: params}
       );
+  }
+
+  public getProfile() : Observable<UserProfile> {
+    // Make the API call using the new parameters.
+    return this.http.get<UserProfile>
+    (
+      APP_CONFIG.apiEndpoint + "/api/accounts/profile"
+    );
   }
 }

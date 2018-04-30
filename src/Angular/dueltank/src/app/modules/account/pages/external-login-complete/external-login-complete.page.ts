@@ -1,16 +1,39 @@
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {TokenService} from "../../../../shared/services/token.service";
+import {AuthenticationService} from "../../../../shared/services/authentication.service";
+import {UserProfileService} from "../../../../shared/services/userprofile.service";
 
 @Component({
   templateUrl: "./external-login-complete.page.html"
 })
 export class ExternalLoginCompletePage implements OnInit {
-  constructor(private route: ActivatedRoute) {
+  constructor
+  (
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private tokenService: TokenService,
+    private authService: AuthenticationService,
+    private userProfileService: UserProfileService
+  ) {
 
   }
   ngOnInit(): void {
-    this.route.params.subscribe(params => console.log(params))
+    this.activatedRoute.params.subscribe(params => console.log(params))
 
-    console.log(this.route.snapshot.queryParams['token']);
+    var token = this.activatedRoute.snapshot.queryParams['token'];
+
+    if(token) {
+      this.tokenService.setAccessToken(token);
+
+      this.authService.getProfile()
+        .subscribe(data => {
+          this.userProfileService.setUserProfile(data);
+          this.router.navigateByUrl("/");
+        })
+    }
+    else {
+      this.router.navigateByUrl("/");
+    }
   }
 }

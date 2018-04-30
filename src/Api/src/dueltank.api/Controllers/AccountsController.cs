@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -142,8 +143,16 @@ namespace dueltank.api.Controllers
 
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
                 var name = info.Principal.FindFirstValue(ClaimTypes.Name);
-                var user = new ApplicationUser { UserName = email, Email = email, FullName = name };
+                var profileImage = info.Principal.FindFirstValue("profile-image-url");
 
+                if (info.LoginProvider.Equals("Facebook", StringComparison.OrdinalIgnoreCase))
+                {
+                    var claim = info.Principal.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
+                    profileImage = "http://graph.facebook.com/" + claim.Value + "/picture?width=200&height=200";
+                }
+
+
+                var user = new ApplicationUser { UserName = email, Email = email, FullName = name, ProfileImageUrl = profileImage };
 
 
                 // Sign in the user with this external login provider if the user already has a login.
@@ -202,11 +211,17 @@ namespace dueltank.api.Controllers
         {
             var user = await _userManager.FindByIdAsync(User.Identity.Name);
 
-            return Json(new
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(new
             {
                 User.Identity.IsAuthenticated,
-                Id = User.Identity.Name,
+                user.Id,
                 Name = user.FullName,
+                user.ProfileImageUrl
             });
         }
 
@@ -222,6 +237,7 @@ namespace dueltank.api.Controllers
         {
             var claims = new[] {
                 new Claim(JwtRegisteredClaimNames.GivenName, user.FullName),
+                new Claim("profile-image-url", user.ProfileImageUrl),
                 new Claim(JwtRegisteredClaimNames.NameId, user.Id),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };

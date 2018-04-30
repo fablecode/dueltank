@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
+using Microsoft.AspNetCore.Authentication;
 
 
 namespace dueltank.api.ServiceExtensions
@@ -49,7 +50,6 @@ namespace dueltank.api.ServiceExtensions
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-                    options.SaveToken = true;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
@@ -64,8 +64,19 @@ namespace dueltank.api.ServiceExtensions
 
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
+                facebookOptions.SaveTokens = true;
                 facebookOptions.AppId = configuration["Authentication:Facebook:AppId"];
                 facebookOptions.AppSecret = configuration["Authentication:Facebook:AppSecret"];
+                facebookOptions.ClaimActions.MapJsonKey("display-name", "name");
+                facebookOptions.ClaimActions.MapCustomJson("urn:facebook:picture", claim => (string)claim.SelectToken("picture.data.url"));
+            })
+            .AddGoogle(googleOptions =>
+            {
+                googleOptions.SaveTokens = true;
+                googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
+                googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
+                googleOptions.ClaimActions.MapJsonSubKey("profile-image-url", "image", "url");
+                googleOptions.ClaimActions.MapJsonKey("display-name", "displayName");
             });
 
             return services;

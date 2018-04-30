@@ -26,6 +26,14 @@ namespace dueltank.api.Auth.Claims
                 });
             }
 
+            if (!string.IsNullOrWhiteSpace(user.ProfileImageUrl))
+            {
+                ((ClaimsIdentity)principal.Identity).AddClaims(new[] {
+                    new Claim("profile-image-url", user.ProfileImageUrl)
+                });
+            }
+
+
             return principal;
         }
     }
