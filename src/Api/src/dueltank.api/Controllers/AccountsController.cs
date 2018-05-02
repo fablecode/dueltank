@@ -8,11 +8,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using dueltank.api.Data;
 
 namespace dueltank.api.Controllers
 {
@@ -21,6 +24,7 @@ namespace dueltank.api.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<AccountsController> _logger;
         private readonly IConfiguration _config;
 
@@ -28,12 +32,13 @@ namespace dueltank.api.Controllers
         (
             UserManager<ApplicationUser> userManager, 
             SignInManager<ApplicationUser> signInManager, 
-            ILogger<AccountsController> logger,
+            RoleManager<IdentityRole> roleManager, ILogger<AccountsController> logger,
             IConfiguration config
         )
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
             _logger = logger;
             _config = config;
         }
@@ -159,10 +164,16 @@ namespace dueltank.api.Controllers
                 var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false, true);
                 if (signInResult.Succeeded)
                 {
+                    var existingUser = await _userManager.FindByEmailAsync(email);
+
+                    existingUser.FullName = name;
+                    existingUser.ProfileImageUrl = profileImage;
+
+                    await _userManager.UpdateAsync(existingUser);
                     _logger.LogInformation("User logged in with {Name} provider.", info.LoginProvider);
 
                     // Append token to returnUrl
-                    returnUrl = AppendTokenToReturnUrl(returnUrl, user);
+                    returnUrl = await AppendTokenToReturnUrl(returnUrl, user);
 
                     return Redirect(returnUrl);
                 }
@@ -189,7 +200,7 @@ namespace dueltank.api.Controllers
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
 
                         // Append token to returnUrl
-                        returnUrl = AppendTokenToReturnUrl(returnUrl, user);
+                        returnUrl = await AppendTokenToReturnUrl(returnUrl, user);
 
                         return Redirect(returnUrl);
                         
@@ -206,10 +217,10 @@ namespace dueltank.api.Controllers
         /// Get user profile data
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet, Authorize]
         public async Task<IActionResult> Profile()
         {
-            var user = await _userManager.FindByIdAsync(User.Identity.Name);
+            var user = await _userManager.FindByEmailAsync(User.Identity.Name);
 
             if (user == null)
             {
@@ -227,31 +238,63 @@ namespace dueltank.api.Controllers
 
         #region private helpers
 
-        private string AppendTokenToReturnUrl(string returnUrl, ApplicationUser user)
+        private async Task<string> AppendTokenToReturnUrl(string returnUrl, ApplicationUser user)
         {
-            var token = BuildToken(user);
+            var token = await BuildToken(user);
             return QueryHelpers.AddQueryString(returnUrl, "token", token);
         }
 
-        private string BuildToken(ApplicationUser user)
+        private async Task<string> BuildToken(ApplicationUser user)
         {
-            var claims = new[] {
-                new Claim(JwtRegisteredClaimNames.GivenName, user.FullName),
-                new Claim("profile-image-url", user.ProfileImageUrl),
-                new Claim(JwtRegisteredClaimNames.NameId, user.Id),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            };
-
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(_config["Jwt:Issuer"],
                 _config["Jwt:Issuer"],
-                claims,
+                await GetValidClaims(user),
                 expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        private async Task<List<Claim>> GetValidClaims(ApplicationUser user)
+        {
+            var options = new IdentityOptions();
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                new Claim(JwtRegisteredClaimNames.GivenName, user.FullName),
+                new Claim("profile-image-url", user.ProfileImageUrl),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(DateTime.Now), ClaimValueTypes.Integer64),
+                new Claim(options.ClaimsIdentity.UserIdClaimType, user.Id),
+                new Claim(options.ClaimsIdentity.UserNameClaimType, user.UserName)
+            };
+            var userClaims = await _userManager.GetClaimsAsync(user);
+            var userRoles = await _userManager.GetRolesAsync(user);
+            claims.AddRange(userClaims);
+            foreach (var userRole in userRoles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, userRole));
+                var role = await _roleManager.FindByNameAsync(userRole);
+                if (role != null)
+                {
+                    var roleClaims = await _roleManager.GetClaimsAsync(role);
+                    foreach (var roleClaim in roleClaims)
+                    {
+                        claims.Add(roleClaim);
+                    }
+                }
+            }
+            return claims;
+        }
+
+        private string ToUnixEpochDate(DateTime issuedAt)
+        {
+            var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            var unixDateTime = (issuedAt.ToUniversalTime() - epoch).TotalSeconds;
+            return unixDateTime.ToString(CultureInfo.InvariantCulture);
         }
 
         #endregion

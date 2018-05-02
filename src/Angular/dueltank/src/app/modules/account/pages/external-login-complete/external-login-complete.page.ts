@@ -15,21 +15,19 @@ export class ExternalLoginCompletePage implements OnInit {
     private tokenService: TokenService,
     private authService: AuthenticationService,
     private userProfileService: UserProfileService
-  ) {
-
-  }
+  ) {}
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => console.log(params))
 
     var token = this.activatedRoute.snapshot.queryParams['token'];
-
+    debugger;
     if(token) {
       this.tokenService.setAccessToken(token);
 
       this.authService.getProfile()
         .subscribe(data => {
           this.userProfileService.setUserProfile(data);
-          this.router.navigateByUrl("/");
+          return this.router.navigateByUrl("/");
         })
     }
     else {

@@ -28,9 +28,6 @@ export class AuthenticationService {
 
   public getProfile() : Observable<UserProfile> {
     // Make the API call using the new parameters.
-    return this.http.get<UserProfile>
-    (
-      APP_CONFIG.apiEndpoint + "/api/accounts/profile"
-    );
+    return this.http.get<UserProfile>(APP_CONFIG.apiEndpoint + "/api/accounts/profile");
   }
 }
