@@ -13,4 +13,8 @@ export class TokenService {
   public getAccessToken() : string {
     return localStorage.getItem(this.token_key);
   }
+
+  public hasToken() : boolean {
+    return !!localStorage.getItem(this.token_key);
+  }
 }

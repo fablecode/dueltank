@@ -12,12 +12,9 @@ import {ShowAuthedDirective} from "./shared/directives/showAuthed.directive";
 import {AppConfigService} from "./shared/services/app-config.service";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {SignInLoadingComponent} from "./shared/components/signin-loading/signin-loading.component";
 import {CommonModule} from "@angular/common";
-import {TokenService} from "./shared/services/token.service";
 import {TokenInterceptor} from "./shared/interceptors/token.interceptor";
 import {JwtInterceptor} from "./shared/interceptors/jwt.interceptor";
-import {UserProfileService} from "./shared/services/userprofile.service";
 
 const appRoutes: Routes = [
   {   path: "", component: HomePage, pathMatch: "full"}
@@ -53,8 +50,6 @@ export function loadConfigService(configService: AppConfigService): Function
   exports: [RouterModule],
   providers: [
     AppConfigService,
-    TokenService,
-    UserProfileService,
     { provide: APP_INITIALIZER, useFactory: loadConfigService , deps: [AppConfigService], multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

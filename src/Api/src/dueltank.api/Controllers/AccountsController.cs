@@ -15,7 +15,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using dueltank.api.Data;
+using dueltank.api.Helpers;
 
 namespace dueltank.api.Controllers
 {
@@ -229,7 +229,6 @@ namespace dueltank.api.Controllers
 
             return Ok(new
             {
-                User.Identity.IsAuthenticated,
                 user.Id,
                 Name = user.FullName,
                 user.ProfileImageUrl
@@ -267,7 +266,7 @@ namespace dueltank.api.Controllers
                 new Claim(JwtRegisteredClaimNames.GivenName, user.FullName),
                 new Claim("profile-image-url", user.ProfileImageUrl),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(DateTime.Now), ClaimValueTypes.Integer64),
+                new Claim(JwtRegisteredClaimNames.Iat, DatetimeHelpers.ToUnixEpochDate(DateTime.Now), ClaimValueTypes.Integer64),
                 new Claim(options.ClaimsIdentity.UserIdClaimType, user.Id),
                 new Claim(options.ClaimsIdentity.UserNameClaimType, user.UserName)
             };
@@ -290,12 +289,6 @@ namespace dueltank.api.Controllers
             return claims;
         }
 
-        private string ToUnixEpochDate(DateTime issuedAt)
-        {
-            var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            var unixDateTime = (issuedAt.ToUniversalTime() - epoch).TotalSeconds;
-            return unixDateTime.ToString(CultureInfo.InvariantCulture);
-        }
 
         #endregion
     }
