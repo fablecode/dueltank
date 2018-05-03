@@ -9,7 +9,7 @@ import {SignInLoadingComponent} from "../../shared/components/signin-loading/sig
 import {ExternalLoginCompletePage} from "./pages/external-login-complete/external-login-complete.page";
 import {CommonModule} from "@angular/common";
 import {AuthenticationService} from "../../shared/services/authentication.service";
-import {BsModalRef, BsModalService, ModalModule} from "ngx-bootstrap";
+import {ModalModule} from "ngx-bootstrap";
 import {AccountsService} from "../../shared/services/accounts.service";
 import {UserProfileService} from "../../shared/services/userprofile.service";
 import {TokenService} from "../../shared/services/token.service";
