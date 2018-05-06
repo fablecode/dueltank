@@ -18,10 +18,6 @@
             <li><a href="" alt="OCG" title="OCG">OCG</a></li>
           </ul>
         </li>
-
-        <li>
-          <a href="" alt="Feedback" title="Feedback"><i class="fa fa-wrench"></i>Feedback</a>
-        </li>
       </ul>
       <ul id="nav-deck-options" class="nav metismenu" sideNavigation>
         <li>
@@ -37,9 +33,8 @@
             <li><a href="" alt="YGOPRO" title="YGOPRO">YGOPRO</a></li>
           </ul>
         </li>
-
       </ul>
-      <ul id="nav-user-options" class="nav metismenu">
+      <ul id="nav-user-options" class="nav metismenu" *ngIf="(isLoggedIn | async)">
         <li>
           <hr style="margin: 0 0 15px 0;" />
           <h4 style="padding-left: 25px">User Options</h4>
@@ -52,5 +47,13 @@
         </li>
       </ul>
     </div>
+    <ul id="feedback-options" class="nav metismenu" sideNavigation>
+      <li>
+        <hr style="margin: 0 0 0 0;" />
+      </li>
+      <li>
+        <a href="" alt="Feedback" title="Feedback"><i class="fa fa-wrench"></i>Contact Us</a>
+      </li>
+    </ul>
     <div class="slimScrollBar" style="width: 0px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 237.732px; background: rgb(0, 0, 0);"></div><div class="slimScrollRail" style="width: 0px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; opacity: 0.2; z-index: 90; right: 1px; background: rgb(51, 51, 51);"></div></div>
 </nav>
