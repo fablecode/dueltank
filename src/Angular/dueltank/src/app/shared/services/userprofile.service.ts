@@ -15,4 +15,8 @@ export class UserProfileService {
     var retrievedObject = localStorage.getItem(this.profile_key);
     return JSON.parse(retrievedObject);
   }
+
+  public removeUserProfile() {
+    localStorage.removeItem(this.profile_key);
+  }
 }

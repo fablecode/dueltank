@@ -15,6 +15,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {CommonModule} from "@angular/common";
 import {TokenInterceptor} from "./shared/interceptors/token.interceptor";
 import {JwtInterceptor} from "./shared/interceptors/jwt.interceptor";
+import {AuthenticatedNavbarComponent} from "./shared/components/authenticated-navbar/authenticated-navbar.component";
+import {UnAuthenticatedNavbarComponent } from "./shared/components/unauthenticated-navbar/unauthenticated-navbar.component";
 
 const appRoutes: Routes = [
   {   path: "", component: HomePage, pathMatch: "full"}
@@ -34,6 +36,8 @@ export function loadConfigService(configService: AppConfigService): Function
   declarations: [
     AppComponent,
     NavbarComponent,
+    AuthenticatedNavbarComponent,
+    UnAuthenticatedNavbarComponent,
     SideNavigationComponent,
     SideNavigationDirective,
     ShowAuthedDirective

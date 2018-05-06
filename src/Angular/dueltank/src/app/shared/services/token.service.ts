@@ -17,4 +17,8 @@ export class TokenService {
   public hasToken() : boolean {
     return !!localStorage.getItem(this.token_key);
   }
+
+  public removeToken() : void {
+    localStorage.removeItem(this.token_key);
+  }
 }

@@ -43,4 +43,11 @@ export class AuthenticationService {
   private hasToken() : boolean {
     return this.tokenService.hasToken();
   }
+
+  public logOut() {
+    this.tokenService.removeToken();
+    this.userProfileService.removeUserProfile();
+    this.isLoginSubject.next(false);
+    this.router.navigate([""])
+  }
 }

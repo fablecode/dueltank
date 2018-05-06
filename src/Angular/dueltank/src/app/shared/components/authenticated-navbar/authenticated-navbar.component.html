@@ -1,0 +1,22 @@
+<ul class="nav navbar-top-links navbar-right">
+  <li>
+    <img *ngIf="user.profileImageUrl" [src]="user.profileImageUrl" alt="{{user.name}}" title="{{user.name}}" height="55" width="55">
+  </li>
+  <li class="dropdown">
+    <a class="dropdown-toggle count-info" href dropdown-toggle aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" style="background: #fff;">
+      {{user.name}} <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu animated fadeIn m-t-xs">
+      <li>
+        <a href="#" alt="Decks" title="Decks"><i class="fa fa-archive"></i>&nbsp;&nbsp;My Decks</a>
+      </li>
+      <li>
+        <a href="#" alt="Favourites" title="Favourites"><i class="fa fa-thumbs-o-up"></i>&nbsp;&nbsp;Favourites</a>
+      </li>
+      <li>
+      <li>
+        <a (click)="logOut()" alt="Logout" title="Logout"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Logout</a>
+      </li>
+    </ul>
+  </li>
+</ul>
