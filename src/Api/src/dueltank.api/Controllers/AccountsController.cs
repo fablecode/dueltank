@@ -1,4 +1,5 @@
-﻿using dueltank.api.Models;
+﻿using dueltank.api.Helpers;
+using dueltank.api.Models;
 using dueltank.api.Models.AccountViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -9,13 +10,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using dueltank.api.Helpers;
 
 namespace dueltank.api.Controllers
 {

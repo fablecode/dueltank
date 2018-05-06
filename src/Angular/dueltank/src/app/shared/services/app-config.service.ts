@@ -4,10 +4,11 @@ import {Observable} from "rxjs/Observable";
 import {AppConfig} from "../models/app-config";
 import {catchError, map} from "rxjs/operators";
 
-export let APP_CONFIG: AppConfig;
+ export let APP_CONFIG: AppConfig;
 
 @Injectable()
 export class AppConfigService {
+
   constructor(private http: HttpClient) {}
 
   public load() {
@@ -26,5 +27,9 @@ export class AppConfigService {
           resolve(true);
         });
     }));
+  }
+
+  get apiEndpoint() : string{
+    return APP_CONFIG.apiEndpoint;
   }
 }

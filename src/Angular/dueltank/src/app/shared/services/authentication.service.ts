@@ -34,6 +34,4 @@ export class AuthenticationService {
   public isLoggedIn() : Observable<boolean> {
     return this.isLoginSubject.asObservable();
   }
-
-
 }
