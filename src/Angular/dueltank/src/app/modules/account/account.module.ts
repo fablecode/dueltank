@@ -13,6 +13,7 @@ import {ModalModule} from "ngx-bootstrap";
 import {AccountsService} from "../../shared/services/accounts.service";
 import {UserProfileService} from "../../shared/services/userprofile.service";
 import {TokenService} from "../../shared/services/token.service";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 const accountRoutes: Routes = [
   {   path: "login", component: LoginPage},
@@ -34,6 +35,7 @@ const accountRoutes: Routes = [
   ],
   imports: [
     CommonModule,
+    FormsModule, ReactiveFormsModule,
     ModalModule.forRoot(),
     RouterModule.forChild(accountRoutes)
   ],

@@ -10,15 +10,27 @@
         <div class="col-md-6 no-pd-rt">
           <p>Register to see it in action.</p>
           <div class="ibox-content">
-            <form name="registerForm" class="m-t ng-pristine ng-valid" role="form">
+            <form name="registerForm" class="m-t ng-pristine ng-valid" role="form" [formGroup]="registerForm">
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Username">
+                <input type="text" class="form-control" placeholder="Username" formControlName="username">
+                <div class="form-group" *ngIf="username.errors && (username.dirty || username.touched)">
+                  <span class="error text-danger" *ngIf="username.errors.required">* Username is required</span>
+                  <span class="error text-danger" *ngIf="username.errors.minlength">* Username must be 6 characters long, we need another {{username.errors.minlength.requiredLength - username.errors.minlength.actualLength}} characters </span>
+                </div>
               </div>
               <div class="form-group">
-                <input type="email" class="form-control" placeholder="Email">
+                <input type="email" class="form-control" placeholder="Email" formControlName="email">
+                <div class="form-group" *ngIf="email.errors && (email.dirty || email.touched)">
+                  <span class="error text-danger" *ngIf="email.errors.required">Email is required</span>
+                  <span class="error text-danger" *ngIf="email.errors.pattern">The email address must contain at least the @ character</span>
+                </div>
               </div>
               <div class="form-group">
-                <input type="password" class="form-control" placeholder="Password">
+                <input type="password" class="form-control" placeholder="Password" formControlName="password">
+                <div class="form-group" *ngIf="password.errors && (password.dirty || password.touched)">
+                  <span class="error text-danger" *ngIf="password.errors.required">* Password is required</span>
+                  <span class="error text-danger" *ngIf="password.errors.minlength">* Password must be 6 characters long, we need another {{password.errors.minlength.requiredLength - password.errors.minlength.actualLength}} characters </span>
+                </div>
               </div>
               <button type="submit" class="btn btn-primary block full-width m-b">Register</button>
               <p class="text-muted">
