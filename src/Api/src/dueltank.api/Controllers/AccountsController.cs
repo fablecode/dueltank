@@ -14,7 +14,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using dueltank.application.Commands.SendRegistrationEmail;
+using MediatR;
 
 namespace dueltank.api.Controllers
 {
@@ -25,13 +28,15 @@ namespace dueltank.api.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<AccountsController> _logger;
+        private readonly IMediator _mediator;
         private readonly IConfiguration _config;
 
         public AccountsController
         (
-            UserManager<ApplicationUser> userManager, 
-            SignInManager<ApplicationUser> signInManager, 
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             RoleManager<IdentityRole> roleManager, ILogger<AccountsController> logger,
+            IMediator mediator,
             IConfiguration config
         )
         {
@@ -39,6 +44,7 @@ namespace dueltank.api.Controllers
             _signInManager = signInManager;
             _roleManager = roleManager;
             _logger = logger;
+            _mediator = mediator;
             _config = config;
         }
         /// <summary>
@@ -49,16 +55,24 @@ namespace dueltank.api.Controllers
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
+        public async Task<IActionResult> Register([FromBody]RegisterViewModel model, [FromQuery]string returnUrl = null)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FullName = model.Username };
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
+                    _logger.LogInformation("User creating a new account with password.");
 
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+                    await _mediator.Send(new SendRegistrationEmailCommand { Email = model.Email, CallBackUrl = callbackUrl, Username = user.FullName});
+                    await _signInManager.SignInAsync(user, false);
+                    _logger.LogInformation("User created a new account with password.");
+
+                    return Redirect(returnUrl);
                 }
             }
 
@@ -182,7 +196,7 @@ namespace dueltank.api.Controllers
                 {
                     return Redirect(returnUri.Host + "/accounts/lockout");
                 }
-                
+
                 // create new user
                 var identityResult = await _userManager.CreateAsync(user);
                 if (identityResult.Succeeded)
@@ -202,7 +216,7 @@ namespace dueltank.api.Controllers
                         returnUrl = await AppendTokenToReturnUrl(returnUrl, user);
 
                         return Redirect(returnUrl);
-                        
+
                     }
 
                     throw new ApplicationException($"Error creating an account for {email} using {info.LoginProvider}.");
@@ -210,6 +224,20 @@ namespace dueltank.api.Controllers
             }
 
             throw new UriFormatException("Invalid returnUrl url. ReturnUrl should be an absolute url, not relative.");
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public Task<IActionResult> ConfirmEmail(string userId, string code)
+        {
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ResetPassword(string code = null)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -287,7 +315,6 @@ namespace dueltank.api.Controllers
             }
             return claims;
         }
-
 
         #endregion
     }
