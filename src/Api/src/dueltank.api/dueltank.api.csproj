@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\dueltank.application\dueltank.application.csproj" />
+    <ProjectReference Include="..\dueltank.infrastructure\dueltank.infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

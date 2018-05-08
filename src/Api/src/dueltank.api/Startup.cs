@@ -2,6 +2,7 @@
 using dueltank.application;
 using dueltank.application.Configuration;
 using dueltank.Domain.Service;
+using dueltank.infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -62,6 +63,7 @@ namespace dueltank.api
             });
 
             services.AddApplicationServices();
+            services.AddInfrastuctureServices();
 
             services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
             services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());

@@ -1,6 +1,8 @@
 ﻿using dueltank.api.Helpers;
 using dueltank.api.Models;
 using dueltank.api.Models.AccountViewModels;
+using dueltank.application.Commands.SendRegistrationEmail;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,12 +14,10 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using dueltank.application.Commands.SendRegistrationEmail;
-using MediatR;
 
 namespace dueltank.api.Controllers
 {
@@ -35,7 +35,8 @@ namespace dueltank.api.Controllers
         (
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            RoleManager<IdentityRole> roleManager, ILogger<AccountsController> logger,
+            RoleManager<IdentityRole> roleManager, 
+            ILogger<AccountsController> logger,
             IMediator mediator,
             IConfiguration config
         )
@@ -55,7 +56,9 @@ namespace dueltank.api.Controllers
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromBody]RegisterViewModel model, [FromQuery]string returnUrl = null)
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Register([FromBody]RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -64,16 +67,26 @@ namespace dueltank.api.Controllers
 
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User creating a new account with password.");
-
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
                     await _mediator.Send(new SendRegistrationEmailCommand { Email = model.Email, CallBackUrl = callbackUrl, Username = user.FullName});
-                    await _signInManager.SignInAsync(user, false);
-                    _logger.LogInformation("User created a new account with password.");
 
-                    return Redirect(returnUrl);
+                    await _userManager.AddToRoleAsync(user, ApplicationRoles.RoleUser);
+                    await _signInManager.SignInAsync(user, false);
+
+                    return Ok(new
+                    {
+                        token = BuildToken(user),
+                        user = new
+                        {
+                            user.Id,
+                            Name = user.FullName,
+                            user.ProfileImageUrl
+                        }
+                    });
                 }
+
+                return BadRequest(result.Errors);
             }
 
             return BadRequest(ModelState);
@@ -131,6 +144,7 @@ namespace dueltank.api.Controllers
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
+        [ProducesResponseType((int)HttpStatusCode.Redirect)]
         public IActionResult ExternalLogin([FromQuery]string provider, [FromQuery]string returnUrl = null)
         {
             // Request a redirect to the external login provider.
@@ -148,6 +162,7 @@ namespace dueltank.api.Controllers
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
+        [ProducesResponseType((int)HttpStatusCode.Redirect)]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
         {
             if (Uri.TryCreate(returnUrl, UriKind.Absolute, out var returnUri))
@@ -202,7 +217,7 @@ namespace dueltank.api.Controllers
                 if (identityResult.Succeeded)
                 {
                     // Add new user to default role
-                    await _userManager.AddToRoleAsync(user, "User");
+                    await _userManager.AddToRoleAsync(user, ApplicationRoles.RoleUser);
 
                     // add login
                     identityResult = await _userManager.AddLoginAsync(user, info);

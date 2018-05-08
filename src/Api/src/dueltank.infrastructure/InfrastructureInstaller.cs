@@ -1,6 +1,5 @@
 ﻿using dueltank.Domain.Service;
 using dueltank.infrastructure.Service;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace dueltank.infrastructure

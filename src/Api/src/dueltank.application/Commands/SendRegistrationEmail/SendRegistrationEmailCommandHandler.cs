@@ -19,6 +19,7 @@ namespace dueltank.application.Commands.SendRegistrationEmail
             var emailMessage = new EmailMessage();
 
             emailMessage.ToAddresses.Add(new EmailAddress{ Address = request.Email, Name = request.Username });
+            emilMessage.FromAddresses.Add(new EmailAddress{ Address = request.Email, Name = request.Username });
             emailMessage.Subject = "DuelTank - Confirm your email";
             emailMessage.Content = $"Hi {request.Username}, <br/>Please confirm your account by clicking this link: <a href='{System.Net.WebUtility.UrlEncode(request.CallBackUrl)}'>link</a>";
 
