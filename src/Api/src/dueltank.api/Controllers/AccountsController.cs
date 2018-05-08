@@ -306,7 +306,7 @@ namespace dueltank.api.Controllers
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim(JwtRegisteredClaimNames.GivenName, user.FullName),
-                new Claim("profile-image-url", user.ProfileImageUrl),
+                new Claim("profile-image-url", user.ProfileImageUrl ?? string.Empty),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, DatetimeHelpers.ToUnixEpochDate(DateTime.Now), ClaimValueTypes.Integer64),
                 new Claim(options.ClaimsIdentity.UserIdClaimType, user.Id),
