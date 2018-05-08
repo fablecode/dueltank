@@ -243,9 +243,26 @@ namespace dueltank.api.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public Task<IActionResult> ConfirmEmail(string userId, string code)
+        public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
-            throw new NotImplementedException();
+            if (userId == null || code == null)
+            {
+                return NoContent();
+            }
+
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{userId}'.");
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+
+            if (result.Succeeded)
+                return Ok();
+
+            return BadRequest(result.Errors);
         }
 
         [HttpGet]
