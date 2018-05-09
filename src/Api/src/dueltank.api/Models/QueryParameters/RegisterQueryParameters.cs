@@ -6,8 +6,8 @@ namespace dueltank.api.Models.QueryParameters
     public class RegisterQueryParameters
     {
         [BindRequired]
-        [StringLength(2083, MinimumLength = 4)]
         [Url]
+        [StringLength(2083, MinimumLength = 4)]
         public string ReturnUrl { get; set; }
     }
 }

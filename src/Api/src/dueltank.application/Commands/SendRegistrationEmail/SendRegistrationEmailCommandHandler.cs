@@ -24,8 +24,8 @@ namespace dueltank.application.Commands.SendRegistrationEmail
             emailMessage.FromAddresses.Add(new EmailAddress{ Address = _emailConfiguration.SmtpUsername, Name = "DuelTank" });
             emailMessage.Subject = "DuelTank - Confirm your email";
             var callBackUrl = request.CallBackUrl;
-            emailMessage.Content = $"Hi {request.Username}, <p>Thank you for registering with <a href='www.dueltank.com'>Dueltank</a>.</p>Please confirm your" +
-                                   $" account by clicking this link: <a href='{callBackUrl}'>{callBackUrl}</a>" +
+            emailMessage.Content = $"Hi {request.Username}, <p>Thank you for registering with <a href='http://www.dueltank.com'>Dueltank</a>.</p>Please confirm your" +
+                                   $" account by clicking this link: <a href='{callBackUrl}'>Activate your account</a>" +
                                    "<p>Regards,<br/>Dueltank</p>";
 
             _emailService.Send(emailMessage);
