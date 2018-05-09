@@ -5,12 +5,12 @@ namespace dueltank.api.Helpers
 {
     public static class UrlHelpers
     {
-        public static string EmailConfirmationLink(this IUrlHelper urlHelper, string userId, string code, string scheme)
+        public static string EmailConfirmationLink(this IUrlHelper urlHelper, string userId, string code, string scheme, string returnUrl)
         {
             return urlHelper.Action(
                 action: nameof(AccountsController.ConfirmEmail),
                 controller: "Accounts",
-                values: new { userId, code },
+                values: new { userId, code, returnUrl },
                 protocol: scheme);
         }
 

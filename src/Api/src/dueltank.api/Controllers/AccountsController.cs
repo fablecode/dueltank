@@ -1,6 +1,7 @@
 ﻿using dueltank.api.Helpers;
 using dueltank.api.Models;
 using dueltank.api.Models.AccountViewModels;
+using dueltank.api.Models.QueryParameters;
 using dueltank.application.Commands.SendRegistrationEmail;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -48,17 +49,18 @@ namespace dueltank.api.Controllers
             _mediator = mediator;
             _config = config;
         }
+
         /// <summary>
         /// Register a new user
         /// </summary>
         /// <param name="model"></param>
-        /// <param name="returnUrl"></param>
+        /// <param name="queryParameters"></param>
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Register([FromBody]RegisterViewModel model)
+        public async Task<IActionResult> Register([FromBody] RegisterViewModel model, [FromQuery] RegisterQueryParameters queryParameters)
         {
             if (ModelState.IsValid)
             {
@@ -68,8 +70,8 @@ namespace dueltank.api.Controllers
                 if (result.Succeeded)
                 {
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-                    await _mediator.Send(new SendRegistrationEmailCommand { Email = model.Email, CallBackUrl = callbackUrl, Username = user.FullName});
+                    var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme, queryParameters.ReturnUrl);
+                    await _mediator.Send(new SendRegistrationEmailCommand { Email = model.Email, CallBackUrl = callbackUrl, Username = user.FullName });
 
                     await _userManager.AddToRoleAsync(user, ApplicationRoles.RoleUser);
                     await _signInManager.SignInAsync(user, false);
