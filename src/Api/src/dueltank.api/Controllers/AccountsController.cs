@@ -13,14 +13,13 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+using dueltank.api.ServiceExtensions;
 
 namespace dueltank.api.Controllers
 {
@@ -93,40 +92,56 @@ namespace dueltank.api.Controllers
                 return BadRequest(result.Errors);
             }
 
-            return BadRequest(ModelState);
+            return BadRequest(ModelState.Errors());
         }
 
         /// <summary>
         /// Authenticate an existing user
         /// </summary>
         /// <param name="model"></param>
-        /// <param name="returnUrl"></param>
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
-        public Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
+        public async Task<IActionResult> Login([FromBody] LoginViewModel model)
         {
-            throw new NotImplementedException();
-            //if (ModelState.IsValid)
-            //{
-            //    // This doesn't count login failures towards account lockout
-            //    // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-            //    var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, true);
+            if (ModelState.IsValid)
+            {
+                // This doesn't count login failures towards account lockout
+                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, true);
 
-            //    if (result.Succeeded)
-            //    {
-            //        var user = await _userManager.FindByEmailAsync(model.Email);
-            //        _logger.LogInformation($"User {user.Email} logged in.");
-            //        var token = await BuildToken(user);
-            //        return Ok(new
-            //        {
-            //            token = token,
+                if (result.Succeeded)
+                {
+                    var user = await _userManager.FindByEmailAsync(model.Email);
+                    _logger.LogInformation($"User {user.Email} logged in.");
 
-            //        });
-            //    }
-            //}
+                    return Ok(new
+                    {
+                        token = await BuildToken(user),
+                        user = new
+                        {
+                            user.Id,
+                            Name = user.FullName,
+                            user.ProfileImageUrl
+                        }
+                    });
+                }
 
-            //return BadRequest();
+                if (result.IsLockedOut)
+                {
+                    _logger.LogWarning("User account locked out.");
+                    ModelState.AddModelError(string.Empty, "User account locked out.");
+                }
+                else
+                {
+                    _logger.LogWarning("Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                }
+
+                return BadRequest(ModelState.Errors());
+            }
+
+            return BadRequest(ModelState.Errors());
         }
 
 
@@ -263,7 +278,7 @@ namespace dueltank.api.Controllers
                 if (result.Succeeded)
                     return Redirect(queryParameters.ReturnUrl);
 
-                return BadRequest(result.Errors);
+                return BadRequest(result.Errors.Descriptions());
             }
 
             return NoContent();
@@ -353,18 +368,5 @@ namespace dueltank.api.Controllers
         }
 
         #endregion
-    }
-
-    public class ConfirmEmailQueryParameters
-    {
-        [BindRequired]
-        public string UserId { get; set; }
-
-        [BindRequired]
-        public string Code { get; set; }
-
-        [BindRequired]
-        [Url]
-        public string ReturnUrl { get; set; }
     }
 }
