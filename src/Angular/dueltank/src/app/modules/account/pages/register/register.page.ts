@@ -1,17 +1,19 @@
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: "register",
   templateUrl: "./register.page.html"
 })
-export class RegisterPage {
+export class RegisterPage implements OnInit{
   private registerForm: FormGroup;
   private username: FormControl;
   private email: FormControl;
   private  password: FormControl;
 
-  constructor(private formBuilder: FormBuilder){
+  constructor(){}
+
+  ngOnInit() {
     this.createFormControls();
     this.createForm();
   }
@@ -20,14 +22,18 @@ export class RegisterPage {
     this.username = new FormControl("", [
       Validators.required,
       Validators.minLength(6),
+      Validators.max(100)
     ])
     this.email = new FormControl('', [
       Validators.required,
-      Validators.pattern("[^ @]*@[^ @]*")
+      Validators.minLength(4),
+      Validators.max(100),
+      Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
     ]);
     this.password = new FormControl("", [
       Validators.required,
       Validators.minLength(6),
+      Validators.max(100)
     ])
   }
 
