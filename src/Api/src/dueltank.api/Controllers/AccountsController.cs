@@ -89,7 +89,7 @@ namespace dueltank.api.Controllers
                     });
                 }
 
-                return BadRequest(result.Errors);
+                return BadRequest(result.Errors.Descriptions());
             }
 
             return BadRequest(ModelState.Errors());

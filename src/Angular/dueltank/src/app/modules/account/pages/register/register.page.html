@@ -33,6 +33,19 @@
                 </div>
               </div>
               <button type="submit" class="btn btn-primary block full-width m-b" [disabled]="!registerForm.valid">Register</button>
+
+              <div class="panel panel-danger" *ngIf="httpValidationErrors.length > 0">
+                <div class="panel-heading">
+                  <h4 class="panel-title">{{httpValidationErrors.length}} error(s) to resolve</h4>
+                </div>
+                <div class="panel-body">
+                  <ul>
+                    <li *ngFor="let error of httpValidationErrors">
+                      {{ error }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
               <p class="text-muted">
                 <small>Got an account?</small>
               </p>

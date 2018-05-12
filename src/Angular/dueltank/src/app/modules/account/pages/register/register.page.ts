@@ -14,6 +14,7 @@ export class RegisterPage implements OnInit{
   private username: FormControl;
   private email: FormControl;
   private  password: FormControl;
+  private httpValidationErrors: string[] = [];
 
   constructor(private authService: AuthenticationService, private activatedRoute: ActivatedRoute,){}
 
@@ -27,16 +28,13 @@ export class RegisterPage implements OnInit{
 
       var newUser = new RegisterUser();
       newUser.username = this.registerForm.controls.username.value;
-      newUser.email = this.registerForm.controls.email.value;;
+      newUser.email = this.registerForm.controls.email.value;
       newUser.password = this.registerForm.controls.password.value;;
 
       let returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'];
 
       this.authService.register(newUser, returnUrl)
         .subscribe(user => {}, error => this.handleError(error));
-
-      console.log("register form submitted.")
-      console.log(newUser);
     }
     else {
       //this.registerForm.
@@ -70,7 +68,7 @@ export class RegisterPage implements OnInit{
     })
   }
 
-  private handleError(error: HttpErrorResponse) {
-    
+  private handleError(httpError: HttpErrorResponse) {
+    this.httpValidationErrors = httpError.error;
   }
 }
