@@ -10,7 +10,7 @@
         <div class="col-md-6 no-pd-rt">
           <p>Register to see it in action.</p>
           <div class="ibox-content">
-            <form name="registerForm" class="m-t ng-pristine ng-valid" role="form" [formGroup]="registerForm" (Submit)="onSubmit()">
+            <form name="registerForm" class="m-t ng-pristine ng-valid" role="form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
               <div class="form-group">
                 <input type="text" class="form-control" placeholder="Username" formControlName="username">
                 <div class="form-group" *ngIf="username.errors && (username.dirty || username.touched)">

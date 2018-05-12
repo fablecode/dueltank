@@ -10,11 +10,11 @@ import {RegisterUser} from "../models/authentication/registeruser.model";
 export class AccountsService {
   constructor(private http: HttpClient, private configuration: AppConfigService){}
 
-  public Profile() : Observable<UserProfile> {
+  public profile() : Observable<UserProfile> {
     return this.http.get<UserProfile>(this.configuration.apiEndpoint + "/api/accounts/profile");
   }
 
-  public Register(user : RegisterUser, returnUrl: string) : Observable<AuthenticatedUser> {
+  public register(user : RegisterUser, returnUrl: string) : Observable<AuthenticatedUser> {
     let httpParams = new HttpParams()
                       .set("returnUrl", returnUrl);
     return this.http.post<AuthenticatedUser>(this.configuration.apiEndpoint + "/api/accounts/register", user, { params: httpParams});

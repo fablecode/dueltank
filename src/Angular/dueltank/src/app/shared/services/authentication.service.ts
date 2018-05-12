@@ -6,7 +6,9 @@ import {TokenService} from "./token.service";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {AccountsService} from "./accounts.service";
 import {UserProfileService} from "./userprofile.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {RegisterUser} from "../models/authentication/registeruser.model";
+import {AuthenticatedUser} from "../models/authentication/authenticateduser.model";
 
 @Injectable()
 export class AuthenticationService {
@@ -14,6 +16,7 @@ export class AuthenticationService {
   (
     private http: HttpClient,
     private router: Router,
+
     private tokenService: TokenService,
     private accountService: AccountsService,
     private userProfileService: UserProfileService
@@ -24,12 +27,22 @@ export class AuthenticationService {
 
   public externalLoginCallback(token: string): Observable<UserProfile> {
     this.tokenService.setAccessToken(token);
-    return this.accountService.Profile()
+    return this.accountService.profile()
               .map(data => {
                   this.userProfileService.setUserProfile(data);
                   this.isLoginSubject.next(true);
                   return data;
               });
+  }
+
+  public register(newUser: RegisterUser, returnUrl: string) : Observable<UserProfile> {
+    return this.accountService.register(newUser, (returnUrl || window.location.origin))
+      .map(data  => {
+        this.tokenService.setAccessToken(data.token);
+        this.userProfileService.setUserProfile(data.user);
+        this.isLoginSubject.next(true);
+        return data.user
+      })
   }
 
   public isLoggedIn() : Observable<boolean> {
