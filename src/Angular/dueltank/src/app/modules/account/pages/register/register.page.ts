@@ -4,7 +4,7 @@ import {RegisterUser} from "../../../../shared/models/authentication/registeruse
 import {AuthenticationService} from "../../../../shared/services/authentication.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {HttpErrorResponse} from "@angular/common/http";
-import {Meta, Title} from "@angular/platform-browser";
+import {SearchEngineOptimizationService} from "../../../../shared/services/searchengineoptimization.service";
 
 @Component({
   templateUrl: "./register.page.html"
@@ -16,12 +16,14 @@ export class RegisterPage implements OnInit{
   private  password: FormControl;
   private httpValidationErrors: string[] = [];
 
-  constructor(private titleService: Title, private meta: Meta, private authService: AuthenticationService, private activatedRoute: ActivatedRoute, private router: Router){}
+  constructor(private seo: SearchEngineOptimizationService, private authService: AuthenticationService, private activatedRoute: ActivatedRoute, private router: Router){}
 
   ngOnInit() {
-    this.titleService.setTitle("DuelTank - Register");
-    this.meta.addTag({name: "description", content: "Register with DuelTank by either creating a new account or using a social media login."})
-    this.meta.addTag({name: "keywords", content: "DuelTank, Register, Social Login"})
+    this.seo.title("DuelTank - Register");
+    this.seo.description("Register with DuelTank by either creating a new account or using a social media login.");
+    this.seo.keywords("DuelTank, Register, Social Login")
+    this.seo.robots("index,follow");
+
     this.createFormControls();
     this.createForm();
   }

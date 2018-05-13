@@ -7,15 +7,18 @@ export class SearchEngineOptimizationService {
   constructor(private titleService: Title, private metaService: Meta) {
   }
 
-  public setTitle(title: string) : void {
+  public title(title: string) : void {
     this.titleService.setTitle(title);
   }
 
-  public addMetaTag(tag: MetaDefinition) : void {
-    this.metaService.addTag(tag);
+  public description(content: string) {
+    this.metaService.addTag({name: "description", content: content})
+  }
+  public keywords(content: string) {
+    this.metaService.addTag({name: "keywords", content: content})
+  }
+  public robots(content: string) {
+    this.metaService.addTag({name: "robots", content: content})
   }
 
-  public addMetaTags(tags: MetaDefinition[]) : void {
-    this.metaService.addTags(tags)
-  }
 }

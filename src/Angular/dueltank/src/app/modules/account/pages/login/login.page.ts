@@ -7,12 +7,12 @@ import {SearchEngineOptimizationService} from "../../../../shared/services/searc
   templateUrl: "./login.page.html"
 })
 export class LoginPage implements OnInit {
-  title = "Login";
 
   constructor(private seo: SearchEngineOptimizationService, private authService: AuthenticationService, private activatedRoute: ActivatedRoute, private router: Router){}
 
   ngOnInit(): void {
-    this.seo.setTitle("DuelTank - Login");
-
+    this.seo.title("DuelTank - Login");
+    this.seo.description("Login to DuelTank either an existing user account or by using a social login.");
+    this.seo.robots("index,follow");
   }
 }
