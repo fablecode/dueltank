@@ -9,6 +9,7 @@ import {UserProfileService} from "./userprofile.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {RegisterUser} from "../models/authentication/registeruser.model";
 import {AuthenticatedUser} from "../models/authentication/authenticateduser.model";
+import {LoginUser} from "../models/authentication/loginuser.model";
 
 @Injectable()
 export class AuthenticationService {
@@ -37,6 +38,16 @@ export class AuthenticationService {
 
   public register(newUser: RegisterUser, returnUrl: string) : Observable<UserProfile> {
     return this.accountService.register(newUser, (returnUrl || window.location.origin))
+      .map(data  => {
+        this.tokenService.setAccessToken(data.token);
+        this.userProfileService.setUserProfile(data.user);
+        this.isLoginSubject.next(true);
+        return data.user
+      })
+  }
+
+  public login(credentials: LoginUser, returnUrl: string) : Observable<UserProfile> {
+    return this.accountService.login(credentials, (returnUrl || window.location.origin))
       .map(data  => {
         this.tokenService.setAccessToken(data.token);
         this.userProfileService.setUserProfile(data.user);

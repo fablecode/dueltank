@@ -14,6 +14,7 @@ import {AccountsService} from "../../shared/services/accounts.service";
 import {UserProfileService} from "../../shared/services/userprofile.service";
 import {TokenService} from "../../shared/services/token.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {SearchEngineOptimizationService} from "../../shared/services/searchengineoptimization.service";
 
 const accountRoutes: Routes = [
   {   path: "login", component: LoginPage},
@@ -43,7 +44,8 @@ const accountRoutes: Routes = [
     AuthenticationService,
     TokenService,
     UserProfileService,
-    AccountsService
+    AccountsService,
+    SearchEngineOptimizationService
   ]
 })
 export class AccountModule {}

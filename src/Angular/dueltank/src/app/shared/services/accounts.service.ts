@@ -5,6 +5,7 @@ import {UserProfile} from "../models/userprofile";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {AuthenticatedUser} from "../models/authentication/authenticateduser.model";
 import {RegisterUser} from "../models/authentication/registeruser.model";
+import {LoginUser} from "../models/authentication/loginuser.model";
 
 @Injectable()
 export class AccountsService {
@@ -16,7 +17,13 @@ export class AccountsService {
 
   public register(user : RegisterUser, returnUrl: string) : Observable<AuthenticatedUser> {
     let httpParams = new HttpParams()
-                      .set("returnUrl", returnUrl);
+      .set("returnUrl", returnUrl);
     return this.http.post<AuthenticatedUser>(this.configuration.apiEndpoint + "/api/accounts/register", user, { params: httpParams});
+  }
+
+  public login(existingUser: LoginUser, returnUrl: string) : Observable<AuthenticatedUser> {
+    let httpParams = new HttpParams()
+      .set("returnUrl", returnUrl);
+    return this.http.post<AuthenticatedUser>(this.configuration.apiEndpoint + "/api/accounts/login", existingUser, { params: httpParams});
   }
 }

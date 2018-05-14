@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Meta, MetaDefinition, Title} from "@angular/platform-browser";
+import {Meta, Title} from "@angular/platform-browser";
 
 @Injectable()
 export class SearchEngineOptimizationService {
