@@ -2,7 +2,9 @@
 using dueltank.api.Models;
 using dueltank.api.Models.AccountViewModels;
 using dueltank.api.Models.QueryParameters;
+using dueltank.api.ServiceExtensions;
 using dueltank.application.Commands.SendRegistrationEmail;
+using dueltank.application.Commands.SendResetPasswordEmailPassword;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -19,8 +21,6 @@ using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using dueltank.api.ServiceExtensions;
-using dueltank.application.Commands.SendResetPasswordEmailPassword;
 
 namespace dueltank.api.Controllers
 {
@@ -316,11 +316,31 @@ namespace dueltank.api.Controllers
             return NoContent();
         }
 
-        [HttpGet]
+        [HttpPost]
         [AllowAnonymous]
-        public IActionResult ResetPassword(string code = null)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
-            throw new NotImplementedException();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+
+
+            return BadRequest(result.Errors.Descriptions());
         }
 
         /// <summary>
