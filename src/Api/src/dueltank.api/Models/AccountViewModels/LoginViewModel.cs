@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace dueltank.api.Models
+namespace dueltank.api.Models.AccountViewModels
 {
     public class LoginViewModel
     {

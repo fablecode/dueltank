@@ -20,6 +20,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using dueltank.api.ServiceExtensions;
+using dueltank.application.Commands.SendResetPasswordEmailPassword;
 
 namespace dueltank.api.Controllers
 {
@@ -148,9 +149,42 @@ namespace dueltank.api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public Task<IActionResult> Logout()
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Logout()
         {
-            throw new NotImplementedException();
+            await _signInManager.SignOutAsync();
+            _logger.LogInformation("User logged out.");
+
+            return Ok();
+        }
+
+        /// <summary>
+        /// Send forgot password email
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [AllowAnonymous]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                {
+                    return BadRequest();
+                }
+
+                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
+                await _mediator.Send(new SendResetPasswordEmailPasswordCommand { Email = model.Email, CallBackUrl = callbackUrl, Username = user.FullName });
+
+                return Ok();
+            }
+
+            return BadRequest(ModelState.Errors());
         }
 
         /// <summary>

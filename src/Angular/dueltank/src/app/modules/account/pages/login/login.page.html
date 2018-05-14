@@ -28,7 +28,7 @@
               <div class="form-group">
                 <input type="checkbox" name="rememberMe" id="rememberMe" formControlName="rememberMe"/>&nbsp;<label class="form-inline" for="rememberMe">Remember me?</label>
               </div>
-              <button type="submit" class="btn btn-primary" [disabled]="!loginForm.valid">Login</button>
+              <button type="submit" class="btn btn-primary full-width" [disabled]="!loginForm.valid">Login</button>
               <div class="panel panel-danger" *ngIf="httpValidationErrors.length > 0">
                 <div class="panel-heading">
                   <h4 class="panel-title">{{httpValidationErrors.length}} error(s) to resolve</h4>
@@ -41,14 +41,15 @@
                   </ul>
                 </div>
               </div>
-              <p class="text-muted">
-                <small>Haven't got an account?</small>
-              </p>
-
-              <a [routerLink]="['/register']">
-                <small>Register?</small>
+              <a [routerLink]="['/forgot-password']">
+                <small>Forgot password?</small>
               </a>
-
+              <p class="text-muted">
+                <small>Haven't got an account? </small>
+                <a [routerLink]="['/register']">
+                  <small>Register.</small>
+                </a>
+              </p>
             </form>
           </div>
         </div>

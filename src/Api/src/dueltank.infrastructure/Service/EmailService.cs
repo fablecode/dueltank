@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using dueltank.Domain.Model;
+﻿using dueltank.Domain.Model;
 using dueltank.Domain.Service;
 using MailKit.Net.Smtp;
 using MimeKit;
 using MimeKit.Text;
+using System.Linq;
 
 namespace dueltank.infrastructure.Service
 {
