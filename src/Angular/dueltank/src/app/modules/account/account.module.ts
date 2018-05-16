@@ -15,7 +15,8 @@ import {UserProfileService} from "../../shared/services/userprofile.service";
 import {TokenService} from "../../shared/services/token.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SearchEngineOptimizationService} from "../../shared/services/searchengineoptimization.service";
-import {ForgotPasswordPage} from "./pages/forgotpassword/forgotpassword.page";
+import {ForgotPasswordPage} from "./pages/forgot-password/forgotpassword.page";
+import {ForgotPasswordConfirmationPage} from "./pages/forgot-password-confirmation/forgot-password-confirmation.page";
 
 const accountRoutes: Routes = [
   {   path: "login", component: LoginPage},
@@ -23,7 +24,8 @@ const accountRoutes: Routes = [
   {   path: "password/forgot", component: ForgotPage},
   {   path: "password/reset", component: ResetPage},
   {   path: "external-login-complete", component: ExternalLoginCompletePage},
-  {   path: "forgot-password", component: ForgotPasswordPage}
+  {   path: "forgot-password", component: ForgotPasswordPage},
+  {   path: "forgot-password-confirmation", component: ForgotPasswordConfirmationPage}
 ];
 
 @NgModule({
@@ -35,7 +37,8 @@ const accountRoutes: Routes = [
     ExternalLoginCompletePage,
     SocialLoginComponent,
     SignInLoadingComponent,
-    ForgotPasswordPage
+    ForgotPasswordPage,
+    ForgotPasswordConfirmationPage
   ],
   imports: [
     CommonModule,

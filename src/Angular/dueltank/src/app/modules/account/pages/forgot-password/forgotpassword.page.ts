@@ -3,10 +3,7 @@ import {SearchEngineOptimizationService} from "../../../../shared/services/searc
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthenticationService} from "../../../../shared/services/authentication.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-
-export class UserForgotPassword {
-  public email: string;
-}
+import {UserForgotPassword} from "../../../../shared/models/authentication/userforgotpassword.model";
 
 @Component({
   templateUrl: "./forgotpassword.page.html"
@@ -47,6 +44,7 @@ export class ForgotPasswordPage implements OnInit{
       var newForgotPassword = new UserForgotPassword();
 
       newForgotPassword.email = this.forgotpassword.controls.email.value;
+      newForgotPassword.forgotPasswordConfirmationUrl = window.location.origin + "/forgot-password-confirmation"
     }
   }
 }

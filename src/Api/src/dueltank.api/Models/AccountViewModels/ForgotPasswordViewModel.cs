@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace dueltank.api.Models.AccountViewModels
 {
@@ -7,5 +8,9 @@ namespace dueltank.api.Models.AccountViewModels
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+
+        [BindRequired]
+        [Url]
+        public string ForgotPasswordConfirmationUrl { get; set; }
     }
 }

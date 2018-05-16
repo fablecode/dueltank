@@ -318,7 +318,6 @@ namespace dueltank.api.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
             if (!ModelState.IsValid)
@@ -330,7 +329,7 @@ namespace dueltank.api.Controllers
 
             if (user == null)
             {
-                return BadRequest();
+                return Redirect(model.ResetPassword)
             }
 
             var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
