@@ -1,6 +1,6 @@
 import { Component} from "@angular/core";
 import {AuthenticationService} from "../../services/authentication.service";
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs";
 
 @Component({
   selector: "sidenavigation",

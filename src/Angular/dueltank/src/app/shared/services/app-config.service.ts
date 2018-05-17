@@ -1,6 +1,7 @@
+
+import {throwError as observableThrowError} from 'rxjs';
 import { Injectable } from "@angular/core";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {Observable} from "rxjs/Observable";
 import {AppConfig} from "../models/app-config";
 import {catchError, map} from "rxjs/operators";
 
@@ -17,7 +18,7 @@ export class AppConfigService {
         .pipe(map(res => res),
           catchError((error: HttpErrorResponse) => {
               reject(true);
-              return Observable.throw("Server error: " + error);
+              return observableThrowError("Server error: " + error);
             }
           )
         )
