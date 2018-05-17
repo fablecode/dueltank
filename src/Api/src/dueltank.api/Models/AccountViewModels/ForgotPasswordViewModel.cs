@@ -11,6 +11,6 @@ namespace dueltank.api.Models.AccountViewModels
 
         [BindRequired]
         [Url]
-        public string ForgotPasswordConfirmationUrl { get; set; }
+        public string ResetPasswordConfirmationUrl { get; set; }
     }
 }

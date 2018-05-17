@@ -159,7 +159,7 @@ namespace dueltank.api.Controllers
         }
 
         /// <summary>
-        /// Send forgot password email
+        /// Send forgotten password email
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -178,13 +178,43 @@ namespace dueltank.api.Controllers
                 }
 
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
+                var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme, model.ResetPasswordConfirmationUrl);
                 await _mediator.Send(new SendResetPasswordEmailPasswordCommand { Email = model.Email, CallBackUrl = callbackUrl, Username = user.FullName });
 
                 return Ok();
             }
 
             return BadRequest(ModelState.Errors());
+        }
+
+        /// <summary>
+        /// Reset user password
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+
+                if (user == null)
+                {
+                    return Redirect(model.ReturnUrl);
+                }
+
+                var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
+                if (result.Succeeded)
+                {
+                    return Redirect(model.ReturnUrl);
+                }
+
+                return BadRequest(result.Errors.Descriptions());
+            }
+
+            return BadRequest();
         }
 
         /// <summary>
@@ -292,6 +322,11 @@ namespace dueltank.api.Controllers
             throw new UriFormatException("Invalid returnUrl url. ReturnUrl should be an absolute url, not relative.");
         }
 
+        /// <summary>
+        /// Confirm email address
+        /// </summary>
+        /// <param name="queryParameters"></param>
+        /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail([FromQuery] ConfirmEmailQueryParameters queryParameters)
@@ -316,31 +351,6 @@ namespace dueltank.api.Controllers
             return NoContent();
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            var user = await _userManager.FindByEmailAsync(model.Email);
-
-            if (user == null)
-            {
-                return Redirect(model.ResetPassword)
-            }
-
-            var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
-            if (result.Succeeded)
-            {
-                return Ok();
-            }
-
-
-            return BadRequest(result.Errors.Descriptions());
-        }
 
         /// <summary>
         /// Get user profile data

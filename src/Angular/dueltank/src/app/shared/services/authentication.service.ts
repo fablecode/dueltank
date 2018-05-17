@@ -11,6 +11,7 @@ import {LoginUser} from "../models/authentication/loginuser.model";
 import {BehaviorSubject} from "rxjs/internal/BehaviorSubject";
 import {Observable} from "rxjs/internal/Observable";
 import {map} from "rxjs/operators";
+import {UserForgotPassword} from "../models/authentication/userforgotpassword.model";
 
 @Injectable()
 export class AuthenticationService {
@@ -74,5 +75,9 @@ export class AuthenticationService {
     this.userProfileService.removeUserProfile();
     this.isLoginSubject.next(false);
     this.router.navigate([""])
+  }
+
+  public forgotPassword(userForgotPassword: UserForgotPassword) {
+    return this.accountService.forgotPassword(userForgotPassword);
   }
 }

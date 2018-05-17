@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace dueltank.api.Models.AccountViewModels
 {
@@ -19,5 +20,9 @@ namespace dueltank.api.Models.AccountViewModels
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
+
+        [BindRequired]
+        [Url]
+        public string ReturnUrl { get; set; }
     }
 }

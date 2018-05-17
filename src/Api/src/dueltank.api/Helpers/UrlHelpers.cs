@@ -14,12 +14,12 @@ namespace dueltank.api.Helpers
                 protocol: scheme);
         }
 
-        public static string ResetPasswordCallbackLink(this IUrlHelper urlHelper, string userId, string code, string scheme)
+        public static string ResetPasswordCallbackLink(this IUrlHelper urlHelper, string userId, string code, string scheme, string returnUrl)
         {
             return urlHelper.Action(
                 action: nameof(AccountsController.ResetPassword),
                 controller: "Accounts",
-                values: new { userId, code },
+                values: new { userId, code, returnUrl },
                 protocol: scheme);
         }
     }

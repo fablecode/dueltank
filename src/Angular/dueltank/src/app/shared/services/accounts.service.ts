@@ -6,6 +6,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {AuthenticatedUser} from "../models/authentication/authenticateduser.model";
 import {RegisterUser} from "../models/authentication/registeruser.model";
 import {LoginUser} from "../models/authentication/loginuser.model";
+import {UserForgotPassword} from "../models/authentication/userforgotpassword.model";
 
 @Injectable()
 export class AccountsService {
@@ -25,5 +26,9 @@ export class AccountsService {
     let httpParams = new HttpParams()
       .set("returnUrl", returnUrl);
     return this.http.post<AuthenticatedUser>(this.configuration.apiEndpoint + "/api/accounts/login", existingUser, { params: httpParams});
+}
+
+  public forgotPassword(userForgotPassword: UserForgotPassword) : Observable<AuthenticatedUser>{
+    return this.http.post<AuthenticatedUser>(this.configuration.apiEndpoint + "/api/accounts/forgotpassword", userForgotPassword);
   }
 }
