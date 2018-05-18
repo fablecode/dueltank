@@ -6,12 +6,12 @@ using MediatR;
 
 namespace dueltank.application.Commands.SendResetPasswordEmailPassword
 {
-    public class SendRegistrationEmailCommandHandler : IRequestHandler<SendResetPasswordEmailPasswordCommand>
+    public class SendResetPasswordEmailCommandHandler : IRequestHandler<SendResetPasswordEmailPasswordCommand>
     {
         private readonly IEmailService _emailService;
         private readonly IEmailConfiguration _emailConfiguration;
 
-        public SendRegistrationEmailCommandHandler(IEmailService emailService, IEmailConfiguration emailConfiguration)
+        public SendResetPasswordEmailCommandHandler(IEmailService emailService, IEmailConfiguration emailConfiguration)
         {
             _emailService = emailService;
             _emailConfiguration = emailConfiguration;
@@ -24,7 +24,7 @@ namespace dueltank.application.Commands.SendResetPasswordEmailPassword
             emailMessage.FromAddresses.Add(new EmailAddress { Address = _emailConfiguration.SmtpUsername, Name = "DuelTank" });
             emailMessage.Subject = "DuelTank - Reset Password";
             var callBackUrl = request.CallBackUrl;
-            emailMessage.Content = $"Hi {request.Username}, <p>You've recently requested to reset your password for your <a href='http://www.dueltank.com'>Dueltank</a> account.</p>" +
+            emailMessage.Content = $"Hi {request.Username}, <p>You've recently requested a password reset for your <a href='http://www.dueltank.com'>Dueltank</a> account.</p>" +
                                    $"<p>Please reset your password by clicking here: <a href=\'{callBackUrl}\'>Reset your password</a></p>" +
                                    "<p>Regards,<br/>Dueltank</p>";
 

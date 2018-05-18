@@ -107,8 +107,6 @@ namespace dueltank.api.Controllers
         {
             if (ModelState.IsValid)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, true);
 
                 if (result.Succeeded)
@@ -172,15 +170,20 @@ namespace dueltank.api.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                if (user != null)
                 {
-                    return BadRequest();
+                    var isEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
+
+                    if (isEmailConfirmed)
+                    {
+
+                        var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                        var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme, model.ResetPasswordConfirmationUrl);
+                        await _mediator.Send(new SendResetPasswordEmailPasswordCommand { Email = model.Email, CallBackUrl = callbackUrl, Username = user.FullName });
+                    }
                 }
 
-                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme, model.ResetPasswordConfirmationUrl);
-                await _mediator.Send(new SendResetPasswordEmailPasswordCommand { Email = model.Email, CallBackUrl = callbackUrl, Username = user.FullName });
-
+                // Don't reveal that the user does not exist or is not confirmed
                 return Ok();
             }
 

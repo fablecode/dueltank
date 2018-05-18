@@ -28,7 +28,7 @@ export class AccountsService {
     return this.http.post<AuthenticatedUser>(this.configuration.apiEndpoint + "/api/accounts/login", existingUser, { params: httpParams});
 }
 
-  public forgotPassword(userForgotPassword: UserForgotPassword) : Observable<AuthenticatedUser>{
-    return this.http.post<AuthenticatedUser>(this.configuration.apiEndpoint + "/api/accounts/forgotpassword", userForgotPassword);
+  public forgotPassword(userForgotPassword: UserForgotPassword) : Observable<any>{
+    return this.http.post(this.configuration.apiEndpoint + "/api/accounts/forgotpassword", userForgotPassword);
   }
 }
