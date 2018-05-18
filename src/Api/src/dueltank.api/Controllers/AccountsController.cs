@@ -178,7 +178,8 @@ namespace dueltank.api.Controllers
                     {
 
                         var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                        var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme, model.ResetPasswordConfirmationUrl);
+                        //var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme, model.ResetPasswordConfirmationUrl);
+                        var callbackUrl = QueryHelpers.AddQueryString(model.ResetPasswordConfirmationUrl, new Dictionary<string, string> {{"code", code}});
                         await _mediator.Send(new SendResetPasswordEmailPasswordCommand { Email = model.Email, CallBackUrl = callbackUrl, Username = user.FullName });
                     }
                 }
@@ -197,7 +198,7 @@ namespace dueltank.api.Controllers
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordViewModel model)
         {
             if (ModelState.IsValid)
             {

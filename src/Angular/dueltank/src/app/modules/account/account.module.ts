@@ -3,8 +3,6 @@ import {LoginPage} from "./pages/login/login.page";
 import {RouterModule, Routes} from "@angular/router";
 import {SocialLoginComponent} from "./components/socialLogin/socialLogin.component";
 import {RegisterPage} from "./pages/register/register.page";
-import {ForgotPage} from "./pages/password/forgot/forgot.page";
-import {ResetPage} from "./pages/password/reset/reset.page";
 import {SignInLoadingComponent} from "../../shared/components/signin-loading/signin-loading.component";
 import {ExternalLoginCompletePage} from "./pages/external-login-complete/external-login-complete.page";
 import {CommonModule} from "@angular/common";
@@ -17,28 +15,27 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SearchEngineOptimizationService} from "../../shared/services/searchengineoptimization.service";
 import {ForgotPasswordPage} from "./pages/forgot-password/forgotpassword.page";
 import {ForgotPasswordConfirmationPage} from "./pages/forgot-password-confirmation/forgot-password-confirmation.page";
+import {ResetPasswordPage} from "./pages/reset-password/reset-password.page";
 
 const accountRoutes: Routes = [
   {   path: "login", component: LoginPage},
   {   path: "register", component: RegisterPage},
-  {   path: "password/forgot", component: ForgotPage},
-  {   path: "password/reset", component: ResetPage},
   {   path: "external-login-complete", component: ExternalLoginCompletePage},
   {   path: "forgot-password", component: ForgotPasswordPage},
-  {   path: "forgot-password-confirmation", component: ForgotPasswordConfirmationPage}
+  {   path: "forgot-password-confirmation", component: ForgotPasswordConfirmationPage},
+  {   path: "reset-password/:code", component: ResetPasswordPage}
 ];
 
 @NgModule({
   declarations: [
     LoginPage,
     RegisterPage,
-    ForgotPage,
-    ResetPage,
     ExternalLoginCompletePage,
     SocialLoginComponent,
     SignInLoadingComponent,
     ForgotPasswordPage,
-    ForgotPasswordConfirmationPage
+    ForgotPasswordConfirmationPage,
+    ResetPasswordPage
   ],
   imports: [
     CommonModule,
