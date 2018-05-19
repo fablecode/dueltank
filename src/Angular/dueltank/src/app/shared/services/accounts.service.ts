@@ -7,6 +7,7 @@ import {AuthenticatedUser} from "../models/authentication/authenticateduser.mode
 import {RegisterUser} from "../models/authentication/registeruser.model";
 import {LoginUser} from "../models/authentication/loginuser.model";
 import {UserForgotPassword} from "../models/authentication/userforgotpassword.model";
+import {ResetUserPassword} from "../../modules/account/pages/reset-password/reset-password.page";
 
 @Injectable()
 export class AccountsService {
@@ -30,5 +31,9 @@ export class AccountsService {
 
   public forgotPassword(userForgotPassword: UserForgotPassword) : Observable<any>{
     return this.http.post(this.configuration.apiEndpoint + "/api/accounts/forgotpassword", userForgotPassword);
+  }
+
+  public resetPassword(resetUserPassword: ResetUserPassword) {
+    return this.http.post(this.configuration.apiEndpoint + "/api/accounts/resetpassword", resetUserPassword);
   }
 }

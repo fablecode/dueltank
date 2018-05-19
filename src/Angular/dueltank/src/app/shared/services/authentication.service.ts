@@ -12,6 +12,7 @@ import {BehaviorSubject} from "rxjs/internal/BehaviorSubject";
 import {Observable} from "rxjs/internal/Observable";
 import {map} from "rxjs/operators";
 import {UserForgotPassword} from "../models/authentication/userforgotpassword.model";
+import {ResetUserPassword} from "../../modules/account/pages/reset-password/reset-password.page";
 
 @Injectable()
 export class AuthenticationService {
@@ -79,5 +80,9 @@ export class AuthenticationService {
 
   public forgotPassword(userForgotPassword: UserForgotPassword) {
     return this.accountService.forgotPassword(userForgotPassword);
+  }
+
+  public resetPassword(resetUserPassword: ResetUserPassword) {
+    return this.accountService.resetPassword(resetUserPassword);
   }
 }
