@@ -19,10 +19,7 @@ namespace dueltank.api.Models.AccountViewModels
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
-        public string Code { get; set; }
-
         [BindRequired]
-        [Url]
-        public string ReturnUrl { get; set; }
+        public string Code { get; set; }
     }
 }
