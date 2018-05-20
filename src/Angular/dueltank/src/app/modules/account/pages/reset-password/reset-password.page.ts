@@ -4,13 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {SearchEngineOptimizationService} from "../../../../shared/services/searchengineoptimization.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {HttpErrorResponse} from "@angular/common/http";
-
-export class ResetUserPassword {
-  public email: string;
-  public password: string;
-  public confirmPassword: string;
-  public code: string;
-}
+import {ResetUserPassword} from "../../../../shared/models/reset-user-password";
 
 @Component({
   templateUrl: "./reset-password.page.html"
@@ -70,9 +64,10 @@ export class ResetPasswordPage implements OnInit {
       resetUserPassword.email = this.resetPasswordForm.controls.email.value;
       resetUserPassword.password = this.resetPasswordForm.controls.password.value;
       resetUserPassword.confirmPassword = this.resetPasswordForm.controls.confirmPassword.value;
-      resetUserPassword.code = this.activatedRoute.snapshot.params.code || null;
+      resetUserPassword.code = this.activatedRoute.snapshot.queryParams.code || null;
 
-      this.authService.resetPassword(resetUserPassword)
+      this.authService
+        .resetPassword(resetUserPassword)
         .subscribe(user => { return this.router.navigate(["/reset-password-confirmation"]); }, error => this.handleError(error));
     }
   }

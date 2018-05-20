@@ -16,6 +16,7 @@ import {SearchEngineOptimizationService} from "../../shared/services/searchengin
 import {ForgotPasswordPage} from "./pages/forgot-password/forgotpassword.page";
 import {ForgotPasswordConfirmationPage} from "./pages/forgot-password-confirmation/forgot-password-confirmation.page";
 import {ResetPasswordPage} from "./pages/reset-password/reset-password.page";
+import {ResetPasswordConfirmationPage} from "./pages/reset-password-confirmation/reset-password-confirmation.page";
 
 const accountRoutes: Routes = [
   {   path: "login", component: LoginPage},
@@ -23,7 +24,8 @@ const accountRoutes: Routes = [
   {   path: "external-login-complete", component: ExternalLoginCompletePage},
   {   path: "forgot-password", component: ForgotPasswordPage},
   {   path: "forgot-password-confirmation", component: ForgotPasswordConfirmationPage},
-  {   path: "reset-password/:code", component: ResetPasswordPage}
+  {   path: "reset-password", component: ResetPasswordPage},
+  {   path: "reset-password-confirmation", component: ResetPasswordConfirmationPage}
 ];
 
 @NgModule({
@@ -35,7 +37,8 @@ const accountRoutes: Routes = [
     SignInLoadingComponent,
     ForgotPasswordPage,
     ForgotPasswordConfirmationPage,
-    ResetPasswordPage
+    ResetPasswordPage,
+    ResetPasswordConfirmationPage
   ],
   imports: [
     CommonModule,

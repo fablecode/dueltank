@@ -46,8 +46,9 @@ export class ForgotPasswordPage implements OnInit{
       newForgotPassword.email = this.forgotpassword.controls.email.value;
       newForgotPassword.resetPasswordConfirmationUrl = window.location.origin + "/reset-password";
 
-      this.authService.forgotPassword(newForgotPassword)
-        .subscribe(response => { return this.router.navigateByUrl(window.location.origin + "/forgot-password-confirmation");})
+      this.authService
+        .forgotPassword(newForgotPassword)
+        .subscribe(response => { return this.router.navigate(["/forgot-password-confirmation"]);})
     }
   }
 }

@@ -12,7 +12,7 @@ import {BehaviorSubject} from "rxjs/internal/BehaviorSubject";
 import {Observable} from "rxjs/internal/Observable";
 import {map} from "rxjs/operators";
 import {UserForgotPassword} from "../models/authentication/userforgotpassword.model";
-import {ResetUserPassword} from "../../modules/account/pages/reset-password/reset-password.page";
+import {ResetUserPassword} from "../models/reset-user-password";
 
 @Injectable()
 export class AuthenticationService {

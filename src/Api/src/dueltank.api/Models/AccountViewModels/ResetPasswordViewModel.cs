@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace dueltank.api.Models.AccountViewModels
 {
@@ -18,8 +17,5 @@ namespace dueltank.api.Models.AccountViewModels
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
-
-        [BindRequired]
-        public string Code { get; set; }
     }
 }
