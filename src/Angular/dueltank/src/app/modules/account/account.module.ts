@@ -5,7 +5,7 @@ import {SocialLoginComponent} from "./components/socialLogin/socialLogin.compone
 import {RegisterPage} from "./pages/register/register.page";
 import {SignInLoadingComponent} from "../../shared/components/signin-loading/signin-loading.component";
 import {ExternalLoginCompletePage} from "./pages/external-login-complete/external-login-complete.page";
-import {CommonModule} from "@angular/common";
+import {AsyncPipe, CommonModule} from "@angular/common";
 import {AuthenticationService} from "../../shared/services/authentication.service";
 import {ModalModule} from "ngx-bootstrap";
 import {AccountsService} from "../../shared/services/accounts.service";
@@ -17,15 +17,35 @@ import {ForgotPasswordPage} from "./pages/forgot-password/forgotpassword.page";
 import {ForgotPasswordConfirmationPage} from "./pages/forgot-password-confirmation/forgot-password-confirmation.page";
 import {ResetPasswordPage} from "./pages/reset-password/reset-password.page";
 import {ResetPasswordConfirmationPage} from "./pages/reset-password-confirmation/reset-password-confirmation.page";
+import {AccountGuard} from "../../shared/guards/account.guard";
 
 const accountRoutes: Routes = [
-  {   path: "login", component: LoginPage},
-  {   path: "register", component: RegisterPage},
-  {   path: "external-login-complete", component: ExternalLoginCompletePage},
-  {   path: "forgot-password", component: ForgotPasswordPage},
-  {   path: "forgot-password-confirmation", component: ForgotPasswordConfirmationPage},
-  {   path: "reset-password", component: ResetPasswordPage},
-  {   path: "reset-password-confirmation", component: ResetPasswordConfirmationPage}
+  {
+    path: "",
+    canActivate: [AccountGuard],
+    children: [
+      {
+        path: "account",
+        canActivateChild: [AccountGuard],
+        children: [
+          {   path: "login", component: LoginPage},
+          {   path: "register", component: RegisterPage},
+          {   path: "external-login-complete", component: ExternalLoginCompletePage},
+          {   path: "forgot-password", component: ForgotPasswordPage},
+          {   path: "forgot-password-confirmation", component: ForgotPasswordConfirmationPage},
+          {   path: "reset-password", component: ResetPasswordPage},
+          {   path: "reset-password-confirmation", component: ResetPasswordConfirmationPage}
+        ]
+      }
+    ]
+  }
+  // {   path: "login", component: LoginPage},
+  // {   path: "register", component: RegisterPage},
+  // {   path: "external-login-complete", component: ExternalLoginCompletePage},
+  // {   path: "forgot-password", component: ForgotPasswordPage},
+  // {   path: "forgot-password-confirmation", component: ForgotPasswordConfirmationPage},
+  // {   path: "reset-password", component: ResetPasswordPage},
+  // {   path: "reset-password-confirmation", component: ResetPasswordConfirmationPage}
 ];
 
 @NgModule({
@@ -51,7 +71,9 @@ const accountRoutes: Routes = [
     TokenService,
     UserProfileService,
     AccountsService,
-    SearchEngineOptimizationService
+    SearchEngineOptimizationService,
+    AccountGuard,
+    AsyncPipe
   ]
 })
 export class AccountModule {}

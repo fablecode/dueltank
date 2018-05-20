@@ -16,6 +16,7 @@ import {ResetUserPassword} from "../models/reset-user-password";
 
 @Injectable()
 export class AuthenticationService {
+  public redirectUrl: string;
   constructor
   (
     private http: HttpClient,

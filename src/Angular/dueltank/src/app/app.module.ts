@@ -17,6 +17,7 @@ import {TokenInterceptor} from "./shared/interceptors/token.interceptor";
 import {JwtInterceptor} from "./shared/interceptors/jwt.interceptor";
 import {AuthenticatedNavbarComponent} from "./shared/components/authenticated-navbar/authenticated-navbar.component";
 import {UnAuthenticatedNavbarComponent } from "./shared/components/unauthenticated-navbar/unauthenticated-navbar.component";
+import {Globals} from "./globals";
 
 const appRoutes: Routes = [
   {   path: "", component: HomePage, pathMatch: "full"}
@@ -54,6 +55,7 @@ export function loadConfigService(configService: AppConfigService): Function
   exports: [RouterModule],
   providers: [
     AppConfigService,
+    Globals,
     { provide: APP_INITIALIZER, useFactory: loadConfigService , deps: [AppConfigService], multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
