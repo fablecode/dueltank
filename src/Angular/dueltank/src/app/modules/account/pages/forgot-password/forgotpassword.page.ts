@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {AuthenticationService} from "../../../../shared/services/authentication.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {UserForgotPassword} from "../../../../shared/models/authentication/userforgotpassword.model";
+import {Globals} from "../../../../globals";
 
 @Component({
   templateUrl: "./forgotpassword.page.html"
@@ -11,7 +12,15 @@ import {UserForgotPassword} from "../../../../shared/models/authentication/userf
 export class ForgotPasswordPage implements OnInit{
   private email: FormControl;
   private forgotpassword: FormGroup;
-  constructor(private seo: SearchEngineOptimizationService, private authService: AuthenticationService, private activatedRoute: ActivatedRoute, private router: Router){}
+  constructor
+  (
+    private seo: SearchEngineOptimizationService,
+    private authService: AuthenticationService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private globals: Globals
+  )
+  {}
 
   ngOnInit(): void {
     this.seo.title("DuelTank - Forgot Password");
@@ -44,11 +53,11 @@ export class ForgotPasswordPage implements OnInit{
       var newForgotPassword = new UserForgotPassword();
 
       newForgotPassword.email = this.forgotpassword.controls.email.value;
-      newForgotPassword.resetPasswordConfirmationUrl = window.location.origin + "/reset-password";
+      newForgotPassword.resetPasswordConfirmationUrl = window.location.origin + this.globals.urlSegments.resetPassword;
 
       this.authService
         .forgotPassword(newForgotPassword)
-        .subscribe(response => { return this.router.navigate(["/forgot-password-confirmation"]);})
+        .subscribe(response => { return this.router.navigate([this.globals.urlSegments.forgotPasswordConfirmation]);})
     }
   }
 }

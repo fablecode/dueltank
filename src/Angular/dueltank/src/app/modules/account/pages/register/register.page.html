@@ -48,7 +48,7 @@
               </div>
               <p class="text-muted">
                 <small>Got an account? </small>
-                <a [routerLink]="['/login']" alt="Login" title="Login">
+                <a [routerLink]="['/', this.globals.urlSegments.account, this.globals.urlSegments.login]" alt="Login" title="Login">
                   <small>Login</small>
                 </a>
               </p>

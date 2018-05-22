@@ -5,6 +5,7 @@ import {AuthenticationService} from "../../../../shared/services/authentication.
 import {ActivatedRoute, Router} from "@angular/router";
 import {HttpErrorResponse} from "@angular/common/http";
 import {SearchEngineOptimizationService} from "../../../../shared/services/searchengineoptimization.service";
+import {Globals} from "../../../../globals";
 
 @Component({
   templateUrl: "./register.page.html"
@@ -16,7 +17,15 @@ export class RegisterPage implements OnInit{
   private  password: FormControl;
   private httpValidationErrors: string[] = [];
 
-  constructor(private seo: SearchEngineOptimizationService, private authService: AuthenticationService, private activatedRoute: ActivatedRoute, private router: Router){}
+  constructor
+  (
+    private seo: SearchEngineOptimizationService,
+    private authService: AuthenticationService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private globals: Globals
+  )
+  {}
 
   ngOnInit() {
     this.seo.title("DuelTank - Register");

@@ -41,12 +41,12 @@
                   </ul>
                 </div>
               </div>
-              <a [routerLink]="['/forgot-password']">
+              <a [routerLink]="['/', this.globals.urlSegments.account, this.globals.urlSegments.forgotPassword]">
                 <small>Forgot password?</small>
               </a>
               <p class="text-muted">
                 <small>Haven't got an account? </small>
-                <a [routerLink]="['/register']">
+                <a [routerLink]="['/', this.globals.urlSegments.account, this.globals.urlSegments.register]">
                   <small>Register.</small>
                 </a>
               </p>

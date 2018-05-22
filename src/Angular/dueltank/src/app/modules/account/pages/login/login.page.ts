@@ -5,6 +5,7 @@ import {SearchEngineOptimizationService} from "../../../../shared/services/searc
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {HttpErrorResponse} from "@angular/common/http";
 import {LoginUser} from "../../../../shared/models/authentication/loginuser.model";
+import {Globals} from "../../../../globals";
 
 @Component({
   templateUrl: "./login.page.html"
@@ -16,7 +17,15 @@ export class LoginPage implements OnInit {
   private loginForm: FormGroup;
   private httpValidationErrors: string[] = [];
 
-  constructor(private seo: SearchEngineOptimizationService, private authService: AuthenticationService, private activatedRoute: ActivatedRoute, private router: Router){}
+  constructor
+  (
+    private seo: SearchEngineOptimizationService,
+    private authService: AuthenticationService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private globals: Globals
+  )
+  {}
 
   ngOnInit(): void {
     this.seo.title("DuelTank - Login");
