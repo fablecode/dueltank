@@ -39,13 +39,6 @@ const accountRoutes: Routes = [
       }
     ]
   }
-  // {   path: "login", component: LoginPage},
-  // {   path: "register", component: RegisterPage},
-  // {   path: "external-login-complete", component: ExternalLoginCompletePage},
-  // {   path: "forgot-password", component: ForgotPasswordPage},
-  // {   path: "forgot-password-confirmation", component: ForgotPasswordConfirmationPage},
-  // {   path: "reset-password", component: ResetPasswordPage},
-  // {   path: "reset-password-confirmation", component: ResetPasswordConfirmationPage}
 ];
 
 @NgModule({

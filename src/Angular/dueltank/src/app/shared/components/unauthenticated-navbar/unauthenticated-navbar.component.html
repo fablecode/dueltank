@@ -1,6 +1,6 @@
 <ul id="unauthenticated-navbar" class="nav navbar-top-links navbar-right">
   <li>
-    <a [routerLink]="this.globals.appRoutes.login" title="Login" alt="Login">
+    <a [routerLink]="[this.globals.routeNames.account, this.globals.routeNames.login]" title="Login" alt="Login">
       <i class="fa fa-sign-in"></i> Log In
     </a>
   </li>
@@ -8,7 +8,7 @@
     <span style="color: #fff">|</span>
   </li>
   <li>
-    <a [routerLink]="this.globals.appRoutes.register" title="Register" alt="Register">
+    <a [routerLink]="[this.globals.routeNames.account, this.globals.routeNames.register]" title="Register" alt="Register">
       <i class="fa fa-user-plus"></i> Register
     </a>
   </li>
