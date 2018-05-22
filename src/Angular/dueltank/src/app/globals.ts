@@ -9,6 +9,7 @@ export class Globals {
     forgotPassword: "forgot-password",
     forgotPasswordConfirmation: "forgot-password-confirmation",
     resetPassword: "reset-password",
-    resetPasswordConfirmation: "reset-password-confirmation"
+    resetPasswordConfirmation: "reset-password-confirmation",
+    externalLoginComplete: "external-login-complete"
   };
 }
