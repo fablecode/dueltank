@@ -11,11 +11,11 @@ import {Globals} from "../../../../globals";
   templateUrl: "./register.page.html"
 })
 export class RegisterPage implements OnInit{
-  private registerForm: FormGroup;
-  private username: FormControl;
-  private email: FormControl;
-  private  password: FormControl;
-  private httpValidationErrors: string[] = [];
+  public registerForm: FormGroup;
+  public username: FormControl;
+  public email: FormControl;
+  public password: FormControl;
+  public httpValidationErrors: string[] = [];
 
   constructor
   (

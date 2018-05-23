@@ -10,8 +10,8 @@ import {Globals} from "../../../../globals";
   templateUrl: "./forgotpassword.page.html"
 })
 export class ForgotPasswordPage implements OnInit{
-  private email: FormControl;
-  private forgotpassword: FormGroup;
+  public email: FormControl;
+  public forgotpassword: FormGroup;
   constructor
   (
     private seo: SearchEngineOptimizationService,

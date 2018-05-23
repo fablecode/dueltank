@@ -10,11 +10,11 @@ import {ResetUserPassword} from "../../../../shared/models/reset-user-password";
   templateUrl: "./reset-password.page.html"
 })
 export class ResetPasswordPage implements OnInit {
-  private email: FormControl;
-  private password: FormControl;
-  private confirmPassword: FormControl;
-  private resetPasswordForm: FormGroup;
-  private httpValidationErrors: string[] = [];
+  public email: FormControl;
+  public password: FormControl;
+  public confirmPassword: FormControl;
+  public resetPasswordForm: FormGroup;
+  public httpValidationErrors: string[] = [];
 
   constructor(private seo: SearchEngineOptimizationService, private authService: AuthenticationService, private activatedRoute: ActivatedRoute, private router: Router){}
 
