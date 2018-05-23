@@ -1,3 +1,7 @@
+
+
+![alt text](https://fablecode.visualstudio.com/_apis/public/build/definitions/9e9640ec-37b8-4d8b-8cb2-19c074a1fa41/6/badge?maxAge=0 "Visual studio team services build status")
+
 # Dueltank
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.3.
