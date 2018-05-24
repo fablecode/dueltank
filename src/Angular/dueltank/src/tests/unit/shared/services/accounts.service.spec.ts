@@ -22,7 +22,7 @@ describe("AccountService", () => {
     httpClientSpy.get.and.returnValue({ subscribe: () => { return new UserProfile()} });
     appConfigServiceSpy.apiEndpoint.and.returnValue("")
 
-    accountsService.Profile().subscribe(
+    accountsService.profile().subscribe(
       profile => expect(profile.valueOf).toEqual(expectedProfile, "expected profile"),
       fail
     );
