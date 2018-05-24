@@ -7,7 +7,7 @@ import {Observable} from "rxjs";
   templateUrl: "./navbar.component.html"
 })
 export class NavbarComponent {
-  private isLoggedIn: Observable<boolean>;
+  public isLoggedIn: Observable<boolean>;
   constructor(private authService: AuthenticationService) {
     this.isLoggedIn = authService.isLoggedIn();
   }

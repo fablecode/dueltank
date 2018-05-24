@@ -18,7 +18,7 @@ export class ForgotPasswordPage implements OnInit{
     private authService: AuthenticationService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private globals: Globals
+    public globals: Globals
   )
   {}
 
