@@ -18,6 +18,7 @@ import {JwtInterceptor} from "./shared/interceptors/jwt.interceptor";
 import {AuthenticatedNavbarComponent} from "./shared/components/authenticated-navbar/authenticated-navbar.component";
 import {UnAuthenticatedNavbarComponent } from "./shared/components/unauthenticated-navbar/unauthenticated-navbar.component";
 import {Globals} from "./globals";
+import {DeckModule} from "./modules/deck/deck.module";
 
 const appRoutes: Routes = [
   {   path: "", component: HomePage, pathMatch: "full"}
@@ -50,6 +51,7 @@ export function loadConfigService(configService: AppConfigService): Function
     HttpClientModule,
     HomeModule,
     AccountModule,
+    DeckModule,
     RouterModule.forRoot(appRoutes)
   ],
   exports: [RouterModule],

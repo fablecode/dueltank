@@ -10,6 +10,8 @@ export class Globals {
     forgotPasswordConfirmation: "forgot-password-confirmation",
     resetPassword: "reset-password",
     resetPasswordConfirmation: "reset-password-confirmation",
-    externalLoginComplete: "external-login-complete"
+    externalLoginComplete: "external-login-complete",
+    upload: "upload",
+    ygopro: "ygopro"
   };
 }

@@ -60,8 +60,8 @@ export class AuthenticationService {
       }))
   }
 
-  public isLoggedIn() : Observable<boolean> {
-    return this.isLoginSubject.asObservable();
+  public isLoggedIn() : BehaviorSubject<boolean> {
+    return this.isLoginSubject;
   }
 
   /**
