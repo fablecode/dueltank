@@ -12,6 +12,7 @@ export class Globals {
     resetPasswordConfirmation: "reset-password-confirmation",
     externalLoginComplete: "external-login-complete",
     upload: "upload",
-    ygopro: "ygopro"
+    ygopro: "ygopro",
+    decks: "decks"
   };
 }
