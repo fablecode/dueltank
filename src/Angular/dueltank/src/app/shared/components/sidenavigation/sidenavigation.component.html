@@ -12,7 +12,11 @@
           <a href="" alt="Archetypes" title="Archetypes"><i class="fa fa-gg"></i> <span class="nav-label">Archetypes</span> </a>
         </li>
         <li>
-          <a href="#"><i class="fa fa-ban"></i> <span class="nav-label" alt="Banlist" title="Banlist">Banlist</span><span class="fa arrow"></span></a>
+          <a href="#">
+            <i class="fa fa-ban"></i>
+            <span class="nav-label" alt="Banlist" title="Banlist">Banlist</span>
+            <span class="fa arrow"></span>
+          </a>
           <ul class="nav nav-second-level collapse">
             <li><a href="" alt="TCG" title="TCG">TCG</a></li>
             <li><a href="" alt="OCG" title="OCG">OCG</a></li>
@@ -28,9 +32,14 @@
           <a href="" alt="Create" title="Create"><i class="fa fa-puzzle-piece"></i> Create</a>
         </li>
         <li>
-          <a [routerLink]="['/', this.globals.urlSegments.decks, this.globals.urlSegments.upload]" alt="Upload Deck" title="Upload Deck">
-            <i class="fa fa-upload"></i> <span class="nav-label">Upload Deck</span>
+          <a href alt="Upload Deck" title="Upload Deck">
+            <i class="fa fa-upload"></i>
+            <span class="nav-label">Upload Deck</span>
+            <span class="fa arrow"></span>
           </a>
+          <ul class="nav nav-second-level collapse">
+            <li><a [routerLink]="[this.globals.routes.upload]" alt="Upload YgoPro Deck" title="Upload YgoPro Deck">YgoPro</a></li>
+          </ul>
         </li>
       </ul>
       <ul id="nav-user-options" class="nav metismenu" *ngIf="(isLoggedIn | async)">
