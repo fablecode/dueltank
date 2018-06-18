@@ -19,6 +19,7 @@ import {AuthenticatedNavbarComponent} from "./shared/components/authenticated-na
 import {UnAuthenticatedNavbarComponent } from "./shared/components/unauthenticated-navbar/unauthenticated-navbar.component";
 import {Globals} from "./globals";
 import {DeckModule} from "./modules/deck/deck.module";
+import {UploadModule} from "./modules/upload/upload.module";
 
 const appRoutes: Routes = [
   {   path: "", component: HomePage, pathMatch: "full"}
@@ -52,6 +53,7 @@ export function loadConfigService(configService: AppConfigService): Function
     HomeModule,
     AccountModule,
     DeckModule,
+    UploadModule,
     RouterModule.forRoot(appRoutes)
   ],
   exports: [RouterModule],

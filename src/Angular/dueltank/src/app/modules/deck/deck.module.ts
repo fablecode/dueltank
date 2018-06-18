@@ -3,7 +3,6 @@ import {AuthGuard} from "../../shared/guards/auth.guard";
 import {NgModule} from "@angular/core";
 import {ModalModule} from "ngx-bootstrap";
 import {DeckListPage} from "./pages/deck-list/deck-list.page";
-import {UploadsPage} from "./pages/uploads/uploads.page";
 
 const deckRoutes: Routes = [
   {
@@ -11,7 +10,6 @@ const deckRoutes: Routes = [
     component: DeckListPage,
     canActivateChild: [AuthGuard],
     children: [
-      { path: "upload", component: UploadsPage}
     ]
   }
 ];
@@ -19,7 +17,6 @@ const deckRoutes: Routes = [
 @NgModule({
   declarations: [
     DeckListPage,
-    UploadsPage
   ],
   imports: [
     ModalModule.forRoot(),

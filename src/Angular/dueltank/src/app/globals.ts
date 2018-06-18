@@ -16,6 +16,6 @@ export class Globals {
     decks: "decks"
   };
   routes = {
-    upload: "/upload"
+    uploadYgoProDeck: "/upload/ygopro-deck"
   }
 }
