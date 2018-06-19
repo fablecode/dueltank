@@ -22,7 +22,6 @@ import {AccountGuard} from "../../shared/guards/account.guard";
 const accountRoutes: Routes = [
   {
     path: "",
-    canActivate: [AccountGuard],
     children: [
       {
         path: "account",

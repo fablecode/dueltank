@@ -1,26 +1,36 @@
 import {NgModule} from "@angular/core";
 import {RouterModule} from "@angular/router";
-import {YgoproDeckPage} from "./pages/ygopro-deck/ygopro-deck.page";
+import { YgoProDeckPage} from "./pages/ygopro-deck/ygopro-deck.page";
 import {AuthGuard} from "../../shared/guards/auth.guard";
+import {CommonModule} from "@angular/common";
+import {BrowserModule} from "@angular/platform-browser";
+import {HttpClientModule} from "@angular/common/http";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {FileUploaderService} from "../../shared/services/file-upload.service";
 
 const uploadRoutes = [
   {
     path: "upload",
-    component: YgoproDeckPage,
     canActivateChild: [AuthGuard],
     children: [
-      {   path: "ygopro-deck", component: YgoproDeckPage },
+      {   path: "ygopro-deck", component: YgoProDeckPage},
     ]
   }
 ]
 @NgModule({
   declarations: [
-    YgoproDeckPage
+    YgoProDeckPage
   ],
   imports: [
+    CommonModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
     RouterModule.forChild(uploadRoutes)
   ],
-  providers: []
+  providers: [
+    FileUploaderService
+  ]
 })
 
 export class UploadModule {}

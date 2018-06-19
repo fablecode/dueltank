@@ -1,0 +1,38 @@
+<div class="row border-bottom white-bg page">
+  <div class="col-lg-12">
+    <h2 style="margin-top: 10px;"><i class="fa fa-upload"></i>&nbsp;YgoPro Deck Upload</h2>
+    <span>Upload your existing <a href="https://www.ygopro.co/" target="_blank" style="color: #337ab7;">YgoPro</a> decks.</span>
+  </div>
+</div>
+<div class="wrapper wrapper-content animated fadeIn ng-scope">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-white">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12 space20">
+              <div class="alert alert-warning">
+                <h4 class="panel-title">* YDK files only</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <!--<input id="files" name="files" type="file" multiple="multiple" file-input>-->
+          <div class="input-group">
+            <label class="custom-file-label">Select YgoPro deck(s)</label>
+          </div>
+          <div class="input-group">
+            <label class="input-group-btn">
+                    <span class="btn btn-primary">
+                      <span><i class="fa fa-folder-open"></i> Browse…</span>
+                      <input type="file" style="display: none;" accept=".ydk" #deckFileInput multiple (change)="onDeckSelected($event.target.files)">
+                    </span>
+            </label>
+            <input type="text" class="form-control" readonly="" placeholder>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
