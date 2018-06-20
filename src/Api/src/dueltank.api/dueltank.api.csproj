@@ -34,5 +34,9 @@
     <ProjectReference Include="..\dueltank.application\dueltank.application.csproj" />
     <ProjectReference Include="..\dueltank.infrastructure\dueltank.infrastructure.csproj" />
   </ItemGroup>
+
+  <PropertyGroup>
+    <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
+  </PropertyGroup>
   
 </Project>
