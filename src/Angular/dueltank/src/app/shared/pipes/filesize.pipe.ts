@@ -3,7 +3,7 @@ import {Pipe, PipeTransform} from "@angular/core";
 @Pipe({name: "filesize"})
 export class FileSizePipe implements PipeTransform {
   transform(value: number): string {
-    if (isNaN(value))
+    if (isNaN(value) || value < 0)
       value = 0;
 
     if (value < 1024)
