@@ -2,16 +2,18 @@ import {HttpClient, HttpErrorResponse, HttpEventType, HttpRequest, HttpResponse}
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {Injectable} from "@angular/core";
 import {Subscription} from "rxjs/Subscription";
+import {AppConfigService} from "./app-config.service";
+import {Router} from "@angular/router";
 
 @Injectable()
 export class FileUploaderService {
 
-  public url: string = 'https://jsonplaceholder.typicode.com/posts';
+  public url: string = this.configuration.apiEndpoint + "/api/decks";
 
   private _queue: BehaviorSubject<FileQueueObject[]>;
   private _files: FileQueueObject[] = [];
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private configuration: AppConfigService, private route: Router) {
     this._queue = <BehaviorSubject<FileQueueObject[]>> new BehaviorSubject(this._files);
   }
 
@@ -38,6 +40,7 @@ export class FileUploaderService {
   }
 
   public uploadAll() {
+
     // upload all except already successful or in progress
     this._files.forEach((queueObj) => {
       if (queueObj.isUploadable()) {
@@ -67,7 +70,7 @@ export class FileUploaderService {
     }
   }
 
-  private _upload(queueObj: FileQueueObject) {
+  private _upload(queueObj: FileQueueObject) : FileQueueObject{
     // create form data for file
     const form = new FormData();
     form.append('file', queueObj.file, queueObj.file.name);
@@ -94,6 +97,11 @@ export class FileUploaderService {
           // The backend returned an unsuccessful response code.
           this._uploadFailed(queueObj, err);
         }
+
+        if (err.status === 401) {
+          return this.route.navigate(["account", "login"]);
+        }
+
       }
     );
 

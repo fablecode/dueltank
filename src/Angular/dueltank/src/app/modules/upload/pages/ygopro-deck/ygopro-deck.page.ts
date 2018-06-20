@@ -28,7 +28,7 @@ export class YgoProDeckPage implements OnInit {
   }
 
   public onSubmit() {
-    console.log("Deck upload form submitted.")
+    this.uploader.uploadAll();
   }
 
   public completeItem = (item: FileQueueObject, response: any) => {
