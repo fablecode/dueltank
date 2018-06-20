@@ -4,6 +4,7 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Formatting.Compact;
 using System;
+using System.IO;
 
 namespace dueltank.api
 {
@@ -41,6 +42,9 @@ namespace dueltank.api
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseIISIntegration()
                 .UseStartup<Startup>()
                 .UseSerilog()
                 .Build();
