@@ -655,3 +655,27 @@ cards-tabs .tab-content .active {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+
+
+.tag {
+  border-radius: 50%;
+  height: 15px;
+  width: 15px;
+  display: inline-block;
+}
+
+.tag-default {
+  background-color: gray;
+}
+
+.tag-success {
+  background-color: green;
+}
+
+.tag-warning {
+  background-color: orange;
+}
+
+.tag-danger {
+  background-color: red;
+}
