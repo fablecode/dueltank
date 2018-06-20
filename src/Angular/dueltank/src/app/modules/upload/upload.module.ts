@@ -8,6 +8,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {FileUploaderService} from "../../shared/services/file-upload.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FileSizePipe} from "../../shared/pipes/filesize.pipe";
 
 const uploadRoutes = [
   {
@@ -20,6 +21,7 @@ const uploadRoutes = [
 ]
 @NgModule({
   declarations: [
+    FileSizePipe,
     YgoProDeckPage
   ],
   imports: [
