@@ -7,6 +7,7 @@ import {BrowserModule} from "@angular/platform-browser";
 import {HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {FileUploaderService} from "../../shared/services/file-upload.service";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 const uploadRoutes = [
   {
@@ -24,6 +25,7 @@ const uploadRoutes = [
   imports: [
     CommonModule,
     BrowserModule,
+    FormsModule, ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
     RouterModule.forChild(uploadRoutes)
