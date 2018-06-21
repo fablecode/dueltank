@@ -18,7 +18,7 @@ module.exports = function (config) {
       clearContext: false // leave Jasmine Spec Runner output visible in browser
     },
     coverageIstanbulReporter: {
-      dir: require('path').join(__dirname, 'coverage'), reports: [ 'html', 'lcovonly', 'cobertura'],
+      dir: require('path').join(__dirname, 'coverage'), reports: [ 'html', 'lcov', 'cobertura'],
       fixWebpackSourcePaths: true
     },
     angularCli: {
@@ -32,7 +32,7 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_DEBUG,
     autoWatch: true,
-    browsers: ['Chrome'],
+    browsers: ['ChromeHeadless'],
     singleRun: true,
     junitReporter: {
       outputDir: '',
