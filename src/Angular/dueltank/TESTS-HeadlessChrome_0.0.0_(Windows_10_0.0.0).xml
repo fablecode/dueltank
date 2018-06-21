@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<testsuite name="HeadlessChrome 0.0.0 (Windows 10 0.0.0)" package="" timestamp="2018-06-21T10:17:54" id="0" hostname="MSI" tests="4" errors="0" failures="0" time="0.006">
+  <properties>
+    <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/67.0.3391.0 Safari/537.36"/>
+  </properties>
+  <testcase name="Pipe: File Size providing a value returns value" time="0.005" classname="HeadlessChrome_0_0_0_(Windows_10_0_0_0).Pipe: File Size"/>
+  <testcase name="Pipe: File Size providing a negative value returns fallback" time="0" classname="HeadlessChrome_0_0_0_(Windows_10_0_0_0).Pipe: File Size"/>
+  <testcase name="AccountService Profile: should invoke HttpClient once" time="0.001" classname="HeadlessChrome_0_0_0_(Windows_10_0_0_0).AccountService"/>
+  <testcase name="AccountService Register: should invoke HttpClient once" time="0" classname="HeadlessChrome_0_0_0_(Windows_10_0_0_0).AccountService"/>
+  <system-out>
+    <![CDATA[
+]]>
+  </system-out>
+  <system-err/>
+</testsuite>

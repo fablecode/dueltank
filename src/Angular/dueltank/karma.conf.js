@@ -25,12 +25,18 @@ module.exports = function (config) {
       config: './angular-cli.json',
       environment: 'dev'
     },
-    reporters: ['progress', 'kjhtml'],
+    reporters: config.angularCli && config.angularCli.codeCoverage
+                ? ['progress', 'coverage-istanbul', 'junit']
+                : ['progress', 'kjhtml', 'junit'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_DEBUG,
     autoWatch: true,
     browsers: ['Chrome'],
-    singleRun: true
+    singleRun: true,
+    junitReporter: {
+      outputDir: '',
+      outputFile: 'test.xml'
+    }
   });
 };
