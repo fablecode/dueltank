@@ -63,7 +63,7 @@ namespace dueltank.api
             });
 
             services.AddApplicationServices();
-            services.AddInfrastuctureServices();
+            services.AddInfrastuctureServices(Configuration.GetConnectionString("dueltank"));
 
             services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
             services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());

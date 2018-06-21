@@ -11,6 +11,7 @@ namespace dueltank.core.Models.Db
             AspNetUserLogins = new HashSet<AspNetUserLogins>();
             AspNetUserRoles = new HashSet<AspNetUserRoles>();
             AspNetUserTokens = new HashSet<AspNetUserTokens>();
+            Deck = new HashSet<Deck>();
         }
 
         public string Id { get; set; }
@@ -35,5 +36,6 @@ namespace dueltank.core.Models.Db
         public ICollection<AspNetUserLogins> AspNetUserLogins { get; set; }
         public ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
         public ICollection<AspNetUserTokens> AspNetUserTokens { get; set; }
+        public ICollection<Deck> Deck { get; set; }
     }
 }

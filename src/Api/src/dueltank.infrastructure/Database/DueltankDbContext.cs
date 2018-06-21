@@ -1,6 +1,32 @@
 ﻿using dueltank.core.Models.Db;
 using Microsoft.EntityFrameworkCore;
+using Archetype = dueltank.core.Models.Db.Archetype;
+using ArchetypeCard = dueltank.core.Models.Db.ArchetypeCard;
+using AspNetRoleClaims = dueltank.core.Models.Db.AspNetRoleClaims;
+using AspNetRoles = dueltank.core.Models.Db.AspNetRoles;
+using AspNetUserClaims = dueltank.core.Models.Db.AspNetUserClaims;
+using AspNetUserLogins = dueltank.core.Models.Db.AspNetUserLogins;
+using AspNetUserRoles = dueltank.core.Models.Db.AspNetUserRoles;
+using AspNetUsers = dueltank.core.Models.Db.AspNetUsers;
+using AspNetUserTokens = dueltank.core.Models.Db.AspNetUserTokens;
 using Attribute = dueltank.core.Models.Db.Attribute;
+using Banlist = dueltank.core.Models.Db.Banlist;
+using BanlistCard = dueltank.core.Models.Db.BanlistCard;
+using Card = dueltank.core.Models.Db.Card;
+using CardAttribute = dueltank.core.Models.Db.CardAttribute;
+using CardLinkArrow = dueltank.core.Models.Db.CardLinkArrow;
+using CardRuling = dueltank.core.Models.Db.CardRuling;
+using CardSubCategory = dueltank.core.Models.Db.CardSubCategory;
+using CardTip = dueltank.core.Models.Db.CardTip;
+using CardTrivia = dueltank.core.Models.Db.CardTrivia;
+using CardType = dueltank.core.Models.Db.CardType;
+using Category = dueltank.core.Models.Db.Category;
+using Format = dueltank.core.Models.Db.Format;
+using Limit = dueltank.core.Models.Db.Limit;
+using LinkArrow = dueltank.core.Models.Db.LinkArrow;
+using SubCategory = dueltank.core.Models.Db.SubCategory;
+using Tip = dueltank.core.Models.Db.Tip;
+using TipSection = dueltank.core.Models.Db.TipSection;
 using Type = dueltank.core.Models.Db.Type;
 
 namespace dueltank.infrastructure.Database
@@ -37,9 +63,16 @@ namespace dueltank.infrastructure.Database
         public virtual DbSet<CardTrivia> CardTrivia { get; set; }
         public virtual DbSet<CardType> CardType { get; set; }
         public virtual DbSet<Category> Category { get; set; }
+        public virtual DbSet<Deck> Deck { get; set; }
+        public virtual DbSet<ExtraDeck> ExtraDeck { get; set; }
+        public virtual DbSet<ExtraDeckCard> ExtraDeckCard { get; set; }
         public virtual DbSet<Format> Format { get; set; }
         public virtual DbSet<Limit> Limit { get; set; }
         public virtual DbSet<LinkArrow> LinkArrow { get; set; }
+        public virtual DbSet<MainDeck> MainDeck { get; set; }
+        public virtual DbSet<MainDeckCard> MainDeckCard { get; set; }
+        public virtual DbSet<SideDeck> SideDeck { get; set; }
+        public virtual DbSet<SideDeckCards> SideDeckCards { get; set; }
         public virtual DbSet<SubCategory> SubCategory { get; set; }
         public virtual DbSet<Tip> Tip { get; set; }
         public virtual DbSet<TipSection> TipSection { get; set; }
@@ -247,6 +280,55 @@ namespace dueltank.infrastructure.Database
                     .HasMaxLength(255);
             });
 
+            modelBuilder.Entity<Deck>(entity =>
+            {
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.Property(e => e.UserId)
+                    .IsRequired()
+                    .HasMaxLength(450);
+
+                entity.Property(e => e.VideoUrl).HasMaxLength(2083);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Deck)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Deck_AspNetUsers");
+            });
+
+            modelBuilder.Entity<ExtraDeck>(entity =>
+            {
+                entity.HasKey(e => e.DeckId);
+
+                entity.Property(e => e.DeckId).ValueGeneratedNever();
+
+                entity.HasOne(d => d.Deck)
+                    .WithOne(p => p.ExtraDeck)
+                    .HasForeignKey<ExtraDeck>(d => d.DeckId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ExtraDeck_Deck");
+            });
+
+            modelBuilder.Entity<ExtraDeckCard>(entity =>
+            {
+                entity.HasKey(e => new { e.ExtraDeckId, e.CardId });
+
+                entity.HasOne(d => d.Card)
+                    .WithMany(p => p.ExtraDeckCard)
+                    .HasForeignKey(d => d.CardId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ExtraDeckCard_Card");
+
+                entity.HasOne(d => d.ExtraDeck)
+                    .WithMany(p => p.ExtraDeckCard)
+                    .HasForeignKey(d => d.ExtraDeckId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ExtraDeckCard_ExtraDeck");
+            });
+
             modelBuilder.Entity<Format>(entity =>
             {
                 entity.Property(e => e.Acronym)
@@ -272,6 +354,66 @@ namespace dueltank.infrastructure.Database
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(255);
+            });
+
+            modelBuilder.Entity<MainDeck>(entity =>
+            {
+                entity.HasKey(e => e.DeckId);
+
+                entity.Property(e => e.DeckId).ValueGeneratedNever();
+
+                entity.HasOne(d => d.Deck)
+                    .WithOne(p => p.MainDeck)
+                    .HasForeignKey<MainDeck>(d => d.DeckId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MainDeck_Deck");
+            });
+
+            modelBuilder.Entity<MainDeckCard>(entity =>
+            {
+                entity.HasKey(e => new { e.MainDeckId, e.CardId });
+
+                entity.HasOne(d => d.Card)
+                    .WithMany(p => p.MainDeckCard)
+                    .HasForeignKey(d => d.CardId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MainDeckCard_Card");
+
+                entity.HasOne(d => d.MainDeck)
+                    .WithMany(p => p.MainDeckCard)
+                    .HasForeignKey(d => d.MainDeckId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_MainDeckCard_MainDeck");
+            });
+
+            modelBuilder.Entity<SideDeck>(entity =>
+            {
+                entity.HasKey(e => e.DeckId);
+
+                entity.Property(e => e.DeckId).ValueGeneratedNever();
+
+                entity.HasOne(d => d.Deck)
+                    .WithOne(p => p.SideDeck)
+                    .HasForeignKey<SideDeck>(d => d.DeckId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SideDeck_Deck");
+            });
+
+            modelBuilder.Entity<SideDeckCards>(entity =>
+            {
+                entity.HasKey(e => new { e.SideDeckId, e.CardId });
+
+                entity.HasOne(d => d.Card)
+                    .WithMany(p => p.SideDeckCards)
+                    .HasForeignKey(d => d.CardId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SideDeckCards_Card");
+
+                entity.HasOne(d => d.SideDeck)
+                    .WithMany(p => p.SideDeckCards)
+                    .HasForeignKey(d => d.SideDeckId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SideDeckCards_SideDeck");
             });
 
             modelBuilder.Entity<SubCategory>(entity =>

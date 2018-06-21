@@ -5,15 +5,15 @@ VisualStudioVersion = 15.0.27428.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dueltank.api", "dueltank.api\dueltank.api.csproj", "{092A9532-99D6-46CF-BA6E-7FD01A1054B7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Domain", "1. Domain", "{E3F9FE68-5F5B-442B-A6D9-0075243E9546}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Domain", "2. Domain", "{E3F9FE68-5F5B-442B-A6D9-0075243E9546}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Application", "2. Application", "{31AED718-D697-4ED6-AA01-42F3FCC1F100}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Application", "3. Application", "{31AED718-D697-4ED6-AA01-42F3FCC1F100}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Infrastructure", "3. Infrastructure", "{F5FD2FC5-CEA6-4147-BA80-77A97047782E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Infrastructure", "4. Infrastructure", "{F5FD2FC5-CEA6-4147-BA80-77A97047782E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Presentation", "4. Presentation", "{CD2DFAE5-94E5-4855-8B0A-8057B840867C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5. Presentation", "5. Presentation", "{CD2DFAE5-94E5-4855-8B0A-8057B840867C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5. Tests", "5. Tests", "{B6AAB487-DB1F-4F2B-AB36-7BA49AC7440C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6. Tests", "6. Tests", "{B6AAB487-DB1F-4F2B-AB36-7BA49AC7440C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit", "Unit", "{88BD5487-ACAD-43BE-9CBE-E53260A7D178}"
 EndProject
@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dueltank.application", "due
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Core", "1. Core", "{E8B13F27-72DD-4FEE-8F8D-A5ED0265E84C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dueltank.core", "dueltank.core\dueltank.core.csproj", "{1A6F0812-10FA-4A59-AE05-CCF3DF34A455}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dueltank.core", "dueltank.core\dueltank.core.csproj", "{1A6F0812-10FA-4A59-AE05-CCF3DF34A455}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
