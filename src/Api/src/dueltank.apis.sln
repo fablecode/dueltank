@@ -17,11 +17,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5. Tests", "5. Tests", "{B6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit", "Unit", "{88BD5487-ACAD-43BE-9CBE-E53260A7D178}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dueltank.infrastructure", "dueltank.infrastructure\dueltank.infrastructure.csproj", "{0D84DD1D-4985-4938-AE68-932246547472}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dueltank.infrastructure", "dueltank.infrastructure\dueltank.infrastructure.csproj", "{0D84DD1D-4985-4938-AE68-932246547472}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dueltank.Domain", "dueltank.Domain\dueltank.Domain.csproj", "{5F12E0EB-00BA-43B4-9293-5475102A6BD8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dueltank.Domain", "dueltank.Domain\dueltank.Domain.csproj", "{5F12E0EB-00BA-43B4-9293-5475102A6BD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dueltank.application", "dueltank.application\dueltank.application.csproj", "{A7B65DBC-DB1F-46B5-92F9-83A21EB32256}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dueltank.application", "dueltank.application\dueltank.application.csproj", "{A7B65DBC-DB1F-46B5-92F9-83A21EB32256}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Core", "1. Core", "{E8B13F27-72DD-4FEE-8F8D-A5ED0265E84C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dueltank.core", "dueltank.core\dueltank.core.csproj", "{1A6F0812-10FA-4A59-AE05-CCF3DF34A455}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +49,10 @@ Global
 		{A7B65DBC-DB1F-46B5-92F9-83A21EB32256}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7B65DBC-DB1F-46B5-92F9-83A21EB32256}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7B65DBC-DB1F-46B5-92F9-83A21EB32256}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A6F0812-10FA-4A59-AE05-CCF3DF34A455}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A6F0812-10FA-4A59-AE05-CCF3DF34A455}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A6F0812-10FA-4A59-AE05-CCF3DF34A455}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A6F0812-10FA-4A59-AE05-CCF3DF34A455}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +63,7 @@ Global
 		{0D84DD1D-4985-4938-AE68-932246547472} = {F5FD2FC5-CEA6-4147-BA80-77A97047782E}
 		{5F12E0EB-00BA-43B4-9293-5475102A6BD8} = {E3F9FE68-5F5B-442B-A6D9-0075243E9546}
 		{A7B65DBC-DB1F-46B5-92F9-83A21EB32256} = {31AED718-D697-4ED6-AA01-42F3FCC1F100}
+		{1A6F0812-10FA-4A59-AE05-CCF3DF34A455} = {E8B13F27-72DD-4FEE-8F8D-A5ED0265E84C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {83986D61-1ACB-470F-A0F1-22F63C2074D6}

@@ -9,8 +9,7 @@ namespace dueltank.infrastructure
         public static IServiceCollection AddInfrastuctureServices(this IServiceCollection services)
         {
             services.AddTransient<IEmailService, EmailService>();
-            //services.AddDbContext
-
+            
             return services;
         }
     }
