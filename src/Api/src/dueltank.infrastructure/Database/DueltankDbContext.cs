@@ -64,15 +64,11 @@ namespace dueltank.infrastructure.Database
         public virtual DbSet<CardType> CardType { get; set; }
         public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<Deck> Deck { get; set; }
-        public virtual DbSet<ExtraDeck> ExtraDeck { get; set; }
-        public virtual DbSet<ExtraDeckCard> ExtraDeckCard { get; set; }
+        public virtual DbSet<DeckCard> DeckCard { get; set; }
+        public virtual DbSet<DeckType> DeckType { get; set; }
         public virtual DbSet<Format> Format { get; set; }
         public virtual DbSet<Limit> Limit { get; set; }
         public virtual DbSet<LinkArrow> LinkArrow { get; set; }
-        public virtual DbSet<MainDeck> MainDeck { get; set; }
-        public virtual DbSet<MainDeckCard> MainDeckCard { get; set; }
-        public virtual DbSet<SideDeck> SideDeck { get; set; }
-        public virtual DbSet<SideDeckCards> SideDeckCards { get; set; }
         public virtual DbSet<SubCategory> SubCategory { get; set; }
         public virtual DbSet<Tip> Tip { get; set; }
         public virtual DbSet<TipSection> TipSection { get; set; }
@@ -299,34 +295,34 @@ namespace dueltank.infrastructure.Database
                     .HasConstraintName("FK_Deck_AspNetUsers");
             });
 
-            modelBuilder.Entity<ExtraDeck>(entity =>
+            modelBuilder.Entity<DeckCard>(entity =>
             {
-                entity.HasKey(e => e.DeckId);
-
-                entity.Property(e => e.DeckId).ValueGeneratedNever();
-
-                entity.HasOne(d => d.Deck)
-                    .WithOne(p => p.ExtraDeck)
-                    .HasForeignKey<ExtraDeck>(d => d.DeckId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ExtraDeck_Deck");
-            });
-
-            modelBuilder.Entity<ExtraDeckCard>(entity =>
-            {
-                entity.HasKey(e => new { e.ExtraDeckId, e.CardId });
+                entity.HasKey(e => new { e.DeckTypeId, e.DeckId, e.CardId });
 
                 entity.HasOne(d => d.Card)
-                    .WithMany(p => p.ExtraDeckCard)
+                    .WithMany(p => p.DeckCard)
                     .HasForeignKey(d => d.CardId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ExtraDeckCard_Card");
+                    .HasConstraintName("FK_DeckCard_Card");
 
-                entity.HasOne(d => d.ExtraDeck)
-                    .WithMany(p => p.ExtraDeckCard)
-                    .HasForeignKey(d => d.ExtraDeckId)
+                entity.HasOne(d => d.Deck)
+                    .WithMany(p => p.DeckCard)
+                    .HasForeignKey(d => d.DeckId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ExtraDeckCard_ExtraDeck");
+                    .HasConstraintName("FK_DeckCard_Deck");
+
+                entity.HasOne(d => d.DeckType)
+                    .WithMany(p => p.DeckCard)
+                    .HasForeignKey(d => d.DeckTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DeckCard_DeckType1");
+            });
+
+            modelBuilder.Entity<DeckType>(entity =>
+            {
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255);
             });
 
             modelBuilder.Entity<Format>(entity =>
@@ -354,66 +350,6 @@ namespace dueltank.infrastructure.Database
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(255);
-            });
-
-            modelBuilder.Entity<MainDeck>(entity =>
-            {
-                entity.HasKey(e => e.DeckId);
-
-                entity.Property(e => e.DeckId).ValueGeneratedNever();
-
-                entity.HasOne(d => d.Deck)
-                    .WithOne(p => p.MainDeck)
-                    .HasForeignKey<MainDeck>(d => d.DeckId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_MainDeck_Deck");
-            });
-
-            modelBuilder.Entity<MainDeckCard>(entity =>
-            {
-                entity.HasKey(e => new { e.MainDeckId, e.CardId });
-
-                entity.HasOne(d => d.Card)
-                    .WithMany(p => p.MainDeckCard)
-                    .HasForeignKey(d => d.CardId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_MainDeckCard_Card");
-
-                entity.HasOne(d => d.MainDeck)
-                    .WithMany(p => p.MainDeckCard)
-                    .HasForeignKey(d => d.MainDeckId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_MainDeckCard_MainDeck");
-            });
-
-            modelBuilder.Entity<SideDeck>(entity =>
-            {
-                entity.HasKey(e => e.DeckId);
-
-                entity.Property(e => e.DeckId).ValueGeneratedNever();
-
-                entity.HasOne(d => d.Deck)
-                    .WithOne(p => p.SideDeck)
-                    .HasForeignKey<SideDeck>(d => d.DeckId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_SideDeck_Deck");
-            });
-
-            modelBuilder.Entity<SideDeckCards>(entity =>
-            {
-                entity.HasKey(e => new { e.SideDeckId, e.CardId });
-
-                entity.HasOne(d => d.Card)
-                    .WithMany(p => p.SideDeckCards)
-                    .HasForeignKey(d => d.CardId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_SideDeckCards_Card");
-
-                entity.HasOne(d => d.SideDeck)
-                    .WithMany(p => p.SideDeckCards)
-                    .HasForeignKey(d => d.SideDeckId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_SideDeckCards_SideDeck");
             });
 
             modelBuilder.Entity<SubCategory>(entity =>
@@ -444,5 +380,6 @@ namespace dueltank.infrastructure.Database
                     .HasMaxLength(255);
             });
         }
+
     }
 }
