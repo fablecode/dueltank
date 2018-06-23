@@ -5,16 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="TestData\YgoProDecks\Fairy Counter Deck.ydk" />
-    <None Remove="TestData\YgoProDecks\Madolche Deck.ydk" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="TestData\YgoProDecks\Fairy Counter Deck.ydk" />
-    <EmbeddedResource Include="TestData\YgoProDecks\Madolche Deck.ydk" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="fluentassertions" Version="5.4.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
     <PackageReference Include="nunit" Version="3.10.1" />

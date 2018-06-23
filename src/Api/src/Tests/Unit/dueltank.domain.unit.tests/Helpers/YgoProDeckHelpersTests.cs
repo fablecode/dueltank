@@ -4,7 +4,7 @@ using dueltank.core.Helpers;
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace dueltank.core.unit.tests.Helpers
+namespace dueltank.domain.unit.tests.Helpers
 {
     [TestFixture]
     public class YgoProDeckHelpersTests
@@ -128,7 +128,7 @@ namespace dueltank.core.unit.tests.Helpers
         private static string GetResourceContents(string resourceName)
         {
             var asm = Assembly.GetExecutingAssembly();
-            var resource = string.Format("dueltank.core.unit.tests.TestData.YgoProDecks.{0}", resourceName);
+            var resource = string.Format("dueltank.domain.unit.tests.TestData.YgoProDecks.{0}", resourceName);
             using (var stream = asm.GetManifestResourceStream(resource))
             {
                 if (stream != null)

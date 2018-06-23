@@ -5,13 +5,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="TestData\YgoProDecks\Fairy Counter Deck.ydk" />
+    <None Remove="TestData\YgoProDecks\Madolche Deck.ydk" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="TestData\YgoProDecks\Fairy Counter Deck.ydk" />
+    <EmbeddedResource Include="TestData\YgoProDecks\Madolche Deck.ydk" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="fluentassertions" Version="5.4.1" />
     <PackageReference Include="fluentvalidation" Version="7.6.103" />
     <PackageReference Include="nunit" Version="3.10.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Helpers\" />
+    <ProjectReference Include="..\..\..\dueltank.Domain\dueltank.Domain.csproj" />
   </ItemGroup>
 
 </Project>

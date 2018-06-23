@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
+using dueltank.application.Commands.UploadYgoProDeck;
 using dueltank.application.Configuration;
 using dueltank.Domain.Service;
+using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,9 +12,10 @@ namespace dueltank.application
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            services.AddCqrs();
-
             services.AddTransient<IEmailConfiguration, EmailConfiguration>();
+
+            services.AddCqrs();
+            services.AddValidation();
 
             return services;
         }
@@ -23,5 +26,13 @@ namespace dueltank.application
 
             return services;
         }
+
+        public static IServiceCollection AddValidation(this IServiceCollection services)
+        {
+            services.AddTransient<IValidator<UploadYgoProDeckCommand>, UploadYgoProDeckCommandValidator>();
+
+            return services;
+        }
+
     }
 }

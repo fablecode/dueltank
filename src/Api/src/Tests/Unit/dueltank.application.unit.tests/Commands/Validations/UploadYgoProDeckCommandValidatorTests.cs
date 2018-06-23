@@ -1,6 +1,5 @@
 ﻿using System;
 using dueltank.application.Commands.UploadYgoProDeck;
-using FluentValidation;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
 
@@ -35,28 +34,22 @@ namespace dueltank.application.unit.tests.Validations.Commands
             // Assert
             act.Invoke();
         }
-    }
 
-    public class UploadYgoProDeckCommandValidator : AbstractValidator<UploadYgoProDeckCommand>
-    {
-        public UploadYgoProDeckCommandValidator()
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase(" ")]
+        public void Given_An_Invalid_Deck_Validation_Should_Fail(string deck)
         {
-            RuleFor(c => c.Name)
-                .Cascade(CascadeMode.StopOnFirstFailure)
-                .DeckNameValidator();
-        }
-    }
+            var command = new UploadYgoProDeckCommand
+            {
+                Deck = deck
+            };
 
+            // Act
+            Action act = () => _sut.ShouldHaveValidationErrorFor(c => c.Deck, command);
 
-    public static class DeckValidationHelpers
-    {
-        public static IRuleBuilderOptions<T, string> DeckNameValidator<T>(this IRuleBuilder<T, string> rule)
-        {
-            return rule
-                .NotNull()
-                .NotEmpty()
-                .Length(3, 50)
-                    .WithMessage("{PropertyName} must be between 3-50 characters.");
+            // Assert
+            act.Invoke();
         }
     }
 }
