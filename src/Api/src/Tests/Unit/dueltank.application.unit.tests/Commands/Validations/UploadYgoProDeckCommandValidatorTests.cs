@@ -19,25 +19,6 @@ namespace dueltank.application.unit.tests.Validations.Commands
         [TestCase(null)]
         [TestCase("")]
         [TestCase(" ")]
-        [TestCase("deck name deck name deck namedeck name deck name deck name deck name deck name deck name")]
-        public void Given_An_Invalid_Name_Validation_Should_Fail(string name)
-        {
-            // Arrange
-            var command = new UploadYgoProDeckCommand
-            {
-                Name = name
-            };
-
-            // Act
-            Action act = () => _sut.ShouldHaveValidationErrorFor(c => c.Name, command);
-            
-            // Assert
-            act.Invoke();
-        }
-
-        [TestCase(null)]
-        [TestCase("")]
-        [TestCase(" ")]
         public void Given_An_Invalid_Deck_Validation_Should_Fail(string deck)
         {
             var command = new UploadYgoProDeckCommand

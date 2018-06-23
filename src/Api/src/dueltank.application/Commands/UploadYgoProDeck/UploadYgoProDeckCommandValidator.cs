@@ -1,5 +1,4 @@
-﻿using dueltank.application.Validations.Helpers;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace dueltank.application.Commands.UploadYgoProDeck
 {
@@ -7,10 +6,6 @@ namespace dueltank.application.Commands.UploadYgoProDeck
     {
         public UploadYgoProDeckCommandValidator()
         {
-            RuleFor(c => c.Name)
-                .Cascade(CascadeMode.StopOnFirstFailure)
-                .DeckNameValidator();
-
             RuleFor(c => c.Deck)
                 .NotNull()
                 .NotEmpty();
