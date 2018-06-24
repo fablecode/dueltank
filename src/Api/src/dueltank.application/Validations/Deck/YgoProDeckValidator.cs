@@ -13,6 +13,10 @@ namespace dueltank.application.Validations.Deck
             RuleFor(d => d.Name)
                 .DeckNameValidator();
 
+            Include(new YgoProMainDeckValidator());
+            Include(new YgoProExtraDeckValidator());
+            Include(new YgoProSideDeckValidator());
+
             RuleFor(d => d.Description)
                 .MaximumLength(4000);
 
