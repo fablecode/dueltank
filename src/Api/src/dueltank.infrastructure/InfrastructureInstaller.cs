@@ -1,6 +1,8 @@
-﻿using dueltank.Domain.Service;
+﻿using dueltank.core.Services;
+using dueltank.Domain.Repository;
+using dueltank.Domain.Service;
 using dueltank.infrastructure.Database;
-using dueltank.infrastructure.Service;
+using dueltank.infrastructure.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,8 +12,31 @@ namespace dueltank.infrastructure
     {
         public static IServiceCollection AddInfrastuctureServices(this IServiceCollection services, string connectionString)
         {
-            services.AddTransient<IEmailService, EmailService>();
+            services.AddInfrastructureServices();
+            services.AddDueltankDatabase(connectionString);
+            services.AddRepositories();
+
+            return services;
+        }
+
+        public static IServiceCollection AddDueltankDatabase(this IServiceCollection services, string connectionString)
+        {
             services.AddDbContextPool<DueltankDbContext>(options => options.UseSqlServer(connectionString));
+
+            return services;
+        }
+
+        public static IServiceCollection AddRepositories(this IServiceCollection services)
+        {
+            services.AddTransient<IDeckRepository, DeckRepository>();
+            services.AddTransient<ICardRepository, CardRepository>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
+        {
+            services.AddTransient<IEmailService, EmailService>();
 
             return services;
         }

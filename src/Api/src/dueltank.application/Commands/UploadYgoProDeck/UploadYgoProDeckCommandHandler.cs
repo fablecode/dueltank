@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using dueltank.core.Helpers;
 using dueltank.core.Models.YgoPro;
+using dueltank.core.Services;
 using FluentValidation;
 using MediatR;
 
@@ -12,14 +13,21 @@ namespace dueltank.application.Commands.UploadYgoProDeck
     {
         private readonly IValidator<UploadYgoProDeckCommand> _commandValidator;
         private readonly IValidator<YgoProDeck> _ygoProDeckValidator;
+        private readonly IDeckService _deckService;
 
-        public UploadYgoProDeckCommandHandler(IValidator<UploadYgoProDeckCommand> commandValidator, IValidator<YgoProDeck> ygoProDeckValidator)
+        public UploadYgoProDeckCommandHandler
+        (
+            IValidator<UploadYgoProDeckCommand> commandValidator, 
+            IValidator<YgoProDeck> ygoProDeckValidator,
+            IDeckService deckService
+        )
         {
             _commandValidator = commandValidator;
             _ygoProDeckValidator = ygoProDeckValidator;
+            _deckService = deckService;
         }
 
-        public Task<CommandResult> Handle(UploadYgoProDeckCommand request, CancellationToken cancellationToken)
+        public async Task<CommandResult> Handle(UploadYgoProDeckCommand request, CancellationToken cancellationToken)
         {
             var commandResult = new CommandResult();
 
@@ -35,6 +43,11 @@ namespace dueltank.application.Commands.UploadYgoProDeck
                 {
                     ygoProDeck.UserId = request.UserId;
                     ygoProDeck.Name = request.Name;
+
+                    var result = await _deckService.Add(ygoProDeck);
+
+                    commandResult.IsSuccessful = true;
+                    commandResult.Data = result.Id;
                 }
                 else
                 {
@@ -46,7 +59,7 @@ namespace dueltank.application.Commands.UploadYgoProDeck
                 commandResult.Errors = commandValidationResult.Errors.Select(err => err.ErrorMessage).ToList();
             }
 
-            return Task.FromResult(commandResult);
+            return commandResult;
         }
     }
 }

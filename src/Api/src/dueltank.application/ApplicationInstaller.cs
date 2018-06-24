@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using dueltank.application.Commands.UploadYgoProDeck;
 using dueltank.application.Configuration;
+using dueltank.core.Services;
 using dueltank.Domain.Service;
 using FluentValidation;
 using MediatR;
@@ -16,6 +17,7 @@ namespace dueltank.application
 
             services.AddCqrs();
             services.AddValidation();
+            services.AddDomainServices();
 
             return services;
         }
@@ -34,5 +36,12 @@ namespace dueltank.application
             return services;
         }
 
+        public static IServiceCollection AddDomainServices(this IServiceCollection services)
+        {
+            services.AddTransient<IDeckService, DeckService>();
+            services.AddTransient<ICardService, CardService>();
+
+            return services;
+        }
     }
 }

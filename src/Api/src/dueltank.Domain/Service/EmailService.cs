@@ -1,11 +1,11 @@
-﻿using dueltank.Domain.Model;
-using dueltank.Domain.Service;
+﻿using System.Linq;
+using dueltank.core.Services;
+using dueltank.Domain.Model;
 using MailKit.Net.Smtp;
 using MimeKit;
 using MimeKit.Text;
-using System.Linq;
 
-namespace dueltank.infrastructure.Service
+namespace dueltank.Domain.Service
 {
     public class EmailService : IEmailService
     {

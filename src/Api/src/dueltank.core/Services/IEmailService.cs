@@ -1,6 +1,6 @@
 ﻿using dueltank.Domain.Model;
 
-namespace dueltank.Domain.Service
+namespace dueltank.core.Services
 {
     public interface IEmailService
     {
