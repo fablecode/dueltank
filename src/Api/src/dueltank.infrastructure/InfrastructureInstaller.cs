@@ -30,6 +30,7 @@ namespace dueltank.infrastructure
         {
             services.AddTransient<IDeckRepository, DeckRepository>();
             services.AddTransient<ICardRepository, CardRepository>();
+            services.AddTransient<IDeckTypeRepository, DeckTypeRepository>();
 
             return services;
         }

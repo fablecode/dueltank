@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
 using dueltank.application.Commands.UploadYgoProDeck;
 using dueltank.application.Configuration;
+using dueltank.application.Validations.Deck;
+using dueltank.core.Models.YgoPro;
 using dueltank.core.Services;
 using dueltank.Domain.Service;
 using FluentValidation;
@@ -32,6 +34,7 @@ namespace dueltank.application
         public static IServiceCollection AddValidation(this IServiceCollection services)
         {
             services.AddTransient<IValidator<UploadYgoProDeckCommand>, UploadYgoProDeckCommandValidator>();
+            services.AddTransient<IValidator<YgoProDeck>, YgoProDeckValidator>();
 
             return services;
         }
@@ -40,6 +43,7 @@ namespace dueltank.application
         {
             services.AddTransient<IDeckService, DeckService>();
             services.AddTransient<ICardService, CardService>();
+            services.AddTransient<IDeckTypeService, DeckTypeService>();
 
             return services;
         }

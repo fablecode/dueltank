@@ -33,10 +33,6 @@ namespace dueltank.infrastructure.Database
 {
     public class DueltankDbContext : DbContext
     {
-        public DueltankDbContext()
-        {
-        }
-
         public DueltankDbContext(DbContextOptions<DueltankDbContext> options)
             : base(options)
         {
@@ -73,11 +69,6 @@ namespace dueltank.infrastructure.Database
         public virtual DbSet<Tip> Tip { get; set; }
         public virtual DbSet<TipSection> TipSection { get; set; }
         public virtual DbSet<Type> Type { get; set; }
-
-        public DueltankDbContext(DbContextOptions options)
-            : base(options)
-        {
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

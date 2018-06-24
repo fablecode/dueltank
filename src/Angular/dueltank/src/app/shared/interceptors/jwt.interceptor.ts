@@ -25,7 +25,6 @@ export class JwtInterceptor implements HttpInterceptor {
         return next.handle(req);
       })
       .catch(response => {
-        debugger;
         if (response instanceof HttpErrorResponse) {
           if(response.status === 401) {
             this.auth.logOut();

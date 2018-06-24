@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using dueltank.core.Models.Db;
@@ -12,23 +13,27 @@ namespace dueltank.Domain.Service
     {
         private readonly IDeckRepository _deckRepository;
         private readonly ICardRepository _cardRepository;
+        private readonly IDeckTypeRepository _deckTypeRepository;
 
-        public DeckService(IDeckRepository deckRepository, ICardRepository cardRepository)
+        public DeckService(IDeckRepository deckRepository, ICardRepository cardRepository, IDeckTypeRepository deckTypeRepository)
         {
             _deckRepository = deckRepository;
             _cardRepository = cardRepository;
+            _deckTypeRepository = deckTypeRepository;
         }
 
         public async Task<Deck> Add(YgoProDeck ygoProDeck)
         {
             var newDeck = new Deck
             {
-                UserId = ygoProDeck.UserId.ToString(),
+                UserId = ygoProDeck.UserId,
                 Name = ygoProDeck.Name,
                 Description = ygoProDeck.Description,
                 Created = DateTime.UtcNow,
                 Updated = DateTime.UtcNow
             };
+
+            var deckTypes = (await _deckTypeRepository.AllDeckTypes()).ToDictionary(dt => dt.Name, dt => dt);
 
             var mainDeckUniqueCards = ygoProDeck.Main.Select(c => c).Distinct().ToList();
             var extraDeckUniqueCards = ygoProDeck.Extra.Select(c => c).Distinct().ToList();
@@ -38,25 +43,38 @@ namespace dueltank.Domain.Service
             var extraDeckCardCopies = ygoProDeck.Extra.GroupBy(c => c).ToDictionary(g => g.Key, g => g.Count());
             var sideDeckCardCopies = ygoProDeck.Side.GroupBy(c => c).ToDictionary(g => g.Key, g => g.Count());
 
-            foreach (var cardNumber in mainDeckUniqueCards)
+            newDeck = await AddCardsToDeck(mainDeckUniqueCards, newDeck, deckTypes["Main"], mainDeckCardCopies);
+            newDeck = await AddCardsToDeck(extraDeckUniqueCards, newDeck, deckTypes["Extra"], extraDeckCardCopies);
+            newDeck = await AddCardsToDeck(sideDeckUniqueCards, newDeck, deckTypes["Side"], sideDeckCardCopies);
+
+            await _deckRepository.Add(newDeck);
+
+            return newDeck;
+        }
+
+        private async Task<Deck> AddCardsToDeck(List<string> uniqueCards, Deck newDeck, DeckType deckType, IReadOnlyDictionary<string, int> cardCopies)
+        {
+            foreach (var cardNumber in uniqueCards)
             {
-                var cardResult = await _cardRepository.GetCardByNumber(cardNumber);
+                var cardResult = await _cardRepository.GetCardByNumber(AddLeadingZerosToCardNumber(cardNumber));
 
                 if (cardResult == null)
                     continue;
 
                 newDeck.DeckCard.Add(new DeckCard
                 {
-                    CardId = cardResult.Id,
+                    DeckType = deckType,
                     Deck = newDeck,
-
+                    CardId = cardResult.Id,
+                    Quantity = cardCopies[cardNumber],
+                    SortOrder = uniqueCards.FindIndex(c => c == cardResult.CardNumber) + 1
                 });
             }
 
             return newDeck;
         }
 
-        private string AddLeadingZerosToCardNumber(string cardNumber)
+        private static string AddLeadingZerosToCardNumber(string cardNumber)
         {
             return long.Parse(cardNumber).ToString("D8");
         }

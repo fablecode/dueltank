@@ -36,13 +36,13 @@ namespace dueltank.application.Commands.UploadYgoProDeck
             if (commandValidationResult.IsValid)
             {
                 var ygoProDeck = YgoProDeckHelpers.MapToYgoProDeck(request.Deck);
+                ygoProDeck.UserId = request.UserId;
+                ygoProDeck.Name = request.Name;
 
                 var ygoProDeckValidationResult = _ygoProDeckValidator.Validate(ygoProDeck);
 
                 if (ygoProDeckValidationResult.IsValid)
                 {
-                    ygoProDeck.UserId = request.UserId;
-                    ygoProDeck.Name = request.Name;
 
                     var result = await _deckService.Add(ygoProDeck);
 
