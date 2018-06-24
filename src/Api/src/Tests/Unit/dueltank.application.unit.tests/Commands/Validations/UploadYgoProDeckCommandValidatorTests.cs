@@ -3,7 +3,7 @@ using dueltank.application.Commands.UploadYgoProDeck;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
 
-namespace dueltank.application.unit.tests.Validations.Commands
+namespace dueltank.application.unit.tests.Commands.Validations
 {
     [TestFixture]
     public class UploadYgoProDeckCommandValidatorTests

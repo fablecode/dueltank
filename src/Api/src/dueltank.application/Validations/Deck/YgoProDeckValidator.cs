@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using dueltank.application.Validations.Helpers;
+using dueltank.core.Constants;
 using dueltank.core.Models.YgoPro;
 using FluentValidation;
 
@@ -21,7 +22,7 @@ namespace dueltank.application.Validations.Deck
                 .WithMessage("You can only have up to 3 copies of the same card in your Main, Extra and Side Deck combined.");
         }
 
-        private bool OnlyThreeCopiesOfTheSameCard(YgoProDeck deck)
+        private static bool OnlyThreeCopiesOfTheSameCard(YgoProDeck deck)
         {
             var allCards =
                 deck
@@ -30,7 +31,7 @@ namespace dueltank.application.Validations.Deck
                     .Concat(deck.Side)
                     .ToList();
 
-            var threeOrMoreCopies = allCards.GroupBy(c => c).Count(x => x.Count() > 3);
+            var threeOrMoreCopies = allCards.GroupBy(c => c).Count(x => x.Count() > CardConstants.MaxCardCopies);
 
             return threeOrMoreCopies == 0;
         }

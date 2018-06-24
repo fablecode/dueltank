@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoFixture" Version="4.4.0" />
     <PackageReference Include="fluentassertions" Version="5.4.1" />
     <PackageReference Include="fluentvalidation" Version="7.6.103" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />

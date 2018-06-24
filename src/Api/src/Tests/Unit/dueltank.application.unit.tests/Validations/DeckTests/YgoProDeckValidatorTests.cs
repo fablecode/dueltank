@@ -6,7 +6,7 @@ using FluentAssertions;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
 
-namespace dueltank.application.unit.tests.Validations.YgoProDeckTests
+namespace dueltank.application.unit.tests.Validations.DeckTests
 {
     [TestFixture]
     public class YgoProDeckValidatorTests
