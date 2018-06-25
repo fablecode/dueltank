@@ -38,20 +38,6 @@ namespace dueltank.api
         {
             services.AddSwaggerDocumentation();
             services.AddIdentityConfiguration(Configuration);
-            services.AddMvc(setupAction =>
-            {
-                // 406 Not Acceptable response, if accept header not supported.
-                setupAction.ReturnHttpNotAcceptable = true;
-
-                // Xml Formatters support
-                setupAction.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
-
-                // Single authorization policy used globally
-                var policy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-                setupAction.Filters.Add(new AuthorizeFilter(policy));
-            });
 
             services.AddCors(options => {
                 options.AddPolicy("CorsPolicy",
@@ -67,6 +53,21 @@ namespace dueltank.api
 
             services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
             services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
+
+            services.AddMvc(setupAction =>
+            {
+                // 406 Not Acceptable response, if accept header not supported.
+                setupAction.ReturnHttpNotAcceptable = true;
+
+                // Xml Formatters support
+                setupAction.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
+
+                // Single authorization policy used globally
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+                setupAction.Filters.Add(new AuthorizeFilter(policy));
+            });
 
         }
 

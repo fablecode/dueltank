@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using dueltank.api.Models;
+﻿using dueltank.api.Models;
 using dueltank.application.Commands.UploadYgoProDeck;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
 
 namespace dueltank.api.Controllers
@@ -39,39 +35,31 @@ namespace dueltank.api.Controllers
         [RequestSizeLimit(100_000_00)] // 10MB request size
         public async Task<IActionResult> UploadDeck([FromForm]IFormFile file)
         {
-            try
+            if (file != null && file.Length >= 0)
             {
-                if (file != null && file.Length >= 0)
+                var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+                if (user != null)
                 {
-                    var user = await _userManager.FindByEmailAsync(User.Identity.Name);
-                    if (user != null)
+                    var command = new UploadYgoProDeckCommand
                     {
-                        var command = new UploadYgoProDeckCommand
-                        {
-                            Name = Path.GetFileNameWithoutExtension(file.FileName),
-                            UserId = user.Id
-                        };
+                        Name = Path.GetFileNameWithoutExtension(file.FileName),
+                        UserId = user.Id
+                    };
 
-                        using (var reader = new StreamReader(file.OpenReadStream()))
-                            command.Deck = await reader.ReadToEndAsync();
+                    using (var reader = new StreamReader(file.OpenReadStream()))
+                        command.Deck = await reader.ReadToEndAsync();
 
-                        var result = await _mediator.Send(command);
+                    var result = await _mediator.Send(command);
 
-                        if (result.IsSuccessful)
-                            return CreatedAtRoute("GetDeckById", new { id = result.Data });
-                    }
-
-
-                    return BadRequest();
+                    if (result.IsSuccessful)
+                        return CreatedAtRoute("GetDeckById", new { id = result.Data }, result.Data);
                 }
 
-                return BadRequest("YgoPro deck file not selected");
-            }
-            catch (Exception ex)
-            {
 
-                throw;
+                return BadRequest();
             }
+
+            return BadRequest("YgoPro deck file not selected");
         }
     }
 }
