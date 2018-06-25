@@ -53,6 +53,8 @@ namespace dueltank.api.Controllers
 
                     if (result.IsSuccessful)
                         return CreatedAtRoute("GetDeckById", new { id = result.Data }, result.Data);
+
+                    return BadRequest(result.Errors);
                 }
 
 

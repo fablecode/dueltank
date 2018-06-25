@@ -9,6 +9,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {FileUploaderService} from "../../shared/services/file-upload.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {FileSizePipe} from "../../shared/pipes/filesize.pipe";
+import {TooltipModule} from "ngx-bootstrap";
 
 const uploadRoutes = [
   {
@@ -30,6 +31,7 @@ const uploadRoutes = [
     FormsModule, ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    TooltipModule.forRoot(),
     RouterModule.forChild(uploadRoutes)
   ],
   providers: [
