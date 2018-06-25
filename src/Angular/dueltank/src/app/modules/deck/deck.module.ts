@@ -3,13 +3,14 @@ import {AuthGuard} from "../../shared/guards/auth.guard";
 import {NgModule} from "@angular/core";
 import {ModalModule} from "ngx-bootstrap";
 import {DeckListPage} from "./pages/deck-list/deck-list.page";
+import {DeckViewPage} from "./pages/deck-view/deck-view.page";
 
 const deckRoutes: Routes = [
   {
     path: "decks",
-    component: DeckListPage,
-    canActivateChild: [AuthGuard],
     children: [
+      { path: '', component: DeckListPage },
+      { path: ":id/:name", component: DeckViewPage}
     ]
   }
 ];
@@ -17,6 +18,7 @@ const deckRoutes: Routes = [
 @NgModule({
   declarations: [
     DeckListPage,
+    DeckViewPage
   ],
   imports: [
     ModalModule.forRoot(),

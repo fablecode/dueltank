@@ -2,6 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from "@angular/core";
 import {FileQueueObject, FileUploaderService} from "../../../../shared/services/file-upload.service";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Observable} from "rxjs/Observable";
+import {SearchEngineOptimizationService} from "../../../../shared/services/searchengineoptimization.service";
 
 
 @Component({
@@ -14,7 +15,12 @@ export class YgoProDeckPage implements OnInit {
   public queue: Observable<FileQueueObject[]>;
   @Output() onCompleteItem = new EventEmitter();
 
-  constructor(public uploader: FileUploaderService, private fb: FormBuilder) { }
+  constructor(public uploader: FileUploaderService, private fb: FormBuilder, private seo: SearchEngineOptimizationService) {
+    this.seo.title("DuelTank - Upload YgoPro decks");
+    this.seo.description("Upload your favourite YgoPro decks");
+    this.seo.keywords("DuelTank, deck, upload")
+    this.seo.robots("index,follow");
+  }
 
   public onDeckSelected(files: FileList) {
     this.uploader.addToQueue(files);
