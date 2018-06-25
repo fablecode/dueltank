@@ -1,7 +1,7 @@
 | Project        | Status       |
 | ------------- |:-------------:|
 | [Angular 6](https://github.com/fablecode/dueltank/tree/master/src/Angular/dueltank)      | ![alt text](https://fablecode.visualstudio.com/_apis/public/build/definitions/9e9640ec-37b8-4d8b-8cb2-19c074a1fa41/6/badge?maxAge=0 "Visual studio team services build status") |
-| [.NET Core 2 Api](https://github.com/fablecode/dueltank/tree/master/src/Api/src)      | ![alt text](https://fablecode.visualstudio.com/_apis/public/build/definitions/9e9640ec-37b8-4d8b-8cb2-19c074a1fa41/8/badge?maxAge=0 "Visual studio team services build status")      |
+| [.NET Core 2.1 Api](https://github.com/fablecode/dueltank/tree/master/src/Api/src)      | ![alt text](https://fablecode.visualstudio.com/_apis/public/build/definitions/9e9640ec-37b8-4d8b-8cb2-19c074a1fa41/8/badge?maxAge=0 "Visual studio team services build status")      |
 | [Database](https://github.com/fablecode/dueltank/tree/master/src/Database) | ![alt text](https://fablecode.visualstudio.com/_apis/public/build/definitions/9e9640ec-37b8-4d8b-8cb2-19c074a1fa41/7/badge?maxAge=0 "Visual studio team services build status")      |
 
 
