@@ -3,9 +3,9 @@ import {Card} from "../../../../shared/models/card";
 
 @Component({
   selector: "deckCurrentCard",
-  templateUrl: "./deck-current-card.html"
+  templateUrl: "./deck-current-card.component.html"
 })
-export class DeckCurrentCard implements OnInit {
+export class DeckCurrentCardComponent implements OnInit {
   @Input() card: Card;
   @Output() cardRightClick = new EventEmitter<Card>();
 
@@ -16,7 +16,7 @@ export class DeckCurrentCard implements OnInit {
   ngOnInit(): void {
     if(!this.card) {
       this.card = new Card();
-      this.card.imageUrl = "/api/images/cards/0";
+      this.card.imageUrl = "http://www.ygo-api.com/api/images/cards/no-card-image";
       this.card.name =
       this.card.description = "Hover over a card.";
     }
