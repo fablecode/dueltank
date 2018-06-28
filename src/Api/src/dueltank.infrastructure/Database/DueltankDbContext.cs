@@ -21,6 +21,9 @@ using CardTip = dueltank.core.Models.Db.CardTip;
 using CardTrivia = dueltank.core.Models.Db.CardTrivia;
 using CardType = dueltank.core.Models.Db.CardType;
 using Category = dueltank.core.Models.Db.Category;
+using Deck = dueltank.core.Models.Db.Deck;
+using DeckCard = dueltank.core.Models.Db.DeckCard;
+using DeckType = dueltank.core.Models.Db.DeckType;
 using Format = dueltank.core.Models.Db.Format;
 using Limit = dueltank.core.Models.Db.Limit;
 using LinkArrow = dueltank.core.Models.Db.LinkArrow;
@@ -65,10 +68,15 @@ namespace dueltank.infrastructure.Database
         public virtual DbSet<Format> Format { get; set; }
         public virtual DbSet<Limit> Limit { get; set; }
         public virtual DbSet<LinkArrow> LinkArrow { get; set; }
+        public virtual DbSet<Ruling> Ruling { get; set; }
+        public virtual DbSet<RulingSection> RulingSection { get; set; }
         public virtual DbSet<SubCategory> SubCategory { get; set; }
         public virtual DbSet<Tip> Tip { get; set; }
         public virtual DbSet<TipSection> TipSection { get; set; }
+        public virtual DbSet<Trivia> Trivia { get; set; }
+        public virtual DbSet<TriviaSection> TriviaSection { get; set; }
         public virtual DbSet<Type> Type { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -89,6 +97,18 @@ namespace dueltank.infrastructure.Database
             modelBuilder.Entity<ArchetypeCard>(entity =>
             {
                 entity.HasKey(e => new { e.ArchetypeId, e.CardId });
+
+                entity.HasOne(d => d.Archetype)
+                    .WithMany(p => p.ArchetypeCard)
+                    .HasForeignKey(d => d.ArchetypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ArchetypeCard_Archetype");
+
+                entity.HasOne(d => d.Card)
+                    .WithMany(p => p.ArchetypeCard)
+                    .HasForeignKey(d => d.CardId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ArchetypeCard_Card");
             });
 
             modelBuilder.Entity<AspNetRoleClaims>(entity =>
@@ -205,11 +225,35 @@ namespace dueltank.infrastructure.Database
                     .HasMaxLength(255);
 
                 entity.Property(e => e.ReleaseDate).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Format)
+                    .WithMany(p => p.Banlist)
+                    .HasForeignKey(d => d.FormatId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Banlist_Format");
             });
 
             modelBuilder.Entity<BanlistCard>(entity =>
             {
                 entity.HasKey(e => new { e.BanlistId, e.CardId });
+
+                entity.HasOne(d => d.Banlist)
+                    .WithMany(p => p.BanlistCard)
+                    .HasForeignKey(d => d.BanlistId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BanlistCard_ToBanlist");
+
+                entity.HasOne(d => d.Card)
+                    .WithMany(p => p.BanlistCard)
+                    .HasForeignKey(d => d.CardId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BanlistCard_ToCard");
+
+                entity.HasOne(d => d.Limit)
+                    .WithMany(p => p.BanlistCard)
+                    .HasForeignKey(d => d.LimitId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BanlistCard_ToLimit");
             });
 
             modelBuilder.Entity<Card>(entity =>
@@ -228,21 +272,63 @@ namespace dueltank.infrastructure.Database
             modelBuilder.Entity<CardAttribute>(entity =>
             {
                 entity.HasKey(e => new { e.AttributeId, e.CardId });
+
+                entity.HasOne(d => d.Attribute)
+                    .WithMany(p => p.CardAttribute)
+                    .HasForeignKey(d => d.AttributeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CardAttributes_Attributes");
+
+                entity.HasOne(d => d.Card)
+                    .WithMany(p => p.CardAttribute)
+                    .HasForeignKey(d => d.CardId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CardAttributes_CardId");
             });
 
             modelBuilder.Entity<CardLinkArrow>(entity =>
             {
                 entity.HasKey(e => new { e.LinkArrowId, e.CardId });
+
+                entity.HasOne(d => d.Card)
+                    .WithMany(p => p.CardLinkArrow)
+                    .HasForeignKey(d => d.CardId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CardLinkArrow_Card");
+
+                entity.HasOne(d => d.LinkArrow)
+                    .WithMany(p => p.CardLinkArrow)
+                    .HasForeignKey(d => d.LinkArrowId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CardLinkArrow_LinkArrow");
             });
 
             modelBuilder.Entity<CardRuling>(entity =>
             {
                 entity.Property(e => e.Ruling).IsRequired();
+
+                entity.HasOne(d => d.Card)
+                    .WithMany(p => p.CardRuling)
+                    .HasForeignKey(d => d.CardId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CardRuling_ToCard");
             });
 
             modelBuilder.Entity<CardSubCategory>(entity =>
             {
                 entity.HasKey(e => new { e.SubCategoryId, e.CardId });
+
+                entity.HasOne(d => d.Card)
+                    .WithMany(p => p.CardSubCategory)
+                    .HasForeignKey(d => d.CardId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CardSubCategory_ToCard");
+
+                entity.HasOne(d => d.SubCategory)
+                    .WithMany(p => p.CardSubCategory)
+                    .HasForeignKey(d => d.SubCategoryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CardSubCategory_ToSubCategory");
             });
 
             modelBuilder.Entity<CardTip>(entity =>
@@ -253,11 +339,29 @@ namespace dueltank.infrastructure.Database
             modelBuilder.Entity<CardTrivia>(entity =>
             {
                 entity.Property(e => e.Trivia).IsRequired();
+
+                entity.HasOne(d => d.Card)
+                    .WithMany(p => p.CardTrivia)
+                    .HasForeignKey(d => d.CardId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CardTrivia_ToCard");
             });
 
             modelBuilder.Entity<CardType>(entity =>
             {
                 entity.HasKey(e => new { e.TypeId, e.CardId });
+
+                entity.HasOne(d => d.Card)
+                    .WithMany(p => p.CardType)
+                    .HasForeignKey(d => d.CardId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CardType_Card");
+
+                entity.HasOne(d => d.Type)
+                    .WithMany(p => p.CardType)
+                    .HasForeignKey(d => d.TypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CardType_Type");
             });
 
             modelBuilder.Entity<Category>(entity =>
@@ -343,11 +447,43 @@ namespace dueltank.infrastructure.Database
                     .HasMaxLength(255);
             });
 
+            modelBuilder.Entity<Ruling>(entity =>
+            {
+                entity.Property(e => e.Text)
+                    .IsRequired()
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.RulingSection)
+                    .WithMany(p => p.Ruling)
+                    .HasForeignKey(d => d.RulingSectionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Ruling_RulingSection");
+            });
+
+            modelBuilder.Entity<RulingSection>(entity =>
+            {
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.HasOne(d => d.Card)
+                    .WithMany(p => p.RulingSection)
+                    .HasForeignKey(d => d.CardId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RulingSection_Card");
+            });
+
             modelBuilder.Entity<SubCategory>(entity =>
             {
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(255);
+
+                entity.HasOne(d => d.Category)
+                    .WithMany(p => p.SubCategory)
+                    .HasForeignKey(d => d.CategoryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SubCategory_Archetype");
             });
 
             modelBuilder.Entity<Tip>(entity =>
@@ -355,6 +491,12 @@ namespace dueltank.infrastructure.Database
                 entity.Property(e => e.Text)
                     .IsRequired()
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.TipSection)
+                    .WithMany(p => p.Tip)
+                    .HasForeignKey(d => d.TipSectionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Tip_TipSection");
             });
 
             modelBuilder.Entity<TipSection>(entity =>
@@ -362,6 +504,38 @@ namespace dueltank.infrastructure.Database
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(255);
+
+                entity.HasOne(d => d.Card)
+                    .WithMany(p => p.TipSection)
+                    .HasForeignKey(d => d.CardId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TipSection_Card");
+            });
+
+            modelBuilder.Entity<Trivia>(entity =>
+            {
+                entity.Property(e => e.Text)
+                    .IsRequired()
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.TriviaSection)
+                    .WithMany(p => p.Trivia)
+                    .HasForeignKey(d => d.TriviaSectionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Trivia_TriviaSection");
+            });
+
+            modelBuilder.Entity<TriviaSection>(entity =>
+            {
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(255);
+
+                entity.HasOne(d => d.Card)
+                    .WithMany(p => p.TriviaSection)
+                    .HasForeignKey(d => d.CardId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TriviaSection_Card");
             });
 
             modelBuilder.Entity<Type>(entity =>

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace dueltank.core.Models.Db
 {
-    public class TipSection
+    public class RulingSection
     {
-        public TipSection()
+        public RulingSection()
         {
-            Tip = new HashSet<Tip>();
+            Ruling = new HashSet<Ruling>();
         }
 
         public long Id { get; set; }
@@ -17,6 +17,6 @@ namespace dueltank.core.Models.Db
         public DateTime Updated { get; set; }
 
         public Card Card { get; set; }
-        public ICollection<Tip> Tip { get; set; }
+        public ICollection<Ruling> Ruling { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using dueltank.application.Models.Cards.Output;
 using dueltank.core.Models.Cards;
 using dueltank.core.Models.Db;
@@ -8,14 +9,14 @@ namespace dueltank.application.Helpers
 {
     public static class SpellCardHelper
     {
-        public const string SPELL_TYPE = "Spell";
+        public const string SpellType = "Spell";
 
         public static bool IsSpellCard(CardDetail card)
         {
-            return string.Equals(card.Category, SPELL_TYPE, StringComparison.OrdinalIgnoreCase);
+            return string.Equals(card.Category, SpellType, StringComparison.OrdinalIgnoreCase);
         }
 
-        public staCard MapToSpellCard(CardDetail model)
+        public static Card MapToSpellCard(CardDetail model)
         {
             var card = new Card
             {
@@ -31,10 +32,13 @@ namespace dueltank.application.Helpers
 
             foreach (var subCategory in subCategoryList)
             {
-                card.SubCategories.Add(new SubCategory
+                card.CardSubCategory.Add(new CardSubCategory
                 {
-                    Name = subCategory,
-                    Category = new Category { Id = model.CategoryId, Name = model.Category }
+                    SubCategory = new SubCategory
+                    {
+                        Name = subCategory,
+                        Category = new Category { Id = model.CategoryId, Name = model.Category }
+                    }
                 });
             }
 
@@ -44,31 +48,14 @@ namespace dueltank.application.Helpers
 
         public static CardDetailOutputModel MapToCardOutputModel(CardDetail model)
         {
-            var subCategoryList = model.SubCategories.Split(',');
-
             var card = MapToSpellCard(model);
             var cardOutputModel = CardDetailOutputModel.From(card);
-            cardOutputModel.BaseType = SPELL_TYPE.ToLower();
+            cardOutputModel.BaseType = SpellType.ToLower();
 
-            cardOutputModel.Types.Add(card.SubCategories.First().Category.Name);
-            cardOutputModel.Types.AddRange(card.SubCategories.Select(t => t.Name));
+            cardOutputModel.Types.Add(card.CardSubCategory.First().SubCategory.Category.Name);
+            cardOutputModel.Types.AddRange(card.CardSubCategory.Select(t => t.SubCategory.Name));
 
             return cardOutputModel;
-        }
-
-        private static IEnumerable<SubCategory> MapToSubCategories(string subCategories)
-        {
-            var subCategoryList = new List<SubCategory>();
-
-            foreach (var subCategory in subCategories.Split(','))
-            {
-                subCategoryList.Add(new SubCategory
-                {
-                    Name = subCategory,
-                    Category = new Category { Id = model.CategoryId, Name = model.Category }
-                });
-
-            }
         }
     }
 }

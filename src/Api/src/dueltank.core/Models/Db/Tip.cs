@@ -9,5 +9,7 @@ namespace dueltank.core.Models.Db
         public string Text { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
+
+        public TipSection TipSection { get; set; }
     }
 }

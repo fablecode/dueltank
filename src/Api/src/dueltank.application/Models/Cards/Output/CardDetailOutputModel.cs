@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using dueltank.core.Models.Cards;
 using dueltank.core.Models.Db;
 
@@ -52,6 +53,7 @@ namespace dueltank.application.Models.Cards.Output
                 Description = model.Description,
                 CardNumber = model.CardNumber,
                 ImageUrl = $"/api/images/cards/{model.Name}",
+                Limit = model.BanlistCard.Any() ? model.BanlistCard.First().Limit.Name.ToLower() : "unlimited",
                 Atk = model.Atk,
                 Def = model.Def
             };
