@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using dueltank.core.Constants;
 using dueltank.core.Models.Db;
+using dueltank.core.Models.Decks;
 using dueltank.core.Models.YgoPro;
 using dueltank.core.Services;
 using dueltank.Domain.Repository;
@@ -43,9 +45,9 @@ namespace dueltank.Domain.Service
             var extraDeckCardCopies = ygoProDeck.Extra.GroupBy(c => c).ToDictionary(g => g.Key, g => g.Count());
             var sideDeckCardCopies = ygoProDeck.Side.GroupBy(c => c).ToDictionary(g => g.Key, g => g.Count());
 
-            newDeck = await AddCardsToDeck(mainDeckUniqueCards, newDeck, deckTypes["Main"], mainDeckCardCopies);
-            newDeck = await AddCardsToDeck(extraDeckUniqueCards, newDeck, deckTypes["Extra"], extraDeckCardCopies);
-            newDeck = await AddCardsToDeck(sideDeckUniqueCards, newDeck, deckTypes["Side"], sideDeckCardCopies);
+            newDeck = await AddCardsToDeck(mainDeckUniqueCards, newDeck, deckTypes[DeckTypeConstants.Main], mainDeckCardCopies);
+            newDeck = await AddCardsToDeck(extraDeckUniqueCards, newDeck, deckTypes[DeckTypeConstants.Extra], extraDeckCardCopies);
+            newDeck = await AddCardsToDeck(sideDeckUniqueCards, newDeck, deckTypes[DeckTypeConstants.Side], sideDeckCardCopies);
 
             await _deckRepository.Add(newDeck);
 
@@ -72,6 +74,11 @@ namespace dueltank.Domain.Service
             }
 
             return newDeck;
+        }
+
+        public Task<DeckDetail> GetDeckById(long id)
+        {
+            return _deckRepository.GetDeckById(id);
         }
 
         private static string AddLeadingZerosToCardNumber(string cardNumber)
