@@ -34,7 +34,7 @@ using Type = dueltank.core.Models.Db.Type;
 
 namespace dueltank.infrastructure.Database
 {
-    public class DueltankDbContext : DbContext
+    public partial class DueltankDbContext : DbContext
     {
         public DueltankDbContext(DbContextOptions<DueltankDbContext> options)
             : base(options)

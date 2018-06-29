@@ -1,4 +1,8 @@
-﻿using dueltank.api.ServiceExtensions;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using dueltank.api.Auth.Swagger;
+using dueltank.api.ServiceExtensions;
 using dueltank.application;
 using dueltank.application.Configuration;
 using dueltank.Domain.Service;
@@ -11,6 +15,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace dueltank.api
 {
@@ -67,6 +72,17 @@ namespace dueltank.api
                     .RequireAuthenticatedUser()
                     .Build();
                 setupAction.Filters.Add(new AuthorizeFilter(policy));
+            });
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Dueltank API", Version = "v1" });
+                c.DescribeAllEnumsAsStrings();
+                // To add an extra token input field in the Swagger UI
+                c.OperationFilter<AuthorizationHeaderParameterOperationFilter>();
+
+                var fileName = GetType().GetTypeInfo().Module.Name.Replace(".dll", ".xml").Replace(".exe", ".xml");
+                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, fileName));
             });
 
         }

@@ -1,21 +1,20 @@
-﻿using dueltank.application.Models.Cards.Output;
+﻿using System;
+using System.Linq;
+using dueltank.application.Models.Cards.Output;
+using dueltank.core.Constants;
 using dueltank.core.Models.Cards;
 using dueltank.core.Models.Db;
-using System;
-using System.Linq;
-using dueltank.core.Constants;
 
 namespace dueltank.application.Helpers
 {
-    public static class SpellCardHelper
+    public static class TrapCardHelper
     {
-
-        public static bool IsSpellCard(CardDetail card)
+        public static bool IsTrapCard(CardDetail card)
         {
-            return string.Equals(card.Category, CardConstants.SpellType, StringComparison.OrdinalIgnoreCase);
+            return string.Equals(card.Category, CardConstants.TrapType, StringComparison.OrdinalIgnoreCase);
         }
 
-        public static Card MapToSpellCard(CardDetail model)
+        public static Card MapToTrapCard(CardDetail model)
         {
             var card = new Card
             {
@@ -41,15 +40,14 @@ namespace dueltank.application.Helpers
                 });
             }
 
-
             return card;
         }
 
-        public static CardDetailOutputModel MapToCardOutputModel(CardDetail model)
+        public static CardDetailOutputModel MapToCardOutputModel(CardDetail cardSearch)
         {
-            var card = MapToSpellCard(model);
+            var card = MapToTrapCard(cardSearch);
             var cardOutputModel = CardDetailOutputModel.From(card);
-            cardOutputModel.BaseType = CardConstants.SpellType.ToLower();
+            cardOutputModel.BaseType = CardConstants.TrapType.ToLower();
 
             cardOutputModel.Types.Add(card.CardSubCategory.First().SubCategory.Category.Name);
             cardOutputModel.Types.AddRange(card.CardSubCategory.Select(t => t.SubCategory.Name));

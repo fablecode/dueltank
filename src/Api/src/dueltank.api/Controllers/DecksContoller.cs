@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using dueltank.application.Queries.DeckById;
 
 
 namespace dueltank.api.Controllers
@@ -23,13 +24,28 @@ namespace dueltank.api.Controllers
             _mediator = mediator;
             _userManager = userManager;
         }
-
+        /// <summary>
+        /// Get a deck by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
         [HttpGet("{id}", Name = "GetDeckById")]
-        public IActionResult Get(long id)
+        public async Task<IActionResult> Get(long id)
         {
-            return Ok();
+            var result = await _mediator.Send(new DeckByIdQuery {DeckId = id});
+
+            if (result != null)
+                return Ok(result);
+
+            return NotFound(id);
         }
 
+        /// <summary>
+        /// Upload an YgoPro deck
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         [RequestSizeLimit(100_000_00)] // 10MB request size

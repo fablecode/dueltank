@@ -17,8 +17,10 @@ namespace dueltank.core.Models.Cards
         public long CategoryId { get; set; }
         public string Category { get; set; }
         public string SubCategories { get; set; }
+        public long? AttributeId { get; set; }
         public string Attribute { get; set; }
-        public long TypeId { get; set; }
+        public long? TypeId { get; set; }
+        public string Type { get; set; }
         public int Quantity { get; set; }
         public int SortOrder { get; set; }
         public string DeckType { get; set; }

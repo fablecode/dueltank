@@ -25,17 +25,17 @@ namespace dueltank.core.Models.Decks
 
         public int TotalCards => MainDeck.Count;
 
-        public List<CardDetail> MainDeck { get; set; }
+        public List<CardDetail> MainDeck { get; set; } = new List<CardDetail>();
 
-        public List<CardDetail> ExtraDeck { get; set; }
+        public List<CardDetail> ExtraDeck { get; set; } = new List<CardDetail>();
 
-        public List<CardDetail> SideDeck { get; set; }
+        public List<CardDetail> SideDeck { get; set; } = new List<CardDetail>();
 
         public static DeckDetail From(Deck entity)
         {
             return new DeckDetail
             {
-                Username = entity.User.UserName,
+                Username = entity.User.FullName,
                 Id = entity.Id,
                 Name = entity.Name,
                 Description = entity.Description,
