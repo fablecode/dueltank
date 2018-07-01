@@ -46,8 +46,7 @@ namespace dueltank.application.unit.tests.Validations.DeckTests
             _fixture.RepeatCount = 39;
             _inputModel.Main =
                 _fixture
-                    .Build<long>()
-                    .CreateMany()
+                    .CreateMany<long>()
                     .ToList();
             // Act
             var results = _sut.Validate(_inputModel);
@@ -64,8 +63,7 @@ namespace dueltank.application.unit.tests.Validations.DeckTests
             _fixture.RepeatCount = 61;
             _inputModel.Main =
                 _fixture
-                    .Build<long>()
-                    .CreateMany()
+                    .CreateMany<long>()
                     .ToList();
 
             // Act
@@ -80,10 +78,10 @@ namespace dueltank.application.unit.tests.Validations.DeckTests
         {
             // Arrange
             _fixture.RepeatCount = 50;
+
             _inputModel.Main =
                 _fixture
-                    .Build<long>()
-                    .CreateMany()
+                    .CreateMany<long>()
                     .ToList();
 
             // Act
@@ -100,8 +98,7 @@ namespace dueltank.application.unit.tests.Validations.DeckTests
             _fixture.RepeatCount = 40;
             _inputModel.Main =
                 _fixture
-                    .Build<long>()
-                    .CreateMany()
+                    .CreateMany<long>()
                     .ToList();
 
             // Act

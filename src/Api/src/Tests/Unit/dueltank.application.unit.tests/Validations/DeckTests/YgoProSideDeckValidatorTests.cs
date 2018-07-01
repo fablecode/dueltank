@@ -30,8 +30,7 @@ namespace dueltank.application.unit.tests.Validations.DeckTests
             _fixture.RepeatCount = 16;
             _inputModel.Side =
                 _fixture
-                    .Build<long>()
-                    .CreateMany()
+                    .CreateMany<long>()
                     .ToList();
 
             // Act
@@ -48,8 +47,7 @@ namespace dueltank.application.unit.tests.Validations.DeckTests
             _fixture.RepeatCount = 10;
             _inputModel.Side =
                 _fixture
-                    .Build<long>()
-                    .CreateMany()
+                    .CreateMany<long>()
                     .ToList();
 
             // Act
