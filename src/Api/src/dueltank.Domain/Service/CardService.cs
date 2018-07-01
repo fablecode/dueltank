@@ -14,7 +14,7 @@ namespace dueltank.Domain.Service
             _cardRepository = cardRepository;
         }
 
-        public Task<Card> GetCardByNumber(string cardNumber)
+        public Task<Card> GetCardByNumber(long cardNumber)
         {
             return _cardRepository.GetCardByNumber(cardNumber);
         }

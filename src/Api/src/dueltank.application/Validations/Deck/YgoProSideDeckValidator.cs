@@ -15,7 +15,7 @@ namespace dueltank.application.Validations.Deck
                 .WithMessage("{PropertyName} must be 0 to 15 cards.");
         }
 
-        private static bool Between0To15Cards(List<string> deck)
+        private static bool Between0To15Cards(List<long> deck)
         {
             return deck.Count <= DeckConstants.SideDeckMaxSize;
         }

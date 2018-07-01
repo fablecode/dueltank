@@ -5,6 +5,7 @@
     [ReleaseDate] DATETIME       NOT NULL,
     [Created]     DATETIME2 (7)  NOT NULL,
     [Updated]     DATETIME2 (7)  NOT NULL,
-    CONSTRAINT [PK_Banlists] PRIMARY KEY CLUSTERED ([Id] ASC)
+    CONSTRAINT [PK_Banlists] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_Banlist_Format] FOREIGN KEY ([FormatId]) REFERENCES [dbo].[Format] ([Id]) NOT FOR REPLICATION
 );
 

@@ -62,9 +62,9 @@ namespace dueltank.application.unit.tests.Validations.DeckTests
             {
                 Name = "A Random Deck",
                 Description = "A Description always helps",
-                Main = new List<string> {"41620959", "41620959"},
-                Extra = new List<string> {"41620959"},
-                Side = new List<string> {"41620959"}
+                Main = new List<long> {41620959, 41620959},
+                Extra = new List<long> {41620959},
+                Side = new List<long> {41620959}
             };
 
             // Act

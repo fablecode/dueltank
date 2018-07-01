@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Card] (
     [Id]          BIGINT         IDENTITY (1, 1) NOT FOR REPLICATION NOT NULL,
-    [CardNumber]  NVARCHAR (50)  COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+    [CardNumber]  BIGINT         NULL,
     [Name]        NVARCHAR (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
     [Description] NVARCHAR (MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
     [CardLevel]   INT            NULL,

@@ -5,6 +5,6 @@ namespace dueltank.core.Services
 {
     public interface ICardService
     {
-        Task<Card> GetCardByNumber(string cardNumber);
+        Task<Card> GetCardByNumber(long cardNumber);
     }
 }

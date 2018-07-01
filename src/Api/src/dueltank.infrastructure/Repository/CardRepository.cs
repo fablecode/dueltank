@@ -15,7 +15,7 @@ namespace dueltank.infrastructure.Repository
             _dbContext = dbContext;
         }
 
-        public async Task<Card> GetCardByNumber(string cardNumber)
+        public async Task<Card> GetCardByNumber(long cardNumber)
         {
             return await _dbContext.Card
                             .AsNoTracking()

@@ -4,6 +4,7 @@
     [Trivia]  NVARCHAR (MAX) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
     [Created] DATETIME2 (7)  NOT NULL,
     [Updated] DATETIME2 (7)  NOT NULL,
-    CONSTRAINT [PK_CardTrivia] PRIMARY KEY CLUSTERED ([Id] ASC)
+    CONSTRAINT [PK_CardTrivia] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [FK_CardTrivia_ToCard] FOREIGN KEY ([CardId]) REFERENCES [dbo].[Card] ([Id]) NOT FOR REPLICATION
 );
 

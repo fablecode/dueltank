@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Reflection;
-using dueltank.core.Helpers;
+using dueltank.Domain.Helpers;
 using FluentAssertions;
 using NUnit.Framework;
 

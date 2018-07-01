@@ -262,8 +262,6 @@ namespace dueltank.infrastructure.Database
                     .HasName("IX_Card")
                     .IsUnique();
 
-                entity.Property(e => e.CardNumber).HasMaxLength(50);
-
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(255);

@@ -54,11 +54,11 @@ namespace dueltank.Domain.Service
             return newDeck;
         }
 
-        private async Task<Deck> AddCardsToDeck(List<string> uniqueCards, Deck newDeck, DeckType deckType, IReadOnlyDictionary<string, int> cardCopies)
+        private async Task<Deck> AddCardsToDeck(List<long> uniqueCards, Deck newDeck, DeckType deckType, IReadOnlyDictionary<long, int> cardCopies)
         {
             foreach (var cardNumber in uniqueCards)
             {
-                var cardResult = await _cardRepository.GetCardByNumber(AddLeadingZerosToCardNumber(cardNumber));
+                var cardResult = await _cardRepository.GetCardByNumber(cardNumber);
 
                 if (cardResult == null)
                     continue;
@@ -79,11 +79,6 @@ namespace dueltank.Domain.Service
         public Task<DeckDetail> GetDeckById(long id)
         {
             return _deckRepository.GetDeckById(id);
-        }
-
-        private static string AddLeadingZerosToCardNumber(string cardNumber)
-        {
-            return long.Parse(cardNumber).ToString("D8");
         }
     }
 }

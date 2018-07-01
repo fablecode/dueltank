@@ -2,7 +2,7 @@
 using System.Linq;
 using dueltank.core.Models.YgoPro;
 
-namespace dueltank.core.Helpers
+namespace dueltank.Domain.Helpers
 {
     public static class YgoProDeckHelpers
     {
@@ -11,16 +11,16 @@ namespace dueltank.core.Helpers
             return long.Parse(cardNumber).ToString("D8");
         }
 
-        public static string[] ExtractCardNumbers(string deckSection)
+        public static long[] ExtractCardNumbers(string deckSection)
         {
             if (string.IsNullOrWhiteSpace(deckSection))
-                return new string[0];
+                return new long[0];
 
             return
                 deckSection.Split('\n')
                     .Where(c => !string.IsNullOrWhiteSpace(c))
                     .Select(c => c.Trim(Environment.NewLine.ToCharArray()))
-                    .Select(AddLeadingZerosToCardNumber)
+                    .Select(long.Parse)
                     .ToArray();
         }
 

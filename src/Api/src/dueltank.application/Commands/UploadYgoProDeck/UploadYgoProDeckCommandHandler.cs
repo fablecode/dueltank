@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using dueltank.core.Helpers;
 using dueltank.core.Models.YgoPro;
 using dueltank.core.Services;
+using dueltank.Domain.Helpers;
 using FluentValidation;
 using MediatR;
 

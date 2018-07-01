@@ -29,7 +29,7 @@ namespace dueltank.application.unit.tests.Validations.DeckTests
             // Arrange
             var expected = "'Main deck' should not be empty.";
 
-            _inputModel.Main = new List<string>();
+            _inputModel.Main = new List<long>();
 
             // Act
             var results = _sut.Validate(_inputModel);
@@ -46,7 +46,7 @@ namespace dueltank.application.unit.tests.Validations.DeckTests
             _fixture.RepeatCount = 39;
             _inputModel.Main =
                 _fixture
-                    .Build<string>()
+                    .Build<long>()
                     .CreateMany()
                     .ToList();
             // Act
@@ -64,7 +64,7 @@ namespace dueltank.application.unit.tests.Validations.DeckTests
             _fixture.RepeatCount = 61;
             _inputModel.Main =
                 _fixture
-                    .Build<string>()
+                    .Build<long>()
                     .CreateMany()
                     .ToList();
 
@@ -82,7 +82,7 @@ namespace dueltank.application.unit.tests.Validations.DeckTests
             _fixture.RepeatCount = 50;
             _inputModel.Main =
                 _fixture
-                    .Build<string>()
+                    .Build<long>()
                     .CreateMany()
                     .ToList();
 
@@ -100,7 +100,7 @@ namespace dueltank.application.unit.tests.Validations.DeckTests
             _fixture.RepeatCount = 40;
             _inputModel.Main =
                 _fixture
-                    .Build<string>()
+                    .Build<long>()
                     .CreateMany()
                     .ToList();
 

@@ -18,7 +18,7 @@ namespace dueltank.application.Models.Cards.Output
 
         public string Description { get; set; }
 
-        public string CardNumber { get; set; }
+        public long? CardNumber { get; set; }
 
         public long Id { get; set; }
 

@@ -17,7 +17,7 @@ namespace dueltank.application.Validations.Deck
                 .WithMessage("{PropertyName} must have at least 40 to 60 cards.");
         }
 
-        private static bool Between40To60Cards(List<string> deck)
+        private static bool Between40To60Cards(List<long> deck)
         {
             return deck.Count >= DeckConstants.MainDeckMinSize && deck.Count <= DeckConstants.MainDeckMaxSize;
         }

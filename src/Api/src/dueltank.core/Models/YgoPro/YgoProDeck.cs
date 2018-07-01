@@ -11,12 +11,12 @@ namespace dueltank.core.Models.YgoPro
         public string Description { get; set; }
 
         [Display(Name = "Main deck")]
-        public List<string> Main { get; set; } = new List<string>();
+        public List<long> Main { get; set; } = new List<long>();
 
         [Display(Name = "Extra deck")]
-        public List<string> Extra { get; set; } = new List<string>();
+        public List<long> Extra { get; set; } = new List<long>();
 
         [Display(Name = "Side deck")]
-        public List<string> Side { get; set; } = new List<string>();
+        public List<long> Side { get; set; } = new List<long>();
     }
 }
