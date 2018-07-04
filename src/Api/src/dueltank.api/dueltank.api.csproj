@@ -47,7 +47,7 @@
 
   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
     <ItemGroup>
-      <DocFile Include="bin\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\$(TargetName).xml" />
+      <DocFile Include="bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml" />
     </ItemGroup>
     <Copy SourceFiles="@(DocFile)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="false" />
   </Target>
