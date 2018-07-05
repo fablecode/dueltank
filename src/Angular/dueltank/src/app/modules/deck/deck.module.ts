@@ -13,6 +13,7 @@ import {BrowserModule} from "@angular/platform-browser";
 import {DeckCurrentCardComponent} from "./components/deck-current-card/deck-current-card.component";
 import {DeckViewCardSearchComponent} from "./components/deck-view-card-search/deck-view-card-search.component";
 import {DeckViewFormOptionsComponent} from "./components/deck-view-form-options/deck-view-form-options.component";
+import {DeckService} from "../../shared/services/deck.service";
 
 const deckRoutes: Routes = [
   {
@@ -44,7 +45,8 @@ const deckRoutes: Routes = [
     RouterModule.forChild(deckRoutes)
   ],
   providers: [
-    AuthGuard
+    AuthGuard,
+    DeckService
   ]
 })
 export class DeckModule {}
