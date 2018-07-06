@@ -9,7 +9,7 @@ import {SearchEngineOptimizationService} from "../../../../shared/services/searc
 })
 export class DeckViewPage implements OnInit{
   public selectedDeck: Deck;
-
+  public resolveData: any;
   constructor(
     private deckService: DeckService,
     private activatedRoute: ActivatedRoute,
@@ -17,16 +17,22 @@ export class DeckViewPage implements OnInit{
   ){}
 
   ngOnInit(): void {
+    this.resolveData = this.activatedRoute.snapshot.data;
     const routeParams = this.activatedRoute.snapshot.params;
-    var deckId = routeParams.id;
+
+    //var deckId = routeParams.id;
     var deckName = routeParams.name;
 
     this.seo.title(deckName + " - DuelTank");
     this.seo.keywords("View, Deck," + deckName + ", DuelTank")
     this.seo.robots("index,follow");
 
-    this.deckService.getDeckById(deckId).subscribe(deck => {
-      this.selectedDeck = deck;
-    });
+    this.selectedDeck = this.resolveData.deck;
+
+    console.log(this.resolveData.deck)
+    // load deck
+    // this.deckService.getDeckById(deckId).subscribe(deck => {
+    //   this.selectedDeck = deck;
+    // });
   }
 }

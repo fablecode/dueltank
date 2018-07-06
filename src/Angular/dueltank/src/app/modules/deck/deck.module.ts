@@ -14,13 +14,20 @@ import {DeckCurrentCardComponent} from "./components/deck-current-card/deck-curr
 import {DeckViewCardSearchComponent} from "./components/deck-view-card-search/deck-view-card-search.component";
 import {DeckViewFormOptionsComponent} from "./components/deck-view-form-options/deck-view-form-options.component";
 import {DeckService} from "../../shared/services/deck.service";
+import {SelectedDeckResolve} from "./resolvers/selected-deck.resolve";
 
 const deckRoutes: Routes = [
   {
     path: "decks",
     children: [
       { path: '', component: DeckListPage },
-      { path: ":id/:name", component: DeckViewPage}
+      {
+        path: ":id/:name",
+        component: DeckViewPage,
+        resolve: {
+          deck: SelectedDeckResolve
+        }
+      }
     ]
   }
 ];
@@ -46,7 +53,8 @@ const deckRoutes: Routes = [
   ],
   providers: [
     AuthGuard,
-    DeckService
+    DeckService,
+    SelectedDeckResolve
   ]
 })
 export class DeckModule {}
