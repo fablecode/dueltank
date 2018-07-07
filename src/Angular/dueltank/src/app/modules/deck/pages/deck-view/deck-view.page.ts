@@ -21,7 +21,6 @@ export class DeckViewPage implements OnInit{
     this.resolveData = this.activatedRoute.snapshot.data;
     const routeParams = this.activatedRoute.snapshot.params;
 
-    //var deckId = routeParams.id;
     var deckName = routeParams.name;
 
     this.seo.title(deckName + " - DuelTank");
@@ -30,10 +29,6 @@ export class DeckViewPage implements OnInit{
 
     this.selectedDeck = this.resolveData.deck;
 
-    console.log(this.selectedDeck)
-    // load deck
-    // this.deckService.getDeckById(deckId).subscribe(deck => {
-    //   this.selectedDeck = deck;
-    // });
+    this.isLoading = false;
   }
 }

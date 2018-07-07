@@ -4,6 +4,7 @@ export class Card {
   public id: number = 0;
   public imageUrl: string;
   public name: string;
+  public cardNumber: string;
   public description: string;
 
   public tips: Tip[] = [];

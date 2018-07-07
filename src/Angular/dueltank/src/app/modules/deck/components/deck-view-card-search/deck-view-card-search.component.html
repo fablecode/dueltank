@@ -5,7 +5,21 @@
         <div class="ibox-content" style="position: relative;">
           <div id="deck-profile-card">
             <div class="row">
-
+              <div id="deck-pc-fav" class="col-md-12">
+                <div id="deck-download-to" class="btn-group pull-right">
+                  <button type="button" class="btn btn-default">Download To...</button>
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a (click)="downloadYdk()"><i class="fa fa-file-text-o"></i> .YDK file</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a id="copyDeck" ngxClipboard [cbContent]="deckToText()"><i class="fa fa-clipboard"></i>Clipboard</a></li>
+                    <li><a href (click)="addDeckToUserFavourites()"><i class="fa fa-thumbs-o-up"></i> Favourites</a></li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>

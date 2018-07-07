@@ -1,10 +1,11 @@
 import {Card} from "./card";
 
 export class Deck {
-  public id: string;
+  public id: number;
   public username: string;
   public thumbnailUrl: string;
   public name: string;
+  public sanitizedName: string;
   public description: string;
   public videoId: string;
   public youtubeUrl: string;

@@ -16,6 +16,8 @@ import {DeckViewFormOptionsComponent} from "./components/deck-view-form-options/
 import {DeckService} from "../../shared/services/deck.service";
 import {SelectedDeckResolve} from "./resolvers/selected-deck.resolve";
 import {SharedModule} from "../shared/shared.module";
+import {ClipboardModule} from "ngx-clipboard";
+import * as FileSaver from "file-saver";
 
 const deckRoutes: Routes = [
   {
@@ -40,7 +42,7 @@ const deckRoutes: Routes = [
     DeckListPage,
     DeckViewPage,
     DeckViewCardSearchComponent,
-    DeckViewFormOptionsComponent
+    DeckViewFormOptionsComponent,
   ],
   imports: [
     CommonModule,
@@ -49,6 +51,7 @@ const deckRoutes: Routes = [
     BrowserAnimationsModule,
     HttpClientModule,
     SharedModule,
+    ClipboardModule,
     TabsModule.forRoot(),
     ModalModule.forRoot(),
     RouterModule.forChild(deckRoutes)
