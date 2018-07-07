@@ -8,6 +8,7 @@ import {SearchEngineOptimizationService} from "../../../../shared/services/searc
   templateUrl: "./deck-view.page.html"
 })
 export class DeckViewPage implements OnInit{
+  public isLoading: boolean = true;
   public selectedDeck: Deck;
   public resolveData: any;
   constructor(
@@ -29,7 +30,7 @@ export class DeckViewPage implements OnInit{
 
     this.selectedDeck = this.resolveData.deck;
 
-    console.log(this.resolveData.deck)
+    console.log(this.selectedDeck)
     // load deck
     // this.deckService.getDeckById(deckId).subscribe(deck => {
     //   this.selectedDeck = deck;

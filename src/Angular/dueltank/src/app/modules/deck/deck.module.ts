@@ -15,6 +15,7 @@ import {DeckViewCardSearchComponent} from "./components/deck-view-card-search/de
 import {DeckViewFormOptionsComponent} from "./components/deck-view-form-options/deck-view-form-options.component";
 import {DeckService} from "../../shared/services/deck.service";
 import {SelectedDeckResolve} from "./resolvers/selected-deck.resolve";
+import {SharedModule} from "../shared/shared.module";
 
 const deckRoutes: Routes = [
   {
@@ -47,6 +48,7 @@ const deckRoutes: Routes = [
     FormsModule, ReactiveFormsModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    SharedModule,
     TabsModule.forRoot(),
     ModalModule.forRoot(),
     RouterModule.forChild(deckRoutes)

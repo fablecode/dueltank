@@ -3,7 +3,6 @@ import {LoginPage} from "./pages/login/login.page";
 import {RouterModule, Routes} from "@angular/router";
 import {SocialLoginComponent} from "./components/socialLogin/socialLogin.component";
 import {RegisterPage} from "./pages/register/register.page";
-import {SignInLoadingComponent} from "../../shared/components/signin-loading/signin-loading.component";
 import {ExternalLoginCompletePage} from "./pages/external-login-complete/external-login-complete.page";
 import {AsyncPipe, CommonModule} from "@angular/common";
 import {AuthenticationService} from "../../shared/services/authentication.service";
@@ -46,7 +45,6 @@ const accountRoutes: Routes = [
     RegisterPage,
     ExternalLoginCompletePage,
     SocialLoginComponent,
-    SignInLoadingComponent,
     ForgotPasswordPage,
     ForgotPasswordConfirmationPage,
     ResetPasswordPage,

@@ -20,6 +20,8 @@ import {UnAuthenticatedNavbarComponent } from "./shared/components/unauthenticat
 import {Globals} from "./globals";
 import {DeckModule} from "./modules/deck/deck.module";
 import {UploadModule} from "./modules/upload/upload.module";
+import {LoadingSpinnerComponent} from "./shared/components/loading-spinner/loading-spinner.component";
+import {SharedModule} from "./modules/shared/shared.module";
 
 const appRoutes: Routes = [
   {   path: "", component: HomePage, pathMatch: "full"}
@@ -54,9 +56,12 @@ export function loadConfigService(configService: AppConfigService): Function
     AccountModule,
     DeckModule,
     UploadModule,
+    SharedModule,
     RouterModule.forRoot(appRoutes)
   ],
-  exports: [RouterModule],
+  exports: [
+    RouterModule
+  ],
   providers: [
     AppConfigService,
     Globals,

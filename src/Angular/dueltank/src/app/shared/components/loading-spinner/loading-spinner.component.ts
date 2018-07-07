@@ -2,9 +2,9 @@ import {Component, Input} from "@angular/core";
 import {animate, style, transition, trigger} from "@angular/animations";
 
 @Component({
-  selector: "sign-loading",
-  templateUrl: "signin-loading.component.html",
-  styleUrls: ["signin-loading.component.css"],
+  selector: "loadingSpinner",
+  templateUrl: "loading-spinner.component.html",
+  styleUrls: ["loading-spinner.component.css"],
   animations: [
     trigger(
       'leaveAnimation', [
@@ -16,6 +16,6 @@ import {animate, style, transition, trigger} from "@angular/animations";
     )
   ]
 })
-export class SignInLoadingComponent {
+export class LoadingSpinnerComponent {
   @Input() loading: boolean = false;
 }
