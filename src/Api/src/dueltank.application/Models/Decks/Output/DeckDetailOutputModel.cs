@@ -47,7 +47,7 @@ namespace dueltank.application.Models.Decks.Output
             {
                 Id = model.Id,
                 Username = model.Username,
-                ThumbnailUrl = $"/api/images/decks/thumbnail/{model.Id}",
+                ThumbnailUrl = $"/api/images/decks/{model.Id}/thumbnail",
                 Name = model.Name,
                 SanitizedName = string.Join("_", model.Name.Split(Path.GetInvalidFileNameChars())),
                 Description = model.Description,

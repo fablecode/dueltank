@@ -18,6 +18,7 @@ import {SelectedDeckResolve} from "./resolvers/selected-deck.resolve";
 import {SharedModule} from "../shared/shared.module";
 import {ClipboardModule} from "ngx-clipboard";
 import * as FileSaver from "file-saver";
+import {SafePipe} from "../../shared/pipes/safe.pipe";
 
 const deckRoutes: Routes = [
   {
@@ -38,11 +39,12 @@ const deckRoutes: Routes = [
 @NgModule({
   declarations: [
     CardNameToUrlPipe,
+    SafePipe,
     DeckCurrentCardComponent,
     DeckListPage,
     DeckViewPage,
     DeckViewCardSearchComponent,
-    DeckViewFormOptionsComponent,
+    DeckViewFormOptionsComponent
   ],
   imports: [
     CommonModule,

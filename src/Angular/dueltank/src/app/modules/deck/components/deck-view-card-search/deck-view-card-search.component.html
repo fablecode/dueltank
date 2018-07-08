@@ -20,6 +20,26 @@
                   </ul>
                 </div>
               </div>
+              <div class="col-md-12">
+                <img id="deck-pc-thumbnail" src="{{ configuration.apiEndpoint + deck.thumbnailUrl }}" alt="{{ deck.name }}" title="{{ deck.name }}" />
+                <h2 id="deck-pc-name" title="{{ deck.name }}">
+                  {{ deck.name }}
+                </h2>
+                <a href (click)="goToUserDecks(deck.username)" title="Deck created by {{ deck.username }}">{{ deck.username }}</a>
+              </div>
+            </div>
+            <div class="row" style="margin-top: 0px">
+              <div class="col-md-6" style="height: 130px; overflow-y: auto;">
+                <br/>
+                <p>{{ deck.description }}</p>
+              </div>
+              <div
+                id="deck-pc-video-thumbnail" class="col-md-6 text-center"
+                [ngStyle]="{'background':'url(' + youtubeDefaultThumbnailUrl + ') no-repeat center center'}"
+                ng-click="$ctrl.playvideo($ctrl.selectedDeckProfile.videoId)"
+                *ngIf="deck.videoId">
+                <img alt="{{deck.name}}" src="/assets/images/youtube-play.png">
+              </div>
             </div>
           </div>
         </div>

@@ -104,8 +104,3 @@ export class DeckService {
   }
 }
 
-export class UniqueCardCount {
-  public name: string;
-  public count: number;
-}
-

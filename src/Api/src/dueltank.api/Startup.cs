@@ -44,6 +44,8 @@ namespace dueltank.api
             services.AddSwaggerDocumentation();
             services.AddIdentityConfiguration(Configuration);
 
+            services.Configure<ApplicationSettings>(Configuration.GetSection("AppSettings"));
+
             services.AddCors(options => {
                 options.AddPolicy("CorsPolicy",
                     builder => builder
