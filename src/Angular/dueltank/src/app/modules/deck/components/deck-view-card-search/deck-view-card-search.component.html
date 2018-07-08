@@ -36,9 +36,31 @@
               <div
                 id="deck-pc-video-thumbnail" class="col-md-6 text-center"
                 [ngStyle]="{'background':'url(' + youtubeDefaultThumbnailUrl + ') no-repeat center center'}"
-                ng-click="$ctrl.playvideo($ctrl.selectedDeckProfile.videoId)"
+                (click)="openYoutubeModal(template)"
                 *ngIf="deck.videoId">
                 <img alt="{{deck.name}}" src="/assets/images/youtube-play.png">
+                <ng-template #template>
+                  <div class="inmodal">
+                    <div class="modal-header">
+                      <h4 class="modal-title pull-left">{{deck.name}}</h4>
+                      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <youtube-player
+                        [videoId]="deck.videoId"
+                        (ready)="savePlayer($event)"
+                        (change)="onStateChange($event)"
+                        [height]="560"
+                        [width]="840"
+                      ></youtube-player>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-white" (click)="modalRef.hide()">Close</button>
+                    </div>
+                  </div>
+                </ng-template>
               </div>
             </div>
           </div>
@@ -47,3 +69,5 @@
     </div>
   </div>
 </form>
+
+

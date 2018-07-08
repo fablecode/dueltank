@@ -17,7 +17,7 @@ import {DeckService} from "../../shared/services/deck.service";
 import {SelectedDeckResolve} from "./resolvers/selected-deck.resolve";
 import {SharedModule} from "../shared/shared.module";
 import {ClipboardModule} from "ngx-clipboard";
-import * as FileSaver from "file-saver";
+import { YoutubePlayerModule } from 'ngx-youtube-player';
 import {SafePipe} from "../../shared/pipes/safe.pipe";
 
 const deckRoutes: Routes = [
@@ -54,6 +54,7 @@ const deckRoutes: Routes = [
     HttpClientModule,
     SharedModule,
     ClipboardModule,
+    YoutubePlayerModule,
     TabsModule.forRoot(),
     ModalModule.forRoot(),
     RouterModule.forChild(deckRoutes)
