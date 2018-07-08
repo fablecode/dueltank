@@ -45,6 +45,7 @@ namespace dueltank.api.ServiceExtensions
 
                 // User settings
                 options.User.RequireUniqueEmail = true;
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             });
 
             services.AddAuthentication(o =>

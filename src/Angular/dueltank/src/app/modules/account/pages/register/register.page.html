@@ -33,8 +33,7 @@
                 </div>
               </div>
               <button type="submit" class="btn btn-primary full-width" [disabled]="!registerForm.valid">Register</button>
-
-              <div class="panel panel-danger" *ngIf="httpValidationErrors.length > 0">
+              <div class="panel panel-danger" *ngIf="httpValidationErrors.length > 0" style="margin-top: 20px">
                 <div class="panel-heading">
                   <h4 class="panel-title">{{httpValidationErrors.length}} error(s) to resolve</h4>
                 </div>

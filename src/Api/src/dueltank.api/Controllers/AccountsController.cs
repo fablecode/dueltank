@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
@@ -66,7 +67,7 @@ namespace dueltank.api.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FullName = model.Username };
+                var user = new ApplicationUser { UserName = model.Username, Email = model.Email, FullName = model.Username };
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
@@ -377,6 +378,23 @@ namespace dueltank.api.Controllers
                 user.ProfileImageUrl
             });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> VerifyEmail(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            return user != null ? Json($"Email {email} is already in use.") : Json(true);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> VerifyUsername(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+
+            return user != null ? Json($"Username {username} is already in use.") : Json(true);
+        }
+
 
         #region private helpers
 

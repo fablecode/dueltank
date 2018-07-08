@@ -48,11 +48,8 @@ export class DeckViewCardSearchComponent implements OnInit {
   public savePlayer(player) {
     this.player = player;
     this.playVideo();
-    console.log('player instance', player);
   }
-  public onStateChange(event) {
-    console.log('player state', event.data);
-  }
+
   public playVideo() {
     this.player.playVideo();
   }
