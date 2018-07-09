@@ -6,10 +6,10 @@
 
 
 # dueltank
-A [Yu-Gi-Oh](http://www.yugioh-card.com/en/) Deck building application.
+A [Yu-Gi-Oh](http://www.yugioh-card.com/en/) Deck building application. 
 
 ## Why?
-To create or upload a Yugioh **Deck** and provide access to the **Latest Banlist** and **Archetypes**.
+To create or upload a Yugioh **Deck** and provide access to the **Latest Banlist** and **Archetypes**. Due to the lack of adequate Yu-Gi-Oh deck builders, dueltank is an exertion to fill that gap. 
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details.
