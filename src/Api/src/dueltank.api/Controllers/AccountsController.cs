@@ -22,6 +22,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace dueltank.api.Controllers
 {
@@ -388,9 +389,10 @@ namespace dueltank.api.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> VerifyUsername(string username)
         {
-            var user = await _userManager.FindByNameAsync(username);
+            var user = await _userManager.Users.SingleOrDefaultAsync(u => u.UserName.Equals(username, StringComparison.OrdinalIgnoreCase));
 
             return user != null ? Json($"Username {username} is already in use.") : Json(true);
         }

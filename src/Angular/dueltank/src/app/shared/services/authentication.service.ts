@@ -86,4 +86,8 @@ export class AuthenticationService {
   public resetPassword(resetUserPassword: ResetUserPassword) {
     return this.accountService.resetPassword(resetUserPassword);
   }
+
+  public checkUsernameNotTaken(username: string) {
+    return this.accountService.checkUsernameNotTaken(username);
+  }
 }

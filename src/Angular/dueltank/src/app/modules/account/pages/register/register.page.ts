@@ -6,6 +6,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {HttpErrorResponse} from "@angular/common/http";
 import {SearchEngineOptimizationService} from "../../../../shared/services/searchengineoptimization.service";
 import {Globals} from "../../../../globals";
+import {existingUsernameValidator} from "../../validators/existingUsernameValidator";
 
 @Component({
   templateUrl: "./register.page.html"
@@ -53,11 +54,15 @@ export class RegisterPage implements OnInit{
   }
 
   private createFormControls() : void {
-    this.username = new FormControl("", [
+    this.username = new FormControl("",
+      [
       Validators.required,
-      Validators.minLength(6),
+      Validators.minLength(4),
       Validators.max(100)
-    ]);
+    ],
+      [
+        existingUsernameValidator(this.authService)
+      ]);
     this.email = new FormControl('', [
       Validators.required,
       Validators.minLength(4),

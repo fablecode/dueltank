@@ -14,8 +14,12 @@
               <div class="form-group">
                 <input type="text" class="form-control" placeholder="Username" formControlName="username">
                 <div class="form-group" *ngIf="username.errors && (username.dirty || username.touched)">
+                  <br/>
                   <span class="error text-danger" *ngIf="username.errors.required">* Username is required</span>
-                  <span class="error text-danger" *ngIf="username.errors.minlength">* Username must be 6 characters long, we need another {{username.errors.minlength.requiredLength - username.errors.minlength.actualLength}} characters </span>
+                  <span class="error text-danger" *ngIf="username.errors.minlength">* Username must be 4 characters long, we need another {{username.errors.minlength.requiredLength - username.errors.minlength.actualLength}} characters </span>
+                  <span class="error text-danger" *ngIf="username.errors.usernameExists">
+                    😢 Oh noes, this username already exists!
+                  </span>
                 </div>
               </div>
               <div class="form-group">
@@ -47,7 +51,7 @@
               </div>
               <p class="text-muted">
                 <small>Got an account? </small>
-                <a [routerLink]="['/', this.globals.urlSegments.account, this.globals.urlSegments.login]" alt="Login" title="Login">
+                <a [routerLink]="[this.globals.routes.login]" alt="Login" title="Login">
                   <small>Login</small>
                 </a>
               </p>

@@ -17,6 +17,8 @@ export class Globals {
   };
   routes = {
     uploadYgoProDeck: "/upload/ygopro-deck",
-    login: "/account/login"
+    login: "/account/login",
+    register: "/account/register",
+    forgotPassword: "/account/forgot-password"
   }
 }

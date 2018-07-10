@@ -38,4 +38,10 @@ export class AccountsService {
       .set("code", resetUserPassword.code);
     return this.http.post(this.configuration.apiEndpoint + "/api/accounts/resetpassword", resetUserPassword, { params: httpParams});
   }
+
+  public checkUsernameNotTaken(username: string) {
+    let httpParams = new HttpParams()
+      .set("username", username);
+    return this.http.get(this.configuration.apiEndpoint + "/api/accounts/verifyusername", { params: httpParams})
+  }
 }
