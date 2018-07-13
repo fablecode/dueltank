@@ -11,11 +11,11 @@ export class SocialLoginComponent {
   constructor(private configuration: AppConfigService, private activatedRoute: ActivatedRoute, private globals: Globals){}
   openExternalLogin(provider: string) {
     let returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || window.location.origin;
-debugger;
     window.location.href = this.configuration.apiEndpoint + "/api/accounts/externallogin?provider=" + provider +
       "&returnUrl=" + returnUrl +
       "&loginUrl=" + window.location.origin + this.globals.routes.login +
       "&lockoutUrl=" + window.location.origin + this.globals.routes.lockout +
-      "&externalLoginUrl=" + window.location.origin + this.globals.routes.externalLogin;
+      "&externalLoginUrl=" + window.location.origin + this.globals.routes.externalLogin +
+      "&externalLoginCompleteUrl=" + window.location.origin + this.globals.routes.externalLoginComplete;
   }
 }

@@ -261,52 +261,49 @@ namespace dueltank.api.Controllers
         [ProducesResponseType((int)HttpStatusCode.Redirect)]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl, string loginUrl, string lockoutUrl, string externalLoginUrl, string externalLoginCompleteUrl, string remoteError = null)
         {
-            if (Uri.TryCreate(returnUrl, UriKind.Absolute, out var returnUri))
+            // Get the information about the user from the external login provider
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
             {
-                // Get the information about the user from the external login provider
-                var info = await _signInManager.GetExternalLoginInfoAsync();
-                if (info == null)
+                return Redirect(loginUrl);
+            }
+
+            // Sign in the user with this external login provider if the user already has a login.
+           var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false, true);
+            if (signInResult.Succeeded)
+            {
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                var name = info.Principal.FindFirstValue(ClaimTypes.Name);
+                var profileImage = info.Principal.FindFirstValue("profile-image-url");
+
+                if (info.LoginProvider.Equals("Facebook", StringComparison.OrdinalIgnoreCase))
                 {
-                    return Redirect(loginUrl);
+                    var claim = info.Principal.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
+                    profileImage = "http://graph.facebook.com/" + claim.Value + "/picture?width=200&height=200";
                 }
 
-                // Sign in the user with this external login provider if the user already has a login.
-                var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false, true);
-                if (signInResult.Succeeded)
+                var existingUser = await _userManager.FindByEmailAsync(email);
+
+                existingUser.FullName = name;
+                existingUser.ProfileImageUrl = profileImage;
+
+                await _userManager.UpdateAsync(existingUser);
+                _logger.LogInformation("User logged in with {Name} provider.", info.LoginProvider);
+
+                // Append token to returnUrl
+                externalLoginCompleteUrl = AppendToReturnUrl(externalLoginCompleteUrl, new NameValueCollection
                 {
-                    var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-                    var name = info.Principal.FindFirstValue(ClaimTypes.Name);
-                    var profileImage = info.Principal.FindFirstValue("profile-image-url");
+                    {"token", await BuildToken(existingUser) },
+                    {"returnUrl", returnUrl}
+                });
 
-                    if (info.LoginProvider.Equals("Facebook", StringComparison.OrdinalIgnoreCase))
-                    {
-                        var claim = info.Principal.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
-                        profileImage = "http://graph.facebook.com/" + claim.Value + "/picture?width=200&height=200";
-                    }
+                return Redirect(externalLoginCompleteUrl);
+            }
 
-                    var existingUser = await _userManager.FindByEmailAsync(email);
-
-                    existingUser.FullName = name;
-                    existingUser.ProfileImageUrl = profileImage;
-
-                    await _userManager.UpdateAsync(existingUser);
-                    _logger.LogInformation("User logged in with {Name} provider.", info.LoginProvider);
-
-                    // Append token to returnUrl
-                    externalLoginCompleteUrl = AppendToReturnUrl(externalLoginCompleteUrl, new NameValueCollection
-                    {
-                        {"token", await BuildToken(existingUser) },
-                        {"returnUrl", returnUrl}
-                    });
-
-                    return Redirect(externalLoginCompleteUrl);
-                }
-
-                // Is the user locked out?
-                if (signInResult.IsLockedOut)
-                {
-                    return Redirect(lockoutUrl);
-                }
+            // Is the user locked out?
+            if (signInResult.IsLockedOut)
+            {
+                return Redirect(lockoutUrl);
             }
 
             return Redirect(externalLoginUrl);
