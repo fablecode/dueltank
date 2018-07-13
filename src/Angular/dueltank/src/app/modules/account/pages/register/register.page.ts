@@ -40,13 +40,12 @@ export class RegisterPage implements OnInit{
 
   public onSubmit() {
     if(this.registerForm.valid) {
-
       var newUser = new RegisterUser();
       newUser.username = this.registerForm.controls.username.value;
       newUser.email = this.registerForm.controls.email.value;
       newUser.password = this.registerForm.controls.password.value;;
 
-      let returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || "";
+      let returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || window.location.origin;
 
       this.authService.register(newUser, returnUrl)
         .subscribe(user => { return this.router.navigateByUrl(returnUrl); }, error => this.handleError(error));

@@ -70,7 +70,7 @@ export class LoginPage implements OnInit {
       existingUser.password = this.loginForm.controls.password.value;
       existingUser.rememberMe = this.loginForm.controls.rememberMe.value === true;
 
-      let returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || "";
+      let returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || window.location.origin;
 
       this.authService.login(existingUser, returnUrl)
         .subscribe(user => { return this.router.navigateByUrl(returnUrl); }, error => this.handleError(error));

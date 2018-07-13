@@ -13,6 +13,7 @@ import {Observable} from "rxjs/internal/Observable";
 import {map} from "rxjs/operators";
 import {UserForgotPassword} from "../models/authentication/userforgotpassword.model";
 import {ResetUserPassword} from "../models/reset-user-password";
+import {Globals} from "../../globals";
 
 @Injectable()
 export class AuthenticationService {
@@ -24,7 +25,8 @@ export class AuthenticationService {
 
     private tokenService: TokenService,
     private accountService: AccountsService,
-    private userProfileService: UserProfileService
+    private userProfileService: UserProfileService,
+    private globals : Globals
   )
   {}
 
@@ -41,7 +43,7 @@ export class AuthenticationService {
   }
 
   public register(newUser: RegisterUser, returnUrl: string) : Observable<UserProfile> {
-    return this.accountService.register(newUser, (returnUrl || window.location.origin)).pipe(
+    return this.accountService.register(newUser, returnUrl).pipe(
       map(data  => {
         this.tokenService.setAccessToken(data.token);
         this.userProfileService.setUserProfile(data.user);
@@ -51,7 +53,7 @@ export class AuthenticationService {
   }
 
   public login(credentials: LoginUser, returnUrl: string) : Observable<UserProfile> {
-    return this.accountService.login(credentials, (returnUrl || window.location.origin)).pipe(
+    return this.accountService.login(credentials, returnUrl).pipe(
       map(data  => {
         this.tokenService.setAccessToken(data.token);
         this.userProfileService.setUserProfile(data.user);

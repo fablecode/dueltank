@@ -14,23 +14,22 @@
               <div class="form-group">
                 <input type="text" class="form-control" placeholder="Username" formControlName="username">
                 <div class="form-group" *ngIf="username.errors && (username.dirty || username.touched)">
-                  <br/>
                   <span class="error text-danger" *ngIf="username.errors.required">* Username is required</span>
                   <span class="error text-danger" *ngIf="username.errors.minlength">* Username must be 4 characters long, we need another {{username.errors.minlength.requiredLength - username.errors.minlength.actualLength}} characters </span>
                   <span class="error text-danger" *ngIf="username.errors.usernameExists">
-                    😢 Oh noes, this username already exists!
+                    😢 Oh no!, this username already exists.
                   </span>
                 </div>
               </div>
               <div class="form-group">
-                <input type="email" class="form-control" placeholder="Email" formControlName="email" email>
+                <input type="email" autocomplete='email' class="form-control" placeholder="Email" formControlName="email" email>
                 <div class="form-group" *ngIf="email.errors && (email.dirty || email.touched)">
                   <span class="error text-danger" *ngIf="email.errors.required">* Email is required</span>
                   <span class="error text-danger" *ngIf="email.errors.pattern">* The email address must contain at least the @ character</span>
                 </div>
               </div>
               <div class="form-group">
-                <input type="password" class="form-control" placeholder="Password" formControlName="password">
+                <input type="password" autocomplete='current-password' class="form-control" placeholder="Password" formControlName="password">
                 <div class="form-group" *ngIf="password.errors && (password.dirty || password.touched)">
                   <span class="error text-danger" *ngIf="password.errors.required">* Password is required</span>
                   <span class="error text-danger" *ngIf="password.errors.minlength">* Password must be 6 characters long, we need another {{password.errors.minlength.requiredLength - password.errors.minlength.actualLength}} characters </span>

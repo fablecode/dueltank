@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -228,14 +229,18 @@ namespace dueltank.api.Controllers
         /// </summary>
         /// <param name="provider"></param>
         /// <param name="returnUrl"></param>
+        /// <param name="loginUrl"></param>
+        /// <param name="lockoutUrl"></param>
+        /// <param name="externalLoginUrl"></param>
+        /// <param name="externalLoginCompleteUrl"></param>
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
         [ProducesResponseType((int)HttpStatusCode.Redirect)]
-        public IActionResult ExternalLogin([FromQuery]string provider, [FromQuery]string returnUrl = null)
+        public IActionResult ExternalLogin([FromQuery]string provider, [FromQuery]string returnUrl, [FromQuery]string loginUrl, [FromQuery]string lockoutUrl, [FromQuery] string externalLoginUrl, [FromQuery] string externalLoginCompleteUrl)
         {
             // Request a redirect to the external login provider.
-            var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Accounts", new { returnUrl });
+            var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Accounts", new { returnUrl, loginUrl, lockoutUrl, externalLoginUrl, externalLoginCompleteUrl });
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
 
             return Challenge(properties, provider);
@@ -245,12 +250,16 @@ namespace dueltank.api.Controllers
         /// Social login callback
         /// </summary>
         /// <param name="returnUrl"></param>
+        /// <param name="loginUrl"></param>
+        /// <param name="lockoutUrl"></param>
+        /// <param name="externalLoginUrl"></param>
+        /// <param name="externalLoginCompleteUrl"></param>
         /// <param name="remoteError"></param>
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
         [ProducesResponseType((int)HttpStatusCode.Redirect)]
-        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
+        public async Task<IActionResult> ExternalLoginCallback(string returnUrl, string loginUrl, string lockoutUrl, string externalLoginUrl, string externalLoginCompleteUrl, string remoteError = null)
         {
             if (Uri.TryCreate(returnUrl, UriKind.Absolute, out var returnUri))
             {
@@ -258,27 +267,23 @@ namespace dueltank.api.Controllers
                 var info = await _signInManager.GetExternalLoginInfoAsync();
                 if (info == null)
                 {
-                    throw new ApplicationException("Error loading external login information during confirmation.");
+                    return Redirect(loginUrl);
                 }
-
-                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-                var name = info.Principal.FindFirstValue(ClaimTypes.Name);
-                var profileImage = info.Principal.FindFirstValue("profile-image-url");
-
-                if (info.LoginProvider.Equals("Facebook", StringComparison.OrdinalIgnoreCase))
-                {
-                    var claim = info.Principal.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
-                    profileImage = "http://graph.facebook.com/" + claim.Value + "/picture?width=200&height=200";
-                }
-
-
-                var user = new ApplicationUser { UserName = email, Email = email, FullName = name, ProfileImageUrl = profileImage };
-
 
                 // Sign in the user with this external login provider if the user already has a login.
                 var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false, true);
                 if (signInResult.Succeeded)
                 {
+                    var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                    var name = info.Principal.FindFirstValue(ClaimTypes.Name);
+                    var profileImage = info.Principal.FindFirstValue("profile-image-url");
+
+                    if (info.LoginProvider.Equals("Facebook", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var claim = info.Principal.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
+                        profileImage = "http://graph.facebook.com/" + claim.Value + "/picture?width=200&height=200";
+                    }
+
                     var existingUser = await _userManager.FindByEmailAsync(email);
 
                     existingUser.FullName = name;
@@ -288,44 +293,85 @@ namespace dueltank.api.Controllers
                     _logger.LogInformation("User logged in with {Name} provider.", info.LoginProvider);
 
                     // Append token to returnUrl
-                    returnUrl = await AppendTokenToReturnUrl(returnUrl, user);
+                    externalLoginCompleteUrl = AppendToReturnUrl(externalLoginCompleteUrl, new NameValueCollection
+                    {
+                        {"token", await BuildToken(existingUser) },
+                        {"returnUrl", returnUrl}
+                    });
 
-                    return Redirect(returnUrl);
+                    return Redirect(externalLoginCompleteUrl);
                 }
 
                 // Is the user locked out?
                 if (signInResult.IsLockedOut)
                 {
-                    return Redirect(returnUri.Host + "/accounts/lockout");
-                }
-
-                // create new user
-                var identityResult = await _userManager.CreateAsync(user);
-                if (identityResult.Succeeded)
-                {
-                    // Add new user to default role
-                    await _userManager.AddToRoleAsync(user, ApplicationRoles.RoleUser);
-
-                    // add login
-                    identityResult = await _userManager.AddLoginAsync(user, info);
-                    if (identityResult.Succeeded)
-                    {
-                        // sign in new user
-                        await _signInManager.SignInAsync(user, false);
-                        _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
-
-                        // Append token to returnUrl
-                        returnUrl = await AppendTokenToReturnUrl(returnUrl, user);
-
-                        return Redirect(returnUrl);
-
-                    }
-
-                    throw new ApplicationException($"Error creating an account for {email} using {info.LoginProvider}.");
+                    return Redirect(lockoutUrl);
                 }
             }
 
-            throw new UriFormatException("Invalid returnUrl url. ReturnUrl should be an absolute url, not relative.");
+            return Redirect(externalLoginUrl);
+        }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ExternalLoginConfirmation([FromBody] ExternalLoginConfirmationViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (!await _userManager.Users.AnyAsync(u => u.UserName.Equals(model.Username, StringComparison.OrdinalIgnoreCase)))
+                {
+                    // Get the information about the user from the external login provider
+                    var info = await _signInManager.GetExternalLoginInfoAsync();
+
+                    if (info == null)
+                    {
+                        throw new ApplicationException("Error loading external login information during confirmation.");
+                    }
+
+                    var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                    var name = info.Principal.FindFirstValue(ClaimTypes.Name);
+                    var profileImage = info.Principal.FindFirstValue("profile-image-url");
+
+                    if (info.LoginProvider.Equals("Facebook", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var claim = info.Principal.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
+                        profileImage = "http://graph.facebook.com/" + claim.Value + "/picture?width=200&height=200";
+                    }
+
+                    var user = new ApplicationUser { UserName = model.Username, Email = email, FullName = name, ProfileImageUrl = profileImage };
+
+                    // create new user
+                    var identityResult = await _userManager.CreateAsync(user);
+                    if (identityResult.Succeeded)
+                    {
+                        // Add new user to default role
+                        await _userManager.AddToRoleAsync(user, ApplicationRoles.RoleUser);
+
+                        // add login
+                        identityResult = await _userManager.AddLoginAsync(user, info);
+                        if (identityResult.Succeeded)
+                        {
+                            // sign in new user
+                            await _signInManager.SignInAsync(user, false);
+                            _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+
+                            // Append token to returnUrl
+                            model.ReturnUrl = await AppendTokenToReturnUrl(model.ReturnUrl, user);
+
+                            return Redirect(model.ReturnUrl);
+
+                        }
+
+                        throw new ApplicationException($"Error creating an account for {email} using {info.LoginProvider}.");
+                    }
+                }
+
+                return BadRequest(new [] {$"The username {model.Username} already exists"});
+            }
+
+            return BadRequest(ModelState.Errors());
         }
 
         /// <summary>
@@ -378,14 +424,6 @@ namespace dueltank.api.Controllers
                 Name = user.FullName,
                 user.ProfileImageUrl
             });
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> VerifyEmail(string email)
-        {
-            var user = await _userManager.FindByEmailAsync(email);
-
-            return user != null ? Json($"Email {email} is already in use.") : Json(true);
         }
 
         [HttpGet]
@@ -452,6 +490,29 @@ namespace dueltank.api.Controllers
             return claims;
         }
 
+        private string AppendToReturnUrl(string returnUrl, NameValueCollection parameters)
+        {
+            return parameters.AllKeys.Aggregate(returnUrl, (current, key) => QueryHelpers.AddQueryString(current, key, parameters[key]));
+        }
+
+
         #endregion
+    }
+
+    public class ExternalLoginConfirmationViewModel
+    {
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 4)]
+        [DataType(DataType.Text)]
+        [Display(Name = "Username")]
+        [RegularExpression(@"(^[\w]+$)", ErrorMessage = "Only letters and numbers")]
+        [Remote("VerifyUsername", "Accounts")]
+        public string Username { get; set; }
+
+        public string ReturnUrl { get; set; }
+
+        [Required]
+        [DataType(DataType.Url)]
+        public string ExternalLoginCompleteUrl { get; set; }
     }
 }

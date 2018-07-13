@@ -19,6 +19,9 @@ export class Globals {
     uploadYgoProDeck: "/upload/ygopro-deck",
     login: "/account/login",
     register: "/account/register",
-    forgotPassword: "/account/forgot-password"
+    forgotPassword: "/account/forgot-password",
+    lockout: "/account/lockout",
+    externalLogin: "/account/external-login",
+    externalLoginComplete: "/account/external-login-complete"
   }
 }
