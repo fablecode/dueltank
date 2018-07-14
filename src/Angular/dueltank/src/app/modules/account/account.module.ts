@@ -17,6 +17,9 @@ import {ForgotPasswordConfirmationPage} from "./pages/forgot-password-confirmati
 import {ResetPasswordPage} from "./pages/reset-password/reset-password.page";
 import {ResetPasswordConfirmationPage} from "./pages/reset-password-confirmation/reset-password-confirmation.page";
 import {AccountGuard} from "../../shared/guards/account.guard";
+import {ExternalLoginPage} from "./pages/external-login/external-login.page";
+import {LoadingSpinnerComponent} from "../../shared/components/loading-spinner/loading-spinner.component";
+import {SharedModule} from "../shared/shared.module";
 
 const accountRoutes: Routes = [
   {
@@ -28,6 +31,7 @@ const accountRoutes: Routes = [
         children: [
           {   path: "login", component: LoginPage},
           {   path: "register", component: RegisterPage},
+          {   path: "external-login", component: ExternalLoginPage},
           {   path: "external-login-complete", component: ExternalLoginCompletePage},
           {   path: "forgot-password", component: ForgotPasswordPage},
           {   path: "forgot-password-confirmation", component: ForgotPasswordConfirmationPage},
@@ -43,6 +47,7 @@ const accountRoutes: Routes = [
   declarations: [
     LoginPage,
     RegisterPage,
+    ExternalLoginPage,
     ExternalLoginCompletePage,
     SocialLoginComponent,
     ForgotPasswordPage,
@@ -53,6 +58,7 @@ const accountRoutes: Routes = [
   imports: [
     CommonModule,
     FormsModule, ReactiveFormsModule,
+    SharedModule,
     ModalModule.forRoot(),
     RouterModule.forChild(accountRoutes)
   ],

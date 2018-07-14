@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -46,13 +47,16 @@ namespace dueltank.api
 
             services.Configure<ApplicationSettings>(Configuration.GetSection("AppSettings"));
 
-            services.AddCors(options => {
-                options.AddPolicy("CorsPolicy",
-                    builder => builder
-                        .AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials());
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", corsPolicyBuilder => corsPolicyBuilder.AllowAnyOrigin()
+                    // Apply CORS policy for any type of origin  
+                    .AllowAnyMethod()
+                    // Apply CORS policy for any type of http methods  
+                    .AllowAnyHeader()
+                    // Apply CORS policy for any headers  
+                    .AllowCredentials());
+                // Apply CORS policy for all users  
             });
 
             services.AddApplicationServices();
@@ -87,6 +91,11 @@ namespace dueltank.api
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, fileName));
             });
 
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAll"));
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -109,8 +118,8 @@ namespace dueltank.api
             }
 
             app.UseSwaggerDocumentation();
+            app.UseCors("AllowAll");
             app.AddIdentityConfiguration();
-            app.UseCors("CorsPolicy");
             app.UseMvc();
         }
     }

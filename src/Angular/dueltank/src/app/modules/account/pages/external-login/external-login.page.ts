@@ -4,12 +4,15 @@ import {TokenService} from "../../../../shared/services/token.service";
 import {AuthenticationService} from "../../../../shared/services/authentication.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {existingUsernameValidator} from "../../validators/existingUsernameValidator";
+import {ExternalLoginConfirmation} from "../../../../shared/models/authentication/externalloginconfirmation.model";
+import {UserProfile} from "../../../../shared/models/userprofile";
 
 @Component({
-  templateUrl: "./external-login-complete.page.html"
+  templateUrl: "./external-login.page.html"
 })
-export class ExternalLoginCompletePage implements OnInit {
+export class ExternalLoginPage implements OnInit {
   public provider: string;
+  private returnUrl: string;
   public registerExternalUserForm: FormGroup;
   public username: FormControl;
 
@@ -23,21 +26,29 @@ export class ExternalLoginCompletePage implements OnInit {
   }
   ngOnInit(): void {
 
-    var token = this.activatedRoute.snapshot.queryParams['token'];
     this.provider = this.activatedRoute.snapshot.queryParams['provider'];
+    this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'];
 
     this.createFormControls();
     this.createForm();
-    // if(token) {
-    //
-    //   this.authService.externalLoginCallback(token)
-    //     .subscribe(data => {
-    //       return this.router.navigateByUrl("/");
-    //     });
-    // }
-    // else {
-    //   this.router.navigateByUrl("/");
-    // }
+  }
+
+  public onSubmit() {
+    var model = new ExternalLoginConfirmation();
+    model.username = this.username.value;
+    this.authService.externalLoginConfirmation(model)
+      .subscribe
+      (
+        () => {
+          if(this.returnUrl) {
+
+            this.router.navigateByUrl(this.returnUrl);
+          }
+          else {
+            this.router.navigateByUrl("/");
+          }
+        }
+      )
   }
 
   private createFormControls() {

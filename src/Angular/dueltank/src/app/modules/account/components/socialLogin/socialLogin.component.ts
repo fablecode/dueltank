@@ -10,7 +10,7 @@ import {ActivatedRoute} from "@angular/router";
 export class SocialLoginComponent {
   constructor(private configuration: AppConfigService, private activatedRoute: ActivatedRoute, private globals: Globals){}
   openExternalLogin(provider: string) {
-    let returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || window.location.origin;
+    let returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || "";
     window.location.href = this.configuration.apiEndpoint + "/api/accounts/externallogin?provider=" + provider +
       "&returnUrl=" + returnUrl +
       "&loginUrl=" + window.location.origin + this.globals.routes.login +

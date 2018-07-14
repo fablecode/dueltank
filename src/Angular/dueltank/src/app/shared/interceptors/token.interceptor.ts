@@ -29,7 +29,9 @@ export class TokenInterceptor implements HttpInterceptor {
     const newHeader = new HttpHeaders(headerSettings);
 
     changedRequest = request.clone({
-      headers: newHeader});
+      headers: newHeader,
+      withCredentials: true
+    });
     return next.handle(changedRequest).toPromise();
   }
 }

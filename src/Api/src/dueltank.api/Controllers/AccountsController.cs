@@ -10,20 +10,19 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel.DataAnnotations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace dueltank.api.Controllers
 {
@@ -110,35 +109,40 @@ namespace dueltank.api.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, true);
-
-                if (result.Succeeded)
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user != null)
                 {
-                    var user = await _userManager.FindByEmailAsync(model.Email);
-                    _logger.LogInformation($"User {user.Email} logged in.");
+                    var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, true);
 
-                    return Ok(new
+                    if (result.Succeeded)
                     {
-                        token = await BuildToken(user),
-                        user = new
+                        _logger.LogInformation($"User {user.Email} logged in.");
+
+                        return Ok(new
                         {
-                            user.Id,
-                            Name = user.FullName,
-                            user.ProfileImageUrl
-                        }
-                    });
+                            token = await BuildToken(user),
+                            user = new
+                            {
+                                user.Id,
+                                Name = user.FullName,
+                                user.ProfileImageUrl
+                            }
+                        });
+                    }
+
+                    if (result.IsLockedOut)
+                    {
+                        _logger.LogWarning("User account locked out.");
+                        ModelState.AddModelError(string.Empty, "User account locked out.");
+                    }
+                    else
+                    {
+                        _logger.LogWarning("Invalid login attempt.");
+                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    }
                 }
 
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("User account locked out.");
-                    ModelState.AddModelError(string.Empty, "User account locked out.");
-                }
-                else
-                {
-                    _logger.LogWarning("Invalid login attempt.");
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                }
+                return BadRequest();
             }
 
             return BadRequest(ModelState.Errors());
@@ -261,15 +265,21 @@ namespace dueltank.api.Controllers
         [ProducesResponseType((int)HttpStatusCode.Redirect)]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl, string loginUrl, string lockoutUrl, string externalLoginUrl, string externalLoginCompleteUrl, string remoteError = null)
         {
+            //For "GetExternalLoginInfoAsync" to work on the subsequent request to "ExternalLoginConfirmation", identity cookie must be appended to response.
+            //GetExternalLoginInfoAsync is hardcoded to look for the "IdentityConstants.External" cookie, 
+            var cookieValueFromReq = Request.Cookies[IdentityConstants.ExternalScheme];
+            Response.Cookies.Append(IdentityConstants.ExternalScheme, cookieValueFromReq);
+
             // Get the information about the user from the external login provider
             var info = await _signInManager.GetExternalLoginInfoAsync();
+
             if (info == null)
             {
                 return Redirect(loginUrl);
             }
 
             // Sign in the user with this external login provider if the user already has a login.
-           var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false, true);
+           var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, true, true);
             if (signInResult.Succeeded)
             {
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
@@ -291,11 +301,15 @@ namespace dueltank.api.Controllers
                 _logger.LogInformation("User logged in with {Name} provider.", info.LoginProvider);
 
                 // Append token to returnUrl
-                externalLoginCompleteUrl = AppendToReturnUrl(externalLoginCompleteUrl, new NameValueCollection
+                var externalLoginCompleteUrlParameters = new NameValueCollection
                 {
-                    {"token", await BuildToken(existingUser) },
-                    {"returnUrl", returnUrl}
-                });
+                    {"token", await BuildToken(existingUser) }
+                };
+
+                if (!string.IsNullOrWhiteSpace(returnUrl))
+                    externalLoginCompleteUrlParameters["returnUrl"] = returnUrl;
+
+                externalLoginCompleteUrl = AppendToReturnUrl(externalLoginCompleteUrl, externalLoginCompleteUrlParameters);
 
                 return Redirect(externalLoginCompleteUrl);
             }
@@ -306,13 +320,26 @@ namespace dueltank.api.Controllers
                 return Redirect(lockoutUrl);
             }
 
+            var externalLoginUrlParameters = new NameValueCollection
+            {
+                {"provider",info.LoginProvider }
+            };
+
+            if (!string.IsNullOrWhiteSpace(returnUrl))
+                externalLoginUrlParameters["returnUrl"] = returnUrl;
+
+            externalLoginUrl = AppendToReturnUrl(externalLoginUrl, externalLoginUrlParameters);
+
             return Redirect(externalLoginUrl);
         }
 
-
+        /// <summary>
+        /// Social login confirmation
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ExternalLoginConfirmation([FromBody] ExternalLoginConfirmationViewModel model)
         {
             if (ModelState.IsValid)
@@ -340,29 +367,36 @@ namespace dueltank.api.Controllers
                     var user = new ApplicationUser { UserName = model.Username, Email = email, FullName = name, ProfileImageUrl = profileImage };
 
                     // create new user
-                    var identityResult = await _userManager.CreateAsync(user);
-                    if (identityResult.Succeeded)
+                    var createIdentityResult = await _userManager.CreateAsync(user);
+                    if (createIdentityResult.Succeeded)
                     {
                         // Add new user to default role
                         await _userManager.AddToRoleAsync(user, ApplicationRoles.RoleUser);
 
                         // add login
-                        identityResult = await _userManager.AddLoginAsync(user, info);
-                        if (identityResult.Succeeded)
+                        var addLoginIdentityResult = await _userManager.AddLoginAsync(user, info);
+                        if (addLoginIdentityResult.Succeeded)
                         {
                             // sign in new user
                             await _signInManager.SignInAsync(user, false);
                             _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
 
-                            // Append token to returnUrl
-                            model.ReturnUrl = await AppendTokenToReturnUrl(model.ReturnUrl, user);
-
-                            return Redirect(model.ReturnUrl);
-
+                            return Ok(new
+                            {
+                                token = await BuildToken(user),
+                                user = new
+                                {
+                                    user.Id,
+                                    Name = user.UserName,
+                                    user.ProfileImageUrl
+                                }
+                            });
                         }
 
-                        throw new ApplicationException($"Error creating an account for {email} using {info.LoginProvider}.");
+                        return BadRequest(addLoginIdentityResult.Errors.Descriptions());
                     }
+
+                    return BadRequest(createIdentityResult.Errors.Descriptions());
                 }
 
                 return BadRequest(new [] {$"The username {model.Username} already exists"});
@@ -408,7 +442,7 @@ namespace dueltank.api.Controllers
         [HttpGet, Authorize]
         public async Task<IActionResult> Profile()
         {
-            var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
 
             if (user == null)
             {
@@ -418,11 +452,16 @@ namespace dueltank.api.Controllers
             return Ok(new
             {
                 user.Id,
-                Name = user.FullName,
+                Name = user.UserName,
                 user.ProfileImageUrl
             });
         }
 
+        /// <summary>
+        /// Check is username already exists
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> VerifyUsername(string username)
@@ -494,22 +533,5 @@ namespace dueltank.api.Controllers
 
 
         #endregion
-    }
-
-    public class ExternalLoginConfirmationViewModel
-    {
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 4)]
-        [DataType(DataType.Text)]
-        [Display(Name = "Username")]
-        [RegularExpression(@"(^[\w]+$)", ErrorMessage = "Only letters and numbers")]
-        [Remote("VerifyUsername", "Accounts")]
-        public string Username { get; set; }
-
-        public string ReturnUrl { get; set; }
-
-        [Required]
-        [DataType(DataType.Url)]
-        public string ExternalLoginCompleteUrl { get; set; }
     }
 }

@@ -14,6 +14,7 @@ import {map} from "rxjs/operators";
 import {UserForgotPassword} from "../models/authentication/userforgotpassword.model";
 import {ResetUserPassword} from "../models/reset-user-password";
 import {Globals} from "../../globals";
+import {ExternalLoginConfirmation} from "../models/authentication/externalloginconfirmation.model";
 
 @Injectable()
 export class AuthenticationService {
@@ -91,5 +92,21 @@ export class AuthenticationService {
 
   public checkUsernameNotTaken(username: string) {
     return this.accountService.checkUsernameNotTaken(username);
+  }
+
+  public externalLoginConfirmation(username: ExternalLoginConfirmation): Observable<UserProfile>{
+    return this.accountService.externalLoginConfirmation(username)
+      .pipe
+      (
+        map
+        (data  =>
+          {
+            this.tokenService.setAccessToken(data.token);
+            this.userProfileService.setUserProfile(data.user);
+            this.isLoginSubject.next(true);
+            return data.user
+          }
+        )
+      )
   }
 }

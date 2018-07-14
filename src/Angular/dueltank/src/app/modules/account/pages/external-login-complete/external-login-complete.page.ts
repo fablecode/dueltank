@@ -8,9 +8,6 @@ import {FormControl, FormGroup} from "@angular/forms";
   templateUrl: "./external-login-complete.page.html"
 })
 export class ExternalLoginCompletePage implements OnInit {
-  public provider: string;
-  public registerExternalUserForm: FormGroup;
-  public username: FormControl;
 
   constructor
   (

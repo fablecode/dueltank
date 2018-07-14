@@ -16,6 +16,7 @@ export class LoginPage implements OnInit {
   public rememberMe: FormControl;
   public loginForm: FormGroup;
   public httpValidationErrors: string[] = [];
+  private returnUrl: string;
 
   constructor
   (
@@ -70,10 +71,17 @@ export class LoginPage implements OnInit {
       existingUser.password = this.loginForm.controls.password.value;
       existingUser.rememberMe = this.loginForm.controls.rememberMe.value === true;
 
-      let returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || window.location.origin;
+      this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || "";
 
-      this.authService.login(existingUser, returnUrl)
-        .subscribe(user => { return this.router.navigateByUrl(returnUrl); }, error => this.handleError(error));
+      this.authService.login(existingUser, this.returnUrl)
+        .subscribe
+        (
+          user =>
+          {
+            return this.router.navigateByUrl(this.returnUrl);
+          },
+          error => this.handleError(error)
+        );
     }
   }
 

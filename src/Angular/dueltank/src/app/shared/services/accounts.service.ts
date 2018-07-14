@@ -8,6 +8,7 @@ import {RegisterUser} from "../models/authentication/registeruser.model";
 import {LoginUser} from "../models/authentication/loginuser.model";
 import {UserForgotPassword} from "../models/authentication/userforgotpassword.model";
 import {ResetUserPassword} from "../models/reset-user-password";
+import {ExternalLoginConfirmation} from "../models/authentication/externalloginconfirmation.model";
 
 @Injectable()
 export class AccountsService {
@@ -43,5 +44,9 @@ export class AccountsService {
     let httpParams = new HttpParams()
       .set("username", username);
     return this.http.get(this.configuration.apiEndpoint + "/api/accounts/verifyusername", { params: httpParams})
+  }
+
+  public externalLoginConfirmation(externalLoginConfirmation: ExternalLoginConfirmation) {
+    return this.http.post<AuthenticatedUser>(this.configuration.apiEndpoint + "/api/accounts/externalloginconfirmation", externalLoginConfirmation);
   }
 }
