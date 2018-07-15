@@ -77,7 +77,8 @@ namespace dueltank.api.ServiceExtensions
                     };
                 });
 
-            services.AddAuthentication().AddFacebook(facebookOptions =>
+            services.AddAuthentication()
+            .AddFacebook(facebookOptions =>
             {
                 facebookOptions.SaveTokens = true;
                 facebookOptions.AppId = configuration["Authentication:Facebook:AppId"];
@@ -92,6 +93,14 @@ namespace dueltank.api.ServiceExtensions
                 googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
                 googleOptions.ClaimActions.MapJsonSubKey("profile-image-url", "image", "url");
                 googleOptions.ClaimActions.MapJsonKey("display-name", "displayName");
+            })
+            .AddTwitter(twitterOptions =>
+            {
+                twitterOptions.ConsumerKey = configuration["Authentication:Twitter:ConsumerKey"];
+                twitterOptions.ConsumerSecret = configuration["Authentication:Twitter:ConsumerSecret"];
+                twitterOptions.RetrieveUserDetails = true;
+                twitterOptions.ClaimActions.MapJsonKey("display-name", "name");
+                twitterOptions.ClaimActions.MapJsonKey("profile-image-url", "profile_image_url_https");
             });
 
             return services;

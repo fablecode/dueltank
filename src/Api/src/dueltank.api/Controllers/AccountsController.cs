@@ -531,7 +531,6 @@ namespace dueltank.api.Controllers
             return parameters.AllKeys.Aggregate(returnUrl, (current, key) => QueryHelpers.AddQueryString(current, key, parameters[key]));
         }
 
-
         #endregion
     }
 }
