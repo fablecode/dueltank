@@ -14,6 +14,8 @@ using System;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
+using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
+using Microsoft.AspNetCore.Http;
 
 
 namespace dueltank.api.ServiceExtensions
@@ -101,6 +103,12 @@ namespace dueltank.api.ServiceExtensions
                 twitterOptions.RetrieveUserDetails = true;
                 twitterOptions.ClaimActions.MapJsonKey("display-name", "name");
                 twitterOptions.ClaimActions.MapJsonKey("profile-image-url", "profile_image_url_https");
+            })
+            .AddMicrosoftAccount(microsoftOptions =>
+            {
+                microsoftOptions.ClientId = configuration["Authentication:Microsoft:ApplicationId"];
+                microsoftOptions.ClientSecret = configuration["Authentication:Microsoft:Password"];
+                microsoftOptions.SaveTokens = true;
             });
 
             return services;

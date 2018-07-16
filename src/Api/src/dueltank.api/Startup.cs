@@ -95,7 +95,6 @@ namespace dueltank.api
             {
                 options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAll"));
             });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

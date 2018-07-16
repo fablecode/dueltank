@@ -364,6 +364,13 @@ namespace dueltank.api.Controllers
                         profileImage = "http://graph.facebook.com/" + claim.Value + "/picture?width=200&height=200";
                     }
 
+                    if (info.LoginProvider.Equals("Microsoft", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var userId = info.Principal.Claims.First(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
+                        profileImage = $"https://apis.live.net/v5.0/{userId}/picture?type=large";
+                    }
+
+
                     var user = new ApplicationUser { UserName = model.Username, Email = email, FullName = name, ProfileImageUrl = profileImage };
 
                     // create new user
