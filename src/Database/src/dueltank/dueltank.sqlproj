@@ -114,6 +114,10 @@
     <Folder Include="Scripts" />
   </ItemGroup>
   <ItemGroup>
+    <Build Include="dbo\Programmability\Stored Procedures\usp_GetDeckCardsByDeckId.sql">
+      <QuotedIdentifier>On</QuotedIdentifier>
+      <AnsiNulls>On</AnsiNulls>
+    </Build>
     <Build Include="dbo\Tables\Archetype.sql">
       <QuotedIdentifier>On</QuotedIdentifier>
       <AnsiNulls>On</AnsiNulls>
@@ -251,10 +255,6 @@
       <AnsiNulls>On</AnsiNulls>
     </Build>
     <Build Include="dbo\Tables\AspNetUsers.sql">
-      <QuotedIdentifier>On</QuotedIdentifier>
-      <AnsiNulls>On</AnsiNulls>
-    </Build>
-    <Build Include="dbo\Programmability\Stored Procedures\usp_GetDeckCardsByDeckId.sql">
       <QuotedIdentifier>On</QuotedIdentifier>
       <AnsiNulls>On</AnsiNulls>
     </Build>
