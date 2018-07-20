@@ -261,6 +261,7 @@ namespace dueltank.api.Controllers
         /// <param name="remoteError"></param>
         /// <returns></returns>
         [HttpGet]
+        [RequireHttps]
         [AllowAnonymous]
         [ProducesResponseType((int)HttpStatusCode.Redirect)]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl, string loginUrl, string lockoutUrl, string externalLoginUrl, string externalLoginCompleteUrl, string remoteError = null)
@@ -309,7 +310,7 @@ namespace dueltank.api.Controllers
                 if (!string.IsNullOrWhiteSpace(returnUrl))
                     externalLoginCompleteUrlParameters["returnUrl"] = returnUrl;
 
-                externalLoginCompleteUrl = AppendToReturnUrl(externalLoginCompleteUrl, externalLoginCompleteUrlParameters);
+                externalLoginCompleteUrl = UrlHelpers.AppendToReturnUrl(externalLoginCompleteUrl, externalLoginCompleteUrlParameters);
 
                 return Redirect(externalLoginCompleteUrl);
             }
@@ -328,7 +329,7 @@ namespace dueltank.api.Controllers
             if (!string.IsNullOrWhiteSpace(returnUrl))
                 externalLoginUrlParameters["returnUrl"] = returnUrl;
 
-            externalLoginUrl = AppendToReturnUrl(externalLoginUrl, externalLoginUrlParameters);
+            externalLoginUrl = UrlHelpers.AppendToReturnUrl(externalLoginUrl, externalLoginUrlParameters);
 
             return Redirect(externalLoginUrl);
         }
@@ -481,12 +482,6 @@ namespace dueltank.api.Controllers
 
         #region private helpers
 
-        private async Task<string> AppendTokenToReturnUrl(string returnUrl, ApplicationUser user)
-        {
-            var token = await BuildToken(user);
-            return QueryHelpers.AddQueryString(returnUrl, "token", token);
-        }
-
         private async Task<string> BuildToken(ApplicationUser user)
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
@@ -533,10 +528,6 @@ namespace dueltank.api.Controllers
             return claims;
         }
 
-        private string AppendToReturnUrl(string returnUrl, NameValueCollection parameters)
-        {
-            return parameters.AllKeys.Aggregate(returnUrl, (current, key) => QueryHelpers.AddQueryString(current, key, parameters[key]));
-        }
 
         #endregion
     }

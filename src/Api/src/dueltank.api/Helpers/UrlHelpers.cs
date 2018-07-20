@@ -1,5 +1,8 @@
-﻿using dueltank.api.Controllers;
+﻿using System.Collections.Specialized;
+using System.Linq;
+using dueltank.api.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace dueltank.api.Helpers
 {
@@ -22,5 +25,11 @@ namespace dueltank.api.Helpers
                 values: new { userId, code, returnUrl },
                 protocol: scheme);
         }
+
+        public static string AppendToReturnUrl(string returnUrl, NameValueCollection parameters)
+        {
+            return parameters.AllKeys.Aggregate(returnUrl, (current, key) => QueryHelpers.AddQueryString(current, key, parameters[key]));
+        }
+
     }
 }
