@@ -95,6 +95,20 @@ namespace dueltank.api
             {
                 options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAll"));
             });
+
+            // 
+            services.AddHsts(options =>
+            {
+                options.Preload = true;
+                options.IncludeSubDomains = true;
+                options.MaxAge = TimeSpan.FromDays(60);
+            });
+
+            services.AddHttpsRedirection(options =>
+            {
+                options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
+                options.HttpsPort = 443;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -106,6 +120,7 @@ namespace dueltank.api
             }
             else
             {
+                app.UseHsts();
                 app.UseExceptionHandler(appBuilder =>
                 {
                     appBuilder.Run(async context =>
