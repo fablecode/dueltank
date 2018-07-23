@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net;
 using System.Reflection;
 using dueltank.api.Auth.Swagger;
 using dueltank.api.ServiceExtensions;
@@ -9,6 +10,7 @@ using dueltank.Domain.Service;
 using dueltank.infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -16,6 +18,8 @@ using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Serilog.Core;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace dueltank.api
@@ -102,7 +106,6 @@ namespace dueltank.api
                 options.Preload = true;
                 options.IncludeSubDomains = true;
                 options.MaxAge = TimeSpan.FromDays(60);
-                options.ExcludedHosts.Add("api.dueltank.com");
             });
 
             services.AddHttpsRedirection(options =>
@@ -113,7 +116,7 @@ namespace dueltank.api
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory logger)
         {
             if (env.IsDevelopment())
             {
@@ -125,20 +128,32 @@ namespace dueltank.api
                 // Citation: https://dzone.com/articles/enforce-ssl-and-use-hsts-in-net-core20-net-core-se
                 // Citation: https://docs.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-2.1&tabs=visual-studio
                 app.UseHsts();
+                app.UseHttpsRedirection();
+                app.UseStaticFiles();
+                app.UseCookiePolicy();
 
-                app.UseExceptionHandler(appBuilder =>
-                {
-                    appBuilder.Run(async context =>
+                app.UseExceptionHandler(
+                    options =>
                     {
-                        context.Response.StatusCode = 500;
-                        await context.Response.WriteAsync("An unexpected fault happened. Try again later.");
-                    });
-                });
+                        options.Run(
+                            async context =>
+                            {
+                                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                                context.Response.ContentType = "text/html";
+                                var ex = context.Features.Get<IExceptionHandlerFeature>();
+                                if (ex != null)
+                                {
+                                    var log = logger.CreateLogger<Startup>();
+                                    var err = $"<h1>Error: {ex.Error.Message}</h1>{ex.Error.StackTrace}";
+                                    log.LogError(err);
+
+                                    await context.Response.WriteAsync("An unexpected fault happened. Try again later.");
+                                }
+                            });
+                    }
+                );
             }
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseCookiePolicy();
 
             app.UseSwaggerDocumentation();
             app.UseCors("AllowAll");
