@@ -96,12 +96,13 @@ namespace dueltank.api
                 options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAll"));
             });
 
-            // 
+            // HTTP Strict Transport Security (HSTS) configuration
             services.AddHsts(options =>
             {
                 options.Preload = true;
                 options.IncludeSubDomains = true;
                 options.MaxAge = TimeSpan.FromDays(60);
+                options.ExcludedHosts.Add("api.dueltank.com");
             });
 
             services.AddHttpsRedirection(options =>
@@ -120,7 +121,11 @@ namespace dueltank.api
             }
             else
             {
+                // HTTP Strict Transport Security (HSTS) enabled
+                // Citation: https://dzone.com/articles/enforce-ssl-and-use-hsts-in-net-core20-net-core-se
+                // Citation: https://docs.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-2.1&tabs=visual-studio
                 app.UseHsts();
+
                 app.UseExceptionHandler(appBuilder =>
                 {
                     appBuilder.Run(async context =>
@@ -130,6 +135,10 @@ namespace dueltank.api
                     });
                 });
             }
+
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+            app.UseCookiePolicy();
 
             app.UseSwaggerDocumentation();
             app.UseCors("AllowAll");
