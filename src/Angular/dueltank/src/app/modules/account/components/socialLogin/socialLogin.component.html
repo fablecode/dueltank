@@ -1,3 +1,4 @@
+<loadingSpinner [loading]="isLoading"></loadingSpinner>
 <a class="btn azm-social azm-btn azm-border-bottom azm-google-plus" (click)="openExternalLogin('Google')"><i class="fa fa-google-plus"></i> Sign in with Google+</a>
 <br />
 <a class="btn azm-social azm-btn azm-border-bottom azm-facebook" (click)="openExternalLogin('Facebook')"><i class="fa fa-facebook"></i> Sign in with Facebook</a>
@@ -9,7 +10,7 @@
 <ng-template #template>
   <div class="modal-header">
     <h4 class="modal-title pull-left">Modal</h4>
-    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <button type="button" class="close pull-right" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>

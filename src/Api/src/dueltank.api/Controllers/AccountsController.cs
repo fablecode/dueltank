@@ -261,7 +261,6 @@ namespace dueltank.api.Controllers
         /// <param name="remoteError"></param>
         /// <returns></returns>
         [HttpGet]
-        [RequireHttps]
         [AllowAnonymous]
         [ProducesResponseType((int)HttpStatusCode.Redirect)]
         public async Task<IActionResult> ExternalLoginCallback(string returnUrl, string loginUrl, string lockoutUrl, string externalLoginUrl, string externalLoginCompleteUrl, string remoteError = null)
@@ -388,6 +387,9 @@ namespace dueltank.api.Controllers
                             // sign in new user
                             await _signInManager.SignInAsync(user, false);
                             _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+
+                            // remove external identity cookie 
+                            Response.Cookies.Delete(IdentityConstants.ExternalScheme);
 
                             return Ok(new
                             {
