@@ -47,7 +47,6 @@ namespace dueltank.api.Controllers
         /// <param name="file"></param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize]
         [RequestSizeLimit(100_000_00)] // 10MB request size
         public async Task<IActionResult> UploadDeck([FromForm]IFormFile file)
         {

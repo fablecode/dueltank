@@ -449,7 +449,7 @@ namespace dueltank.api.Controllers
         /// Get user profile data
         /// </summary>
         /// <returns></returns>
-        [HttpGet, Authorize]
+        [HttpGet]
         public async Task<IActionResult> Profile()
         {
             var user = await _userManager.FindByNameAsync(User.Identity.Name);
