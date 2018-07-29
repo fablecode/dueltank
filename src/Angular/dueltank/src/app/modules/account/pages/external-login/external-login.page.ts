@@ -6,6 +6,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {existingUsernameValidator} from "../../validators/existingUsernameValidator";
 import {ExternalLoginConfirmation} from "../../../../shared/models/authentication/externalloginconfirmation.model";
 import {UserProfile} from "../../../../shared/models/userprofile";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   templateUrl: "./external-login.page.html"
@@ -15,6 +16,7 @@ export class ExternalLoginPage implements OnInit {
   private returnUrl: string;
   public registerExternalUserForm: FormGroup;
   public username: FormControl;
+  public httpValidationErrors: string[] = [];
 
   constructor
   (
@@ -47,7 +49,8 @@ export class ExternalLoginPage implements OnInit {
           else {
             this.router.navigateByUrl("/");
           }
-        }
+        },
+        error => this.handleError(error)
       )
   }
 
@@ -67,5 +70,9 @@ export class ExternalLoginPage implements OnInit {
     this.registerExternalUserForm = new FormGroup({
       username: this.username
     })
+  }
+
+  private handleError(httpError: HttpErrorResponse) {
+    this.httpValidationErrors = httpError.error;
   }
 }
