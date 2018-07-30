@@ -52,7 +52,7 @@ namespace dueltank.api.Controllers
         {
             if (file != null && file.Length >= 0)
             {
-                var user = await _userManager.FindByEmailAsync(User.Identity.Name);
+                var user = await _userManager.FindByNameAsync(User.Identity.Name);
                 if (user != null)
                 {
                     var command = new UploadYgoProDeckCommand

@@ -35,7 +35,7 @@ namespace dueltank.core.Models.Decks
         {
             return new DeckDetail
             {
-                Username = entity.User.FullName,
+                Username = entity.User.UserName,
                 UserId = entity.User.Id,
                 Id = entity.Id,
                 Name = entity.Name,

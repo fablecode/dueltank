@@ -19,6 +19,7 @@ import {SharedModule} from "../shared/shared.module";
 import {ClipboardModule} from "ngx-clipboard";
 import { YoutubePlayerModule } from 'ngx-youtube-player';
 import {SafePipe} from "../../shared/pipes/safe.pipe";
+import {DeckCardFiltersComponent} from "./components/deck-card-filters/deck-card-filters.component";
 
 const deckRoutes: Routes = [
   {
@@ -44,7 +45,8 @@ const deckRoutes: Routes = [
     DeckListPage,
     DeckViewPage,
     DeckViewCardSearchComponent,
-    DeckViewFormOptionsComponent
+    DeckViewFormOptionsComponent,
+    DeckCardFiltersComponent
   ],
   imports: [
     CommonModule,
