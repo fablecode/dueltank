@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   templateUrl: "./deck-card-filters.component.html",
@@ -7,6 +7,7 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 })
 export class DeckCardFiltersComponent implements OnInit {
   public cardFilterForm : FormGroup;
+  public banlist: FormControl;
 
   constructor(private fb: FormBuilder) { }
 
