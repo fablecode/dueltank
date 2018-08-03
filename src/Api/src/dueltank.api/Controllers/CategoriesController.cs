@@ -18,7 +18,7 @@ namespace dueltank.api.Controllers
         }
 
         /// <summary>
-        /// Retrieve all the Yugioh Categories
+        /// Retrieve all the Categories
         /// </summary>
         /// <returns></returns>
         [AllowAnonymous]

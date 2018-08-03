@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
-using dueltank.application.Queries.AllFormats;
+using dueltank.application.Queries.AllCategories;
+using dueltank.application.Queries.AllSubCategories;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,17 +9,17 @@ using Microsoft.AspNetCore.Mvc;
 namespace dueltank.api.Controllers
 {
     [Route("api/[controller]")]
-    public class FormatsController : Controller
+    public class SubCategoriesController : Controller
     {
         private readonly IMediator _mediator;
 
-        public FormatsController(IMediator mediator)
+        public SubCategoriesController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         /// <summary>
-        /// Retrieve all the Formats
+        /// Retrieve all the SubCategories
         /// </summary>
         /// <returns></returns>
         [AllowAnonymous]
@@ -26,7 +27,7 @@ namespace dueltank.api.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> Get()
         {
-            var result = await _mediator.Send(new AllFormatsQuery());
+            var result = await _mediator.Send(new AllSubCategoriesQuery());
 
             return Ok(result);
         }

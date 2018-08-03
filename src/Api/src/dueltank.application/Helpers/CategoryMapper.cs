@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using dueltank.application.Models.Category.Output;
-using dueltank.application.Models.Formats.Output;
+﻿using dueltank.application.Models.Category.Output;
 using dueltank.core.Models.Db;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace dueltank.application.Helpers
 {
