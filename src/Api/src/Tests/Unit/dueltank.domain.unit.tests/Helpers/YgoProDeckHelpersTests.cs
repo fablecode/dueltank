@@ -37,7 +37,7 @@ namespace dueltank.domain.unit.tests.Helpers
         }
 
         [TestCaseSource(nameof(_deckSections))]
-        public void Given_A_DeckSection_Should_Return_CardNumbers(string deckSection, string[] expected)
+        public void Given_A_DeckSection_Should_Return_CardNumbers(string deckSection, long[] expected)
         {
             // Arrange
             // Act
@@ -90,7 +90,7 @@ namespace dueltank.domain.unit.tests.Helpers
                     58820923
                     39030163
                     31801517",
-                new[] { "33698022", "58820923", "39030163", "31801517" }
+                new long[] { 33698022, 58820923, 39030163, 31801517 }
             }
         };
 
