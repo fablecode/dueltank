@@ -18,7 +18,12 @@ namespace dueltank.infrastructure.Repository
 
         public async Task<IList<Format>> AllFormats()
         {
-            return await _context.Format.ToListAsync();
+            return await _context
+                            .Format
+                            .Include(b => b.Banlist)
+                                .ThenInclude(b => b.BanlistCard)
+                                    .ThenInclude(b => b.Limit)
+                            .ToListAsync();
         }
     }
 }

@@ -44,8 +44,13 @@ namespace dueltank.application
             services.AddTransient<IDeckService, DeckService>();
             services.AddTransient<ICardService, CardService>();
             services.AddTransient<IDeckTypeService, DeckTypeService>();
-            services.AddTransient<IFormatService, FormatService>();
             services.AddTransient<ICategoryService, CategoryService>();
+            services.AddTransient<ISubCategoryService, SubCategoryService>();
+            services.AddTransient<IAttributeService, AttributeService>();
+            services.AddTransient<ITypeService, TypeService>();
+            services.AddTransient<ITypeService, TypeService>();
+            services.AddTransient<IFormatService, FormatService>();
+            services.AddTransient<ILimitService, LimitService>();
 
             return services;
         }

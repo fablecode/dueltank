@@ -17,6 +17,7 @@
   <ItemGroup>
     <PackageReference Include="fluentassertions" Version="5.4.1" />
     <PackageReference Include="fluentvalidation" Version="7.6.103" />
+    <PackageReference Include="Microsoft.CodeCoverage" Version="15.8.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
     <PackageReference Include="nunit" Version="3.10.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />

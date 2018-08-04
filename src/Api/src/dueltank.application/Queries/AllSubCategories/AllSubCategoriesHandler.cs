@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using dueltank.application.Helpers;
 using dueltank.application.Models.SubCategory.Output;
-using dueltank.core.Models.Db;
+using dueltank.core.Services;
 using MediatR;
 
 namespace dueltank.application.Queries.AllSubCategories
@@ -23,10 +23,5 @@ namespace dueltank.application.Queries.AllSubCategories
 
             return formats.MapToOutputModels();
         }
-    }
-
-    public interface ISubCategoryService
-    {
-        Task<IList<SubCategory>> AllSubCategories();
     }
 }
