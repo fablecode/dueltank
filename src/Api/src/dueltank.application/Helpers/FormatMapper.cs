@@ -41,7 +41,8 @@ namespace dueltank.application.Helpers
 
 
                 return model;
-            });
+            })
+            .Where(bl => bl.LatestBanlist != null);
         }
     }
 }

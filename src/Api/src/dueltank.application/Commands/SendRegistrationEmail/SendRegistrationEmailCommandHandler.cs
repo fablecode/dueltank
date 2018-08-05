@@ -1,9 +1,9 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using dueltank.core.Services;
+﻿using dueltank.core.Services;
+using dueltank.Domain.Configuration;
 using dueltank.Domain.Model;
-using dueltank.Domain.Service;
 using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace dueltank.application.Commands.SendRegistrationEmail
 {

@@ -4,6 +4,7 @@ using dueltank.application.Configuration;
 using dueltank.application.Validations.Deck;
 using dueltank.core.Models.YgoPro;
 using dueltank.core.Services;
+using dueltank.Domain.Configuration;
 using dueltank.Domain.Service;
 using FluentValidation;
 using MediatR;

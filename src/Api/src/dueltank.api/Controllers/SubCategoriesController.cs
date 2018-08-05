@@ -1,10 +1,9 @@
-﻿using System.Net;
-using System.Threading.Tasks;
-using dueltank.application.Queries.AllCategories;
-using dueltank.application.Queries.AllSubCategories;
+﻿using dueltank.application.Queries.AllSubCategories;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace dueltank.api.Controllers
 {

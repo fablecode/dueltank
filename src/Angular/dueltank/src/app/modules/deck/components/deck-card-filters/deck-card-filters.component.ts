@@ -1,5 +1,8 @@
 import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormatService} from "../../../../shared/services/format.service";
+import {combineLatest, forkJoin, Observable} from "rxjs";
+import {Format} from "../../../../shared/models/format";
 
 @Component({
   templateUrl: "./deck-card-filters.component.html",
@@ -7,13 +10,31 @@ import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 })
 export class DeckCardFiltersComponent implements OnInit {
   public cardFilterForm : FormGroup;
-  public banlist: FormControl;
+  public banlistControl: FormControl;
+  public categoryControl: FormControl;
 
-  constructor(private fb: FormBuilder) { }
+  public formats: Format[];
+
+  constructor(private fb: FormBuilder, private formatService: FormatService) { }
 
   ngOnInit(): void {
+    this.banlistControl = new FormControl(null, Validators.required);
+    this.categoryControl = new FormControl(null);
+
     this.cardFilterForm = this.fb.group({
-      banlist: ['']
+      banlist: this.banlistControl,
+      category: this.categoryControl
     });
+
+    this.getDeckCardSearchFilters()
+        .subscribe(([formats]) => {
+          this.formats = formats;
+        });
+  }
+
+  private getDeckCardSearchFilters() : Observable<any> {
+    return forkJoin(
+      this.formatService.allFormats()
+    );
   }
 }

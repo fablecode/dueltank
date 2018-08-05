@@ -2,15 +2,31 @@
   <div class="row">
     <div class="ibox">
       <div class="ibox-content">
-        <div class="form-group">
-          <label class="col-lg-2 control-label">Banlist:</label>
-          <div class="col-lg-10">
-            <form [formGroup]="cardFilterForm">
+        <form [formGroup]="cardFilterForm">
+          <!--Banlist-->
+          <div class="form-group">
+            <label class="col-lg-2 control-label">Banlist:</label>
+            <div class="col-lg-10">
               <select id="banlist" class="form-control m-b" name="format" formControlName="banlist">
+                <option [ngValue]="null"*ngIf="formats == null" [selected]="true">Loading....</option>
+                <option *ngFor="let format of formats"
+                        [ngValue]="format">{{format.acronym}}</option>
               </select>
-            </form>
+            </div>
           </div>
-        </div>
+
+          <!--Category and SubCategory-->
+          <div class="form-group">
+            <label class="col-lg-2 control-label">Category:</label>
+            <div class="col-lg-5">
+              <select id="category" class="form-control m-b" name="format" formControlName="category">
+                <option [ngValue]="null"*ngIf="deckFormats == null" [selected]="true">Loading....</option>
+                <option *ngFor="let format of deckFormats"
+                        [ngValue]="format">{{format.acronym}}</option>
+              </select>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>

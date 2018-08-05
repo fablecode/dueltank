@@ -1,9 +1,10 @@
-﻿using System.Linq;
-using dueltank.core.Services;
+﻿using dueltank.core.Services;
+using dueltank.Domain.Configuration;
 using dueltank.Domain.Model;
 using MailKit.Net.Smtp;
 using MimeKit;
 using MimeKit.Text;
+using System.Linq;
 
 namespace dueltank.Domain.Service
 {

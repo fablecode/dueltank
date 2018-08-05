@@ -1,12 +1,8 @@
-﻿using System;
-using System.IO;
-using System.Net;
-using System.Reflection;
-using dueltank.api.Auth.Swagger;
+﻿using dueltank.api.Auth.Swagger;
 using dueltank.api.ServiceExtensions;
 using dueltank.application;
 using dueltank.application.Configuration;
-using dueltank.Domain.Service;
+using dueltank.Domain.Configuration;
 using dueltank.infrastructure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -19,8 +15,11 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Serilog.Core;
 using Swashbuckle.AspNetCore.Swagger;
+using System;
+using System.IO;
+using System.Net;
+using System.Reflection;
 
 namespace dueltank.api
 {

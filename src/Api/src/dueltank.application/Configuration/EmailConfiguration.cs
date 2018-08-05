@@ -1,4 +1,4 @@
-﻿using dueltank.Domain.Service;
+﻿using dueltank.Domain.Configuration;
 
 namespace dueltank.application.Configuration
 {

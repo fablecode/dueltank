@@ -1,4 +1,4 @@
-﻿namespace dueltank.Domain.Service
+﻿namespace dueltank.Domain.Configuration
 {
     public interface IEmailConfiguration
     {

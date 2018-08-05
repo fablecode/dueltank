@@ -20,6 +20,7 @@ import {ClipboardModule} from "ngx-clipboard";
 import { YoutubePlayerModule } from 'ngx-youtube-player';
 import {SafePipe} from "../../shared/pipes/safe.pipe";
 import {DeckCardFiltersComponent} from "./components/deck-card-filters/deck-card-filters.component";
+import {FormatService} from "../../shared/services/format.service";
 
 const deckRoutes: Routes = [
   {
@@ -64,6 +65,7 @@ const deckRoutes: Routes = [
   providers: [
     AuthGuard,
     DeckService,
+    FormatService,
     SelectedDeckResolve
   ]
 })
