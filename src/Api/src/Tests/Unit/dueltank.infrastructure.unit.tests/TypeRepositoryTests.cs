@@ -4,17 +4,15 @@ using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
-using dueltank.core.Models.Db;
-using Attribute = dueltank.core.Models.Db.Attribute;
+using Type = dueltank.core.Models.Db.Type;
 
 namespace dueltank.infrastructure.unit.tests
 {
     [TestFixture]
-    public class DeckTypeRepositoryTests
+    public class TypeRepositoryTests
     {
-        private DeckTypeRepository _sut;
+        private TypeRepository _sut;
         private DbContextOptions<DueltankDbContext> _dbContextOptions;
 
         [SetUp]
@@ -24,25 +22,25 @@ namespace dueltank.infrastructure.unit.tests
                 .UseInMemoryDatabase("dueltank")
                 .Options;
 
-            _sut = new DeckTypeRepository(new DueltankDbContext(_dbContextOptions));
+            _sut = new TypeRepository(new DueltankDbContext(_dbContextOptions));
         }
 
         [Test]
-        public async Task Selects_All_DeckTypes()
+        public async Task Selects_All_Types()
         {
             // Arrange
             var expected = 2;
             using (var context = new DueltankDbContext(_dbContextOptions))
             {
-                context.DeckType.Add(new DeckType
+                context.Type.Add(new Type
                 {
-                    Name = "Main",
+                    Name = "Earth",
                     Created = DateTime.UtcNow,
                     Updated = DateTime.UtcNow
                 });
-                context.DeckType.Add(new DeckType
+                context.Type.Add(new Type
                 {
-                    Name = "Side",
+                    Name = "Water",
                     Created = DateTime.UtcNow,
                     Updated = DateTime.UtcNow
                 });
@@ -51,10 +49,10 @@ namespace dueltank.infrastructure.unit.tests
             }
 
             // Act
-            var result = await _sut.AllDeckTypes();
+            var result = await _sut.AllTypes();
 
             // Assert
-            result.Count().Should().Be(expected);
+            result.Count.Should().Be(expected);
         }
     }
 }
