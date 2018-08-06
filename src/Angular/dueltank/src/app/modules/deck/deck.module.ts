@@ -21,6 +21,9 @@ import { YoutubePlayerModule } from 'ngx-youtube-player';
 import {SafePipe} from "../../shared/pipes/safe.pipe";
 import {DeckCardFiltersComponent} from "./components/deck-card-filters/deck-card-filters.component";
 import {FormatService} from "../../shared/services/format.service";
+import {CategoryService} from "../../shared/services/category.service";
+import {SubCategoryService} from "../../shared/services/subcategory.service";
+import {AttributeService} from "../../shared/services/attribute.service";
 
 const deckRoutes: Routes = [
   {
@@ -66,6 +69,9 @@ const deckRoutes: Routes = [
     AuthGuard,
     DeckService,
     FormatService,
+    CategoryService,
+    SubCategoryService,
+    AttributeService,
     SelectedDeckResolve
   ]
 })
