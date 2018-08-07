@@ -24,6 +24,7 @@ import {FormatService} from "../../shared/services/format.service";
 import {CategoryService} from "../../shared/services/category.service";
 import {SubCategoryService} from "../../shared/services/subcategory.service";
 import {AttributeService} from "../../shared/services/attribute.service";
+import {TypeService} from "../../shared/services/type.service";
 
 const deckRoutes: Routes = [
   {
@@ -72,6 +73,7 @@ const deckRoutes: Routes = [
     CategoryService,
     SubCategoryService,
     AttributeService,
+    TypeService,
     SelectedDeckResolve
   ]
 })

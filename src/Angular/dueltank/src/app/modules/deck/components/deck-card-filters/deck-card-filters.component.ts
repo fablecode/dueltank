@@ -9,6 +9,7 @@ import {SubCategoryService} from "../../../../shared/services/subcategory.servic
 import {SubCategory} from "../../../../shared/models/subcategory.model";
 import {AttributeService} from "../../../../shared/services/attribute.service";
 import {Attribute} from "../../../../shared/models/attribute.model";
+import {TypeService} from "../../../../shared/services/type.service";
 
 @Component({
   templateUrl: "./deck-card-filters.component.html",
@@ -20,12 +21,15 @@ export class DeckCardFiltersComponent implements OnInit {
   public categoryControl: FormControl;
   public subCategoryControl: FormControl;
   public attributeControl: FormControl;
+  public typeControl: FormControl;
+  public lvlrankControl: FormControl;
 
   public formats: Format[];
   public categories: Category[];
   public subCategories: SubCategory[];
   public selectedSubCategories: SubCategory[];
   public attributes: Attribute[];
+  public types: Attribute[];
 
   constructor
   (
@@ -33,7 +37,8 @@ export class DeckCardFiltersComponent implements OnInit {
     private formatService: FormatService,
     private categoryService: CategoryService,
     private subCategoryService: SubCategoryService,
-    private attributeService: AttributeService
+    private attributeService: AttributeService,
+    private typeService: TypeService
   ) { }
 
   ngOnInit(): void {
@@ -41,22 +46,26 @@ export class DeckCardFiltersComponent implements OnInit {
     this.categoryControl = new FormControl(null);
     this.subCategoryControl = new FormControl({value: '', disabled: true});
     this.attributeControl = new FormControl({value: '', disabled: true});
+    this.typeControl = new FormControl({value: '', disabled: true});
+    this.lvlrankControl = new FormControl({value: '', disabled: true});
 
     this.cardFilterForm = this.fb.group({
       banlist: this.banlistControl,
       category: this.categoryControl,
       subCategory: this.subCategoryControl,
-      attribute: this.attributeControl
+      attribute: this.attributeControl,
+      type: this.typeControl,
+      lvlrank: this.lvlrankControl
     });
 
     this.getDeckCardSearchFilters()
-        .subscribe(([formats, categories, subCategories, attributes]) => {
+        .subscribe(([formats, categories, subCategories, attributes, types]) => {
           this.formats = formats;
           this.categories = categories;
           this.subCategories = subCategories;
           this.selectedSubCategories = subCategories;
           this.attributes = attributes;
-
+          this.types = types
           this.onStateChanges();
         });
   }
@@ -66,7 +75,8 @@ export class DeckCardFiltersComponent implements OnInit {
       this.formatService.allFormats(),
       this.categoryService.allCategories(),
       this.subCategoryService.allSubCategories(),
-      this.attributeService.allAttributes()
+      this.attributeService.allAttributes(),
+      this.typeService.allAttributes()
     );
   }
 
@@ -93,10 +103,21 @@ export class DeckCardFiltersComponent implements OnInit {
 
           if(selectedCategory.name === "Monster") {
             this.cardFilterForm.controls.attribute.enable();
+            this.cardFilterForm.controls.type.enable();
+            this.cardFilterForm.controls.lvlrank.enable();
           }
           else {
+            // Attribute
             this.cardFilterForm.controls.attribute.reset();
             this.cardFilterForm.controls.attribute.disable();
+
+            // Type
+            this.cardFilterForm.controls.type.reset();
+            this.cardFilterForm.controls.type.disable();
+
+            // Lvlrank
+            this.cardFilterForm.controls.lvlrank.reset();
+            this.cardFilterForm.controls.lvlrank.disable();
           }
         }
       });
