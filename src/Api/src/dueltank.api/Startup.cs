@@ -1,4 +1,5 @@
 ﻿using dueltank.api.Auth.Swagger;
+using dueltank.api.Constants;
 using dueltank.api.ServiceExtensions;
 using dueltank.application;
 using dueltank.application.Configuration;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -69,18 +71,29 @@ namespace dueltank.api
             services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
 
             services.AddMvc(setupAction =>
-            {
-                // 406 Not Acceptable response, if accept header not supported.
-                setupAction.ReturnHttpNotAcceptable = true;
+                {
+                    // 406 Not Acceptable response, if accept header not supported.
+                    setupAction.ReturnHttpNotAcceptable = true;
 
-                // Xml Formatters support
-                setupAction.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
+                    // Xml Formatters support
+                    setupAction.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
 
-                // Single authorization policy used globally
-                var policy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-                setupAction.Filters.Add(new AuthorizeFilter(policy));
+                    // Single authorization policy used globally
+                    var policy = new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                        .Build();
+                    setupAction.Filters.Add(new AuthorizeFilter(policy));
+
+                    // caching profiles
+                    setupAction.CacheProfiles.Add
+                    (
+                        CacheConstants.CardImageCachePolicy,
+                        new CacheProfile
+                        {
+                            Duration = (int?) TimeSpan.FromDays(14).TotalSeconds,
+                            VaryByHeader = "User-Agent"
+                        }
+                    );
             });
 
             services.AddSwaggerGen(c =>

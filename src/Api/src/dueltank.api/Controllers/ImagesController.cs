@@ -1,8 +1,10 @@
-﻿using dueltank.application.Queries.DeckThumbnailImagePath;
+﻿using dueltank.api.Constants;
+using dueltank.application.Queries.CardImageByName;
+using dueltank.application.Queries.DeckThumbnailImagePath;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace dueltank.api.Controllers
@@ -17,13 +19,31 @@ namespace dueltank.api.Controllers
             _mediator = mediator;
         }
 
+        /// <summary>
+        /// Card image by name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("cards/{name}")]
-        public Task<IActionResult> Cards(string name)
+        [ResponseCache(CacheProfileName = CacheConstants.CardImageCachePolicy)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> Cards(string name)
         {
-            throw new NotImplementedException();
+            var result = await _mediator.Send(new CardImageByNameQuery { Name = name });
+
+            if (result.IsSuccessful)
+                return new PhysicalFileResult(result.FilePath, result.ContentType);
+
+            return NotFound();
         }
 
+        /// <summary>
+        /// Deck thumbnail by deck id
+        /// </summary>
+        /// <param name="deckId"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("decks/{deckId}/thumbnail")]
         public async Task<IActionResult> DeckThumbnail(long deckId)
