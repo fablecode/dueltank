@@ -9,8 +9,8 @@ import {animate, style, transition, trigger} from "@angular/animations";
     trigger(
       'leaveAnimation', [
         transition(':leave', [
-          style({transform: 'translateX(0)', opacity: 1}),
-          animate('500ms', style({transform: 'translateX(100%)', opacity: 0}))
+          style({ opacity: 1 }),
+          animate('0.2s', style({ opacity: 0 }))
         ])
       ]
     )

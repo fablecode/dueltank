@@ -12,6 +12,7 @@ import {Attribute} from "../../../../shared/models/attribute.model";
 import {TypeService} from "../../../../shared/services/type.service";
 import {LimitService} from "../../../../shared/services/limit.service";
 import {Limit} from "../../../../shared/models/limit.model";
+import {DeckCardFilterService} from "../../services/deck-card-filter.service";
 
 @Component({
   templateUrl: "./deck-card-filters.component.html",
@@ -43,7 +44,8 @@ export class DeckCardFiltersComponent implements OnInit {
     private subCategoryService: SubCategoryService,
     private attributeService: AttributeService,
     private typeService: TypeService,
-    private limitService: LimitService
+    private limitService: LimitService,
+    private deckCardFilterService : DeckCardFilterService
   ) { }
 
   ngOnInit(): void {
@@ -53,7 +55,7 @@ export class DeckCardFiltersComponent implements OnInit {
     this.attributeControl = new FormControl({value: '', disabled: true});
     this.typeControl = new FormControl({value: '', disabled: true});
     this.lvlrankControl = new FormControl({value: '', disabled: true});
-    this.limitControl = new FormControl({value: '', disabled: true});
+    this.limitControl = new FormControl({value: ''});
 
     this.cardFilterForm = this.fb.group({
       banlist: this.banlistControl,
@@ -75,6 +77,7 @@ export class DeckCardFiltersComponent implements OnInit {
           this.types = types;
           this.limits = limits;
           this.onStateChanges();
+          this.deckCardFilterService.cardFiltersLoaded(true);
         });
   }
 
@@ -104,6 +107,14 @@ export class DeckCardFiltersComponent implements OnInit {
           // Attribute
           this.cardFilterForm.controls.attribute.reset();
           this.cardFilterForm.controls.attribute.disable();
+
+          // Type
+          this.cardFilterForm.controls.type.reset();
+          this.cardFilterForm.controls.type.disable();
+
+          // Lvl or Rank
+          this.cardFilterForm.controls.lvlrank.reset();
+          this.cardFilterForm.controls.lvlrank.disable();
         } else {
           let selectedCategory: Category = this.cardFilterForm.controls.category.value;
 
