@@ -27,6 +27,9 @@ namespace dueltank.api
 {
     public class Startup
     {
+        private const int TwoWeeks = 14;
+        private const int OneWeek = 7;
+
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder();
@@ -87,14 +90,31 @@ namespace dueltank.api
                     // caching profiles
                     setupAction.CacheProfiles.Add
                     (
-                        CacheConstants.CardImageCachePolicy,
+                        CacheConstants.Default,
+                        new CacheProfile()
+                        {
+                            Duration = 60
+                        }
+                    );
+                    setupAction.CacheProfiles.Add
+                    (
+                        CacheConstants.TwoWeeksPolicy,
                         new CacheProfile
                         {
-                            Duration = (int?) TimeSpan.FromDays(14).TotalSeconds,
+                            Duration = (int?) TimeSpan.FromDays(TwoWeeks).TotalSeconds,
                             VaryByHeader = "User-Agent"
                         }
                     );
-            });
+                    setupAction.CacheProfiles.Add
+                    (
+                        CacheConstants.OneWeekPolicy,
+                        new CacheProfile()
+                        {
+                            Duration = (int?) TimeSpan.FromDays(OneWeek).TotalSeconds,
+                            VaryByHeader = "User-Agent"
+                        }
+                    );
+                });
 
             services.AddSwaggerGen(c =>
             {

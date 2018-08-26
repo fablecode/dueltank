@@ -7,7 +7,7 @@
           <div class="form-group">
             <label class="col-lg-2 control-label">Banlist:</label>
             <div class="col-lg-10">
-              <select id="banlist" class="form-control m-b" name="format" formControlName="banlist">
+              <select id="banlist" class="form-control m-b" name="banlist" formControlName="banlist">
                 <option [ngValue]="null"*ngIf="formats == null" [selected]="true">Loading....</option>
                 <option *ngFor="let format of formats"
                         [ngValue]="format">{{format.acronym}}</option>
@@ -19,7 +19,7 @@
           <div class="form-group">
             <label class="col-lg-2 control-label">Category:</label>
             <div class="col-lg-5">
-              <select id="category" class="form-control m-b" name="format" formControlName="category">
+              <select id="category" class="form-control m-b" name="category" formControlName="category">
                 <option [ngValue]="null"*ngIf="categories == null" [selected]="true">Loading....</option>
                 <option [ngValue]="null" [selected]="true">All</option>
                 <option *ngFor="let category of categories"
@@ -27,7 +27,7 @@
               </select>
             </div>
             <div class="col-lg-5">
-              <select id="subCategory" class="form-control m-b" name="format" formControlName="subCategory">
+              <select id="subCategory" class="form-control m-b" name="subCategory" formControlName="subCategory">
                 <option [ngValue]="null"*ngIf="selectedSubCategories == null" [selected]="true">Loading....</option>
                 <option [ngValue]="null" [selected]="true">All</option>
                 <option *ngFor="let subCategory of selectedSubCategories" [ngValue]="subCategory">{{subCategory.name}}</option>
@@ -38,7 +38,7 @@
           <div class="form-group">
             <label class="col-lg-2 control-label">Attribute:</label>
             <div class="col-lg-10">
-              <select id="attribute" class="form-control m-b" name="format" formControlName="attribute">
+              <select id="attribute" class="form-control m-b" name="attribute" formControlName="attribute">
                 <option [ngValue]="null"*ngIf="attributes == null" [selected]="true">Loading....</option>
                 <option [ngValue]="null" [selected]="true">All</option>
                 <option *ngFor="let attribute of attributes" [ngValue]="attribute">{{attribute.name}}</option>
@@ -48,7 +48,7 @@
           <div class="form-group">
             <label class="col-lg-2 control-label">Type:</label>
             <div class="col-lg-10">
-              <select id="type" class="form-control m-b" name="format" formControlName="type">
+              <select id="type" class="form-control m-b" name="type" formControlName="type">
                 <option [ngValue]="null"*ngIf="types == null" [selected]="true">Loading....</option>
                 <option [ngValue]="null" [selected]="true">All</option>
                 <option *ngFor="let type of types" [ngValue]="type">{{type.name}}</option>
@@ -57,15 +57,30 @@
           </div>
           <div class="form-group">
             <label class="col-lg-2 control-label">Lvl/Rank:</label>
-            <div class="col-lg-2">
+            <div class="col-lg-5">
               <input name="lvlrank" type="text" class="form-control text-center" formControlName="lvlrank">
-            </div>
-            <label class="col-lg-2 control-label">Scale:</label>
-            <div class="col-lg-2">
-              <input name="scale" type="text" class="form-control text-center" >
             </div>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-lg-6">
+  <div class="row">
+    <div class="ibox">
+      <div class="ibox-content">
+        <div class="form-group">
+          <label class="col-lg-2 control-label">Limit:</label>
+          <div class="col-lg-10">
+            <select id="limit" class="form-control m-b" name="limit" formControlName="limit">
+              <option [ngValue]="null"*ngIf="limits == null" [selected]="true">Loading....</option>
+              <option [ngValue]="null" [selected]="true">All</option>
+              <option *ngFor="let limit of limits"
+                      [ngValue]="limit">{{limit.name}}</option>
+            </select>
+          </div>
+        </div>
       </div>
     </div>
   </div>

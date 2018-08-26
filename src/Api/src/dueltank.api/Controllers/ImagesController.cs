@@ -26,7 +26,7 @@ namespace dueltank.api.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("cards/{name}")]
-        [ResponseCache(CacheProfileName = CacheConstants.CardImageCachePolicy)]
+        [ResponseCache(CacheProfileName = CacheConstants.TwoWeeksPolicy)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Cards(string name)

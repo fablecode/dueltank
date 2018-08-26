@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Threading.Tasks;
+using dueltank.api.Constants;
 
 namespace dueltank.api.Controllers
 {
@@ -23,6 +24,7 @@ namespace dueltank.api.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
+        [ResponseCache(CacheProfileName = CacheConstants.OneWeekPolicy)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> Get()
         {

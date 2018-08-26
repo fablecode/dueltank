@@ -1,8 +1,9 @@
 ﻿namespace dueltank.api.Constants
 {
-    public class CacheConstants
+    public static class CacheConstants
     {
-        public const string CardImageCachePolicy = "CardImageCachePolicy";
-
+        public const string Default = "Default";
+        public const string TwoWeeksPolicy = "TwoWeeksPolicy";
+        public const string OneWeekPolicy = "OneWeekPolicy";
     }
 }
