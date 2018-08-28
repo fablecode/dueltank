@@ -1,4 +1,4 @@
-<form [formGroup]="cardFilterForm">
+<form [formGroup]="cardFilterForm" (ngSubmit)="onSubmit()">
   <div class="col-lg-6">
     <div class="row">
       <div class="ibox">
@@ -75,9 +75,34 @@
               <select id="limit" class="form-control m-b" name="limit" formControlName="limit">
                 <option [ngValue]="null"*ngIf="limits == null" [selected]="true">Loading....</option>
                 <option [ngValue]="null" [selected]="true">All</option>
-                <option *ngFor="let limit of limits"
-                        [ngValue]="limit">{{limit.name}}</option>
+                <option *ngFor="let limit of limits" [ngValue]="limit">{{limit.name}}</option>
               </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">ATK:</label>
+            <div class="col-lg-5">
+              <input type="text" name="atk" class="form-control" formControlName="atk">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">DEF:</label>
+            <div class="col-lg-5">
+              <input type="text" name="def" class="form-control" formControlName="def">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-2 control-label">Search:</label>
+            <div class="col-lg-10">
+              <input type="text" name="searchText" class="form-control" formControlName="searchText">
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-lg-6">
+              <button type="button" class="btn btn-primary btn-block">Reset</button>
+            </div>
+            <div class="col-lg-6">
+              <button type="submit" class="btn btn-primary btn-block">Search</button>
             </div>
           </div>
         </div>

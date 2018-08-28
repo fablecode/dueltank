@@ -27,6 +27,9 @@ export class DeckCardFiltersComponent implements OnInit {
   public typeControl: FormControl;
   public lvlrankControl: FormControl;
   public limitControl: FormControl;
+  public atkControl: FormControl;
+  public defControl: FormControl;
+  public searchControl: FormControl;
 
   public formats: Format[];
   public categories: Category[];
@@ -56,6 +59,9 @@ export class DeckCardFiltersComponent implements OnInit {
     this.typeControl = new FormControl({value: '', disabled: true});
     this.lvlrankControl = new FormControl({value: '', disabled: true});
     this.limitControl = new FormControl({value: ''});
+    this.atkControl = new FormControl({value: '', disabled: true});
+    this.defControl = new FormControl({value: '', disabled: true});
+    this.searchControl = new FormControl('');
 
     this.cardFilterForm = this.fb.group({
       banlist: this.banlistControl,
@@ -64,7 +70,10 @@ export class DeckCardFiltersComponent implements OnInit {
       attribute: this.attributeControl,
       type: this.typeControl,
       lvlrank: this.lvlrankControl,
-      limit: this.limitControl
+      limit: this.limitControl,
+      atk: this.atkControl,
+      def: this.defControl,
+      searchText: this.searchControl
     });
 
     this.getDeckCardSearchFilters()
@@ -115,6 +124,14 @@ export class DeckCardFiltersComponent implements OnInit {
           // Lvl or Rank
           this.cardFilterForm.controls.lvlrank.reset();
           this.cardFilterForm.controls.lvlrank.disable();
+
+          // Atk
+          this.cardFilterForm.controls.atk.reset();
+          this.cardFilterForm.controls.atk.disable();
+
+          // Def
+          this.cardFilterForm.controls.def.reset();
+          this.cardFilterForm.controls.def.disable();
         } else {
           let selectedCategory: Category = this.cardFilterForm.controls.category.value;
 
@@ -125,6 +142,8 @@ export class DeckCardFiltersComponent implements OnInit {
             this.cardFilterForm.controls.attribute.enable();
             this.cardFilterForm.controls.type.enable();
             this.cardFilterForm.controls.lvlrank.enable();
+            this.cardFilterForm.controls.atk.enable();
+            this.cardFilterForm.controls.def.enable();
           }
           else {
             // Attribute
@@ -138,8 +157,29 @@ export class DeckCardFiltersComponent implements OnInit {
             // Lvlrank
             this.cardFilterForm.controls.lvlrank.reset();
             this.cardFilterForm.controls.lvlrank.disable();
+
+            // Atk
+            this.cardFilterForm.controls.atk.reset();
+            this.cardFilterForm.controls.atk.disable();
+
+            // Def
+            this.cardFilterForm.controls.def.reset();
+            this.cardFilterForm.controls.def.disable();
           }
         }
       });
   }
+
+  public onSubmit() {
+    if(this.cardFilterForm.valid) {
+      const result: CardSearchRequest = Object.assign({}, this.cardFilterForm.value);
+
+      console.log(result);
+    }
+  }
+}
+
+export class CardSearchRequest
+{
+  public Banlist : string;
 }
