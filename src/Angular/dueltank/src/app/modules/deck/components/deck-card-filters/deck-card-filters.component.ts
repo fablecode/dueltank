@@ -13,6 +13,7 @@ import {TypeService} from "../../../../shared/services/type.service";
 import {LimitService} from "../../../../shared/services/limit.service";
 import {Limit} from "../../../../shared/models/limit.model";
 import {DeckCardFilterService} from "../../services/deck-card-filter.service";
+import {DeckCardSearchModel} from "../../../../shared/models/forms/deck-card-search.model";
 
 @Component({
   templateUrl: "./deck-card-filters.component.html",
@@ -52,7 +53,7 @@ export class DeckCardFiltersComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.banlistControl = new FormControl(null, Validators.required);
+    this.banlistControl = new FormControl(null);
     this.categoryControl = new FormControl(null);
     this.subCategoryControl = new FormControl({value: '', disabled: true});
     this.attributeControl = new FormControl({value: '', disabled: true});
@@ -172,14 +173,13 @@ export class DeckCardFiltersComponent implements OnInit {
 
   public onSubmit() {
     if(this.cardFilterForm.valid) {
-      const result: CardSearchRequest = Object.assign({}, this.cardFilterForm.value);
+      debugger;
+      console.log(this.cardFilterForm.value);
+      const result: DeckCardSearchModel = new DeckCardSearchModel(this.cardFilterForm.value);
 
       console.log(result);
+    } else {
+      console.log("Form not valid.");
     }
   }
-}
-
-export class CardSearchRequest
-{
-  public Banlist : string;
 }

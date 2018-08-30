@@ -9,8 +9,7 @@
               <div class="col-lg-10">
                 <select id="banlist" class="form-control m-b" name="banlist" formControlName="banlist">
                   <option [ngValue]="null"*ngIf="formats == null" [selected]="true">Loading....</option>
-                  <option *ngFor="let format of formats"
-                          [ngValue]="format">{{format.acronym}}</option>
+                  <option *ngFor="let format of formats" [ngValue]="format">{{format.acronym}}</option>
                 </select>
               </div>
             </div>
