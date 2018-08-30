@@ -55,13 +55,13 @@ export class DeckCardFiltersComponent implements OnInit {
   ngOnInit(): void {
     this.banlistControl = new FormControl(null);
     this.categoryControl = new FormControl(null);
-    this.subCategoryControl = new FormControl({value: '', disabled: true});
-    this.attributeControl = new FormControl({value: '', disabled: true});
-    this.typeControl = new FormControl({value: '', disabled: true});
-    this.lvlrankControl = new FormControl({value: '', disabled: true});
-    this.limitControl = new FormControl({value: ''});
-    this.atkControl = new FormControl({value: '', disabled: true});
-    this.defControl = new FormControl({value: '', disabled: true});
+    this.subCategoryControl = new FormControl({value: null, disabled: true});
+    this.attributeControl = new FormControl({value: null, disabled: true});
+    this.typeControl = new FormControl({value: null, disabled: true});
+    this.lvlrankControl = new FormControl({value: null, disabled: true});
+    this.limitControl = new FormControl(null);
+    this.atkControl = new FormControl({value: null, disabled: true});
+    this.defControl = new FormControl({value: null, disabled: true});
     this.searchControl = new FormControl('');
 
     this.cardFilterForm = this.fb.group({
@@ -86,9 +86,14 @@ export class DeckCardFiltersComponent implements OnInit {
           this.attributes = attributes;
           this.types = types;
           this.limits = limits;
+          this.InitializeDropdownDefaultValues();
           this.onStateChanges();
           this.deckCardFilterService.cardFiltersLoaded(true);
         });
+  }
+
+  private InitializeDropdownDefaultValues() {
+    this.banlistControl.setValue(this.formats[0]);
   }
 
   private getDeckCardSearchFilters() : Observable<any> {
@@ -173,10 +178,7 @@ export class DeckCardFiltersComponent implements OnInit {
 
   public onSubmit() {
     if(this.cardFilterForm.valid) {
-      debugger;
-      console.log(this.cardFilterForm.value);
       const result: DeckCardSearchModel = new DeckCardSearchModel(this.cardFilterForm.value);
-
       console.log(result);
     } else {
       console.log("Form not valid.");
