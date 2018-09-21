@@ -112,6 +112,8 @@
     <Folder Include="dbo\Programmability" />
     <Folder Include="dbo\Programmability\Stored Procedures" />
     <Folder Include="Scripts" />
+    <Folder Include="dbo\Storage" />
+    <Folder Include="dbo\Storage\Full-Text Catalogs" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Programmability\Stored Procedures\usp_GetDeckCardsByDeckId.sql">
@@ -258,6 +260,15 @@
       <QuotedIdentifier>On</QuotedIdentifier>
       <AnsiNulls>On</AnsiNulls>
     </Build>
+    <Build Include="dbo\Programmability\Stored Procedures\CardSearchWithoutSearchTerm.sql">
+      <QuotedIdentifier>On</QuotedIdentifier>
+      <AnsiNulls>On</AnsiNulls>
+    </Build>
+    <Build Include="dbo\Programmability\Stored Procedures\CardSearchWithSearchTerm.sql">
+      <QuotedIdentifier>On</QuotedIdentifier>
+      <AnsiNulls>On</AnsiNulls>
+    </Build>
+    <Build Include="dbo\Storage\Full-Text Catalogs\CardCatalog.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
