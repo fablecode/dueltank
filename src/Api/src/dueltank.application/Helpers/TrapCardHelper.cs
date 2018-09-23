@@ -9,16 +9,16 @@ namespace dueltank.application.Helpers
 {
     public static class TrapCardHelper
     {
-        public static bool IsTrapCard(CardDetail card)
+        public static bool IsTrapCard(DeckCardDetail deckCard)
         {
-            return string.Equals(card.Category, CardConstants.TrapType, StringComparison.OrdinalIgnoreCase);
+            return string.Equals(deckCard.Category, CardConstants.TrapType, StringComparison.OrdinalIgnoreCase);
         }
         public static bool IsTrapCard(CardSearch card)
         {
             return string.Equals(card.Category, CardConstants.TrapType, StringComparison.OrdinalIgnoreCase);
         }
 
-        public static Card MapToTrapCard(CardDetail model)
+        public static Card MapToTrapCard(DeckCardDetail model)
         {
             var card = new Card
             {
@@ -73,9 +73,9 @@ namespace dueltank.application.Helpers
             return card;
         }
 
-        public static CardDetailOutputModel MapToCardOutputModel(CardDetail cardSearch)
+        public static CardDetailOutputModel MapToCardOutputModel(DeckCardDetail deckCardSearch)
         {
-            var card = MapToTrapCard(cardSearch);
+            var card = MapToTrapCard(deckCardSearch);
             var cardOutputModel = CardDetailOutputModel.From(card);
             cardOutputModel.BaseType = CardConstants.TrapType.ToLower();
 

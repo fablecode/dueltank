@@ -10,16 +10,16 @@ namespace dueltank.application.Helpers
     public static class SpellCardHelper
     {
 
-        public static bool IsSpellCard(CardDetail card)
+        public static bool IsSpellCard(DeckCardDetail deckCard)
         {
-            return string.Equals(card.Category, CardConstants.SpellType, StringComparison.OrdinalIgnoreCase);
+            return string.Equals(deckCard.Category, CardConstants.SpellType, StringComparison.OrdinalIgnoreCase);
         }
         public static bool IsSpellCard(CardSearch card)
         {
             return string.Equals(card.Category, CardConstants.SpellType, StringComparison.OrdinalIgnoreCase);
         }
 
-        public static Card MapToSpellCard(CardDetail model)
+        public static Card MapToSpellCard(DeckCardDetail model)
         {
             var card = new Card
             {
@@ -76,7 +76,7 @@ namespace dueltank.application.Helpers
             return card;
         }
 
-        public static CardDetailOutputModel MapToCardOutputModel(CardDetail model)
+        public static CardDetailOutputModel MapToCardOutputModel(DeckCardDetail model)
         {
             var card = MapToSpellCard(model);
             var cardOutputModel = CardDetailOutputModel.From(card);

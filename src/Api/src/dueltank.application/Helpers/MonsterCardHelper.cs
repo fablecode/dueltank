@@ -12,18 +12,18 @@ namespace dueltank.application.Helpers
     public static class MonsterCardHelper
     {
 
-        public static bool IsMonsterCard(CardDetail card)
+        public static bool IsMonsterCard(DeckCardDetail deckCard)
         {
-            return string.Equals(card.Category, CardConstants.MonsterType, StringComparison.OrdinalIgnoreCase);
+            return string.Equals(deckCard.Category, CardConstants.MonsterType, StringComparison.OrdinalIgnoreCase);
         }
         public static bool IsMonsterCard(CardSearch card)
         {
             return string.Equals(card.Category, CardConstants.MonsterType, StringComparison.OrdinalIgnoreCase);
         }
 
-        public static CardDetailOutputModel MapToCardOutputModel(CardDetail cardSearch)
+        public static CardDetailOutputModel MapToCardOutputModel(DeckCardDetail deckCardSearch)
         {
-            var card = MapToMonsterCard(cardSearch);
+            var card = MapToMonsterCard(deckCardSearch);
             var cardOutputModel = CardDetailOutputModel.From(card);
             cardOutputModel.BaseType = BaseType(card);
 
@@ -44,7 +44,7 @@ namespace dueltank.application.Helpers
             return cardOutputModel;
         }
 
-        public static Card MapToMonsterCard(CardDetail model)
+        public static Card MapToMonsterCard(DeckCardDetail model)
         {
 
             var card = new Card

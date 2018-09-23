@@ -6,42 +6,42 @@ namespace dueltank.application.Helpers
 {
     public static class CardMapperHelper
     {
-        public static CardDetailOutputModel MapToCardOutputModel(CardDetail cardSearch)
+        public static CardDetailOutputModel MapToCardOutputModel(DeckCardDetail deckCardSearch)
         {
             CardDetailOutputModel cardOutputModel;
-            if (MonsterCardHelper.IsMonsterCard(cardSearch))
+            if (MonsterCardHelper.IsMonsterCard(deckCardSearch))
             {
-                cardOutputModel = MapToMonsterCardOutputModel(cardSearch);
+                cardOutputModel = MapToMonsterCardOutputModel(deckCardSearch);
             }
-            else if (SpellCardHelper.IsSpellCard(cardSearch))
+            else if (SpellCardHelper.IsSpellCard(deckCardSearch))
             {
-                cardOutputModel = MapToSpellCardOutputModel(cardSearch);
+                cardOutputModel = MapToSpellCardOutputModel(deckCardSearch);
             }
-            else if (TrapCardHelper.IsTrapCard(cardSearch))
+            else if (TrapCardHelper.IsTrapCard(deckCardSearch))
             {
-                cardOutputModel = MapToTrapCardOutputModel(cardSearch);
+                cardOutputModel = MapToTrapCardOutputModel(deckCardSearch);
             }
             else
             {
-                throw new ArgumentOutOfRangeException(nameof(cardSearch));
+                throw new ArgumentOutOfRangeException(nameof(deckCardSearch));
             }
 
             return cardOutputModel;
         }
 
-        public static CardDetailOutputModel MapToMonsterCardOutputModel(CardDetail cardSearch)
+        public static CardDetailOutputModel MapToMonsterCardOutputModel(DeckCardDetail deckCardSearch)
         {
-            return MonsterCardHelper.MapToCardOutputModel(cardSearch);
+            return MonsterCardHelper.MapToCardOutputModel(deckCardSearch);
         }
 
-        public static CardDetailOutputModel MapToSpellCardOutputModel(CardDetail cardSearch)
+        public static CardDetailOutputModel MapToSpellCardOutputModel(DeckCardDetail deckCardSearch)
         {
-            return SpellCardHelper.MapToCardOutputModel(cardSearch);
+            return SpellCardHelper.MapToCardOutputModel(deckCardSearch);
         }
 
-        public static CardDetailOutputModel MapToTrapCardOutputModel(CardDetail cardSearch)
+        public static CardDetailOutputModel MapToTrapCardOutputModel(DeckCardDetail deckCardSearch)
         {
-            return TrapCardHelper.MapToCardOutputModel(cardSearch);
+            return TrapCardHelper.MapToCardOutputModel(deckCardSearch);
         }
     }
 }

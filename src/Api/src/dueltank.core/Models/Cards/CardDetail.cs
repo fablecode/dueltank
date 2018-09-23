@@ -2,7 +2,7 @@
 
 namespace dueltank.core.Models.Cards
 {
-    public class CardDetail
+    public class DeckCardDetail
     {
         public long Id { get; set; }
         public string Name { get; set; }

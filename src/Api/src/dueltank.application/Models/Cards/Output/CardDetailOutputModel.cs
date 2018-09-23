@@ -25,7 +25,7 @@ namespace dueltank.application.Models.Cards.Output
         public List<string> Types { get; set; } = new List<string>();
         public string BaseType { get; set; }
 
-        public static CardDetailOutputModel From(CardDetail model)
+        public static CardDetailOutputModel From(DeckCardDetail model)
         {
             return new CardDetailOutputModel
             {
