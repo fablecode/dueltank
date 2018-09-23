@@ -33,10 +33,7 @@ namespace dueltank.api.Controllers
         {
             var result = await _mediator.Send(new CardImageByNameQuery { Name = name });
 
-            if (result.IsSuccessful)
-                return new PhysicalFileResult(result.FilePath, result.ContentType);
-
-            return NotFound();
+            return File(result.Image, result.ContentType);
         }
 
         /// <summary>
