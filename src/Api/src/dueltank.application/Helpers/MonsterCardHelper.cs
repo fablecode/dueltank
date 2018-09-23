@@ -16,11 +16,26 @@ namespace dueltank.application.Helpers
         {
             return string.Equals(card.Category, CardConstants.MonsterType, StringComparison.OrdinalIgnoreCase);
         }
+        public static bool IsMonsterCard(CardSearch card)
+        {
+            return string.Equals(card.Category, CardConstants.MonsterType, StringComparison.OrdinalIgnoreCase);
+        }
 
         public static CardDetailOutputModel MapToCardOutputModel(CardDetail cardSearch)
         {
             var card = MapToMonsterCard(cardSearch);
             var cardOutputModel = CardDetailOutputModel.From(card);
+            cardOutputModel.BaseType = BaseType(card);
+
+            cardOutputModel.Types.Add(card.CardSubCategory.First().SubCategory.Category.Name);
+            cardOutputModel.Types.AddRange(card.CardSubCategory.Select(t => t.SubCategory.Name));
+
+            return cardOutputModel;
+        }
+        public static CardOutputModel MapToCardOutputModel(CardSearch cardSearch)
+        {
+            var card = MapToMonsterCard(cardSearch);
+            var cardOutputModel = CardOutputModel.From(card);
             cardOutputModel.BaseType = BaseType(card);
 
             cardOutputModel.Types.Add(card.CardSubCategory.First().SubCategory.Category.Name);
@@ -44,6 +59,42 @@ namespace dueltank.application.Helpers
                 Def = model.Def,
                 Created = model.Created,
                 Updated = model.Updated
+            };
+
+            var subCategoryList = model.SubCategories.Split(',');
+
+            foreach (var subCategory in subCategoryList)
+            {
+                card.CardSubCategory.Add(new CardSubCategory
+                {
+                    SubCategory = new SubCategory
+                    {
+                        Name = subCategory,
+                        Category = new Category { Id = model.CategoryId, Name = model.Category }
+                    }
+                });
+            }
+
+            if (model.AttributeId > 0)
+                card.CardAttribute.Add(new CardAttribute { Attribute = new Attribute { Id = model.AttributeId.Value, Name = model.Attribute } });
+
+            if (model.TypeId > 0)
+                card.CardType.Add(new CardType{ Type = new Type { Id = model.TypeId.Value, Name = model.Type } });
+
+            return card;
+        }
+        public static Card MapToMonsterCard(CardSearch model)
+        {
+            var card = new Card
+            {
+                Id = model.Id,
+                CardNumber = model.CardNumber,
+                Name = model.Name,
+                Description = model.Description,
+                CardLevel = model.CardLevel,
+                CardRank = model.CardRank,
+                Atk = model.Atk,
+                Def = model.Def,
             };
 
             var subCategoryList = model.SubCategories.Split(',');
