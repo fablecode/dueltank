@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE CardSearchWithoutSearchTerm 
+﻿CREATE PROCEDURE [dbo].[CardSearchWithoutSearchTerm] 
 	@limitId bigint = 0,
 	@categoryId bigint = 0,
 	@subCategoryId bigint = 0,
@@ -8,9 +8,49 @@
 	@atk int = 0,
 	@def int = 0,
 	@pageSize int = 10,
-	@pageIndex int = 1
+	@pageIndex int = 1,
+	@filteredRowsCount INT OUTPUT
 AS
 BEGIN
+
+	DECLARE @cardSearchResult TABLE
+	(
+		Id bigint,
+		CardNumber bigint NULL,
+		Name nvarchar(255) NOT NULL,
+		[Description] nvarchar(max) NULL,
+		CardLevel int NULL,
+		CardRank int NULL,
+		Atk int NULL,
+		Def int NULL,
+		CategoryId bigint NOT NULL,
+		Category nvarchar(255) NOT NULL,
+		SubCategories nvarchar(max),
+		AttributeId bigint NULL,
+		Attribute nvarchar(255) NULL,
+		TypeId bigint NULL,
+		[Type] nvarchar(255) NULL
+	)
+
+	-- Results before pagination
+	INSERT INTO @cardSearchResult
+	(
+		Id,
+		CardNumber,
+		Name,
+		[Description],
+		CardLevel,
+		CardRank,
+		Atk,
+		Def,
+		CategoryId,
+		Category,
+		SubCategories,
+		AttributeId,
+		Attribute,
+		TypeId,
+		[Type]
+	)
 	SELECT
 		DISTINCT c.Id,
 		c.CardNumber,
@@ -31,9 +71,10 @@ BEGIN
 				WHERE
 					cc.CardId = c.Id
 				FOR XML PATH('')), 1, 1, '') AS SubCategories,
-				a.Name AS [Attribute],
-				t.Id AS [TypeId],
-				t.Name AS [Type]
+		a.Id AS [AttributeId],
+		a.Name AS [Attribute],
+		t.Id AS [TypeId],
+		t.Name AS [Type]
 	FROM
 		dbo.Card c
 	INNER JOIN
@@ -62,7 +103,29 @@ BEGIN
 		(@lvlRank = 0 OR c.CardLevel = @lvlRank OR c.CardRank = @lvlRank) AND
 		(@atk = 0 OR c.Atk = @atk) AND
 		(@def = 0 OR c.Def = @def)
-	ORDER BY c.CardNumber DESC
+
+	-- Filtered row count before pagination is applied
+	SELECT @filteredRowsCount = COUNT(Id) FROM @cardSearchResult csr
+
+	SELECT
+		Id,
+		CardNumber,
+		Name,
+		Description,
+		CardLevel,
+		CardRank,
+		Atk,
+		Def,
+		CategoryId,
+		Category,
+		SubCategories,
+		AttributeId,
+		Attribute,
+		TypeId,
+		Type
+	FROM
+		@cardSearchResult
+	ORDER BY CardNumber DESC
 	OFFSET @pageSize * (@pageIndex - 1) ROWS
-	FETCH NEXT @pageSize ROWS ONLY;
+	FETCH NEXT @pageSize ROWS ONLY
 END
