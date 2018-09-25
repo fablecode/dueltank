@@ -10,7 +10,7 @@
         <i class="fa fa-bars"></i>
       </a>
     </span>
-    <authenticated-navbar ng-if="$ctrl.IsAuthenticated" *ngIf="(isLoggedIn | async)"></authenticated-navbar>
-    <unauthenticated-navbar ng-if="!$ctrl.IsAuthenticated" *ngIf="!(isLoggedIn | async)"></unauthenticated-navbar>
+    <authenticated-navbar *ngIf="(isLoggedIn | async)"></authenticated-navbar>
+    <unauthenticated-navbar *ngIf="!(isLoggedIn | async)"></unauthenticated-navbar>
   </nav>
 </div>

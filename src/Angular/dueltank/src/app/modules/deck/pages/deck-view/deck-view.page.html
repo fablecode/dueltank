@@ -2,6 +2,18 @@
 <div class="row animated fadeIn">
   <deckCurrentCard></deckCurrentCard>
   <div class="col-lg-10">
-    <deckViewCardSearch [deck]="selectedDeck"></deckViewCardSearch>
+    <deckViewCardSearch [deck]="selectedDeck" *ngIf="this.deckLoaded"></deckViewCardSearch>
+    <div class="row" style="margin-top: 10px;">
+      <div class="col-lg-12">
+        <div class="row">
+          <div id="deck" class="col-lg-8">
+
+          </div>
+          <div id="deck-card-search-result" class="col-lg-4">
+            <deckCardSearchResult></deckCardSearchResult>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

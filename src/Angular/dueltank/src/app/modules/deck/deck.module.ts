@@ -14,7 +14,6 @@ import {DeckCurrentCardComponent} from "./components/deck-current-card/deck-curr
 import {DeckViewCardSearchComponent} from "./components/deck-view-card-search/deck-view-card-search.component";
 import {DeckViewFormOptionsComponent} from "./components/deck-view-form-options/deck-view-form-options.component";
 import {DeckService} from "../../shared/services/deck.service";
-import {SelectedDeckResolve} from "./resolvers/selected-deck.resolve";
 import {SharedModule} from "../shared/shared.module";
 import {ClipboardModule} from "ngx-clipboard";
 import { YoutubePlayerModule } from 'ngx-youtube-player';
@@ -27,19 +26,15 @@ import {AttributeService} from "../../shared/services/attribute.service";
 import {TypeService} from "../../shared/services/type.service";
 import {LimitService} from "../../shared/services/limit.service";
 import {DeckCardFilterService} from "./services/deck-card-filter.service";
+import {CardSearchService} from "../../shared/services/cardSearch.service";
+import {DeckCardSearchResultComponent} from "./components/deck-card-search-result/deck-card-search-result.component";
 
 const deckRoutes: Routes = [
   {
     path: "decks",
     children: [
       { path: '', component: DeckListPage },
-      {
-        path: ":id/:name",
-        component: DeckViewPage,
-        resolve: {
-          deck: SelectedDeckResolve
-        }
-      }
+      { path: ":id/:name", component: DeckViewPage}
     ]
   }
 ];
@@ -53,7 +48,8 @@ const deckRoutes: Routes = [
     DeckViewPage,
     DeckViewCardSearchComponent,
     DeckViewFormOptionsComponent,
-    DeckCardFiltersComponent
+    DeckCardFiltersComponent,
+    DeckCardSearchResultComponent
   ],
   imports: [
     CommonModule,
@@ -78,7 +74,7 @@ const deckRoutes: Routes = [
     TypeService,
     LimitService,
     DeckCardFilterService,
-    SelectedDeckResolve
+    CardSearchService
   ]
 })
 export class DeckModule {}

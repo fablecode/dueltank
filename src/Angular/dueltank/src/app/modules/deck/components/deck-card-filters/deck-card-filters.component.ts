@@ -12,8 +12,8 @@ import {Attribute} from "../../../../shared/models/attribute.model";
 import {TypeService} from "../../../../shared/services/type.service";
 import {LimitService} from "../../../../shared/services/limit.service";
 import {Limit} from "../../../../shared/models/limit.model";
-import {DeckCardFilterService} from "../../services/deck-card-filter.service";
 import {DeckCardSearchModel} from "../../../../shared/models/forms/deck-card-search.model";
+import {DeckCardFilterService} from "../../services/deck-card-filter.service";
 
 @Component({
   templateUrl: "./deck-card-filters.component.html",
@@ -176,12 +176,13 @@ export class DeckCardFiltersComponent implements OnInit {
       });
   }
 
-  public onSubmit() {
+  public onSubmitSearch() {
     if(this.cardFilterForm.valid) {
       const result: DeckCardSearchModel = new DeckCardSearchModel(this.cardFilterForm.value);
-      console.log(result);
-    } else {
-      console.log("Form not valid.");
+      this.deckCardFilterService.cardFiltersFormSubmitted(result);
+    }
+    else {
+      console.log("Form not valid!")
     }
   }
 }

@@ -8,7 +8,7 @@ import {Category} from "../models/category.model";
 export class CategoryService {
   constructor(private http: HttpClient, private configuration: AppConfigService){}
 
-  public allCategories(): Observable<Category[]>{
+  public allCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(this.configuration.apiEndpoint + "/api/categories");
   }
 }
