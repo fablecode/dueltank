@@ -32,7 +32,7 @@ namespace dueltank.application.Models.Cards.Output
                 Name = model.Name,
                 Description = model.Description,
                 CardNumber = model.CardNumber?.ToString(),
-                ImageUrl = $"/api/images/cards/{model.Id}",
+                ImageUrl = $"/api/images/cards/{model.Name}",
                 Limit = model.BanlistCard.Any() ? model.BanlistCard.First().Limit.Name.ToLower() : "unlimited",
                 Atk = model.Atk,
                 Def = model.Def
