@@ -5,6 +5,7 @@ import {DeckCardSearchModel} from "../../../../shared/models/forms/deck-card-sea
 import {Subscription} from "rxjs";
 import {Card} from "../../../../shared/models/card";
 import {AppConfigService} from "../../../../shared/services/app-config.service";
+import {Format} from "../../../../shared/models/format";
 
 @Component({
   selector: "deckCardSearchResult",
@@ -16,15 +17,21 @@ export class DeckCardSearchResultComponent implements OnInit, OnDestroy {
   public isLoadingCardResults: boolean = false;
 
   // Subscriptions
-  private deckCardFilterServiceSubscription: Subscription;
+  private searchFormSubmittedSubscription: Subscription;
+  private banlistChangedSubscription: Subscription;
 
   constructor(
     private cardSearchService: CardSearchService,
     private deckCardFilterService : DeckCardFilterService,
     private configuration: AppConfigService) {
+
     // Subscribe to card search form
-    this.deckCardFilterServiceSubscription = this.deckCardFilterService.cardFiltersFormSubmittedSource$.subscribe( cardSearchCriteria => {
+    this.searchFormSubmittedSubscription = this.deckCardFilterService.cardFiltersFormSubmittedSource$.subscribe( cardSearchCriteria => {
       this.Search(cardSearchCriteria);
+    });
+
+    this.banlistChangedSubscription = this.deckCardFilterService.banlistChangedSource$.subscribe( (format: Format) => {
+      //format.latestBanlist.cards.
     });
   }
   ngOnInit(): void {
@@ -46,6 +53,7 @@ export class DeckCardSearchResultComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     // unsubscribe to ensure no memory leaks
-    this.deckCardFilterServiceSubscription.unsubscribe();
+    this.searchFormSubmittedSubscription.unsubscribe();
+    this.banlistChangedSubscription.unsubscribe();
   }
 }

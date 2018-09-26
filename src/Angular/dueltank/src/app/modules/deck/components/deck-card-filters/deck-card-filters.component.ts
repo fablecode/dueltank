@@ -88,7 +88,10 @@ export class DeckCardFiltersComponent implements OnInit {
           this.limits = limits;
           this.InitializeDropdownDefaultValues();
           this.onStateChanges();
+
+          this.deckCardFilterService.formats = formats;
           this.deckCardFilterService.cardFiltersLoaded(true);
+          this.onSubmitSearch();
         });
   }
 
@@ -108,6 +111,7 @@ export class DeckCardFiltersComponent implements OnInit {
   }
 
   private onStateChanges() {
+    // Category dropdown changes
     this.cardFilterForm
       .controls
       .category
@@ -174,6 +178,15 @@ export class DeckCardFiltersComponent implements OnInit {
           }
         }
       });
+
+    // Banlist dropdown changes
+    this.cardFilterForm
+      .controls
+      .banlist
+      .valueChanges
+      .subscribe((format: Format) => {
+        this.deckCardFilterService.banlistChanged(format);
+      })
   }
 
   public onSubmitSearch() {
