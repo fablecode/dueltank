@@ -28,6 +28,7 @@ import {LimitService} from "../../shared/services/limit.service";
 import {DeckCardFilterService} from "./services/deck-card-filter.service";
 import {CardSearchService} from "../../shared/services/cardSearch.service";
 import {DeckCardSearchResultComponent} from "./components/deck-card-search-result/deck-card-search-result.component";
+import {DndListModule} from "ngx-drag-and-drop-lists";
 
 const deckRoutes: Routes = [
   {
@@ -60,6 +61,7 @@ const deckRoutes: Routes = [
     SharedModule,
     ClipboardModule,
     YoutubePlayerModule,
+    DndListModule,
     TabsModule.forRoot(),
     ModalModule.forRoot(),
     RouterModule.forChild(deckRoutes)

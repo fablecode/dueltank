@@ -5,6 +5,7 @@
         <div id="deck-card-search-result-status" class="row">
           <label class="label label-success">Results:</label>
           <label class="control-label" style=" color: #808080; margin-left: 1%;">&nbsp;{{totalCards}}</label>
+          <i class="fa fa-refresh fa-spin pull-right" aria-hidden="true" *ngIf="isLoadingCardResults"></i>
         </div>
       </div>
     </div>
@@ -14,7 +15,22 @@
   <div class="ibox">
     <div class="ibox-content clearfix" style="padding-left: 0; height: 60vh; padding-top: 4px; overflow-y: scroll;">
       <div class="col-lg-12">
-
+        <ul id="card-search-result-list" class="list-inline"
+            [dndList]="{
+              disabled: false,
+              effectAllowed: 'move',
+              externalSources: true,
+              horizontal: true
+            }"
+            [dndModel]="cards">
+            <li *ngFor="let card of cards;let i = index">
+              <div class="row">
+                <div class="col-md-3">
+                  <img [src]="getApiEndPointUrl() + card.imageUrl" [alt]="card.name" class="img-responsive"/>
+                </div>
+              </div>
+            </li>
+        </ul>
       </div>
     </div>
   </div>

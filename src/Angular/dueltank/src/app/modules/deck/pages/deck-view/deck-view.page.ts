@@ -23,7 +23,6 @@ export class DeckViewPage implements OnInit{
   {
     deckCardFilterService.cardFiltersLoaded$.subscribe(
       isLoaded => {
-        console.log(isLoaded)
         this.isLoading = !isLoaded;
       }
     );

@@ -680,3 +680,8 @@ cards-tabs .tab-content .active {
 .tag-danger {
   background-color: red;
 }
+
+#card-search-result-list li {
+  display: inherit;
+  padding: 5px 5px 5px 0;
+}
