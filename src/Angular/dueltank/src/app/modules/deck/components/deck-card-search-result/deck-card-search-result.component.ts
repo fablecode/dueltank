@@ -31,6 +31,7 @@ export class DeckCardSearchResultComponent implements OnInit, OnDestroy {
     });
 
     this.banlistChangedSubscription = this.deckCardFilterService.banlistChangedSource$.subscribe( (format: Format) => {
+      
       //format.latestBanlist.cards.
     });
   }
