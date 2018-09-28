@@ -6,6 +6,7 @@ import {Subscription} from "rxjs";
 import {Card} from "../../../../shared/models/card";
 import {AppConfigService} from "../../../../shared/services/app-config.service";
 import {Format} from "../../../../shared/models/format";
+import {applyFormatToCards} from "../../utils/format.util";
 
 @Component({
   selector: "deckCardSearchResult",
@@ -31,8 +32,7 @@ export class DeckCardSearchResultComponent implements OnInit, OnDestroy {
     });
 
     this.banlistChangedSubscription = this.deckCardFilterService.banlistChangedSource$.subscribe( (format: Format) => {
-      
-      //format.latestBanlist.cards.
+      applyFormatToCards(format, this.cards)
     });
   }
   ngOnInit(): void {
