@@ -1,6 +1,7 @@
 import {AuthenticationService} from "../../../shared/services/authentication.service";
 import { AsyncValidatorFn, AbstractControl, ValidationErrors} from "@angular/forms";
 import {Observable} from "rxjs/Observable";
+import 'rxjs/Rx';
 
 
 export function existingUsernameValidator(auth: AuthenticationService) : AsyncValidatorFn {

@@ -13,9 +13,11 @@ export class DeckCardSearchModel {
   type: Type;
   lvlRank: string;
   limit: Limit;
-  atk: number;
-  def: number;
-  search: string;
+  atk: number = 0;
+  def: number = 0;
+  searchText: string;
+  pageSize: number = 10;
+  pageIndex: number = 1;
 
   constructor(values: Object = {}) {
     Object.assign(this, values);

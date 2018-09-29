@@ -1,4 +1,5 @@
 import {BanlistCard} from "./banlistcard";
+import DateTimeFormat = Intl.DateTimeFormat;
 
 export class LatestBanlist {
   public id: number;

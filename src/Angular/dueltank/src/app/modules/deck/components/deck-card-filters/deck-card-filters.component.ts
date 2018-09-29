@@ -14,6 +14,7 @@ import {LimitService} from "../../../../shared/services/limit.service";
 import {Limit} from "../../../../shared/models/limit.model";
 import {DeckCardSearchModel} from "../../../../shared/models/forms/deck-card-search.model";
 import {DeckCardFilterService} from "../../services/deck-card-filter.service";
+import {distinctUntilChanged} from "rxjs/operators";
 
 @Component({
   templateUrl: "./deck-card-filters.component.html",
@@ -111,6 +112,15 @@ export class DeckCardFiltersComponent implements OnInit {
   }
 
   private onStateChanges() {
+    // Banlist dropdown changes
+    this.cardFilterForm
+      .controls
+      .banlist
+      .valueChanges
+      .subscribe((format: Format) => {
+        this.deckCardFilterService.banlistChanged(format);
+      });
+
     // Category dropdown changes
     this.cardFilterForm
       .controls
@@ -120,8 +130,8 @@ export class DeckCardFiltersComponent implements OnInit {
         if(selectedCategory == null) {
           // SubCategory
           this.selectedSubCategories = this.subCategories;
-          this.cardFilterForm.controls.subCategory.reset();
-          this.cardFilterForm.controls.subCategory.disable();
+          this.cardFilterForm.controls.subCategory.reset(null, {emitEvent: false});
+          this.cardFilterForm.controls.subCategory.disable({emitEvent: false});
 
           // Attribute
           this.cardFilterForm.controls.attribute.reset();
@@ -146,7 +156,7 @@ export class DeckCardFiltersComponent implements OnInit {
           let selectedCategory: Category = this.cardFilterForm.controls.category.value;
 
           this.selectedSubCategories = this.subCategories.filter(subCategory => subCategory.categoryId == selectedCategory.id);
-          this.cardFilterForm.controls.subCategory.enable();
+          this.cardFilterForm.controls.subCategory.enable({emitEvent: false});
 
           if(selectedCategory.name === "Monster") {
             this.cardFilterForm.controls.attribute.enable();
@@ -177,22 +187,33 @@ export class DeckCardFiltersComponent implements OnInit {
             this.cardFilterForm.controls.def.disable();
           }
         }
+
+        this.onSubmitSearch();
       });
 
-    // Banlist dropdown changes
+      // SubCategory
     this.cardFilterForm
       .controls
-      .banlist
+      .subCategory
       .valueChanges
-      .subscribe((format: Format) => {
-        this.deckCardFilterService.banlistChanged(format);
-      })
+      .subscribe((subCategory: SubCategory) => {
+        let result: DeckCardSearchModel = new DeckCardSearchModel(this.cardFilterForm.value);
+        result.subCategory = subCategory;
+
+        this.onSubmitSearch(result);
+      });
+
   }
 
-  public onSubmitSearch() {
+  public onSubmitSearch(deckCardSearchModel?: DeckCardSearchModel) : void {
     if(this.cardFilterForm.valid) {
-      const result: DeckCardSearchModel = new DeckCardSearchModel(this.cardFilterForm.value);
-      this.deckCardFilterService.cardFiltersFormSubmitted(result);
+      let searchModel: DeckCardSearchModel = new DeckCardSearchModel(this.cardFilterForm.value);
+
+      if(deckCardSearchModel) {
+        searchModel = deckCardSearchModel;
+      }
+
+      this.deckCardFilterService.cardFiltersFormSubmitted(searchModel);
     }
     else {
       console.log("Form not valid!")
