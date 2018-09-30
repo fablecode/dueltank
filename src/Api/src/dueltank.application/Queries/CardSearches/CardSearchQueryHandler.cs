@@ -24,6 +24,7 @@ namespace dueltank.application.Queries.CardSearches
 
             var searchCriteria = new CardSearchCriteria
             {
+                BanlistId = request.BanlistId,
                 LimitId = request.LimitId,
                 CategoryId = request.CategoryId,
                 SubCategoryId = request.SubCategoryId,

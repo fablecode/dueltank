@@ -15,8 +15,8 @@ namespace dueltank.infrastructure.Repository
     {
         private readonly DueltankDbContext _dbContext;
 
-        private const string CardSearchWithoutSearchTermQuery = "EXEC CardSearchWithoutSearchTerm @limitId, @categoryId, @subCategoryId, @attributeId, @typeId, @lvlRank, @atk, @def, @pageSize, @pageIndex, @filteredRowsCount out";
-        private const string CardSearchWithSearchTermQuery = "EXEC CardSearchWithSearchTerm @limitId, @categoryId, @subCategoryId, @attributeId, @typeId, @lvlRank, @atk, @def, @searchTerm, @pageSize, @pageIndex, @filteredRowsCount out";
+        private const string CardSearchWithoutSearchTermQuery = "EXEC CardSearchWithoutSearchTerm @banlistId, @limitId, @categoryId, @subCategoryId, @attributeId, @typeId, @lvlRank, @atk, @def, @pageSize, @pageIndex, @filteredRowsCount out";
+        private const string CardSearchWithSearchTermQuery = "EXEC CardSearchWithSearchTerm @banlistId, @limitId, @categoryId, @subCategoryId, @attributeId, @typeId, @lvlRank, @atk, @def, @searchTerm, @pageSize, @pageIndex, @filteredRowsCount out";
 
         public CardRepository(DueltankDbContext dbContext)
         {
@@ -57,6 +57,7 @@ namespace dueltank.infrastructure.Repository
             sqlParameters.Add(filteredRowsCount);
 
             sqlParameters.Add(new SqlParameter("@limitId", searchCriteria.LimitId));
+            sqlParameters.Add(new SqlParameter("@banlistId", searchCriteria.BanlistId));
             sqlParameters.Add(new SqlParameter("@categoryId", searchCriteria.CategoryId));
             sqlParameters.Add(new SqlParameter("@subCategoryId", searchCriteria.SubCategoryId));
             sqlParameters.Add(new SqlParameter("@attributeId", searchCriteria.AttributeId));

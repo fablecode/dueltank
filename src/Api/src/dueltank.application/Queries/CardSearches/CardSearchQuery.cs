@@ -5,6 +5,7 @@ namespace dueltank.application.Queries.CardSearches
 {
     public class CardSearchQuery : IRequest<CardSearchResultOutputModel>
     {
+        public long BanlistId { get; set; }
         public long LimitId { get; set; }
         public long CategoryId { get; set; }
         public long SubCategoryId { get; set; }

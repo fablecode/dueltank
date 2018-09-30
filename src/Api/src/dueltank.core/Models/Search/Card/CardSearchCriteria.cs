@@ -2,6 +2,7 @@
 {
     public class CardSearchCriteria
     {
+        public long BanlistId { get; set; }
         public long LimitId { get; set; }
         public long CategoryId { get; set; }
         public long SubCategoryId { get; set; }
