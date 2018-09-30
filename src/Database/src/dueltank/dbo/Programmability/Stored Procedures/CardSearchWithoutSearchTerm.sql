@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[CardSearchWithoutSearchTerm] 
+﻿CREATE PROCEDURE [dbo].[CardSearchWithoutSearchTerm]
+	@banlistId bigint = 0, 
 	@limitId bigint = 0,
 	@categoryId bigint = 0,
 	@subCategoryId bigint = 0,
@@ -96,10 +97,12 @@ BEGIN
 	LEFT JOIN
 		dbo.[Type] t ON ct.TypeId = t.Id
 	WHERE
+		(@banlistId = 0 OR bc.BanlistId = @banlistId) AND
 		(@limitId = 0 OR bc.LimitId = @limitId) AND
 		(@categoryId = 0 OR c2.Id = @categoryId) AND
 		(@subCategoryId = 0 OR sc.Id = @subCategoryId) AND	
 		(@attributeId = 0 OR a.Id = @attributeId) AND
+		(@typeId = 0 OR t.Id = @typeId) AND
 		(@lvlRank = 0 OR c.CardLevel = @lvlRank OR c.CardRank = @lvlRank) AND
 		(@atk = 0 OR c.Atk = @atk) AND
 		(@def = 0 OR c.Def = @def)
