@@ -14,6 +14,7 @@ export class CardSearchService {
     let httpParams = new HttpParams();
 
     if(searchCriteria.limit) {
+      httpParams = httpParams.append("banlistId", searchCriteria.banlist.latestBanlist.id.toString())
       httpParams = httpParams.append("limitId", searchCriteria.limit.id.toString())
     }
 
@@ -33,8 +34,8 @@ export class CardSearchService {
       httpParams = httpParams.append("typeId", searchCriteria.type.id.toString())
     }
 
-    if(searchCriteria.lvlRank) {
-      httpParams = httpParams.append("lvlRank", searchCriteria.lvlRank)
+    if(searchCriteria.lvlrank) {
+      httpParams = httpParams.append("lvlRank", searchCriteria.lvlrank.toString())
     }
 
     if(searchCriteria.atk != null) {

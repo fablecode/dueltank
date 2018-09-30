@@ -1,7 +1,7 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnDestroy, OnInit} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {FormatService} from "../../../../shared/services/format.service";
-import {forkJoin, Observable} from "rxjs";
+import {forkJoin, Observable, ReplaySubject} from "rxjs";
 import {Format} from "../../../../shared/models/format";
 import {CategoryService} from "../../../../shared/services/category.service";
 import {Category} from "../../../../shared/models/category.model";
@@ -15,13 +15,17 @@ import {Limit} from "../../../../shared/models/limit.model";
 import {DeckCardSearchModel} from "../../../../shared/models/forms/deck-card-search.model";
 import {DeckCardFilterService} from "../../services/deck-card-filter.service";
 import {distinctUntilChanged} from "rxjs/operators";
+import {Type} from "../../../../shared/models/type.model";
 
 @Component({
   templateUrl: "./deck-card-filters.component.html",
   selector: "deckCardFilters"
 })
-export class DeckCardFiltersComponent implements OnInit {
+export class DeckCardFiltersComponent implements OnInit, OnDestroy {
+  // form
   public cardFilterForm : FormGroup;
+
+  // form controls
   public banlistControl: FormControl;
   public categoryControl: FormControl;
   public subCategoryControl: FormControl;
@@ -38,7 +42,7 @@ export class DeckCardFiltersComponent implements OnInit {
   public subCategories: SubCategory[];
   public selectedSubCategories: SubCategory[];
   public attributes: Attribute[];
-  public types: Attribute[];
+  public types: Type[];
   public limits: Limit[];
 
   constructor
@@ -51,7 +55,7 @@ export class DeckCardFiltersComponent implements OnInit {
     private typeService: TypeService,
     private limitService: LimitService,
     private deckCardFilterService : DeckCardFilterService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.banlistControl = new FormControl(null);
@@ -59,10 +63,10 @@ export class DeckCardFiltersComponent implements OnInit {
     this.subCategoryControl = new FormControl({value: null, disabled: true});
     this.attributeControl = new FormControl({value: null, disabled: true});
     this.typeControl = new FormControl({value: null, disabled: true});
-    this.lvlrankControl = new FormControl({value: null, disabled: true});
+    this.lvlrankControl = new FormControl({value: null, disabled: true}, [Validators.pattern("^[0-9]*$")]);
     this.limitControl = new FormControl(null);
-    this.atkControl = new FormControl({value: null, disabled: true});
-    this.defControl = new FormControl({value: null, disabled: true});
+    this.atkControl = new FormControl({value: null, disabled: true}, [Validators.pattern("^[0-9]*$")]);
+    this.defControl = new FormControl({value: null, disabled: true}, [Validators.pattern("^[0-9]*$")]);
     this.searchControl = new FormControl('');
 
     this.cardFilterForm = this.fb.group({
@@ -134,24 +138,24 @@ export class DeckCardFiltersComponent implements OnInit {
           this.cardFilterForm.controls.subCategory.disable({emitEvent: false});
 
           // Attribute
-          this.cardFilterForm.controls.attribute.reset();
-          this.cardFilterForm.controls.attribute.disable();
+          this.cardFilterForm.controls.attribute.reset(null, {emitEvent: false});
+          this.cardFilterForm.controls.attribute.disable({emitEvent: false});
 
           // Type
-          this.cardFilterForm.controls.type.reset();
-          this.cardFilterForm.controls.type.disable();
+          this.cardFilterForm.controls.type.reset(null, {emitEvent: false});
+          this.cardFilterForm.controls.type.disable({emitEvent: false});
 
           // Lvl or Rank
-          this.cardFilterForm.controls.lvlrank.reset();
-          this.cardFilterForm.controls.lvlrank.disable();
+          this.cardFilterForm.controls.lvlrank.reset(null, {emitEvent: false});
+          this.cardFilterForm.controls.lvlrank.disable({emitEvent: false});
 
           // Atk
-          this.cardFilterForm.controls.atk.reset();
-          this.cardFilterForm.controls.atk.disable();
+          this.cardFilterForm.controls.atk.reset(null, {emitEvent: false});
+          this.cardFilterForm.controls.atk.disable({emitEvent: false});
 
           // Def
-          this.cardFilterForm.controls.def.reset();
-          this.cardFilterForm.controls.def.disable();
+          this.cardFilterForm.controls.def.reset(null, {emitEvent: false});
+          this.cardFilterForm.controls.def.disable({emitEvent: false});
         } else {
           let selectedCategory: Category = this.cardFilterForm.controls.category.value;
 
@@ -159,32 +163,32 @@ export class DeckCardFiltersComponent implements OnInit {
           this.cardFilterForm.controls.subCategory.enable({emitEvent: false});
 
           if(selectedCategory.name === "Monster") {
-            this.cardFilterForm.controls.attribute.enable();
-            this.cardFilterForm.controls.type.enable();
-            this.cardFilterForm.controls.lvlrank.enable();
-            this.cardFilterForm.controls.atk.enable();
-            this.cardFilterForm.controls.def.enable();
+            this.cardFilterForm.controls.attribute.enable({emitEvent: false});
+            this.cardFilterForm.controls.type.enable({emitEvent: false});
+            this.cardFilterForm.controls.lvlrank.enable({emitEvent: false});
+            this.cardFilterForm.controls.atk.enable({emitEvent: false});
+            this.cardFilterForm.controls.def.enable({emitEvent: false});
           }
           else {
             // Attribute
-            this.cardFilterForm.controls.attribute.reset();
-            this.cardFilterForm.controls.attribute.disable();
+            this.cardFilterForm.controls.attribute.reset(null, {emitEvent: false});
+            this.cardFilterForm.controls.attribute.disable({emitEvent: false});
 
             // Type
-            this.cardFilterForm.controls.type.reset();
-            this.cardFilterForm.controls.type.disable();
+            this.cardFilterForm.controls.type.reset(null, {emitEvent: false});
+            this.cardFilterForm.controls.type.disable({emitEvent: false});
 
             // Lvlrank
-            this.cardFilterForm.controls.lvlrank.reset();
-            this.cardFilterForm.controls.lvlrank.disable();
+            this.cardFilterForm.controls.lvlrank.reset(null, {emitEvent: false});
+            this.cardFilterForm.controls.lvlrank.disable({emitEvent: false});
 
             // Atk
-            this.cardFilterForm.controls.atk.reset();
-            this.cardFilterForm.controls.atk.disable();
+            this.cardFilterForm.controls.atk.reset(null, {emitEvent: false});
+            this.cardFilterForm.controls.atk.disable({emitEvent: false});
 
             // Def
-            this.cardFilterForm.controls.def.reset();
-            this.cardFilterForm.controls.def.disable();
+            this.cardFilterForm.controls.def.reset(null, {emitEvent: false});
+            this.cardFilterForm.controls.def.disable({emitEvent: false});
           }
         }
 
@@ -197,20 +201,52 @@ export class DeckCardFiltersComponent implements OnInit {
         .subscribe((subCategory: SubCategory) => {
           this.onSubmitSearch();
         });
+
+      // Attribute
+    this.attributeControl
+        .valueChanges
+        .subscribe((attribute: Attribute) => {
+          this.onSubmitSearch();
+        });
+
+      // Type
+    this.typeControl
+        .valueChanges
+        .subscribe((type: Type) => {
+          this.onSubmitSearch();
+        });
+
+    // SearchText
+    this.searchControl
+      .valueChanges
+      .debounceTime(400)
+      .distinctUntilChanged()
+      .subscribe((term: string) => {
+        console.log("Search text: " + term);
+      });
+
+    // Limit
+    this.limitControl
+      .valueChanges
+      .subscribe((limit: Limit) => {
+        this.onSubmitSearch();
+      });
   }
 
-  public onSubmitSearch(deckCardSearchModel?: DeckCardSearchModel) : void {
+  public onSubmitSearch() : void {
     if(this.cardFilterForm.valid) {
       let searchModel: DeckCardSearchModel = new DeckCardSearchModel(this.cardFilterForm.getRawValue());
-
-      if(deckCardSearchModel) {
-        searchModel = deckCardSearchModel;
-      }
-
       this.deckCardFilterService.cardFiltersFormSubmitted(searchModel);
     }
     else {
       console.log("Form not valid!")
     }
+  }
+
+  private onEnterkey(event: KeyboardEvent) {
+    this.onSubmitSearch();
+  }
+
+  ngOnDestroy(): void {
   }
 }

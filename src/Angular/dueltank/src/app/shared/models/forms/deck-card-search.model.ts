@@ -6,12 +6,12 @@ import {Attribute} from "../attribute.model";
 import {Type} from "../type.model";
 
 export class DeckCardSearchModel {
-  format: Format;
+  banlist: Format;
   category: Category;
   subCategory: SubCategory;
   attribute: Attribute;
   type: Type;
-  lvlRank: string;
+  lvlrank: number;
   limit: Limit;
   atk: number = 0;
   def: number = 0;
