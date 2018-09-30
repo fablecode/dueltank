@@ -77,7 +77,7 @@ export class DeckCardFiltersComponent implements OnInit {
       def: this.defControl,
       searchText: this.searchControl
     });
-
+    this.onStateChanges();
     this.getDeckCardSearchFilters()
         .subscribe(([formats, categories, subCategories, attributes, types, limits]) => {
           this.formats = formats;
@@ -88,7 +88,7 @@ export class DeckCardFiltersComponent implements OnInit {
           this.types = types;
           this.limits = limits;
           this.InitializeDropdownDefaultValues();
-          this.onStateChanges();
+
 
           this.deckCardFilterService.formats = formats;
           this.deckCardFilterService.cardFiltersLoaded(true);
@@ -192,22 +192,16 @@ export class DeckCardFiltersComponent implements OnInit {
       });
 
       // SubCategory
-    this.cardFilterForm
-      .controls
-      .subCategory
-      .valueChanges
-      .subscribe((subCategory: SubCategory) => {
-        let result: DeckCardSearchModel = new DeckCardSearchModel(this.cardFilterForm.value);
-        result.subCategory = subCategory;
-
-        this.onSubmitSearch(result);
-      });
-
+    this.subCategoryControl
+        .valueChanges
+        .subscribe((subCategory: SubCategory) => {
+          this.onSubmitSearch();
+        });
   }
 
   public onSubmitSearch(deckCardSearchModel?: DeckCardSearchModel) : void {
     if(this.cardFilterForm.valid) {
-      let searchModel: DeckCardSearchModel = new DeckCardSearchModel(this.cardFilterForm.value);
+      let searchModel: DeckCardSearchModel = new DeckCardSearchModel(this.cardFilterForm.getRawValue());
 
       if(deckCardSearchModel) {
         searchModel = deckCardSearchModel;
