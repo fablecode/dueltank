@@ -5,16 +5,17 @@ import {Format} from "../../../shared/models/format";
 
 @Injectable()
 export class DeckCardFilterService {
-  public formats: Format[];
 
   // Observable sources
   private cardFiltersLoadedSource = new Subject<boolean>();
   private cardFiltersFormSubmittedSource = new Subject<DeckCardSearchModel>();
+  private banlistLoadedSource = new Subject<Format>();
   private banlistChangedSource = new Subject<Format>();
 
   // Observable streams
   public cardFiltersLoaded$ = this.cardFiltersLoadedSource.asObservable();
   public cardFiltersFormSubmittedSource$ = this.cardFiltersFormSubmittedSource.asObservable();
+  public banlistLoadedSource$ = this.banlistLoadedSource.asObservable();
   public banlistChangedSource$ = this.banlistChangedSource.asObservable();
 
   // Service message commands
@@ -28,5 +29,9 @@ export class DeckCardFilterService {
 
   public banlistChanged(format: Format) {
     this.banlistChangedSource.next(format);
+  }
+
+  public banlistLoaded(format: Format) {
+    this.banlistLoadedSource.next(format);
   }
 }

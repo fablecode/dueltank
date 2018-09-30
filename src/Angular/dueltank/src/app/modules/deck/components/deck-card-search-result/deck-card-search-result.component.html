@@ -27,7 +27,7 @@
               <div class="row">
                 <div class="col-md-3">
                   <img [src]="getApiEndPointUrl() + card.imageUrl" [alt]="card.name" class="img-responsive"/>
-                  <img *ngIf="card.limit && card.limit != 'unlimited'" src="/images/{{card.limit}}.png" alt="{{ card.limit }}" class="img-responsive limit-img"/>
+                  <img *ngIf="card.limit && card.limit != 'unlimited'" src="/assets/images/{{card.limit}}.png" alt="{{ card.limit }}" class="img-responsive limit-img"/>
                 </div>
                 <div class="col-md-9">
                   <div class="row">

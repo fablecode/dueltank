@@ -16,26 +16,32 @@ export class DeckCardSearchResultComponent implements OnInit, OnDestroy {
   public totalCards : Number = 0;
   public cards: Card[] = [];
   public isLoadingCardResults: boolean = false;
+  private currentFormat: Format;
 
   // Subscriptions
   private searchFormSubmittedSubscription: Subscription;
+  private banlistLoadedSubscription: Subscription;
   private banlistChangedSubscription: Subscription;
 
   constructor(
     private cardSearchService: CardSearchService,
     private deckCardFilterService : DeckCardFilterService,
-    private configuration: AppConfigService) {
+    private configuration: AppConfigService) {}
 
+  ngOnInit(): void {
     // Subscribe to card search form
     this.searchFormSubmittedSubscription = this.deckCardFilterService.cardFiltersFormSubmittedSource$.subscribe( cardSearchCriteria => {
       this.Search(cardSearchCriteria);
     });
 
-    this.banlistChangedSubscription = this.deckCardFilterService.banlistChangedSource$.subscribe( (format: Format) => {
-      applyFormatToCards(format, this.cards)
+    this.banlistLoadedSubscription = this.deckCardFilterService.banlistLoadedSource$.subscribe( (format: Format) => {
+      this.currentFormat = format;
     });
-  }
-  ngOnInit(): void {
+
+    this.banlistChangedSubscription = this.deckCardFilterService.banlistChangedSource$.subscribe( (format: Format) => {
+      applyFormatToCards(format, this.cards);
+      this.currentFormat = format;
+    });
   }
 
   private Search(cardSearchCriteria: DeckCardSearchModel) {
@@ -44,6 +50,7 @@ export class DeckCardSearchResultComponent implements OnInit, OnDestroy {
       this.totalCards = result.totalRecords;
       this.cards = result.cards;
 
+      applyFormatToCards(this.currentFormat, this.cards)
       this.isLoadingCardResults = false;
     })
   }
@@ -55,6 +62,7 @@ export class DeckCardSearchResultComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     // unsubscribe to ensure no memory leaks
     this.searchFormSubmittedSubscription.unsubscribe();
+    this.banlistLoadedSubscription.unsubscribe();
     this.banlistChangedSubscription.unsubscribe();
   }
 }

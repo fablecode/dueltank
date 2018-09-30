@@ -94,7 +94,7 @@ export class DeckCardFiltersComponent implements OnInit, OnDestroy {
           this.InitializeDropdownDefaultValues();
 
 
-          this.deckCardFilterService.formats = formats;
+          this.deckCardFilterService.banlistLoaded(formats[0]);
           this.deckCardFilterService.cardFiltersLoaded(true);
           this.onSubmitSearch();
         });
@@ -132,30 +132,7 @@ export class DeckCardFiltersComponent implements OnInit, OnDestroy {
       .valueChanges
       .subscribe((selectedCategory: Category) => {
         if(selectedCategory == null) {
-          // SubCategory
-          this.selectedSubCategories = this.subCategories;
-          this.cardFilterForm.controls.subCategory.reset(null, {emitEvent: false});
-          this.cardFilterForm.controls.subCategory.disable({emitEvent: false});
-
-          // Attribute
-          this.cardFilterForm.controls.attribute.reset(null, {emitEvent: false});
-          this.cardFilterForm.controls.attribute.disable({emitEvent: false});
-
-          // Type
-          this.cardFilterForm.controls.type.reset(null, {emitEvent: false});
-          this.cardFilterForm.controls.type.disable({emitEvent: false});
-
-          // Lvl or Rank
-          this.cardFilterForm.controls.lvlrank.reset(null, {emitEvent: false});
-          this.cardFilterForm.controls.lvlrank.disable({emitEvent: false});
-
-          // Atk
-          this.cardFilterForm.controls.atk.reset(null, {emitEvent: false});
-          this.cardFilterForm.controls.atk.disable({emitEvent: false});
-
-          // Def
-          this.cardFilterForm.controls.def.reset(null, {emitEvent: false});
-          this.cardFilterForm.controls.def.disable({emitEvent: false});
+          this.resetCategory();
         } else {
           let selectedCategory: Category = this.cardFilterForm.controls.category.value;
 
@@ -222,7 +199,8 @@ export class DeckCardFiltersComponent implements OnInit, OnDestroy {
       .debounceTime(400)
       .distinctUntilChanged()
       .subscribe((term: string) => {
-        console.log("Search text: " + term);
+        console.log(new DeckCardSearchModel(this.cardFilterForm.getRawValue()))
+        this.onSubmitSearch();
       });
 
     // Limit
@@ -231,6 +209,33 @@ export class DeckCardFiltersComponent implements OnInit, OnDestroy {
       .subscribe((limit: Limit) => {
         this.onSubmitSearch();
       });
+  }
+
+  private resetCategory() {
+    // SubCategory
+    this.selectedSubCategories = this.subCategories;
+    this.cardFilterForm.controls.subCategory.reset(null, {emitEvent: false});
+    this.cardFilterForm.controls.subCategory.disable({emitEvent: false});
+
+    // Attribute
+    this.cardFilterForm.controls.attribute.reset(null, {emitEvent: false});
+    this.cardFilterForm.controls.attribute.disable({emitEvent: false});
+
+    // Type
+    this.cardFilterForm.controls.type.reset(null, {emitEvent: false});
+    this.cardFilterForm.controls.type.disable({emitEvent: false});
+
+    // Lvl or Rank
+    this.cardFilterForm.controls.lvlrank.reset(null, {emitEvent: false});
+    this.cardFilterForm.controls.lvlrank.disable({emitEvent: false});
+
+    // Atk
+    this.cardFilterForm.controls.atk.reset(null, {emitEvent: false});
+    this.cardFilterForm.controls.atk.disable({emitEvent: false});
+
+    // Def
+    this.cardFilterForm.controls.def.reset(null, {emitEvent: false});
+    this.cardFilterForm.controls.def.disable({emitEvent: false});
   }
 
   public onSubmitSearch() : void {
@@ -243,8 +248,12 @@ export class DeckCardFiltersComponent implements OnInit, OnDestroy {
     }
   }
 
-  private onEnterkey(event: KeyboardEvent) {
-    this.onSubmitSearch();
+  public onReset() : void {
+    this.banlistControl.setValue(this.formats[0]);
+    this.resetCategory();
+    this.categoryControl.reset(null,{emitEvent: false})
+    this.searchControl.reset(null,{emitEvent: false})
+    this.limitControl.reset(null);
   }
 
   ngOnDestroy(): void {
