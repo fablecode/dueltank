@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {CardSearchService} from "../../../../shared/services/cardSearch.service";
 import {DeckCardFilterService} from "../../services/deck-card-filter.service";
 import {DeckCardSearchModel} from "../../../../shared/models/forms/deck-card-search.model";
@@ -7,21 +7,24 @@ import {Card} from "../../../../shared/models/card";
 import {AppConfigService} from "../../../../shared/services/app-config.service";
 import {Format} from "../../../../shared/models/format";
 import {applyFormatToCards} from "../../utils/format.util";
+import {CardSearchResult} from "../../../../shared/models/cardSearchResult.model";
 
 @Component({
   selector: "deckCardSearchResult",
   templateUrl: "./deck-card-search-result.component.html"
 })
 export class DeckCardSearchResultComponent implements OnInit, OnDestroy {
+  // fields
   public totalCards : Number = 0;
   public cards: Card[] = [];
   public isLoadingCardResults: boolean = false;
   private currentFormat: Format;
 
   // Subscriptions
-  private searchFormSubmittedSubscription: Subscription;
-  private banlistLoadedSubscription: Subscription;
-  private banlistChangedSubscription: Subscription;
+  private subscriptions: Subscription[] = [];
+
+  // For scrolling purposes.
+  @ViewChild('cardSearchResultsScroller') private cardSearchResultsContainer: ElementRef;
 
   constructor(
     private cardSearchService: CardSearchService,
@@ -29,29 +32,43 @@ export class DeckCardSearchResultComponent implements OnInit, OnDestroy {
     private configuration: AppConfigService) {}
 
   ngOnInit(): void {
-    // Subscribe to card search form
-    this.searchFormSubmittedSubscription = this.deckCardFilterService.cardFiltersFormSubmittedSource$.subscribe( cardSearchCriteria => {
-      this.Search(cardSearchCriteria);
+    // Subscriptions
+    let searchFormSubmittedSubscription = this.deckCardFilterService.cardFiltersFormSubmittedSource$.subscribe( cardSearchCriteria => {
+      if(cardSearchCriteria) {
+        this.cardSearchResultsContainer.nativeElement.scrollTop = 0;
+        this.Search(cardSearchCriteria);
+      }
     });
 
-    this.banlistLoadedSubscription = this.deckCardFilterService.banlistLoadedSource$.subscribe( (format: Format) => {
+    let banListLoadedSubscription = this.deckCardFilterService.banlistLoadedSource$.subscribe( (format: Format) => {
       this.currentFormat = format;
     });
 
-    this.banlistChangedSubscription = this.deckCardFilterService.banlistChangedSource$.subscribe( (format: Format) => {
+    let banListChangedSubscription = this.deckCardFilterService.banlistChangedSource$.subscribe( (format: Format) => {
       applyFormatToCards(format, this.cards);
       this.currentFormat = format;
     });
+
+    // Add subscriptions to collection
+    this.subscriptions.push(searchFormSubmittedSubscription);
+    this.subscriptions.push(banListLoadedSubscription);
+    this.subscriptions.push(banListChangedSubscription);
   }
 
   private Search(cardSearchCriteria: DeckCardSearchModel) {
     this.isLoadingCardResults = true;
-    this.cardSearchService.search(cardSearchCriteria).subscribe(result => {
-      this.totalCards = result.totalRecords;
-      this.cards = result.cards;
+    this.cardSearchService.search(cardSearchCriteria)
+      .subscribe((result: CardSearchResult) => {
+        this.totalCards = result.totalRecords;
+        if(cardSearchCriteria.pageIndex == 1) {
+        this.cards = result.cards;
+        }
+        else {
+          this.cards = this.cards.concat(result.cards);
+        }
 
-      applyFormatToCards(this.currentFormat, this.cards)
-      this.isLoadingCardResults = false;
+        applyFormatToCards(this.currentFormat, this.cards)
+        this.isLoadingCardResults = false;
     })
   }
 
@@ -59,10 +76,14 @@ export class DeckCardSearchResultComponent implements OnInit, OnDestroy {
     return this.configuration.apiEndpoint;
   }
 
+  public onScroll() {
+    let latestCardSearch = this.deckCardFilterService.getLatestCardSearch();
+    latestCardSearch.pageIndex += 1;
+    this.Search(latestCardSearch);
+  }
+
   ngOnDestroy(): void {
     // unsubscribe to ensure no memory leaks
-    this.searchFormSubmittedSubscription.unsubscribe();
-    this.banlistLoadedSubscription.unsubscribe();
-    this.banlistChangedSubscription.unsubscribe();
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 }

@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Subject} from "rxjs";
+import {BehaviorSubject, Subject} from "rxjs";
 import {DeckCardSearchModel} from "../../../shared/models/forms/deck-card-search.model";
 import {Format} from "../../../shared/models/format";
 
@@ -8,7 +8,7 @@ export class DeckCardFilterService {
 
   // Observable sources
   private cardFiltersLoadedSource = new Subject<boolean>();
-  private cardFiltersFormSubmittedSource = new Subject<DeckCardSearchModel>();
+  private cardFiltersFormSubmittedSource = new BehaviorSubject<DeckCardSearchModel>(null);
   private banlistLoadedSource = new Subject<Format>();
   private banlistChangedSource = new Subject<Format>();
 
@@ -33,5 +33,9 @@ export class DeckCardFilterService {
 
   public banlistLoaded(format: Format) {
     this.banlistLoadedSource.next(format);
+  }
+
+  public getLatestCardSearch() : DeckCardSearchModel {
+    return this.cardFiltersFormSubmittedSource.getValue();
   }
 }

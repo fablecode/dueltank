@@ -1,7 +1,7 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {FormatService} from "../../../../shared/services/format.service";
-import {forkJoin, Observable, ReplaySubject} from "rxjs";
+import {forkJoin, Observable} from "rxjs";
 import {Format} from "../../../../shared/models/format";
 import {CategoryService} from "../../../../shared/services/category.service";
 import {Category} from "../../../../shared/models/category.model";
@@ -14,14 +14,13 @@ import {LimitService} from "../../../../shared/services/limit.service";
 import {Limit} from "../../../../shared/models/limit.model";
 import {DeckCardSearchModel} from "../../../../shared/models/forms/deck-card-search.model";
 import {DeckCardFilterService} from "../../services/deck-card-filter.service";
-import {distinctUntilChanged} from "rxjs/operators";
 import {Type} from "../../../../shared/models/type.model";
 
 @Component({
   templateUrl: "./deck-card-filters.component.html",
   selector: "deckCardFilters"
 })
-export class DeckCardFiltersComponent implements OnInit, OnDestroy {
+export class DeckCardFiltersComponent implements OnInit {
   // form
   public cardFilterForm : FormGroup;
 
@@ -199,7 +198,6 @@ export class DeckCardFiltersComponent implements OnInit, OnDestroy {
       .debounceTime(400)
       .distinctUntilChanged()
       .subscribe((term: string) => {
-        console.log(new DeckCardSearchModel(this.cardFilterForm.getRawValue()))
         this.onSubmitSearch();
       });
 
@@ -254,8 +252,5 @@ export class DeckCardFiltersComponent implements OnInit, OnDestroy {
     this.categoryControl.reset(null,{emitEvent: false})
     this.searchControl.reset(null,{emitEvent: false})
     this.limitControl.reset(null);
-  }
-
-  ngOnDestroy(): void {
   }
 }

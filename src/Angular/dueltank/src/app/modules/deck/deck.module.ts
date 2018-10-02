@@ -29,6 +29,7 @@ import {DeckCardFilterService} from "./services/deck-card-filter.service";
 import {CardSearchService} from "../../shared/services/cardSearch.service";
 import {DeckCardSearchResultComponent} from "./components/deck-card-search-result/deck-card-search-result.component";
 import {DndListModule} from "ngx-drag-and-drop-lists";
+import {InfiniteScrollModule} from "ngx-infinite-scroll";
 
 const deckRoutes: Routes = [
   {
@@ -62,6 +63,7 @@ const deckRoutes: Routes = [
     ClipboardModule,
     YoutubePlayerModule,
     DndListModule,
+    InfiniteScrollModule,
     TabsModule.forRoot(),
     ModalModule.forRoot(),
     RouterModule.forChild(deckRoutes)
