@@ -29,7 +29,7 @@
               horizontal: true
             }"
             [dndModel]="cards">
-            <li *ngFor="let card of cards;let i = index">
+            <li *ngFor="let card of cards;let i = index" (mouseover)="onCardHover(card)">
               <div class="row">
                 <div class="col-md-3">
                   <img [src]="getApiEndPointUrl() + card.imageUrl" [alt]="card.name" class="img-responsive"/>

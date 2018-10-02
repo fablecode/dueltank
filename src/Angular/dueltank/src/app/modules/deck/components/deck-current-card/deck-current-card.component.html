@@ -2,7 +2,7 @@
   <div class="row">
     <div id="current-card-image" class="col-lg-12">
       <div class="row">
-        <img src="{{ card?.imageUrl }}" alt="{{ card?.name }}" title="{{ card?.name }}" class="img-responsive" width="300" height="440" (contextmenu)="onCardRightClick(card)">
+        <img src="{{ getApiEndPoint() + card?.imageUrl }}" alt="{{ card?.name }}" title="{{ card?.name }}" class="img-responsive" width="300" height="440" (contextmenu)="onCardRightClick(card)">
       </div>
     </div>
     <div id="current-card-info" class="col-lg-12">

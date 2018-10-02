@@ -8,6 +8,7 @@ import {AppConfigService} from "../../../../shared/services/app-config.service";
 import {Format} from "../../../../shared/models/format";
 import {applyFormatToCards} from "../../utils/format.util";
 import {CardSearchResult} from "../../../../shared/models/cardSearchResult.model";
+import {DeckCardSearchResultService} from "../../services/deck-card-search-result.service";
 
 @Component({
   selector: "deckCardSearchResult",
@@ -29,7 +30,9 @@ export class DeckCardSearchResultComponent implements OnInit, OnDestroy {
   constructor(
     private cardSearchService: CardSearchService,
     private deckCardFilterService : DeckCardFilterService,
-    private configuration: AppConfigService) {}
+    private configuration: AppConfigService,
+    private deckCardSearchResultService: DeckCardSearchResultService
+  ) {}
 
   ngOnInit(): void {
     // Subscriptions
@@ -80,6 +83,10 @@ export class DeckCardSearchResultComponent implements OnInit, OnDestroy {
     let latestCardSearch = this.deckCardFilterService.getLatestCardSearch();
     latestCardSearch.pageIndex += 1;
     this.Search(latestCardSearch);
+  }
+
+  public onCardHover(card: Card) {
+    this.deckCardSearchResultService.onCardHover(card);
   }
 
   ngOnDestroy(): void {
