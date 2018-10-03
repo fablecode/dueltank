@@ -52,6 +52,7 @@ namespace dueltank.application
             services.AddTransient<ITypeService, TypeService>();
             services.AddTransient<IFormatService, FormatService>();
             services.AddTransient<ILimitService, LimitService>();
+            services.AddTransient<ITipService, TipService>();
 
             return services;
         }
