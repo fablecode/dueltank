@@ -1,4 +1,4 @@
-import {Tip} from "./tip";
+import {TipSection} from "./tipSection";
 
 export class Card {
   public imageUrl: string;
@@ -12,5 +12,5 @@ export class Card {
   public types: string[];
   public baseType: string;
 
-  public tips: Tip[] = [];
+  public tipSections: TipSection[] = [];
 }

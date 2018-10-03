@@ -1,8 +1,11 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from "@angular/core";
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from "@angular/core";
 import {Card} from "../../../../shared/models/card";
 import {AppConfigService} from "../../../../shared/services/app-config.service";
 import {DeckCardSearchResultService} from "../../services/deck-card-search-result.service";
 import {Subscription} from "rxjs";
+import {TipService} from "../../../../shared/services/tip.service";
+import {TipSection} from "../../../../shared/models/tipSection";
+import {TabsetComponent} from "ngx-bootstrap";
 
 @Component({
   selector: "deckCurrentCard",
@@ -10,14 +13,15 @@ import {Subscription} from "rxjs";
 })
 export class DeckCurrentCardComponent implements OnInit, OnDestroy {
   public card: Card;
-  // @Output() cardRightClick = new EventEmitter<Card>();
+  @ViewChild('tabset') tabset: TabsetComponent;
 
   // Subscriptions
   private subscriptions: Subscription[] = [];
 
   constructor(
     private configuration: AppConfigService,
-    private deckCardSearchResultService: DeckCardSearchResultService
+    private deckCardSearchResultService: DeckCardSearchResultService,
+    private tipService: TipService
   ){}
 
   public onCardRightClick(card: Card) {
@@ -33,6 +37,7 @@ export class DeckCurrentCardComponent implements OnInit, OnDestroy {
     }
 
     let deckCardSearchResultSubscription = this.deckCardSearchResultService.cardSearchResultCardHover$.subscribe((card: Card) => {
+      this.tabset.tabs[0].active = true;
       this.card = card;
     });
 
@@ -41,6 +46,18 @@ export class DeckCurrentCardComponent implements OnInit, OnDestroy {
 
   public getApiEndPoint() {
     return this.configuration.apiEndpoint;
+  }
+
+  public changeTab(cardId: Number) {
+    let tipSubscription = this.tipService.getTipsByCardId(cardId).subscribe((tips: TipSection[]) => {
+      this.card.tipSections = tips;
+    });
+
+    this.subscriptions.push(tipSubscription);
+  }
+
+  public cardSearchByName(name: string) {
+    
   }
 
   ngOnDestroy(): void {

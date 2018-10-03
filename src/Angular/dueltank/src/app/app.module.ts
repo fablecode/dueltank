@@ -22,6 +22,7 @@ import {DeckModule} from "./modules/deck/deck.module";
 import {UploadModule} from "./modules/upload/upload.module";
 import {SharedModule} from "./modules/shared/shared.module";
 import {PrivatePolicyModule} from "./modules/privacy-policy/privatepolicy.module";
+import {TipService} from "./shared/services/tip.service";
 
 const appRoutes: Routes = [
   {   path: "", component: HomePage, pathMatch: "full"}
@@ -65,6 +66,7 @@ export function loadConfigService(configService: AppConfigService): Function
   ],
   providers: [
     AppConfigService,
+    TipService,
     Globals,
     { provide: APP_INITIALIZER, useFactory: loadConfigService , deps: [AppConfigService], multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

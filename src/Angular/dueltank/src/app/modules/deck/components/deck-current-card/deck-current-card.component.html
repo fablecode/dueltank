@@ -8,7 +8,7 @@
     <div id="current-card-info" class="col-lg-12">
       <div class="row">
         <tabset>
-          <tab heading="Card">
+          <tab heading="Card" (select)="changeTab(card?.id)">
             <div class="ibox no-mg-bt">
               <div class="ibox-content">
                 <h5 *ngIf="card?.id">{{ card?.name }}</h5>
@@ -19,10 +19,10 @@
           <tab heading="Tips">
             <div class="ibox no-mg-bt">
               <div class="ibox-content">
-                <dl *ngFor="let tip of card?.tips">
-                  <dt>{{ tip.title }}</dt>
-                  <dd *ngFor="let tipText of tip.content; let i = index">
-                    <p [innerHTML]="tipText | cardNameToUrl"></p>
+                <dl *ngFor="let tipSection of card?.tipSections">
+                  <dt>{{ tipSection.name }}</dt>
+                  <dd *ngFor="let tip of tipSection.tips; let i = index">
+                    <p [innerHTML]="tip.text | cardNameToUrl"></p>
                   </dd>
                 </dl>
               </div>

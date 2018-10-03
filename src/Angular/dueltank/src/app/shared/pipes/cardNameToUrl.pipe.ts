@@ -11,7 +11,7 @@ export class CardNameToUrlPipe implements PipeTransform {
         //replacing single quotes in card name
         cardNameMatch = cardNameMatch.replace(/'/g, "&#39;");
 
-        return '<a (click)=\'$ctrl.cardSearchByName(' + cardNameMatch + ')\'>' + cardNameMatch + '</a>';
+        return '<a (click)=\'cardSearchByName(' + cardNameMatch + ')\'>' + cardNameMatch + '</a>';
       });
     }
 
