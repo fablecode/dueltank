@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using dueltank.core.Models.Cards;
 using dueltank.core.Models.Db;
 using dueltank.core.Models.Search.Card;
 using dueltank.core.Services;
@@ -19,10 +20,16 @@ namespace dueltank.Domain.Service
         {
             return _cardRepository.GetCardByNumber(cardNumber);
         }
+        public Task<CardSearch> GetCardByName(string name)
+        {
+            return _cardRepository.GetCardByName(name);
+        }
 
         public Task<CardSearchResult> Search(CardSearchCriteria searchCriteria)
         {
             return _cardRepository.Search(searchCriteria);
         }
+
+
     }
 }

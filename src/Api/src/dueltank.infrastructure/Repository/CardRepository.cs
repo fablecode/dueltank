@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using dueltank.core.Models.Cards;
 using dueltank.core.Models.Db;
 using dueltank.core.Models.Search.Card;
 using dueltank.Domain.Repository;
@@ -17,6 +18,7 @@ namespace dueltank.infrastructure.Repository
 
         private const string CardSearchWithoutSearchTermQuery = "EXEC CardSearchWithoutSearchTerm @banlistId, @limitId, @categoryId, @subCategoryId, @attributeId, @typeId, @lvlRank, @atk, @def, @pageSize, @pageIndex, @filteredRowsCount out";
         private const string CardSearchWithSearchTermQuery = "EXEC CardSearchWithSearchTerm @banlistId, @limitId, @categoryId, @subCategoryId, @attributeId, @typeId, @lvlRank, @atk, @def, @searchTerm, @pageSize, @pageIndex, @filteredRowsCount out";
+        private const string CardSearchByNameQuery = "EXEC CardSearchByName @name";
 
         public CardRepository(DueltankDbContext dbContext)
         {
@@ -28,6 +30,11 @@ namespace dueltank.infrastructure.Repository
             return await _dbContext.Card
                             .AsNoTracking()
                             .SingleOrDefaultAsync(c => c.CardNumber == cardNumber);
+        }
+
+        public async Task<CardSearch> GetCardByName(string name)
+        {
+            return await _dbContext.CardSearch.FromSql(CardSearchByNameQuery, new SqlParameter("@name", name)).SingleOrDefaultAsync();
         }
 
         public async Task<CardSearchResult> Search(CardSearchCriteria searchCriteria)
