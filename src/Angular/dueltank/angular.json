@@ -31,7 +31,8 @@
               "node_modules/isteven-angular-multiselect/isteven-multi-select.css",
               "node_modules/toastr/build/toastr.css",
               "src/assets/styles/styles.css",
-              "src/assets/styles/main.css"
+              "src/assets/styles/main.css",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

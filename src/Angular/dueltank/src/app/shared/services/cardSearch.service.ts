@@ -4,6 +4,7 @@ import {AppConfigService} from "./app-config.service";
 import {DeckCardSearchModel} from "../models/forms/deck-card-search.model";
 import {Observable} from "rxjs";
 import {CardSearchResult} from "../models/cardSearchResult.model";
+import {Card} from "../models/card";
 
 @Injectable()
 export class CardSearchService {
@@ -54,5 +55,13 @@ export class CardSearchService {
       httpParams = httpParams.append("pageIndex", searchCriteria.pageIndex.toString());
 
     return this.http.get<CardSearchResult>(this.configuration.apiEndpoint + "/api/searches/cards", {params: httpParams})
+  }
+
+  public getCardByName(name: string) : Observable<Card> {
+    let httpParams = new HttpParams();
+
+    httpParams.append("name", name);
+
+    return this.http.get<Card>(this.configuration.apiEndpoint + "/api/cards", {params: httpParams})
   }
 }

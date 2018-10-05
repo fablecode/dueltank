@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild} from "@angular/core";
+import {Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {Card} from "../../../../shared/models/card";
 import {AppConfigService} from "../../../../shared/services/app-config.service";
 import {DeckCardSearchResultService} from "../../services/deck-card-search-result.service";
@@ -6,6 +6,10 @@ import {Subscription} from "rxjs";
 import {TipService} from "../../../../shared/services/tip.service";
 import {TipSection} from "../../../../shared/models/tipSection";
 import {TabsetComponent} from "ngx-bootstrap";
+import {CardSearchService} from "../../../../shared/services/cardSearch.service";
+import {HttpResponse} from "@angular/common/http";
+import {ToastrService} from "ngx-toastr";
+import {defaultDeckCurrentCard} from "../../utils/card.util";
 
 @Component({
   selector: "deckCurrentCard",
@@ -21,7 +25,9 @@ export class DeckCurrentCardComponent implements OnInit, OnDestroy {
   constructor(
     private configuration: AppConfigService,
     private deckCardSearchResultService: DeckCardSearchResultService,
-    private tipService: TipService
+    private tipService: TipService,
+    private cardSearchService: CardSearchService,
+    private toastr: ToastrService
   ){}
 
   public onCardRightClick(card: Card) {
@@ -30,10 +36,7 @@ export class DeckCurrentCardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if(!this.card) {
-      this.card = new Card();
-      this.card.imageUrl = this.configuration.apiEndpoint + "/api/images/cards/no-card-image";
-      this.card.name =
-      this.card.description = "Hover over a card.";
+      this.card = defaultDeckCurrentCard()
     }
 
     let deckCardSearchResultSubscription = this.deckCardSearchResultService.cardSearchResultCardHover$.subscribe((card: Card) => {
@@ -49,15 +52,21 @@ export class DeckCurrentCardComponent implements OnInit, OnDestroy {
   }
 
   public changeTab(cardId: Number) {
-    let tipSubscription = this.tipService.getTipsByCardId(cardId).subscribe((tips: TipSection[]) => {
+    this.tipService.getTipsByCardId(cardId).subscribe((tips: TipSection[]) => {
       this.card.tipSections = tips;
     });
-
-    this.subscriptions.push(tipSubscription);
   }
 
-  public cardSearchByName(name: string) {
-    
+  public cardSearchByName(name: string) : void {
+    this.cardSearchService.getCardByName(name).subscribe(
+      (data: Card) => {
+        this.card = data;
+      },
+      (error: HttpResponse<any>) => {
+        if(error.status === 404) {
+          this.toastr.warning("Card ",name);
+        }
+      });
   }
 
   ngOnDestroy(): void {

@@ -7,16 +7,16 @@
     </div>
     <div id="current-card-info" class="col-lg-12">
       <div class="row">
-        <tabset>
+        <tabset #tabset>
           <tab heading="Card" (select)="changeTab(card?.id)">
             <div class="ibox no-mg-bt">
               <div class="ibox-content">
                 <h5 *ngIf="card?.id">{{ card?.name }}</h5>
-                <div [innerHTML]="card?.description"></div>
+                <div [innerHTML]="card?.description  | cardNameToUrl"></div>
               </div>
             </div>
           </tab>
-          <tab heading="Tips">
+          <tab heading="Tips" (select)="changeTab(card?.id)">
             <div class="ibox no-mg-bt">
               <div class="ibox-content">
                 <dl *ngFor="let tipSection of card?.tipSections">
