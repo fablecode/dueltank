@@ -10,6 +10,7 @@ import {CardSearchService} from "../../../../shared/services/cardSearch.service"
 import {HttpResponse} from "@angular/common/http";
 import {ToastrService} from "ngx-toastr";
 import {defaultDeckCurrentCard} from "../../utils/card.util";
+import {DeckCurrentCardTextService} from "../../services/deck-current-card-text.service";
 
 @Component({
   selector: "deckCurrentCard",
@@ -27,7 +28,8 @@ export class DeckCurrentCardComponent implements OnInit, OnDestroy {
     private deckCardSearchResultService: DeckCardSearchResultService,
     private tipService: TipService,
     private cardSearchService: CardSearchService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private deckCurrentCardTextService : DeckCurrentCardTextService
   ){}
 
   public onCardRightClick(card: Card) {
@@ -44,27 +46,33 @@ export class DeckCurrentCardComponent implements OnInit, OnDestroy {
       this.card = card;
     });
 
-    this.subscriptions.push(deckCardSearchResultSubscription)
+    let deckCurrentCardTextClickSubscription = this.deckCurrentCardTextService.currentCardTextClicked$.subscribe((cardName: string) => {
+      this.cardSearchByName(cardName);
+    })
+
+    this.subscriptions.push(deckCardSearchResultSubscription);
+    this.subscriptions.push(deckCurrentCardTextClickSubscription);
   }
 
   public getApiEndPoint() {
     return this.configuration.apiEndpoint;
   }
 
-  public changeTab(cardId: Number) {
+  public changeTipTab(cardId: Number) {
     this.tipService.getTipsByCardId(cardId).subscribe((tips: TipSection[]) => {
       this.card.tipSections = tips;
     });
   }
 
-  public cardSearchByName(name: string) : void {
-    this.cardSearchService.getCardByName(name).subscribe(
+  public cardSearchByName(cardName: string) : void {
+    this.cardSearchService.getCardByName(cardName).subscribe(
       (data: Card) => {
+        this.tabset.tabs[0].active = true;
         this.card = data;
       },
       (error: HttpResponse<any>) => {
         if(error.status === 404) {
-          this.toastr.warning("Card ",name);
+          this.toastr.warning("' " + cardName + " ' not found.", "Card Search");
         }
       });
   }

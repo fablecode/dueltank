@@ -155,9 +155,9 @@
 #card-tips .ibox .ibox-content,
 #card-rulings .ibox .ibox-content,
 #card-trivia .ibox .ibox-content {
-  min-height: 46vh;
+  min-height: 44vh;
   margin-bottom: 0;
-  max-height: 46vh;
+  max-height: 44vh;
   overflow-y: auto;
 }
 

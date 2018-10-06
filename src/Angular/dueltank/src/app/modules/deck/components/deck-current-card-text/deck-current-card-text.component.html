@@ -1,0 +1,1 @@
+<p [innerHTML]="text | safe: 'html'" (click)="cardSearchByName($event.srcElement.attributes['cardName'].value)"></p>

@@ -32,6 +32,8 @@ import {DndListModule} from "ngx-drag-and-drop-lists";
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import {DeckCardSearchResultService} from "./services/deck-card-search-result.service";
 import {ToastrModule} from "ngx-toastr";
+import {DeckCurrentCardTextComponent} from "./components/deck-current-card-text/deck-current-card-text.component";
+import {DeckCurrentCardTextService} from "./services/deck-current-card-text.service";
 
 const deckRoutes: Routes = [
   {
@@ -53,7 +55,8 @@ const deckRoutes: Routes = [
     DeckViewCardSearchComponent,
     DeckViewFormOptionsComponent,
     DeckCardFiltersComponent,
-    DeckCardSearchResultComponent
+    DeckCardSearchResultComponent,
+    DeckCurrentCardTextComponent
   ],
   imports: [
     CommonModule,
@@ -82,6 +85,7 @@ const deckRoutes: Routes = [
     LimitService,
     DeckCardFilterService,
     DeckCardSearchResultService,
+    DeckCurrentCardTextService,
     CardSearchService
   ]
 })

@@ -60,7 +60,7 @@ export class CardSearchService {
   public getCardByName(name: string) : Observable<Card> {
     let httpParams = new HttpParams();
 
-    httpParams.append("name", name);
+    httpParams = httpParams.append("name", name);
 
     return this.http.get<Card>(this.configuration.apiEndpoint + "/api/cards", {params: httpParams})
   }
