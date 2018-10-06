@@ -34,6 +34,8 @@ import {DeckCardSearchResultService} from "./services/deck-card-search-result.se
 import {ToastrModule} from "ngx-toastr";
 import {DeckCurrentCardTextComponent} from "./components/deck-current-card-text/deck-current-card-text.component";
 import {DeckCurrentCardTextService} from "./services/deck-current-card-text.service";
+import {RulingService} from "../../shared/services/ruling.service";
+import {TipService} from "../../shared/services/tip.service";
 
 const deckRoutes: Routes = [
   {
@@ -86,7 +88,9 @@ const deckRoutes: Routes = [
     DeckCardFilterService,
     DeckCardSearchResultService,
     DeckCurrentCardTextService,
-    CardSearchService
+    CardSearchService,
+    TipService,
+    RulingService
   ]
 })
 export class DeckModule {}

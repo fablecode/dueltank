@@ -66,7 +66,6 @@ export function loadConfigService(configService: AppConfigService): Function
   ],
   providers: [
     AppConfigService,
-    TipService,
     Globals,
     { provide: APP_INITIALIZER, useFactory: loadConfigService , deps: [AppConfigService], multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },

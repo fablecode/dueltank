@@ -11,6 +11,8 @@ import {HttpResponse} from "@angular/common/http";
 import {ToastrService} from "ngx-toastr";
 import {defaultDeckCurrentCard} from "../../utils/card.util";
 import {DeckCurrentCardTextService} from "../../services/deck-current-card-text.service";
+import {RulingService} from "../../../../shared/services/ruling.service";
+import {RulingSection} from "../../../../shared/models/rulingSection";
 
 @Component({
   selector: "deckCurrentCard",
@@ -27,6 +29,7 @@ export class DeckCurrentCardComponent implements OnInit, OnDestroy {
     private configuration: AppConfigService,
     private deckCardSearchResultService: DeckCardSearchResultService,
     private tipService: TipService,
+    private rulingService: RulingService,
     private cardSearchService: CardSearchService,
     private toastr: ToastrService,
     private deckCurrentCardTextService : DeckCurrentCardTextService
@@ -61,6 +64,11 @@ export class DeckCurrentCardComponent implements OnInit, OnDestroy {
   public changeTipTab(cardId: Number) {
     this.tipService.getTipsByCardId(cardId).subscribe((tips: TipSection[]) => {
       this.card.tipSections = tips;
+    });
+  }
+  public changeRulingTab(cardId: Number) {
+    this.rulingService.getRulingsByCardId(cardId).subscribe((rulings: RulingSection[]) => {
+      this.card.rulingSections = rulings;
     });
   }
 

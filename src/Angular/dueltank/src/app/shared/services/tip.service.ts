@@ -4,7 +4,6 @@ import {AppConfigService} from "./app-config.service";
 import {Observable} from "rxjs";
 import {TipSection} from "../models/tipSection";
 
-
 @Injectable()
 export class TipService {
   constructor(private http: HttpClient, private configuration: AppConfigService){}

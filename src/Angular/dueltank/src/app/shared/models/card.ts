@@ -1,4 +1,5 @@
 import {TipSection} from "./tipSection";
+import {RulingSection} from "./rulingSection";
 
 export class Card {
   public imageUrl: string;
@@ -13,4 +14,5 @@ export class Card {
   public baseType: string;
 
   public tipSections: TipSection[] = [];
+  public rulingSections: RulingSection[] = [];
 }
