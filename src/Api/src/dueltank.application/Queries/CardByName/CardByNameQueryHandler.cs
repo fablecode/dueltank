@@ -17,9 +17,17 @@ namespace dueltank.application.Queries.CardByName
         }
         public async Task<CardOutputModel> Handle(CardByNameQuery request, CancellationToken cancellationToken)
         {
-            var result = await _cardService.GetCardByName(request.Name);
+            if (!string.IsNullOrWhiteSpace(request.Name))
+            {
+                var result = await _cardService.GetCardByName(request.Name);
 
-            return result != null ? CardSearchMapperHelper.MapToCardOutputModel(result) : null;
+                if (result != null)
+                {
+                    return CardSearchMapperHelper.MapToCardOutputModel(result);
+                }
+            }
+
+            return null;
         }
     }
 }
