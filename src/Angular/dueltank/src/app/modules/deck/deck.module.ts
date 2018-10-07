@@ -36,6 +36,10 @@ import {DeckCurrentCardTextComponent} from "./components/deck-current-card-text/
 import {DeckCurrentCardTextService} from "./services/deck-current-card-text.service";
 import {RulingService} from "../../shared/services/ruling.service";
 import {TipService} from "../../shared/services/tip.service";
+import {DeckTypesComponent} from "./components/deck-types/deck-types.component";
+import {MainDeckComponent} from "./components/main-deck/main-deck.component";
+import {ExtraDeckComponent} from "./components/extra-deck/extra-deck.component";
+import {SideDeckComponent} from "./components/side-deck/side-deck.component";
 
 const deckRoutes: Routes = [
   {
@@ -58,7 +62,11 @@ const deckRoutes: Routes = [
     DeckViewFormOptionsComponent,
     DeckCardFiltersComponent,
     DeckCardSearchResultComponent,
-    DeckCurrentCardTextComponent
+    DeckCurrentCardTextComponent,
+    DeckTypesComponent,
+    MainDeckComponent,
+    ExtraDeckComponent,
+    SideDeckComponent
   ],
   imports: [
     CommonModule,
