@@ -40,7 +40,8 @@
               "node_modules/popper.js/dist/umd/popper.js",
               "node_modules/popper.js/dist/umd/popper-utils.js",
               "node_modules/bootstrap/dist/js/bootstrap.js",
-              "node_modules/metismenu/dist/metisMenu.js"
+              "node_modules/metismenu/dist/metisMenu.js",
+              "node_modules/hammerjs/hammer.min.js"
             ]
           },
           "configurations": {

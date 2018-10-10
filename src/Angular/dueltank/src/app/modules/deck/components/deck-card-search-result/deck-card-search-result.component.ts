@@ -89,6 +89,10 @@ export class DeckCardSearchResultComponent implements OnInit, OnDestroy {
     this.deckCardSearchResultService.onCardHover(card);
   }
 
+  public removeMovedItem(index: number, cardList: Card[]) {
+    cardList.splice(index, 1);
+  }
+
   ngOnDestroy(): void {
     // unsubscribe to ensure no memory leaks
     this.subscriptions.forEach(sub => sub.unsubscribe());

@@ -10,6 +10,14 @@ import {catchError, map} from "rxjs/operators";
 @Injectable()
 export class AppConfigService {
 
+  // card types
+  public static monsterType: string = "monster";
+  public static spellType: string = "spell";
+  public static trapType: string = "trap";
+  public static fusionType: string = "fusion";
+  public static xyzType: string = "xyz";
+  public static synchroType: string = "synchro";
+
   constructor(private http: HttpClient) {}
 
   public load() {

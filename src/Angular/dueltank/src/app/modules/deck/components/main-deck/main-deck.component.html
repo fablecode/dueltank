@@ -30,3 +30,20 @@
     </div>
   </div>
 </div>
+<div id="main-deck-cards" class="col-lg-12">
+  <div class="row">
+    <div class="ibox no-mg-bt">
+      <div class="ibox-content clearfix">
+        <!--<ul class="list-inline" cdkDrop cdkDropOrientation="horizontal" (cdkDropDropped)="drop($event)">-->
+            <!--<li *ngFor="let card  of cards;let i = index" cdkDrag>-->
+              <!--<img [src]="getApiEndPointUrl() + card.imageUrl" alt="{{ card.name }}" title="{{ card.name }}" />-->
+              <!--<img *ngIf="card.limit && card.limit != 'unlimited'" [src]="getApiEndPointUrl() + '/assets/images/' + card.limit + '.png'" alt="{{ card.limit }}" class="img-responsive limit-img"/>-->
+            <!--</li>-->
+        <!--</ul>-->
+        <div cdkDrop class="list"  (cdkDropDropped)="drop($event)">
+          <div class="box" *ngFor="let card  of cards" cdkDrag>{{card.name}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

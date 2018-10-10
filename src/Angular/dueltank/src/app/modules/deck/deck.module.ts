@@ -28,7 +28,6 @@ import {LimitService} from "../../shared/services/limit.service";
 import {DeckCardFilterService} from "./services/deck-card-filter.service";
 import {CardSearchService} from "../../shared/services/cardSearch.service";
 import {DeckCardSearchResultComponent} from "./components/deck-card-search-result/deck-card-search-result.component";
-import {DndListModule} from "ngx-drag-and-drop-lists";
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import {DeckCardSearchResultService} from "./services/deck-card-search-result.service";
 import {ToastrModule} from "ngx-toastr";
@@ -40,6 +39,7 @@ import {DeckTypesComponent} from "./components/deck-types/deck-types.component";
 import {MainDeckComponent} from "./components/main-deck/main-deck.component";
 import {ExtraDeckComponent} from "./components/extra-deck/extra-deck.component";
 import {SideDeckComponent} from "./components/side-deck/side-deck.component";
+import {DragDropModule} from "@angular/cdk/drag-drop";
 
 const deckRoutes: Routes = [
   {
@@ -77,8 +77,8 @@ const deckRoutes: Routes = [
     SharedModule,
     ClipboardModule,
     YoutubePlayerModule,
-    DndListModule,
     InfiniteScrollModule,
+    DragDropModule,
     ToastrModule.forRoot(),
     TabsModule.forRoot(),
     ModalModule.forRoot(),
