@@ -11,7 +11,6 @@ import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 })
 export class MainDeckComponent implements OnChanges {
   @Input() cards: Card[] = [];
-
   public monsterCardCount: number = 0;
   public spellCardCount: number = 0;
   public trapCardCount: number = 0;
@@ -38,5 +37,15 @@ export class MainDeckComponent implements OnChanges {
 
   public getApiEndPointUrl() : string {
     return this.configuration.apiEndpoint;
+  }
+
+  public splitCardCollectionToChunks(cards: Card[], chunk_size: number) : Card[]{
+    let results = [];
+
+    while (cards.length) {
+      results.push(cards.splice(0, chunk_size));
+    }
+
+    return results;
   }
 }

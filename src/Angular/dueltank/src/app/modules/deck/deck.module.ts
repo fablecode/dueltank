@@ -40,6 +40,7 @@ import {MainDeckComponent} from "./components/main-deck/main-deck.component";
 import {ExtraDeckComponent} from "./components/extra-deck/extra-deck.component";
 import {SideDeckComponent} from "./components/side-deck/side-deck.component";
 import {DragDropModule} from "@angular/cdk/drag-drop";
+import {DragulaModule} from "ng2-dragula";
 
 const deckRoutes: Routes = [
   {
@@ -79,6 +80,7 @@ const deckRoutes: Routes = [
     YoutubePlayerModule,
     InfiniteScrollModule,
     DragDropModule,
+    DragulaModule.forRoot(),
     ToastrModule.forRoot(),
     TabsModule.forRoot(),
     ModalModule.forRoot(),

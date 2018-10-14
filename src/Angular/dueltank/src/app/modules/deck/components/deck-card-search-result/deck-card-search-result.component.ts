@@ -9,6 +9,7 @@ import {Format} from "../../../../shared/models/format";
 import {applyFormatToCards} from "../../utils/format.util";
 import {CardSearchResult} from "../../../../shared/models/cardSearchResult.model";
 import {DeckCardSearchResultService} from "../../services/deck-card-search-result.service";
+import {DragulaService} from "ng2-dragula";
 
 @Component({
   selector: "deckCardSearchResult",
@@ -31,8 +32,14 @@ export class DeckCardSearchResultComponent implements OnInit, OnDestroy {
     private cardSearchService: CardSearchService,
     private deckCardFilterService : DeckCardFilterService,
     private configuration: AppConfigService,
-    private deckCardSearchResultService: DeckCardSearchResultService
-  ) {}
+    private deckCardSearchResultService: DeckCardSearchResultService,
+    private dragulaService: DragulaService
+  ) {
+    dragulaService.createGroup("Vampires", {
+      removeOnSpill: true,
+      moves: (el, source, handle, sibling) => !el.classList.contains('no-drag')
+    });
+  }
 
   ngOnInit(): void {
     // Subscriptions
