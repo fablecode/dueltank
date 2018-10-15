@@ -100,6 +100,10 @@ export class DeckCardSearchResultComponent implements OnInit, OnDestroy {
     cardList.splice(index, 1);
   }
 
+  public allowDropFunction() : boolean {
+    return false;
+  }
+
   ngOnDestroy(): void {
     // unsubscribe to ensure no memory leaks
     this.subscriptions.forEach(sub => sub.unsubscribe());

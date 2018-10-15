@@ -3,6 +3,7 @@ import {Card} from "../../../../shared/models/card";
 import {monsterCardTypeCount, spellCardTypeCount, trapCardTypeCount} from "../../utils/deck.utils";
 import {AppConfigService} from "../../../../shared/services/app-config.service";
 import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
+import {DragDropData} from "ng2-dnd";
 
 @Component({
   selector: "mainDeck",
@@ -47,5 +48,15 @@ export class MainDeckComponent implements OnChanges {
     }
 
     return results;
+  }
+
+
+
+  public addToMain($event: DragDropData) {
+    this.cards.push($event.dragData);
+
+    this.monsterCardCount = monsterCardTypeCount(this.cards)
+    this.spellCardCount = spellCardTypeCount(this.cards)
+    this.trapCardCount = trapCardTypeCount(this.cards)
   }
 }

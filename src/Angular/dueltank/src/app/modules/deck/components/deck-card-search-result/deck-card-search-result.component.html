@@ -21,11 +21,11 @@
          (scrolled)="onScroll()"
          [scrollWindow]="false">
       <div class="col-lg-12">
-        <ul id="card-search-result-list" class="list-inline" dragula="Cards" [(dragulaModel)]="cards">
-            <li *ngFor="let card of cards;let i = index" >
+        <ul id="card-search-result-list" class="list-inline" dnd-sortable-container [sortableData]="cards" [dropZones]="['mainDeck-zone']">
+            <li *ngFor="let card of cards;let i = index" dnd-sortable [sortableIndex]="i" [dragEnabled]="true" [dragData]="card">
               <div class="row">
                 <div class="col-md-3">
-                  <img [src]="getApiEndPointUrl() + card.imageUrl" [alt]="card.name" class="img-responsive"/>
+                  <img [src]="getApiEndPointUrl() + card.imageUrl" [alt]="card.name" class="img-responsive" />
                   <img *ngIf="card.limit && card.limit != 'unlimited'" src="/assets/images/{{card.limit}}.png" alt="{{ card.limit }}" class="img-responsive limit-img"/>
                 </div>
                 <div class="col-md-9">
