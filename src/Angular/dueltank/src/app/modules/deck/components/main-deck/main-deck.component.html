@@ -34,12 +34,18 @@
   <div class="row">
     <div class="ibox no-mg-bt">
       <div class="ibox-content clearfix">
-        <ul id="main-deck-card-list" class="list-inline" dragula="Cards" [(dragulaModel)]="cards">
-            <li *ngFor="let card  of cards;let i = index">
+        <ul id="main-deck-card-list" class="list-inline" dnd-sortable-container [sortableData]="cards">
+            <li *ngFor="let card  of cards;let i = index" dnd-sortable [sortableIndex]="i">
               <img [src]="getApiEndPointUrl() + card.imageUrl" alt="{{ card.name }}" title="{{ card.name }}" height="100" width="80"/>
               <img *ngIf="card.limit && card.limit != 'unlimited'" [src]="getApiEndPointUrl() + '/assets/images/' + card.limit + '.png'" alt="{{ card.limit }}" class="img-responsive limit-img"/>
             </li>
         </ul>
+        <!--<ul id="main-deck-card-list" class="list-inline" dragula="Cards" [(dragulaModel)]="cards">-->
+            <!--<li *ngFor="let card  of cards;let i = index">-->
+              <!--<img [src]="getApiEndPointUrl() + card.imageUrl" alt="{{ card.name }}" title="{{ card.name }}" height="100" width="80"/>-->
+              <!--<img *ngIf="card.limit && card.limit != 'unlimited'" [src]="getApiEndPointUrl() + '/assets/images/' + card.limit + '.png'" alt="{{ card.limit }}" class="img-responsive limit-img"/>-->
+            <!--</li>-->
+        <!--</ul>-->
         <!--<ul id="main-deck-card-list" class="list-inline" cdkDrop (cdkDropDropped)="drop($event)" cdkDropOrientation="horizontal">-->
             <!--<li *ngFor="let card  of cards;let i = index" cdkDrag>-->
               <!--<img [src]="getApiEndPointUrl() + card.imageUrl" alt="{{ card.name }}" title="{{ card.name }}" />-->
