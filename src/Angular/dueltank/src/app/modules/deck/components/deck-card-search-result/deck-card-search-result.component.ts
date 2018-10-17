@@ -9,7 +9,6 @@ import {Format} from "../../../../shared/models/format";
 import {applyFormatToCards} from "../../utils/format.util";
 import {CardSearchResult} from "../../../../shared/models/cardSearchResult.model";
 import {DeckCardSearchResultService} from "../../services/deck-card-search-result.service";
-import {DragulaService} from "ng2-dragula";
 
 @Component({
   selector: "deckCardSearchResult",
@@ -33,13 +32,7 @@ export class DeckCardSearchResultComponent implements OnInit, OnDestroy {
     private deckCardFilterService : DeckCardFilterService,
     private configuration: AppConfigService,
     private deckCardSearchResultService: DeckCardSearchResultService,
-    private dragulaService: DragulaService
-  ) {
-    dragulaService.createGroup("Vampires", {
-      removeOnSpill: true,
-      moves: (el, source, handle, sibling) => !el.classList.contains('no-drag')
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
     // Subscriptions
@@ -60,9 +53,7 @@ export class DeckCardSearchResultComponent implements OnInit, OnDestroy {
     });
 
     // Add subscriptions to collection
-    this.subscriptions.push(searchFormSubmittedSubscription);
-    this.subscriptions.push(banListLoadedSubscription);
-    this.subscriptions.push(banListChangedSubscription);
+    this.subscriptions = [...this.subscriptions, searchFormSubmittedSubscription, banListLoadedSubscription, banListChangedSubscription]
   }
 
   private Search(cardSearchCriteria: DeckCardSearchModel) {
@@ -96,16 +87,13 @@ export class DeckCardSearchResultComponent implements OnInit, OnDestroy {
     this.deckCardSearchResultService.onCardHover(card);
   }
 
-  public removeMovedItem(index: number, cardList: Card[]) {
-    cardList.splice(index, 1);
-  }
-
-  public allowDropFunction() : boolean {
-    return false;
-  }
-
   ngOnDestroy(): void {
     // unsubscribe to ensure no memory leaks
     this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  public onRightClick(card: Card) {
+    this.deckCardSearchResultService.onRightClick(card);
+    return false;
   }
 }

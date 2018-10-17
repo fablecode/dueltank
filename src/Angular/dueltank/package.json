@@ -48,6 +48,7 @@
     "popper.js": "^1.14.4",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.3.3",
+    "service": "^0.1.4",
     "sweetalert": "^2.1.0",
     "to": "^0.2.9",
     "toastr": "^2.1.4",

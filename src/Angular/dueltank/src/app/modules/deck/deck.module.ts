@@ -42,6 +42,7 @@ import {SideDeckComponent} from "./components/side-deck/side-deck.component";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {DragulaModule} from "ng2-dragula";
 import {DndModule} from "ng2-dnd";
+import {MainDeckService} from "./services/main-deck.service";
 
 const deckRoutes: Routes = [
   {
@@ -102,7 +103,8 @@ const deckRoutes: Routes = [
     DeckCurrentCardTextService,
     CardSearchService,
     TipService,
-    RulingService
+    RulingService,
+    MainDeckService
   ]
 })
 export class DeckModule {}

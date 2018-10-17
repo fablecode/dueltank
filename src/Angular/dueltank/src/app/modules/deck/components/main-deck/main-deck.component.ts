@@ -2,8 +2,8 @@ import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
 import {Card} from "../../../../shared/models/card";
 import {monsterCardTypeCount, spellCardTypeCount, trapCardTypeCount} from "../../utils/deck.utils";
 import {AppConfigService} from "../../../../shared/services/app-config.service";
-import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 import {DragDropData} from "ng2-dnd";
+import {MainDeckService} from "../../services/main-deck.service";
 
 @Component({
   selector: "mainDeck",
@@ -16,7 +16,7 @@ export class MainDeckComponent implements OnChanges {
   public spellCardCount: number = 0;
   public trapCardCount: number = 0;
 
-  constructor(private configuration: AppConfigService) {}
+  constructor(private configuration: AppConfigService, private mainDeckService: MainDeckService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     for (let propName in changes) {
@@ -28,35 +28,11 @@ export class MainDeckComponent implements OnChanges {
     }
   }
 
-  public removeMovedItem(index: number, cardList: Card[]) {
-    cardList.splice(index, 1);
-  }
-
-  drop(event: CdkDragDrop<Card[]>) {
-    moveItemInArray(this.cards, event.previousIndex, event.currentIndex);
-  }
-
   public getApiEndPointUrl() : string {
     return this.configuration.apiEndpoint;
   }
 
-  public splitCardCollectionToChunks(cards: Card[], chunk_size: number) : Card[]{
-    let results = [];
-
-    while (cards.length) {
-      results.push(cards.splice(0, chunk_size));
-    }
-
-    return results;
-  }
-
-
-
-  public addToMain($event: DragDropData) {
-    this.cards.push($event.dragData);
-
-    this.monsterCardCount = monsterCardTypeCount(this.cards)
-    this.spellCardCount = spellCardTypeCount(this.cards)
-    this.trapCardCount = trapCardTypeCount(this.cards)
+  public addToDeck($event: DragDropData) {
+    this.mainDeckService.cardDrop($event.dragData)
   }
 }
