@@ -59,7 +59,7 @@ export class DeckViewPage implements OnInit, OnDestroy{
 
     let mainDeckCardDropSubscription = this.mainDeckService.cardDropSuccess$.subscribe((card: Card) => {
       this.selectedDeck.mainDeck = [...this.selectedDeck.mainDeck, card]
-    })
+    });
 
     // Add subscriptions to collection
     this.subscriptions = [

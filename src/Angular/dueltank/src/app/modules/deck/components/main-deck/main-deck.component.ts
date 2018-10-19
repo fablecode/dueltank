@@ -35,4 +35,8 @@ export class MainDeckComponent implements OnChanges {
   public addToDeck($event: DragDropData) {
     this.mainDeckService.cardDrop($event.dragData)
   }
+
+  public onRightClick(index: number) : void {
+    this.mainDeckService.onRightClick(index);
+  }
 }
