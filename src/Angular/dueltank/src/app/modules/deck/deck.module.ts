@@ -42,6 +42,7 @@ import {SideDeckComponent} from "./components/side-deck/side-deck.component";
 import {DndModule} from "ng2-dnd";
 import {MainDeckService} from "./services/main-deck.service";
 import {ExtraDeckService} from "./services/extra-deck.service";
+import {SideDeckService} from "./services/side-deck.service";
 
 const deckRoutes: Routes = [
   {
@@ -102,7 +103,8 @@ const deckRoutes: Routes = [
     TipService,
     RulingService,
     MainDeckService,
-    ExtraDeckService
+    ExtraDeckService,
+    SideDeckService
   ]
 })
 export class DeckModule {}

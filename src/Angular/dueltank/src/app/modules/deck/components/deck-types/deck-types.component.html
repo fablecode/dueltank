@@ -1,12 +1,12 @@
 <div class="row">
-  <tabset #tabset class="tabs-container">
-    <tab id="main-deck" heading="Main">
+  <tabset #deckTabset class="tabs-container">
+    <tab id="main-deck" heading="Main" (select)="changeTab($event)">
       <mainDeck [cards]="deck.mainDeck"></mainDeck>
     </tab>
-    <tab id="extra-deck" heading="Extra">
-      <extraDeck [cards]="deck.sideDeck"></extraDeck>
+    <tab id="extra-deck" heading="Extra" (select)="changeTab($event)">
+      <extraDeck [cards]="deck.extraDeck"></extraDeck>
     </tab>
-    <tab id="side-deck" heading="Side">
+    <tab id="side-deck" heading="Side" (select)="changeTab($event)">
       <sideDeck></sideDeck>
     </tab>
   </tabset>

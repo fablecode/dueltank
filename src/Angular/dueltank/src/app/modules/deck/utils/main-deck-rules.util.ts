@@ -5,7 +5,7 @@ import {
   extraDeckAllowCardTypes,
   extraDeckSize,
   mainDeckAllowCardTypes,
-  mainDeckSize
+  mainDeckSize, sideDeckAllowCardTypes, sideDeckSize
 } from "../../../shared/constants/main-deck.constants";
 import {isCardTypeAllowed, onlyThreeCopiesOfTheSameCard} from "./deck-rules.util";
 import {cardLimitInFormatNotReached} from "./format.util";
@@ -19,6 +19,13 @@ export function canAddCardToMainDeck(deck: Deck, card: Card, format: Format) : b
 export function canAddCardToExtraDeck(deck: Deck, card: Card, format: Format) : boolean {
   return deck.extraDeck.length < extraDeckSize &&
     isCardTypeAllowed(extraDeckAllowCardTypes, card) &&
+    onlyThreeCopiesOfTheSameCard(deck, card) &&
+    cardLimitInFormatNotReached(format, deck, card);
+}
+
+export function canAddCardToSideDeck(deck: Deck, card: Card, format: Format) : boolean {
+  return deck.sideDeck.length < sideDeckSize &&
+    isCardTypeAllowed(sideDeckAllowCardTypes, card) &&
     onlyThreeCopiesOfTheSameCard(deck, card) &&
     cardLimitInFormatNotReached(format, deck, card);
 }

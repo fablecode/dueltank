@@ -8,10 +8,11 @@ import {Subscription} from "rxjs";
 import {DeckCardSearchResultService} from "../../services/deck-card-search-result.service";
 import {Card} from "../../../../shared/models/card";
 import {MainDeckService} from "../../services/main-deck.service";
-import {canAddCardToMainDeck} from "../../utils/main-deck-rules.util";
+import {canAddCardToExtraDeck, canAddCardToMainDeck, canAddCardToSideDeck} from "../../utils/main-deck-rules.util";
 import {Format} from "../../../../shared/models/format";
 import {applyFormatToCards} from "../../utils/format.util";
 import {ExtraDeckService} from "../../services/extra-deck.service";
+import {SideDeckService} from "../../services/side-deck.service";
 
 @Component({
   templateUrl: "./deck-view.page.html"
@@ -33,7 +34,8 @@ export class DeckViewPage implements OnInit, OnDestroy{
     private deckCardFilterService : DeckCardFilterService,
     private deckCardSearchResultService: DeckCardSearchResultService,
     private mainDeckService: MainDeckService,
-    private extraDeckService: ExtraDeckService
+    private extraDeckService: ExtraDeckService,
+    private sideDeckService: SideDeckService
   ){}
 
   ngOnInit(): void {
@@ -58,11 +60,6 @@ export class DeckViewPage implements OnInit, OnDestroy{
     );
 
     // Subscriptions
-    let deckCardSearchResultCardRightClickSubscription = this.deckCardSearchResultService.cardSearchResultCardRightClick$.subscribe((card : Card) => {
-      if(canAddCardToMainDeck(this.selectedDeck, card, this.currentFormat)) {
-        this.selectedDeck.mainDeck = [...this.selectedDeck.mainDeck, card]
-      }
-    });
 
     // main deck subscriptions
     let mainDeckCardDropSubscription = this.mainDeckService.cardDropSuccess$.subscribe((card: Card) => {
@@ -77,7 +74,7 @@ export class DeckViewPage implements OnInit, OnDestroy{
 
     // extra deck subscriptions
     let extraDeckCardDropSubscription = this.extraDeckService.cardDropSuccess$.subscribe((card: Card) => {
-      if(canAddCardToMainDeck(this.selectedDeck, card, this.currentFormat)) {
+      if(canAddCardToExtraDeck(this.selectedDeck, card, this.currentFormat)) {
         this.selectedDeck.extraDeck = [...this.selectedDeck.extraDeck, card]
       }
     });
@@ -86,6 +83,19 @@ export class DeckViewPage implements OnInit, OnDestroy{
       this.selectedDeck.extraDeck.splice(index, 1);
     });
 
+    // side deck subscriptions
+    let sideDeckCardDropSubscription = this.sideDeckService.cardDropSuccess$.subscribe((card: Card) => {
+      if(canAddCardToSideDeck(this.selectedDeck, card, this.currentFormat)) {
+        this.selectedDeck.sideDeck = [...this.selectedDeck.sideDeck, card]
+      }
+    });
+
+    let removeSideDeckCardSubscription = this.sideDeckService.removeCard$.subscribe((index: number) => {
+      this.selectedDeck.sideDeck.splice(index, 1);
+    });
+
+
+    // Banlist
     let banListLoadedSubscription = this.deckCardFilterService.banlistLoadedSource$.subscribe( (format: Format) => {
       this.currentFormat = format;
     });
@@ -97,10 +107,13 @@ export class DeckViewPage implements OnInit, OnDestroy{
     // Add subscriptions to collection
     this.subscriptions = [
       ...this.subscriptions,
-      deckCardSearchResultCardRightClickSubscription,
-      mainDeckCardDropSubscription,
       cardFiltersLoadedSubscription,
+      mainDeckCardDropSubscription,
       removeMainDeckCardSubscription,
+      extraDeckCardDropSubscription,
+      removeExtraDeckCardSubscription,
+      sideDeckCardDropSubscription,
+      removeSideDeckCardSubscription,
       banListLoadedSubscription,
       banListChangedSubscription
     ]
