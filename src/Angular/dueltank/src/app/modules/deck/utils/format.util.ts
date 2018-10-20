@@ -13,6 +13,13 @@ export function applyFormatToCards(format : Format, cards: Card[]) {
     if(banlistCard) {
       card.limit = banlistCard.limit;
     }
-
   });
+}
+
+export function applyFormatToCard(format : Format, card: Card) {
+  let banlistCards = new List<BanlistCard>(format.latestBanlist.cards);
+  let banlistCard = banlistCards.SingleOrDefault(blc => blc.banlistId === format.latestBanlist.id && blc.cardId === card.id);
+  if(banlistCard) {
+    card.limit = banlistCard.limit;
+  }
 }

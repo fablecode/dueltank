@@ -130,13 +130,14 @@
 #extra-deck-cards .row > .ibox .ibox-content > ul li,
 #side-deck-cards .row > .ibox .ibox-content > ul li {
   padding: 0 3px;
+  position: relative;
 }
 
 #main-deck-cards .row > .ibox .ibox-content img,
 #extra-deck-cards .row > .ibox .ibox-content img,
 #side-deck-cards .row > .ibox .ibox-content img {
-  height: 111px;
-  width: 80px;
+  height: 119px;
+  width: 84px;
   margin: 3px 0;
 }
 
@@ -226,8 +227,8 @@ html, body {
 #side-deck-cards .row > .ibox .ibox-content .limit-img {
   width: 25px;
   height: 25px;
-  top: -3px;
-  left: -0px;
+  top: -4px;
+  left: -1px;
 }
 
 .toast-top-right {

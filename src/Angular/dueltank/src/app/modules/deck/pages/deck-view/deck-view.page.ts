@@ -61,12 +61,17 @@ export class DeckViewPage implements OnInit, OnDestroy{
       this.selectedDeck.mainDeck = [...this.selectedDeck.mainDeck, card]
     });
 
+    let removeCardSubscription = this.mainDeckService.removeCard$.subscribe((index: number) => {
+      this.selectedDeck.mainDeck.splice(index, 1);
+    })
+
     // Add subscriptions to collection
     this.subscriptions = [
       ...this.subscriptions,
       deckCardSearchResultCardRightClickSubscription,
       mainDeckCardDropSubscription,
-      cardFiltersLoadedSubscription
+      cardFiltersLoadedSubscription,
+      removeCardSubscription
     ]
   }
   ngOnDestroy(): void {
