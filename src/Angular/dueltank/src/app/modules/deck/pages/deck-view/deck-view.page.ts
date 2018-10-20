@@ -8,6 +8,9 @@ import {Subscription} from "rxjs";
 import {DeckCardSearchResultService} from "../../services/deck-card-search-result.service";
 import {Card} from "../../../../shared/models/card";
 import {MainDeckService} from "../../services/main-deck.service";
+import {canAddCardToMainDeck} from "../../utils/main-deck-rules.util";
+import {Format} from "../../../../shared/models/format";
+import {applyFormatToCards} from "../../utils/format.util";
 
 @Component({
   templateUrl: "./deck-view.page.html"
@@ -16,6 +19,8 @@ export class DeckViewPage implements OnInit, OnDestroy{
   public isLoading: boolean = true;
   public deckLoaded: boolean = false;
   public selectedDeck: Deck;
+
+  private currentFormat: Format;
 
   // Subscriptions
   private subscriptions: Subscription[] = [];
@@ -54,16 +59,29 @@ export class DeckViewPage implements OnInit, OnDestroy{
 
     // Subscriptions
     let deckCardSearchResultCardRightClickSubscription = this.deckCardSearchResultService.cardSearchResultCardRightClick$.subscribe((card : Card) => {
-      this.selectedDeck.mainDeck = [...this.selectedDeck.mainDeck, card]
+
+      if(canAddCardToMainDeck(this.selectedDeck, card, this.currentFormat)) {
+        this.selectedDeck.mainDeck = [...this.selectedDeck.mainDeck, card]
+      }
     });
 
     let mainDeckCardDropSubscription = this.mainDeckService.cardDropSuccess$.subscribe((card: Card) => {
-      this.selectedDeck.mainDeck = [...this.selectedDeck.mainDeck, card]
+      if(canAddCardToMainDeck(this.selectedDeck, card, this.currentFormat)) {
+        this.selectedDeck.mainDeck = [...this.selectedDeck.mainDeck, card]
+      }
     });
 
     let removeCardSubscription = this.mainDeckService.removeCard$.subscribe((index: number) => {
       this.selectedDeck.mainDeck.splice(index, 1);
-    })
+    });
+
+    let banListLoadedSubscription = this.deckCardFilterService.banlistLoadedSource$.subscribe( (format: Format) => {
+      this.currentFormat = format;
+    });
+
+    let banListChangedSubscription = this.deckCardFilterService.banlistChangedSource$.subscribe( (format: Format) => {
+      this.currentFormat = format;
+    });
 
     // Add subscriptions to collection
     this.subscriptions = [
@@ -71,7 +89,9 @@ export class DeckViewPage implements OnInit, OnDestroy{
       deckCardSearchResultCardRightClickSubscription,
       mainDeckCardDropSubscription,
       cardFiltersLoadedSubscription,
-      removeCardSubscription
+      removeCardSubscription,
+      banListLoadedSubscription,
+      banListChangedSubscription
     ]
   }
   ngOnDestroy(): void {

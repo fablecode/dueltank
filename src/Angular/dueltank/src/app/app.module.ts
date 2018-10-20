@@ -22,7 +22,6 @@ import {DeckModule} from "./modules/deck/deck.module";
 import {UploadModule} from "./modules/upload/upload.module";
 import {SharedModule} from "./modules/shared/shared.module";
 import {PrivatePolicyModule} from "./modules/privacy-policy/privatepolicy.module";
-import {TipService} from "./shared/services/tip.service";
 
 const appRoutes: Routes = [
   {   path: "", component: HomePage, pathMatch: "full"}

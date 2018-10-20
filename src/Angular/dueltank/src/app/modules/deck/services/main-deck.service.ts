@@ -22,3 +22,8 @@ export class MainDeckService {
     this.removeCardSource.next(index);
   }
 }
+
+@Injectable()
+export class DeckRulesService {
+  private onlyThreeCopiesOfTheSameCard
+}
