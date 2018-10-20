@@ -56,19 +56,18 @@ export class MainDeckComponent implements OnChanges, OnInit, OnDestroy {
 
   ngOnInit(): void {
     let banListLoadedSubscription = this.deckCardFilterService.banlistLoadedSource$.subscribe( (format: Format) => {
-      this.applyFormatToCards(format);
+      this.applyFormatToDeckCards(format);
     });
 
     let banListChangedSubscription = this.deckCardFilterService.banlistChangedSource$.subscribe( (format: Format) => {
-      applyFormatToCards(format, this.cards);
-      this.currentFormat = format;
+      this.applyFormatToDeckCards(format);
     });
 
     // Add subscriptions to collection
     this.subscriptions = [...this.subscriptions, banListLoadedSubscription, banListChangedSubscription]
   }
 
-  private applyFormatToCards(format: Format) {
+  private applyFormatToDeckCards(format: Format) {
     applyFormatToCards(format, this.cards);
     this.currentFormat = format;
   }

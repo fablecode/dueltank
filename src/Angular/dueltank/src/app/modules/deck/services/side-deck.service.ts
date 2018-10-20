@@ -3,7 +3,7 @@ import {Card} from "../../../shared/models/card";
 import {Subject} from "rxjs";
 
 @Injectable()
-export class MainDeckService {
+export class SideDeckService {
 
   // Observable Card sources
   private cardDropSuccessSource = new Subject<Card>();

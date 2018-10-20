@@ -11,6 +11,7 @@ import {MainDeckService} from "../../services/main-deck.service";
 import {canAddCardToMainDeck} from "../../utils/main-deck-rules.util";
 import {Format} from "../../../../shared/models/format";
 import {applyFormatToCards} from "../../utils/format.util";
+import {ExtraDeckService} from "../../services/extra-deck.service";
 
 @Component({
   templateUrl: "./deck-view.page.html"
@@ -31,10 +32,9 @@ export class DeckViewPage implements OnInit, OnDestroy{
     private seo: SearchEngineOptimizationService,
     private deckCardFilterService : DeckCardFilterService,
     private deckCardSearchResultService: DeckCardSearchResultService,
-    private mainDeckService: MainDeckService
-  )
-  {
-  }
+    private mainDeckService: MainDeckService,
+    private extraDeckService: ExtraDeckService
+  ){}
 
   ngOnInit(): void {
     const routeParams = this.activatedRoute.snapshot.params;
@@ -59,20 +59,31 @@ export class DeckViewPage implements OnInit, OnDestroy{
 
     // Subscriptions
     let deckCardSearchResultCardRightClickSubscription = this.deckCardSearchResultService.cardSearchResultCardRightClick$.subscribe((card : Card) => {
-
       if(canAddCardToMainDeck(this.selectedDeck, card, this.currentFormat)) {
         this.selectedDeck.mainDeck = [...this.selectedDeck.mainDeck, card]
       }
     });
 
+    // main deck subscriptions
     let mainDeckCardDropSubscription = this.mainDeckService.cardDropSuccess$.subscribe((card: Card) => {
       if(canAddCardToMainDeck(this.selectedDeck, card, this.currentFormat)) {
         this.selectedDeck.mainDeck = [...this.selectedDeck.mainDeck, card]
       }
     });
 
-    let removeCardSubscription = this.mainDeckService.removeCard$.subscribe((index: number) => {
+    let removeMainDeckCardSubscription = this.mainDeckService.removeCard$.subscribe((index: number) => {
       this.selectedDeck.mainDeck.splice(index, 1);
+    });
+
+    // extra deck subscriptions
+    let extraDeckCardDropSubscription = this.extraDeckService.cardDropSuccess$.subscribe((card: Card) => {
+      if(canAddCardToMainDeck(this.selectedDeck, card, this.currentFormat)) {
+        this.selectedDeck.extraDeck = [...this.selectedDeck.extraDeck, card]
+      }
+    });
+
+    let removeExtraDeckCardSubscription = this.extraDeckService.removeCard$.subscribe((index: number) => {
+      this.selectedDeck.extraDeck.splice(index, 1);
     });
 
     let banListLoadedSubscription = this.deckCardFilterService.banlistLoadedSource$.subscribe( (format: Format) => {
@@ -89,7 +100,7 @@ export class DeckViewPage implements OnInit, OnDestroy{
       deckCardSearchResultCardRightClickSubscription,
       mainDeckCardDropSubscription,
       cardFiltersLoadedSubscription,
-      removeCardSubscription,
+      removeMainDeckCardSubscription,
       banListLoadedSubscription,
       banListChangedSubscription
     ]

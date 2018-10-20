@@ -16,7 +16,7 @@ import {DeckViewFormOptionsComponent} from "./components/deck-view-form-options/
 import {DeckService} from "../../shared/services/deck.service";
 import {SharedModule} from "../shared/shared.module";
 import {ClipboardModule} from "ngx-clipboard";
-import { YoutubePlayerModule } from 'ngx-youtube-player';
+import {YoutubePlayerModule } from 'ngx-youtube-player';
 import {SafePipe} from "../../shared/pipes/safe.pipe";
 import {DeckCardFiltersComponent} from "./components/deck-card-filters/deck-card-filters.component";
 import {FormatService} from "../../shared/services/format.service";
@@ -39,10 +39,9 @@ import {DeckTypesComponent} from "./components/deck-types/deck-types.component";
 import {MainDeckComponent} from "./components/main-deck/main-deck.component";
 import {ExtraDeckComponent} from "./components/extra-deck/extra-deck.component";
 import {SideDeckComponent} from "./components/side-deck/side-deck.component";
-import {DragDropModule} from "@angular/cdk/drag-drop";
-import {DragulaModule} from "ng2-dragula";
 import {DndModule} from "ng2-dnd";
 import {MainDeckService} from "./services/main-deck.service";
+import {ExtraDeckService} from "./services/extra-deck.service";
 
 const deckRoutes: Routes = [
   {
@@ -81,8 +80,6 @@ const deckRoutes: Routes = [
     ClipboardModule,
     YoutubePlayerModule,
     InfiniteScrollModule,
-    DragDropModule,
-    DragulaModule.forRoot(),
     DndModule.forRoot(),
     ToastrModule.forRoot(),
     TabsModule.forRoot(),
@@ -104,7 +101,8 @@ const deckRoutes: Routes = [
     CardSearchService,
     TipService,
     RulingService,
-    MainDeckService
+    MainDeckService,
+    ExtraDeckService
   ]
 })
 export class DeckModule {}

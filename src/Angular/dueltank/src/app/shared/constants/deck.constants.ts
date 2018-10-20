@@ -7,3 +7,4 @@ export const spellType: string = "spell";
 export const fusionType: string = "fusion";
 export const xyzType: string = "xyz";
 export const synchroType: string = "synchro";
+export const linkType: string = "link";
