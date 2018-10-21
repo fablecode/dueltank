@@ -4,8 +4,8 @@ import {Observable} from "rxjs/Observable";
 import {Deck} from "../models/deck";
 import {AppConfigService} from "./app-config.service";
 import * as FileSaver from "file-saver";
-import * as Enumerable from "linq-es2015";
-import {asEnumerable} from "linq-es2015";
+import {Card} from "../models/card";
+import {List} from "linqts";
 
 
 @Injectable()
@@ -38,44 +38,45 @@ export class DeckService {
   }
 
   public deckToText(deck: Deck) : string {
-    var text = [];
+    let text = [];
+
+    let mainDeckCards = new List<Card>(deck.mainDeck)
+    let extraDeckCards = new List<Card>(deck.extraDeck)
+    let sideDeckCards = new List<Card>(deck.sideDeck)
 
     text.push(deck.name + "\nBy " + deck.username);
     text.push(Array(deck.name.length).join("-"));
 
-    var numberOfCopiesByMainCards =  Enumerable
-                                      .from(deck.mainDeck)
-                                      .Distinct(card => card.name)
+    var numberOfCopiesByMainCards =  mainDeckCards
+                                      .DistinctBy(card => card.name)
                                       .Select(card => {
                                         return {
                                           name: card.name,
-                                          count: asEnumerable(deck.mainDeck)
+                                          count: mainDeckCards
                                             .Where(c => c.name == card.name)
                                             .Count()
                                         }
                                       })
                                       .ToArray();
 
-    var numberOfCopiesByExtraCards =  Enumerable
-                                      .from(deck.extraDeck)
-                                      .Distinct(card => card.name)
+    var numberOfCopiesByExtraCards =  extraDeckCards
+                                      .DistinctBy(card => card.name)
                                       .Select(card => {
                                         return {
                                           name: card.name,
-                                          count: asEnumerable(deck.extraDeck)
+                                          count: extraDeckCards
                                             .Where(c => c.name == card.name)
                                             .Count()
                                         }
                                       })
                                       .ToArray();
 
-    var numberOfCopiesBySideCards =  Enumerable
-                                      .from(deck.sideDeck)
-                                      .Distinct(card => card.name)
+    var numberOfCopiesBySideCards =  sideDeckCards
+                                      .DistinctBy(card => card.name)
                                       .Select(card => {
                                         return {
                                           name: card.name,
-                                          count: asEnumerable(deck.sideDeck)
+                                          count: sideDeckCards
                                             .Where(c => c.name == card.name)
                                             .Count()
                                         }
