@@ -8,11 +8,12 @@ import {Subscription} from "rxjs";
 import {DeckCardSearchResultService} from "../../services/deck-card-search-result.service";
 import {Card} from "../../../../shared/models/card";
 import {MainDeckService} from "../../services/main-deck.service";
-import {canAddCardToExtraDeck, canAddCardToMainDeck, canAddCardToSideDeck} from "../../utils/main-deck-rules.util";
+import {canAddCardToMainDeck} from "../../utils/main-deck-rules.util";
 import {Format} from "../../../../shared/models/format";
-import {applyFormatToCards} from "../../utils/format.util";
 import {ExtraDeckService} from "../../services/extra-deck.service";
 import {SideDeckService} from "../../services/side-deck.service";
+import {canAddCardToExtraDeck} from "../../utils/extra-deck-rules.util";
+import {canAddCardToSideDeck} from "../../utils/side-deck-rules.util";
 
 @Component({
   templateUrl: "./deck-view.page.html"
@@ -53,13 +54,15 @@ export class DeckViewPage implements OnInit, OnDestroy{
       this.deckLoaded = true;
     });
 
+
+    // Subscriptions
+
+    // cards filters
     let cardFiltersLoadedSubscription = this.deckCardFilterService.cardFiltersLoaded$.subscribe(
       isLoaded => {
         this.isLoading = !isLoaded;
       }
     );
-
-    // Subscriptions
 
     // main deck subscriptions
     let mainDeckCardDropSubscription = this.mainDeckService.cardDropSuccess$.subscribe((card: Card) => {
@@ -69,7 +72,7 @@ export class DeckViewPage implements OnInit, OnDestroy{
     });
 
     let removeMainDeckCardSubscription = this.mainDeckService.removeCard$.subscribe((index: number) => {
-      this.selectedDeck.mainDeck.splice(index, 1);
+      this.selectedDeck.mainDeck = this.selectedDeck.mainDeck.filter(card => this.selectedDeck.mainDeck.indexOf(card) !== index);
     });
 
     // extra deck subscriptions
@@ -80,7 +83,7 @@ export class DeckViewPage implements OnInit, OnDestroy{
     });
 
     let removeExtraDeckCardSubscription = this.extraDeckService.removeCard$.subscribe((index: number) => {
-      this.selectedDeck.extraDeck.splice(index, 1);
+      this.selectedDeck.extraDeck = this.selectedDeck.extraDeck.filter(card => this.selectedDeck.extraDeck.indexOf(card) !== index);
     });
 
     // side deck subscriptions
@@ -91,7 +94,7 @@ export class DeckViewPage implements OnInit, OnDestroy{
     });
 
     let removeSideDeckCardSubscription = this.sideDeckService.removeCard$.subscribe((index: number) => {
-      this.selectedDeck.sideDeck.splice(index, 1);
+      this.selectedDeck.sideDeck = this.selectedDeck.sideDeck.filter(card => this.selectedDeck.sideDeck.indexOf(card) !== index);
     });
 
 
@@ -118,6 +121,7 @@ export class DeckViewPage implements OnInit, OnDestroy{
       banListChangedSubscription
     ]
   }
+
   ngOnDestroy(): void {
     // unsubscribe to ensure no memory leaks
     this.subscriptions.forEach(sub => sub.unsubscribe());
