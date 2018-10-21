@@ -31,7 +31,7 @@ export class DeckViewCardSearchComponent implements OnInit {
   }
 
   public addDeckToUserFavourites() {
-
+    return false;
   }
 
   public goToUserDecks(username: string) {
