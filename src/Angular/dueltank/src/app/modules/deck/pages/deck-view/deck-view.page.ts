@@ -72,7 +72,11 @@ export class DeckViewPage implements OnInit, OnDestroy{
     });
 
     let removeMainDeckCardSubscription = this.mainDeckService.removeCard$.subscribe((index: number) => {
-      this.selectedDeck.mainDeck = this.selectedDeck.mainDeck.filter(card => this.selectedDeck.mainDeck.indexOf(card) !== index);
+      this.selectedDeck.mainDeck.splice(index, 1);
+
+      // https://stackoverflow.com/questions/42962394/angular-2-how-to-detect-changes-in-an-array-input-property
+      // will change the array reference and it will trigger the OnChanges mechanism
+      this.selectedDeck.mainDeck = [].concat(this.selectedDeck.mainDeck);
     });
 
     // extra deck subscriptions
@@ -83,7 +87,11 @@ export class DeckViewPage implements OnInit, OnDestroy{
     });
 
     let removeExtraDeckCardSubscription = this.extraDeckService.removeCard$.subscribe((index: number) => {
-      this.selectedDeck.extraDeck = this.selectedDeck.extraDeck.filter(card => this.selectedDeck.extraDeck.indexOf(card) !== index);
+      this.selectedDeck.extraDeck.splice(index, 1);
+
+      // https://stackoverflow.com/questions/42962394/angular-2-how-to-detect-changes-in-an-array-input-property
+      // will change the array reference and it will trigger the OnChanges mechanism
+      this.selectedDeck.extraDeck = [].concat(this.selectedDeck.extraDeck);
     });
 
     // side deck subscriptions
@@ -94,7 +102,11 @@ export class DeckViewPage implements OnInit, OnDestroy{
     });
 
     let removeSideDeckCardSubscription = this.sideDeckService.removeCard$.subscribe((index: number) => {
-      this.selectedDeck.sideDeck = this.selectedDeck.sideDeck.filter(card => this.selectedDeck.sideDeck.indexOf(card) !== index);
+      this.selectedDeck.sideDeck.splice(index, 1);
+
+      // https://stackoverflow.com/questions/42962394/angular-2-how-to-detect-changes-in-an-array-input-property
+      // will change the array reference and it will trigger the OnChanges mechanism
+      this.selectedDeck.sideDeck = [].concat(this.selectedDeck.sideDeck);
     });
 
 

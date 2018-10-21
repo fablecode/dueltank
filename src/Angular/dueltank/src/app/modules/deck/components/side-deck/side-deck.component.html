@@ -1,0 +1,62 @@
+<div id="side-deck-stats" class="col-lg-12">
+  <div class="row">
+    <div class="ibox">
+      <div class="ibox-content">
+        <div class="col-lg-4">
+          <div class="row">
+            <label class="label label-success">Deck :</label>
+            <label class="control-label">&nbsp;{{ cards.length }}</label>
+          </div>
+        </div>
+        <div class="col-lg-8 text-right">
+          <div class="row">
+            <ul class="list-inline">
+              <li>
+                <label class="label label-warning">Monster :</label>
+                <label class="control-label">&nbsp;{{ monsterCardCount }}</label>
+              </li>
+              <li>
+                <label class="label label-primary">Spell :</label>
+                <label class="control-label">&nbsp;{{ spellCardCount }}</label>
+              </li>
+              <li>
+                <label class="label label-danger">Trap :</label>
+                <label class="control-label">&nbsp;{{ trapCardCount }}</label>
+              </li>
+              <li>
+                <label class="label label-warning fusion-card-color">Fusion :</label>
+                <label class="control-label">&nbsp;{{ fusionCardCount }}</label>
+              </li>
+              <li>
+                <label class="label label-danger synchro-card-color">Synchro :</label>
+                <label class="control-label">&nbsp;{{ synchroCardCount }}</label>
+              </li>
+              <li>
+                <label class="label label-primary xyz-card-color">Xyz :</label>
+                <label class="control-label">&nbsp;{{ xyzCardCount }}</label>
+              </li>
+              <li>
+                <label class="label label-danger link-card-color">Link :</label>
+                <label class="control-label">&nbsp;{{ linkCardCount }}</label>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="side-deck-cards" class="col-lg-12">
+  <div class="row">
+    <div class="ibox no-mg-bt">
+      <div class="ibox-content clearfix" dnd-droppable (onDropSuccess)="addToDeck($event)" [dropZones]="['sideDeck-zone']">
+        <ul id="main-deck-card-list" class="list-inline" dnd-sortable-container [sortableData]="cards">
+          <li *ngFor="let card  of cards;let i = index" dnd-sortable [sortableIndex]="i" (contextmenu)="onRemoveCard(i)">
+            <img *ngIf="card.limit && card.limit != 'unlimited'" src="/assets/images/{{card.limit}}.png" alt="{{ card.limit }}" class="img-responsive limit-img"/>
+            <img [src]="getApiEndPointUrl() + card.imageUrl" alt="{{ card.name }}" title="{{ card.name }}" height="100" width="80"/>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

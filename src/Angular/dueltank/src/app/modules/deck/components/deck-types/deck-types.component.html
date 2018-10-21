@@ -7,7 +7,7 @@
       <extraDeck [cards]="deck.extraDeck"></extraDeck>
     </tab>
     <tab id="side-deck" heading="Side" (select)="changeTab($event)">
-      <sideDeck></sideDeck>
+      <sideDeck [cards]="deck.sideDeck"></sideDeck>
     </tab>
   </tabset>
 </div>

@@ -19,7 +19,7 @@ import {applyFormatToCards} from "../../utils/format.util";
   selector: "extraDeck",
   templateUrl: "./extra-deck.component.html"
 })
-export class ExtraDeckComponent implements OnChanges, OnInit, OnDestroy{
+export class ExtraDeckComponent implements OnChanges, OnInit, OnDestroy {
   @Input() cards: Card[] = [];
 
   private currentFormat: Format;
@@ -81,5 +81,7 @@ export class ExtraDeckComponent implements OnChanges, OnInit, OnDestroy{
   }
 
   ngOnDestroy(): void {
+    // unsubscribe to ensure no memory leaks
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 }
