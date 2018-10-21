@@ -39,6 +39,7 @@ namespace dueltank.infrastructure
             services.AddTransient<ISubCategoryRepository, SubCategoryRepository>();
             services.AddTransient<ITipRepository, TipRepository>();
             services.AddTransient<IRulingRepository, RulingRepository>();
+            services.AddTransient<IBanlistRepository, BanlistRepository>();
 
             return services;
         }

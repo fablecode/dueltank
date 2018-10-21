@@ -49,11 +49,11 @@ namespace dueltank.application
             services.AddTransient<ISubCategoryService, SubCategoryService>();
             services.AddTransient<IAttributeService, AttributeService>();
             services.AddTransient<ITypeService, TypeService>();
-            services.AddTransient<ITypeService, TypeService>();
             services.AddTransient<IFormatService, FormatService>();
             services.AddTransient<ILimitService, LimitService>();
             services.AddTransient<ITipService, TipService>();
             services.AddTransient<IRulingService, RulingService>();
+            services.AddTransient<IBanlistService, BanlistService>();
 
             return services;
         }

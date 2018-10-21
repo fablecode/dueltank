@@ -18,5 +18,6 @@
         public long? TypeId { get; set; }
         public string Type { get; set; }
 
+        public string Limit { get; set; }
     }
 }

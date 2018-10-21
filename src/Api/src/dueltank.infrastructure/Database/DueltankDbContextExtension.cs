@@ -1,4 +1,5 @@
 ﻿using dueltank.core.Models.Cards;
+using dueltank.core.Models.Search.Banlist;
 using Microsoft.EntityFrameworkCore;
 
 namespace dueltank.infrastructure.Database
