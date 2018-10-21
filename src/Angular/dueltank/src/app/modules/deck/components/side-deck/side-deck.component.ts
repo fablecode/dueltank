@@ -14,6 +14,7 @@ import {
   xyzCardTypeCount
 } from "../../utils/deck.utils";
 import {Subscription} from "rxjs";
+import {DeckCardSearchResultService} from "../../services/deck-card-search-result.service";
 
 @Component({
   selector: "sideDeck",
@@ -38,7 +39,8 @@ export class SideDeckComponent implements OnChanges, OnInit, OnDestroy {
   constructor(
     private configuration: AppConfigService,
     private sideDeckService: SideDeckService,
-    private deckCardFilterService : DeckCardFilterService
+    private deckCardFilterService : DeckCardFilterService,
+    private deckCardSearchResultService: DeckCardSearchResultService
   ) {}
 
 
@@ -53,6 +55,10 @@ export class SideDeckComponent implements OnChanges, OnInit, OnDestroy {
 
   public getApiEndPointUrl() : string {
     return this.configuration.apiEndpoint;
+  }
+
+  public onCardHover(card: Card) {
+    this.deckCardSearchResultService.onCardHover(card);
   }
 
   ngOnInit(): void {

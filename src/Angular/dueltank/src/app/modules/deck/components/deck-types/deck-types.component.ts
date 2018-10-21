@@ -17,8 +17,6 @@ export class DeckTypesComponent implements OnInit, OnDestroy {
   @Input() deck: Deck;
   @ViewChild('deckTabset') deckTabset: TabsetComponent;
 
-  public activeTab: string;
-
   // Subscriptions
   private subscriptions: Subscription[] = [];
 
@@ -35,7 +33,7 @@ export class DeckTypesComponent implements OnInit, OnDestroy {
 
       let tabsList = new List<TabDirective>(this.deckTabset.tabs);
 
-      const activeTab: TabDirective = tabsList.Single(t => t.active); //this.deckTabset.tabs.filter(tab => tab.active);
+      const activeTab: TabDirective = tabsList.Single(t => t.active);
 
       switch (activeTab.heading) {
         case "Main":
@@ -60,11 +58,5 @@ export class DeckTypesComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     // unsubscribe to ensure no memory leaks
     this.subscriptions.forEach(sub => sub.unsubscribe());
-  }
-
-  public changeTab($event: TabDirective) {
-    this.activeTab = $event.heading;
-
-    console.log($event.heading);
   }
 }

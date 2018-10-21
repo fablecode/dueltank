@@ -22,7 +22,7 @@
          [scrollWindow]="false">
       <div class="col-lg-12">
         <ul id="card-search-result-list" class="list-inline" dnd-sortable-container [sortableData]="cards" [dropZones]="['mainDeck-zone', 'extraDeck-zone', 'sideDeck-zone']">
-            <li *ngFor="let card of cards;let i = index" dnd-sortable [sortableIndex]="i" [dragEnabled]="true" [dragData]="card" (contextmenu)="onRightClick(card)">
+            <li *ngFor="let card of cards;let i = index" dnd-sortable [sortableIndex]="i" [dragEnabled]="true" [dragData]="card" (contextmenu)="onRightClick(card)" (mouseover)="onCardHover(card)">
               <div class="row">
                 <div class="col-md-3">
                   <img [src]="getApiEndPointUrl() + card.imageUrl" [alt]="card.name" class="img-responsive" />

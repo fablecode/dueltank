@@ -14,6 +14,7 @@ import {
 } from "../../utils/deck.utils";
 import {Format} from "../../../../shared/models/format";
 import {applyFormatToCards} from "../../utils/format.util";
+import {DeckCardSearchResultService} from "../../services/deck-card-search-result.service";
 
 @Component({
   selector: "extraDeck",
@@ -34,7 +35,8 @@ export class ExtraDeckComponent implements OnChanges, OnInit, OnDestroy {
   constructor(
     private configuration: AppConfigService,
     private extraDeckService: ExtraDeckService,
-    private deckCardFilterService : DeckCardFilterService
+    private deckCardFilterService : DeckCardFilterService,
+    private deckCardSearchResultService: DeckCardSearchResultService
   ) {}
 
 
@@ -49,6 +51,10 @@ export class ExtraDeckComponent implements OnChanges, OnInit, OnDestroy {
 
   public getApiEndPointUrl() : string {
     return this.configuration.apiEndpoint;
+  }
+
+  public onCardHover(card: Card) {
+    this.deckCardSearchResultService.onCardHover(card);
   }
 
   ngOnInit(): void {
