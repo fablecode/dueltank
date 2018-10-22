@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {Card} from "../../../../shared/models/card";
 import {AppConfigService} from "../../../../shared/services/app-config.service";
-import {DeckCardSearchResultService} from "../../services/deck-card-search-result.service";
 import {Subscription} from "rxjs";
 import {TipService} from "../../../../shared/services/tip.service";
 import {TipSection} from "../../../../shared/models/tipSection";
@@ -13,6 +12,7 @@ import {defaultDeckCurrentCard} from "../../utils/card.util";
 import {DeckCurrentCardTextService} from "../../services/deck-current-card-text.service";
 import {RulingService} from "../../../../shared/services/ruling.service";
 import {RulingSection} from "../../../../shared/models/rulingSection";
+import {DeckCurrentCardService} from "../../services/deck-current-card.service";
 
 @Component({
   selector: "deckCurrentCard",
@@ -27,7 +27,7 @@ export class DeckCurrentCardComponent implements OnInit, OnDestroy {
 
   constructor(
     private configuration: AppConfigService,
-    private deckCardSearchResultService: DeckCardSearchResultService,
+    private deckCurrentCardService: DeckCurrentCardService,
     private tipService: TipService,
     private rulingService: RulingService,
     private cardSearchService: CardSearchService,
@@ -40,20 +40,21 @@ export class DeckCurrentCardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
     if(!this.card) {
       this.card = defaultDeckCurrentCard()
     }
 
-    let deckCardSearchResultSubscription = this.deckCardSearchResultService.cardSearchResultCardHover$.subscribe((card: Card) => {
+    let deckCurrentCardServiceSubscription = this.deckCurrentCardService.cardChange$.subscribe((card: Card) => {
       this.tabset.tabs[0].active = true;
       this.card = card;
     });
 
     let deckCurrentCardTextClickSubscription = this.deckCurrentCardTextService.currentCardTextClicked$.subscribe((cardName: string) => {
       this.cardSearchByName(cardName);
-    })
+    });
 
-    this.subscriptions.push(deckCardSearchResultSubscription);
+    this.subscriptions.push(deckCurrentCardServiceSubscription);
     this.subscriptions.push(deckCurrentCardTextClickSubscription);
   }
 

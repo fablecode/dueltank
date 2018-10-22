@@ -5,8 +5,8 @@ import {Card} from "../../../shared/models/card";
 @Injectable()
 export class DeckCardSearchResultService {
   // Observable card sources
-  private cardSearchResultCardHover = new Subject<Card>()
-  private cardSearchResultCardRightClick = new Subject<Card>()
+  private cardSearchResultCardHover = new Subject<Card>();
+  private cardSearchResultCardRightClick = new Subject<Card>();
 
   // Observable card streams
   public cardSearchResultCardHover$ = this.cardSearchResultCardHover.asObservable();

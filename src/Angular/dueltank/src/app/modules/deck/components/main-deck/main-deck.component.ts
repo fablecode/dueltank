@@ -9,6 +9,7 @@ import {applyFormatToCards} from "../../utils/format.util";
 import {DeckCardFilterService} from "../../services/deck-card-filter.service";
 import {Subscription} from "rxjs";
 import {DeckCardSearchResultService} from "../../services/deck-card-search-result.service";
+import {DeckCurrentCardService} from "../../services/deck-current-card.service";
 
 @Component({
   selector: "mainDeck",
@@ -30,7 +31,7 @@ export class MainDeckComponent implements OnChanges, OnInit, OnDestroy {
     private configuration: AppConfigService,
     private mainDeckService: MainDeckService,
     private deckCardFilterService : DeckCardFilterService,
-    private deckCardSearchResultService: DeckCardSearchResultService
+    private deckCurrentCardService: DeckCurrentCardService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -57,7 +58,7 @@ export class MainDeckComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   public onCardHover(card: Card) {
-    this.deckCardSearchResultService.onCardHover(card);
+    this.deckCurrentCardService.cardChange(card);
   }
 
   ngOnInit(): void {

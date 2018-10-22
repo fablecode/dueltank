@@ -20,7 +20,9 @@ const banlistRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [LatestPage],
+  declarations: [
+    LatestPage
+  ],
   imports: [CommonModule, SharedModule, RouterModule.forChild(banlistRoutes)],
   providers: [BanlistService]
 })

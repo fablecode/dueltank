@@ -14,6 +14,7 @@ import {ExtraDeckService} from "../../services/extra-deck.service";
 import {SideDeckService} from "../../services/side-deck.service";
 import {canAddCardToExtraDeck} from "../../utils/extra-deck-rules.util";
 import {canAddCardToSideDeck} from "../../utils/side-deck-rules.util";
+import {DeckCurrentCardService} from "../../services/deck-current-card.service";
 
 @Component({
   templateUrl: "./deck-view.page.html"
@@ -36,7 +37,8 @@ export class DeckViewPage implements OnInit, OnDestroy{
     private deckCardSearchResultService: DeckCardSearchResultService,
     private mainDeckService: MainDeckService,
     private extraDeckService: ExtraDeckService,
-    private sideDeckService: SideDeckService
+    private sideDeckService: SideDeckService,
+    private deckCurrentCardService: DeckCurrentCardService
   ){}
 
   ngOnInit(): void {
@@ -63,6 +65,10 @@ export class DeckViewPage implements OnInit, OnDestroy{
         this.isLoading = !isLoaded;
       }
     );
+
+    let deckCardSearchResultHoverSubscription = this.deckCardSearchResultService.cardSearchResultCardHover$.subscribe((card: Card) => {
+      this.deckCurrentCardService.cardChange(card);
+    });
 
     // main deck subscriptions
     let mainDeckCardDropSubscription = this.mainDeckService.cardDropSuccess$.subscribe((card: Card) => {
@@ -123,6 +129,7 @@ export class DeckViewPage implements OnInit, OnDestroy{
     this.subscriptions = [
       ...this.subscriptions,
       cardFiltersLoadedSubscription,
+      deckCardSearchResultHoverSubscription,
       mainDeckCardDropSubscription,
       removeMainDeckCardSubscription,
       extraDeckCardDropSubscription,

@@ -10,14 +10,12 @@ import {HttpClientModule} from "@angular/common/http";
 import {CommonModule} from "@angular/common";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {BrowserModule} from "@angular/platform-browser";
-import {DeckCurrentCardComponent} from "./components/deck-current-card/deck-current-card.component";
 import {DeckViewCardSearchComponent} from "./components/deck-view-card-search/deck-view-card-search.component";
 import {DeckViewFormOptionsComponent} from "./components/deck-view-form-options/deck-view-form-options.component";
 import {DeckService} from "../../shared/services/deck.service";
 import {SharedModule} from "../shared/shared.module";
 import {ClipboardModule} from "ngx-clipboard";
 import {YoutubePlayerModule } from 'ngx-youtube-player';
-import {SafePipe} from "../../shared/pipes/safe.pipe";
 import {DeckCardFiltersComponent} from "./components/deck-card-filters/deck-card-filters.component";
 import {FormatService} from "../../shared/services/format.service";
 import {CategoryService} from "../../shared/services/category.service";
@@ -31,7 +29,6 @@ import {DeckCardSearchResultComponent} from "./components/deck-card-search-resul
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import {DeckCardSearchResultService} from "./services/deck-card-search-result.service";
 import {ToastrModule} from "ngx-toastr";
-import {DeckCurrentCardTextComponent} from "./components/deck-current-card-text/deck-current-card-text.component";
 import {DeckCurrentCardTextService} from "./services/deck-current-card-text.service";
 import {RulingService} from "../../shared/services/ruling.service";
 import {TipService} from "../../shared/services/tip.service";
@@ -57,15 +54,12 @@ const deckRoutes: Routes = [
 @NgModule({
   declarations: [
     CardNameToUrlPipe,
-    SafePipe,
-    DeckCurrentCardComponent,
     DeckListPage,
     DeckViewPage,
     DeckViewCardSearchComponent,
     DeckViewFormOptionsComponent,
     DeckCardFiltersComponent,
     DeckCardSearchResultComponent,
-    DeckCurrentCardTextComponent,
     DeckTypesComponent,
     MainDeckComponent,
     ExtraDeckComponent,
