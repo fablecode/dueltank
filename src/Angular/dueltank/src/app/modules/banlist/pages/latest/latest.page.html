@@ -1,6 +1,6 @@
 <loadingSpinner [loading]="isLoading"></loadingSpinner>
 <div class="row border-bottom white-bg page" *ngIf="!isLoading">
   <div class="col-lg-10">
-    <h2 style="margin-top: 10px;"><i class="fa fa-ban"></i>&nbsp;{{ format | uppercase }} - {{ latestBanlist.releaseDate }}</h2>
+    <h2 style="margin-top: 10px;"><i class="fa fa-ban"></i>&nbsp;{{ latestBanlist.format | uppercase }} - {{ latestBanlist.releaseDate }}</h2>
   </div>
 </div>

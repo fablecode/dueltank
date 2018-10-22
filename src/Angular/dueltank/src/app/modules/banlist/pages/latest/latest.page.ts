@@ -8,10 +8,8 @@ import {Banlist} from "../../../../shared/models/banlist";
 })
 export class LatestPage implements OnInit {
 
-  private isLoading: boolean = true;
-
-  private format: string;
-  private latestBanlist: Banlist;
+  public isLoading: boolean = true;
+  public latestBanlist: Banlist;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -21,9 +19,7 @@ export class LatestPage implements OnInit {
   ngOnInit(): void {
     const routeParams = this.activatedRoute.parent.snapshot.params;
 
-    this.format = routeParams.format;
-
-    this.banlistService.latestBanlistByFormatAcronym(this.format).subscribe((banlist: Banlist) => {
+    this.banlistService.latestBanlistByFormatAcronym(routeParams.format).subscribe((banlist: Banlist) => {
       this.latestBanlist = banlist;
       this.isLoading = false;
     });
