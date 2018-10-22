@@ -1,11 +1,10 @@
-﻿using System.Net;
-using System.Threading.Tasks;
-using dueltank.application.Enums;
-using dueltank.application.Models.Banlists.Output;
+﻿using dueltank.application.Enums;
 using dueltank.application.Queries.LatestBanlist;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace dueltank.api.Controllers
 {

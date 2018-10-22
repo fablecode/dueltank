@@ -22,6 +22,7 @@ import {DeckModule} from "./modules/deck/deck.module";
 import {UploadModule} from "./modules/upload/upload.module";
 import {SharedModule} from "./modules/shared/shared.module";
 import {PrivatePolicyModule} from "./modules/privacy-policy/privatepolicy.module";
+import {BanlistModule} from "./modules/banlist/banlist.module";
 
 const appRoutes: Routes = [
   {   path: "", component: HomePage, pathMatch: "full"}
@@ -58,6 +59,7 @@ export function loadConfigService(configService: AppConfigService): Function
     DeckModule,
     UploadModule,
     SharedModule,
+    BanlistModule,
     RouterModule.forRoot(appRoutes)
   ],
   exports: [
