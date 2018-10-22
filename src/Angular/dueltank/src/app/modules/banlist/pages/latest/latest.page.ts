@@ -8,6 +8,8 @@ import {Banlist} from "../../../../shared/models/banlist";
 })
 export class LatestPage implements OnInit {
 
+  private isLoading: boolean = true;
+
   private format: string;
   private latestBanlist: Banlist;
 
@@ -23,6 +25,7 @@ export class LatestPage implements OnInit {
 
     this.banlistService.latestBanlistByFormatAcronym(this.format).subscribe((banlist: Banlist) => {
       this.latestBanlist = banlist;
+      this.isLoading = false;
     });
   }
 }

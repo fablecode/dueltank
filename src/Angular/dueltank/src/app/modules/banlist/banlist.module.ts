@@ -3,6 +3,7 @@ import {RouterModule, Routes} from "@angular/router";
 import {LatestPage} from "./pages/latest/latest.page";
 import {BanlistService} from "./services/banlist.service";
 import {CommonModule} from "@angular/common";
+import {SharedModule} from "../shared/shared.module";
 
 const banlistRoutes: Routes = [
   {
@@ -20,7 +21,7 @@ const banlistRoutes: Routes = [
 
 @NgModule({
   declarations: [LatestPage],
-  imports: [CommonModule, RouterModule.forChild(banlistRoutes)],
+  imports: [CommonModule, SharedModule, RouterModule.forChild(banlistRoutes)],
   providers: [BanlistService]
 })
 export class BanlistModule {}
