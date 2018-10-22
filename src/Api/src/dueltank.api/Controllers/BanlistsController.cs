@@ -24,7 +24,7 @@ namespace dueltank.api.Controllers
         [HttpGet]
         [Route("{format:alpha:length(1,3)}/latest")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<ActionResult<LatestBanlistOutputModel>> Latest([FromRoute] BanlistFormat format)
+        public async Task<IActionResult> Latest([FromRoute] BanlistFormat format)
         {
             var result = await _mediator.Send(new LatestBanlistQuery { Format = format});
 
