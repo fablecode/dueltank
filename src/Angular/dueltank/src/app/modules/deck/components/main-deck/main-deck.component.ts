@@ -30,8 +30,7 @@ export class MainDeckComponent implements OnChanges, OnInit, OnDestroy {
   constructor(
     private configuration: AppConfigService,
     private mainDeckService: MainDeckService,
-    private deckCardFilterService : DeckCardFilterService,
-    private deckCurrentCardService: DeckCurrentCardService
+    private deckCardFilterService : DeckCardFilterService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -58,7 +57,7 @@ export class MainDeckComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   public onCardHover(card: Card) {
-    this.deckCurrentCardService.cardChange(card);
+    this.mainDeckService.cardHover(card);
   }
 
   ngOnInit(): void {

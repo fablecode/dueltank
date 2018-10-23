@@ -77,6 +77,10 @@ export class DeckViewPage implements OnInit, OnDestroy{
       }
     });
 
+    let mainDeckCardHoverSubscription = this.mainDeckService.cardHoverSource$.subscribe((card: Card) => {
+      this.deckCurrentCardService.cardChange(card);
+    });
+
     let removeMainDeckCardSubscription = this.mainDeckService.removeCard$.subscribe((index: number) => {
       this.selectedDeck.mainDeck.splice(index, 1);
 
@@ -131,6 +135,7 @@ export class DeckViewPage implements OnInit, OnDestroy{
       cardFiltersLoadedSubscription,
       deckCardSearchResultHoverSubscription,
       mainDeckCardDropSubscription,
+      mainDeckCardHoverSubscription,
       removeMainDeckCardSubscription,
       extraDeckCardDropSubscription,
       removeExtraDeckCardSubscription,
