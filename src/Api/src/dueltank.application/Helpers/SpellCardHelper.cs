@@ -4,17 +4,21 @@ using dueltank.core.Models.Db;
 using System;
 using System.Linq;
 using dueltank.core.Constants;
+using dueltank.core.Models.Search.Banlist;
 
 namespace dueltank.application.Helpers
 {
     public static class SpellCardHelper
     {
-
         public static bool IsSpellCard(DeckCardDetail deckCard)
         {
             return string.Equals(deckCard.Category, CardConstants.SpellType, StringComparison.OrdinalIgnoreCase);
         }
         public static bool IsSpellCard(CardSearch card)
+        {
+            return string.Equals(card.Category, CardConstants.SpellType, StringComparison.OrdinalIgnoreCase);
+        }
+        public static bool IsSpellCard(BanlistCardSearch card)
         {
             return string.Equals(card.Category, CardConstants.SpellType, StringComparison.OrdinalIgnoreCase);
         }
@@ -75,6 +79,33 @@ namespace dueltank.application.Helpers
 
             return card;
         }
+        public static Card MapToSpellCard(BanlistCardSearch model)
+        {
+            var card = new Card
+            {
+                Id = model.Id,
+                CardNumber = model.CardNumber,
+                Name = model.Name,
+                Description = model.Description,
+            };
+
+            var subCategoryList = model.SubCategories.Split(',');
+
+            foreach (var subCategory in subCategoryList)
+            {
+                card.CardSubCategory.Add(new CardSubCategory
+                {
+                    SubCategory = new SubCategory
+                    {
+                        Name = subCategory,
+                        Category = new Category { Id = model.CategoryId, Name = model.Category }
+                    }
+                });
+            }
+
+
+            return card;
+        }
 
         public static CardDetailOutputModel MapToCardOutputModel(DeckCardDetail model)
         {
@@ -88,6 +119,17 @@ namespace dueltank.application.Helpers
             return cardOutputModel;
         }
         public static CardOutputModel MapToCardOutputModel(CardSearch model)
+        {
+            var card = MapToSpellCard(model);
+            var cardOutputModel = CardOutputModel.From(card);
+            cardOutputModel.BaseType = CardConstants.SpellType.ToLower();
+
+            cardOutputModel.Types.Add(card.CardSubCategory.First().SubCategory.Category.Name);
+            cardOutputModel.Types.AddRange(card.CardSubCategory.Select(t => t.SubCategory.Name));
+
+            return cardOutputModel;
+        }
+        public static CardOutputModel MapToCardOutputModel(BanlistCardSearch model)
         {
             var card = MapToSpellCard(model);
             var cardOutputModel = CardOutputModel.From(card);

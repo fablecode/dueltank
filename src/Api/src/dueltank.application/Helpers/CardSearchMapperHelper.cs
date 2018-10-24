@@ -1,6 +1,7 @@
 ﻿using System;
 using dueltank.application.Models.Cards.Output;
 using dueltank.core.Models.Cards;
+using dueltank.core.Models.Search.Banlist;
 
 namespace dueltank.application.Helpers
 {
@@ -28,8 +29,34 @@ namespace dueltank.application.Helpers
 
             return cardOutputModel;
         }
+        public static CardOutputModel MapToCardOutputModel(BanlistCardSearch cardSearch)
+        {
+            CardOutputModel cardOutputModel;
+            if (MonsterCardHelper.IsMonsterCard(cardSearch))
+            {
+                cardOutputModel = MapToMonsterCardOutputModel(cardSearch);
+            }
+            else if (SpellCardHelper.IsSpellCard(cardSearch))
+            {
+                cardOutputModel = MapToSpellCardOutputModel(cardSearch);
+            }
+            else if (TrapCardHelper.IsTrapCard(cardSearch))
+            {
+                cardOutputModel = MapToTrapCardOutputModel(cardSearch);
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(nameof(cardSearch));
+            }
+
+            return cardOutputModel;
+        }
 
         public static CardOutputModel MapToMonsterCardOutputModel(CardSearch cardSearch)
+        {
+            return MonsterCardHelper.MapToCardOutputModel(cardSearch);
+        }
+        public static CardOutputModel MapToMonsterCardOutputModel(BanlistCardSearch cardSearch)
         {
             return MonsterCardHelper.MapToCardOutputModel(cardSearch);
         }
@@ -38,8 +65,16 @@ namespace dueltank.application.Helpers
         {
             return SpellCardHelper.MapToCardOutputModel(cardSearch);
         }
+        public static CardOutputModel MapToSpellCardOutputModel(BanlistCardSearch cardSearch)
+        {
+            return SpellCardHelper.MapToCardOutputModel(cardSearch);
+        }
 
         public static CardOutputModel MapToTrapCardOutputModel(CardSearch cardSearch)
+        {
+            return TrapCardHelper.MapToCardOutputModel(cardSearch);
+        }
+        public static CardOutputModel MapToTrapCardOutputModel(BanlistCardSearch cardSearch)
         {
             return TrapCardHelper.MapToCardOutputModel(cardSearch);
         }

@@ -40,7 +40,7 @@ namespace dueltank.infrastructure.Repository
 
             sqlParameters.Add(banlistReleaseDate);
 
-            result.Cards = await _dbContext.CardSearch.FromSql(LatestBanlistByFormatAcronymQuery, sqlParameters.ToArray()).ToListAsync();
+            result.Cards = await _dbContext.BanlistCardSearch.FromSql(LatestBanlistByFormatAcronymQuery, sqlParameters.ToArray()).ToListAsync();
             result.ReleaseDate = (DateTime) banlistReleaseDate.Value;
 
             return result;

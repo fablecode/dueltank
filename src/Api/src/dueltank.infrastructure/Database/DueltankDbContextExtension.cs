@@ -8,5 +8,6 @@ namespace dueltank.infrastructure.Database
     {
         public virtual DbSet<DeckCardDetail> CardDetail { get; set; }
         public DbSet<CardSearch> CardSearch { get; set; }
+        public DbSet<BanlistCardSearch> BanlistCardSearch { get; set; }
     }
 }

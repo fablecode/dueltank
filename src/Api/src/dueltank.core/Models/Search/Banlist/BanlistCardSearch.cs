@@ -1,6 +1,6 @@
-﻿namespace dueltank.core.Models.Cards
+﻿namespace dueltank.core.Models.Search.Banlist
 {
-    public class CardSearch
+    public class BanlistCardSearch
     {
         public long Id { get; set; }
         public long? CardNumber { get; set; }
@@ -17,5 +17,7 @@
         public string Attribute { get; set; }
         public long? TypeId { get; set; }
         public string Type { get; set; }
+
+        public string Limit { get; set; }
     }
 }
