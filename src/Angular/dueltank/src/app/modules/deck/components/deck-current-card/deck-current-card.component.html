@@ -1,47 +1,45 @@
-<div id="current-card" class="col-lg-2">
-  <div class="row">
-    <div id="current-card-image" class="col-lg-12">
-      <div class="row">
-        <img src="{{ getApiEndPoint() + card?.imageUrl }}" alt="{{ card?.name }}" title="{{ card?.name }}" class="img-responsive" width="300" height="440" (contextmenu)="onCardRightClick(card)">
-      </div>
+<div id="current-card" class="row">
+  <div id="current-card-image" class="col-lg-12">
+    <div class="row">
+      <img src="{{ getApiEndPoint() + card?.imageUrl }}" alt="{{ card?.name }}" title="{{ card?.name }}" class="img-responsive" width="300" height="440" (contextmenu)="onCardRightClick(card)">
     </div>
-    <div id="current-card-info" class="col-lg-12">
-      <div class="row">
-        <tabset #tabset class="tabs-container">
-          <tab id="card-text" heading="Card">
-            <div class="ibox no-mg-bt">
-              <div class="ibox-content">
-                <h5 *ngIf="card?.id">{{ card?.name }}</h5>
-                <deckCurrentCardText [text]="card?.description" [textToHtml]="true"></deckCurrentCardText>
-              </div>
+  </div>
+  <div id="current-card-info" class="col-lg-12">
+    <div class="row">
+      <tabset #tabset class="tabs-container">
+        <tab id="card-text" heading="Card">
+          <div class="ibox no-mg-bt">
+            <div class="ibox-content">
+              <h5 *ngIf="card?.id">{{ card?.name }}</h5>
+              <deckCurrentCardText [text]="card?.description" [textToHtml]="true"></deckCurrentCardText>
             </div>
-          </tab>
-          <tab id="card-tips" heading="Tips" (select)="changeTipTab(card?.id)">
-            <div class="ibox no-mg-bt">
-              <div class="ibox-content">
-                <dl *ngFor="let tipSection of card?.tipSections">
-                  <dt><h5>{{ tipSection.name }}</h5></dt>
-                  <dd *ngFor="let tip of tipSection.tips; let i = index">
-                    <deckCurrentCardText [text]="tip.text" [textToHtml]="true"></deckCurrentCardText>
-                  </dd>
-                </dl>
-              </div>
+          </div>
+        </tab>
+        <tab id="card-tips" heading="Tips" (select)="changeTipTab(card?.id)">
+          <div class="ibox no-mg-bt">
+            <div class="ibox-content">
+              <dl *ngFor="let tipSection of card?.tipSections">
+                <dt><h5>{{ tipSection.name }}</h5></dt>
+                <dd *ngFor="let tip of tipSection.tips; let i = index">
+                  <deckCurrentCardText [text]="tip.text" [textToHtml]="true"></deckCurrentCardText>
+                </dd>
+              </dl>
             </div>
-          </tab>
-          <tab id="card-rulings" heading="Rulings" (select)="changeRulingTab(card?.id)">
-            <div class="ibox no-mg-bt">
-              <div class="ibox-content">
-                <dl *ngFor="let rulingSection of card?.rulingSections">
-                  <dt><h5>{{ rulingSection.name }}</h5></dt>
-                  <dd *ngFor="let ruling of rulingSection.rulings; let i = index">
-                    <deckCurrentCardText [text]="ruling.text" [textToHtml]="true"></deckCurrentCardText>
-                  </dd>
-                </dl>
-              </div>
+          </div>
+        </tab>
+        <tab id="card-rulings" heading="Rulings" (select)="changeRulingTab(card?.id)">
+          <div class="ibox no-mg-bt">
+            <div class="ibox-content">
+              <dl *ngFor="let rulingSection of card?.rulingSections">
+                <dt><h5>{{ rulingSection.name }}</h5></dt>
+                <dd *ngFor="let ruling of rulingSection.rulings; let i = index">
+                  <deckCurrentCardText [text]="ruling.text" [textToHtml]="true"></deckCurrentCardText>
+                </dd>
+              </dl>
             </div>
-          </tab>
-        </tabset>
-      </div>
+          </div>
+        </tab>
+      </tabset>
     </div>
   </div>
 </div>
