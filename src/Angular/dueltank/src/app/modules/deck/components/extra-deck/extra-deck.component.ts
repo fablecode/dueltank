@@ -35,8 +35,7 @@ export class ExtraDeckComponent implements OnChanges, OnInit, OnDestroy {
   constructor(
     private configuration: AppConfigService,
     private extraDeckService: ExtraDeckService,
-    private deckCardFilterService : DeckCardFilterService,
-    private deckCardSearchResultService: DeckCardSearchResultService
+    private deckCardFilterService : DeckCardFilterService
   ) {}
 
 
@@ -54,7 +53,7 @@ export class ExtraDeckComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   public onCardHover(card: Card) {
-    this.deckCardSearchResultService.onCardHover(card);
+    this.extraDeckService.cardHover(card);
   }
 
   ngOnInit(): void {

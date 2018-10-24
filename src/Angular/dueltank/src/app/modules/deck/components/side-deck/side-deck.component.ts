@@ -58,7 +58,7 @@ export class SideDeckComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   public onCardHover(card: Card) {
-    this.deckCardSearchResultService.onCardHover(card);
+    this.sideDeckService.cardHover(card);
   }
 
   ngOnInit(): void {

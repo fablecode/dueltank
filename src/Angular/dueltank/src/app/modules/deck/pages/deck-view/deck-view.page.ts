@@ -96,6 +96,10 @@ export class DeckViewPage implements OnInit, OnDestroy{
       }
     });
 
+    let extraDeckCardHoverSubscription = this.extraDeckService.cardHoverSource$.subscribe((card: Card) => {
+      this.deckCurrentCardService.cardChange(card);
+    });
+
     let removeExtraDeckCardSubscription = this.extraDeckService.removeCard$.subscribe((index: number) => {
       this.selectedDeck.extraDeck.splice(index, 1);
 
@@ -110,6 +114,11 @@ export class DeckViewPage implements OnInit, OnDestroy{
         this.selectedDeck.sideDeck = [...this.selectedDeck.sideDeck, card]
       }
     });
+
+    let sideDeckCardHoverSubscription = this.sideDeckService.cardHoverSource$.subscribe((card: Card) => {
+      this.deckCurrentCardService.cardChange(card);
+    });
+
 
     let removeSideDeckCardSubscription = this.sideDeckService.removeCard$.subscribe((index: number) => {
       this.selectedDeck.sideDeck.splice(index, 1);
@@ -138,8 +147,10 @@ export class DeckViewPage implements OnInit, OnDestroy{
       mainDeckCardHoverSubscription,
       removeMainDeckCardSubscription,
       extraDeckCardDropSubscription,
+      extraDeckCardHoverSubscription,
       removeExtraDeckCardSubscription,
       sideDeckCardDropSubscription,
+      sideDeckCardHoverSubscription,
       removeSideDeckCardSubscription,
       banListLoadedSubscription,
       banListChangedSubscription
