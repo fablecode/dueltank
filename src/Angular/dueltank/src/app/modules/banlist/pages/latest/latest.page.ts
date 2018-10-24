@@ -2,9 +2,13 @@ import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
 import {BanlistService} from "../../services/banlist.service";
 import {Banlist} from "../../../../shared/models/banlist";
+import {Card} from "../../../../shared/models/card";
+import {MainDeckService} from "../../../deck/services/main-deck.service";
+import {AppConfigService} from "../../../../shared/services/app-config.service";
 
 @Component({
-  templateUrl: "./latest.page.html"
+  templateUrl: "./latest.page.html",
+  styleUrls: ["./latest.page.css"]
 })
 export class LatestPage implements OnInit {
 
@@ -13,7 +17,9 @@ export class LatestPage implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private banlistService: BanlistService
+    private banlistService: BanlistService,
+    private mainDeckService: MainDeckService,
+    private configuration: AppConfigService
   ){}
 
   ngOnInit(): void {
@@ -23,5 +29,13 @@ export class LatestPage implements OnInit {
       this.latestBanlist = banlist;
       this.isLoading = false;
     });
+  }
+
+  public onCardHover(card: Card) {
+    this.mainDeckService.cardHover(card);
+  }
+
+  public getApiEndPointUrl() : string {
+    return this.configuration.apiEndpoint;
   }
 }

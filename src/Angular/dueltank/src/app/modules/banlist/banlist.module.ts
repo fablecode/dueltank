@@ -4,6 +4,7 @@ import {LatestPage} from "./pages/latest/latest.page";
 import {BanlistService} from "./services/banlist.service";
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../shared/shared.module";
+import {TabsModule} from "ngx-bootstrap";
 
 const banlistRoutes: Routes = [
   {
@@ -23,7 +24,11 @@ const banlistRoutes: Routes = [
   declarations: [
     LatestPage
   ],
-  imports: [CommonModule, SharedModule, RouterModule.forChild(banlistRoutes)],
+  imports: [
+    CommonModule,
+    SharedModule,
+    TabsModule.forRoot(),
+    RouterModule.forChild(banlistRoutes)],
   providers: [BanlistService]
 })
 export class BanlistModule {}
