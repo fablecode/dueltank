@@ -1,7 +1,7 @@
 <loadingSpinner [loading]="isLoading"></loadingSpinner>
 <div class="row animated fadeIn">
   <div class="col-lg-2">
-    <deckCurrentCard></deckCurrentCard>
+    <currentHoverCard></currentHoverCard>
   </div>
   <div class="col-lg-10">
     <deckViewCardSearch [deck]="selectedDeck" *ngIf="this.deckLoaded"></deckViewCardSearch>

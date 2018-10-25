@@ -18,7 +18,11 @@ namespace dueltank.api.Controllers
             _mediator = mediator;
         }
 
-
+        /// <summary>
+        /// Get the latest banlist by format
+        /// </summary>
+        /// <param name="format"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
         [Route("{format:alpha:length(1,3)}/latest")]

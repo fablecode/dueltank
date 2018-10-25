@@ -14,7 +14,7 @@ import {ExtraDeckService} from "../../services/extra-deck.service";
 import {SideDeckService} from "../../services/side-deck.service";
 import {canAddCardToExtraDeck} from "../../utils/extra-deck-rules.util";
 import {canAddCardToSideDeck} from "../../utils/side-deck-rules.util";
-import {DeckCurrentCardService} from "../../services/deck-current-card.service";
+import {CurrentHoverCardService} from "../../services/current-hover-card.service";
 
 @Component({
   templateUrl: "./deck-view.page.html"
@@ -38,7 +38,7 @@ export class DeckViewPage implements OnInit, OnDestroy{
     private mainDeckService: MainDeckService,
     private extraDeckService: ExtraDeckService,
     private sideDeckService: SideDeckService,
-    private deckCurrentCardService: DeckCurrentCardService
+    private currentHoverCardService: CurrentHoverCardService
   ){}
 
   ngOnInit(): void {
@@ -67,7 +67,7 @@ export class DeckViewPage implements OnInit, OnDestroy{
     );
 
     let deckCardSearchResultHoverSubscription = this.deckCardSearchResultService.cardSearchResultCardHover$.subscribe((card: Card) => {
-      this.deckCurrentCardService.cardChange(card);
+      this.currentHoverCardService.cardChange(card);
     });
 
     // main deck subscriptions
@@ -78,7 +78,7 @@ export class DeckViewPage implements OnInit, OnDestroy{
     });
 
     let mainDeckCardHoverSubscription = this.mainDeckService.cardHoverSource$.subscribe((card: Card) => {
-      this.deckCurrentCardService.cardChange(card);
+      this.currentHoverCardService.cardChange(card);
     });
 
     let removeMainDeckCardSubscription = this.mainDeckService.removeCard$.subscribe((index: number) => {
@@ -97,7 +97,7 @@ export class DeckViewPage implements OnInit, OnDestroy{
     });
 
     let extraDeckCardHoverSubscription = this.extraDeckService.cardHoverSource$.subscribe((card: Card) => {
-      this.deckCurrentCardService.cardChange(card);
+      this.currentHoverCardService.cardChange(card);
     });
 
     let removeExtraDeckCardSubscription = this.extraDeckService.removeCard$.subscribe((index: number) => {
@@ -116,7 +116,7 @@ export class DeckViewPage implements OnInit, OnDestroy{
     });
 
     let sideDeckCardHoverSubscription = this.sideDeckService.cardHoverSource$.subscribe((card: Card) => {
-      this.deckCurrentCardService.cardChange(card);
+      this.currentHoverCardService.cardChange(card);
     });
 
 

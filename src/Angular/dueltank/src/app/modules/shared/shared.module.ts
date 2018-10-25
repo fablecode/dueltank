@@ -4,11 +4,11 @@ import {CommonModule} from "@angular/common";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {LoadingSpinnerComponent} from "../../shared/components/loading-spinner/loading-spinner.component";
 import {SlugifyPipe} from "../../shared/pipes/slugify.pipe";
-import {DeckCurrentCardComponent} from "../deck/components/deck-current-card/deck-current-card.component";
-import {DeckCurrentCardTextComponent} from "../deck/components/deck-current-card-text/deck-current-card-text.component";
+import {CurrentHoverCardComponent} from "../../shared/components/current-hover-card/current-hover-card.component";
+import {CurrentHoverCardTextComponent} from "../../shared/components/current-hover-card-text/current-hover-card-text.component";
 import {TabsModule} from "ngx-bootstrap";
 import {SafePipe} from "../../shared/pipes/safe.pipe";
-import {DeckCurrentCardService} from "../deck/services/deck-current-card.service";
+import {CurrentHoverCardService} from "../deck/services/current-hover-card.service";
 
 @NgModule({
   imports: [
@@ -19,18 +19,18 @@ import {DeckCurrentCardService} from "../deck/services/deck-current-card.service
   ],
   declarations: [
     LoadingSpinnerComponent,
-    DeckCurrentCardComponent,
-    DeckCurrentCardTextComponent,
+    CurrentHoverCardComponent,
+    CurrentHoverCardTextComponent,
     SafePipe,
     SlugifyPipe
   ],
   exports: [
-    DeckCurrentCardComponent,
-    DeckCurrentCardTextComponent,
+    CurrentHoverCardComponent,
+    CurrentHoverCardTextComponent,
     LoadingSpinnerComponent
   ],
   providers:[
-    DeckCurrentCardService
+    CurrentHoverCardService
   ]
 })
 export class SharedModule {

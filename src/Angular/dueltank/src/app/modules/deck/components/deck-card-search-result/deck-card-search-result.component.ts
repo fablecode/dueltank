@@ -9,7 +9,7 @@ import {Format} from "../../../../shared/models/format";
 import {applyFormatToCards} from "../../utils/format.util";
 import {CardSearchResult} from "../../../../shared/models/cardSearchResult.model";
 import {DeckCardSearchResultService} from "../../services/deck-card-search-result.service";
-import {DeckCurrentCardService} from "../../services/deck-current-card.service";
+import {CurrentHoverCardService} from "../../services/current-hover-card.service";
 
 @Component({
   selector: "deckCardSearchResult",
@@ -33,7 +33,7 @@ export class DeckCardSearchResultComponent implements OnInit, OnDestroy {
     private deckCardFilterService : DeckCardFilterService,
     private configuration: AppConfigService,
     private deckCardSearchResultService: DeckCardSearchResultService,
-    private deckCurrentCardService: DeckCurrentCardService
+    private deckCurrentCardService: CurrentHoverCardService
   ) {}
 
   ngOnInit(): void {

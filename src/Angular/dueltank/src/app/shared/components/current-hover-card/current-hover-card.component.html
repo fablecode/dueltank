@@ -11,7 +11,7 @@
           <div class="ibox no-mg-bt">
             <div class="ibox-content">
               <h5 *ngIf="card?.id">{{ card?.name }}</h5>
-              <deckCurrentCardText [text]="card?.description" [textToHtml]="true"></deckCurrentCardText>
+              <currentHoverCardText [text]="card?.description" [textToHtml]="true"></currentHoverCardText>
             </div>
           </div>
         </tab>
@@ -21,7 +21,7 @@
               <dl *ngFor="let tipSection of card?.tipSections">
                 <dt><h5>{{ tipSection.name }}</h5></dt>
                 <dd *ngFor="let tip of tipSection.tips; let i = index">
-                  <deckCurrentCardText [text]="tip.text" [textToHtml]="true"></deckCurrentCardText>
+                  <currentHoverCardText [text]="tip.text" [textToHtml]="true"></currentHoverCardText>
                 </dd>
               </dl>
             </div>
@@ -33,7 +33,7 @@
               <dl *ngFor="let rulingSection of card?.rulingSections">
                 <dt><h5>{{ rulingSection.name }}</h5></dt>
                 <dd *ngFor="let ruling of rulingSection.rulings; let i = index">
-                  <deckCurrentCardText [text]="ruling.text" [textToHtml]="true"></deckCurrentCardText>
+                  <currentHoverCardText [text]="ruling.text" [textToHtml]="true"></currentHoverCardText>
                 </dd>
               </dl>
             </div>

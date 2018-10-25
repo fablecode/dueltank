@@ -23,7 +23,7 @@ import {UploadModule} from "./modules/upload/upload.module";
 import {SharedModule} from "./modules/shared/shared.module";
 import {PrivatePolicyModule} from "./modules/privacy-policy/privatepolicy.module";
 import {BanlistModule} from "./modules/banlist/banlist.module";
-import {DeckCurrentCardComponent} from "./modules/deck/components/deck-current-card/deck-current-card.component";
+import {CurrentHoverCardComponent} from "./shared/components/current-hover-card/current-hover-card.component";
 
 const appRoutes: Routes = [
   {   path: "", component: HomePage, pathMatch: "full"}

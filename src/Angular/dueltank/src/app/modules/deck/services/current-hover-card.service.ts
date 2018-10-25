@@ -3,7 +3,7 @@ import {Subject} from "rxjs";
 import {Card} from "../../../shared/models/card";
 
 @Injectable()
-export class DeckCurrentCardService {
+export class CurrentHoverCardService {
   // Observable card sources
   private cardChangeSource = new Subject<Card>();
   private currentCardRightClickSource = new Subject<Card>();

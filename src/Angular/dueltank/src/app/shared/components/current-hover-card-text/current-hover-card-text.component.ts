@@ -1,11 +1,11 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from "@angular/core";
-import {DeckCurrentCardTextService} from "../../services/deck-current-card-text.service";
+import {DeckCurrentCardTextService} from "../../../modules/deck/services/deck-current-card-text.service";
 
 @Component({
-  selector: "deckCurrentCardText",
-  templateUrl: "./deck-current-card-text.component.html"
+  selector: "currentHoverCardText",
+  templateUrl: "./current-hover-card-text.component.html"
 })
-export class DeckCurrentCardTextComponent implements OnChanges {
+export class CurrentHoverCardTextComponent implements OnChanges {
   @Input() text: string;
   @Input() textToHtml: false;
   public cardNames = /".*?"/g;

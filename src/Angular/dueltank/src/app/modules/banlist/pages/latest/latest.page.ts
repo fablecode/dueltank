@@ -5,6 +5,7 @@ import {Banlist} from "../../../../shared/models/banlist";
 import {Card} from "../../../../shared/models/card";
 import {MainDeckService} from "../../../deck/services/main-deck.service";
 import {AppConfigService} from "../../../../shared/services/app-config.service";
+import {CurrentHoverCardService} from "../../../deck/services/current-hover-card.service";
 
 @Component({
   templateUrl: "./latest.page.html",
@@ -18,7 +19,7 @@ export class LatestPage implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private banlistService: BanlistService,
-    private mainDeckService: MainDeckService,
+    private currentHoverCardService: CurrentHoverCardService,
     private configuration: AppConfigService
   ){}
 
@@ -32,7 +33,7 @@ export class LatestPage implements OnInit {
   }
 
   public onCardHover(card: Card) {
-    this.mainDeckService.cardHover(card);
+    this.currentHoverCardService.cardChange(card);
   }
 
   public getApiEndPointUrl() : string {

@@ -1,7 +1,7 @@
 <loadingSpinner [loading]="isLoading"></loadingSpinner>
 <div class="row border-bottom white-bg page" *ngIf="!isLoading">
   <div class="col-lg-10">
-    <h2 style="margin-top: 10px;"><i class="fa fa-ban"></i>&nbsp;Banlist: {{ latestBanlist.format | uppercase }} - {{ latestBanlist.releaseDate }}</h2>
+    <h2 style="margin-top: 10px;"><i class="fa fa-ban"></i>&nbsp;Banlist: {{ latestBanlist?.format | uppercase }} - {{ latestBanlist?.releaseDate }}</h2>
   </div>
 </div>
 <div class="row wrapper wrapper-content animated fadeIn ng-scope" style="padding-bottom: 0">
@@ -9,7 +9,7 @@
     <div class="col-lg-3">
       <div class="ibox" style="margin-bottom: 0">
         <div class="ibox-content">
-          <deckCurrentCard></deckCurrentCard>
+          <currentHoverCard></currentHoverCard>
         </div>
       </div>
     </div>
@@ -20,7 +20,7 @@
             <div class="ibox no-mg-bt">
               <div class="ibox-content clearfix">
                 <ul class="list-inline">
-                  <li *ngFor="let card  of latestBanlist.forbidden;let i = index" (mouseover)="onCardHover(card)">
+                  <li *ngFor="let card  of latestBanlist?.forbidden;let i = index" (mouseover)="onCardHover(card)">
                     <img src="/assets/images/forbidden.png" alt="forbidden" class="img-responsive limit-img" />
                     <img [src]="getApiEndPointUrl() + card.imageUrl" alt="{{ card.name }}" title="{{ card.name }}" class="banlist-card-img"/>
                   </li>

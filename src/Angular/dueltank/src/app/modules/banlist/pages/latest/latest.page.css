@@ -2,13 +2,10 @@
   margin-left: 10%;
 }
 
-#banlist-tabs ul li {
-
-}
 #banlist-tabs ul li .banlist-card-img {
-  height: 145px;
+  height: 160px;
   width: 100px;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 #banlist-tabs ul li .limit-img {
   height: 29px;
