@@ -45,7 +45,7 @@ const deckRoutes: Routes = [
   {
     path: "decks",
     children: [
-      { path: '', component: DeckListPage },
+      { path: '', component: DeckListPage, pathMatch: 'full' },
       { path: ":id/:name", component: DeckViewPage}
     ]
   }
@@ -75,6 +75,7 @@ const deckRoutes: Routes = [
     ClipboardModule,
     YoutubePlayerModule,
     InfiniteScrollModule,
+    RouterModule,
     DndModule.forRoot(),
     ToastrModule.forRoot(),
     TabsModule.forRoot(),

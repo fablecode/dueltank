@@ -24,11 +24,15 @@ export class LatestPage implements OnInit {
   ){}
 
   ngOnInit(): void {
-    const routeParams = this.activatedRoute.parent.snapshot.params;
 
-    this.banlistService.latestBanlistByFormatAcronym(routeParams.format).subscribe((banlist: Banlist) => {
-      this.latestBanlist = banlist;
-      this.isLoading = false;
+    // Force reload when navigating to same route with different params
+    // https://stackoverflow.com/questions/47808717/how-to-update-the-same-component-with-different-params-in-angular
+    this.activatedRoute.parent.params.subscribe(params => {
+      this.isLoading = true;
+      this.banlistService.latestBanlistByFormatAcronym(params.format).subscribe((banlist: Banlist) => {
+        this.latestBanlist = banlist;
+        this.isLoading = false;
+      });
     });
   }
 

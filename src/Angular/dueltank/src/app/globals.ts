@@ -22,6 +22,10 @@ export class Globals {
     forgotPassword: "/account/forgot-password",
     lockout: "/account/lockout",
     externalLogin: "/account/external-login",
-    externalLoginComplete: "/account/external-login-complete"
+    externalLoginComplete: "/account/external-login-complete",
+    banlist: {
+      tcg: "/banlists/tcg/latest",
+      ocg: "/banlists/ocg/latest"
+    }
   }
 }

@@ -27,6 +27,7 @@ const banlistRoutes: Routes = [
   imports: [
     CommonModule,
     SharedModule,
+    RouterModule,
     TabsModule.forRoot(),
     RouterModule.forChild(banlistRoutes)],
   providers: [BanlistService]
