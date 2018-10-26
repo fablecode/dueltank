@@ -17,3 +17,11 @@
   margin-bottom: 0;
   overflow-y: auto;
 }
+#card-text .ibox .ibox-content, #card-tips .ibox .ibox-content, #card-rulings .ibox .ibox-content, #card-trivia .ibox .ibox-content {
+  min-height: 33.5vh;
+  max-height: 33.5vh;
+}
+
+.col-lg-3 .ibox > .ibox-content {
+  padding-bottom: 0;
+}
