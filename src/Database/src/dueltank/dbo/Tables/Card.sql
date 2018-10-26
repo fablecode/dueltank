@@ -13,3 +13,10 @@
     CONSTRAINT [IX_Card] UNIQUE NONCLUSTERED ([Name] ASC)
 );
 
+
+GO
+CREATE FULLTEXT INDEX ON [dbo].[Card]
+    ([Name] LANGUAGE 1033, [Description] LANGUAGE 1033)
+    KEY INDEX [PK_Card]
+    ON [CardCatalog];
+
