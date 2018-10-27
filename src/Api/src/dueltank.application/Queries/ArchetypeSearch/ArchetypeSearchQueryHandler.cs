@@ -31,6 +31,7 @@ namespace dueltank.application.Queries.ArchetypeSearch
             if (result.Archetypes.Any())
             {
                 response.Archetypes = result.Archetypes.Select(ArchetypeSearchOutputModel.From).ToList();
+                response.TotalArchetypes = result.TotalRecords;
             }
 
             return response;

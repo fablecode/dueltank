@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using dueltank.application.Queries.ArchetypeSearch;
 using dueltank.application.Queries.CardSearches;
