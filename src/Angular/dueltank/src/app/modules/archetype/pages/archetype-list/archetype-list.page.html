@@ -8,17 +8,19 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="ibox">
-        <div class="ibox-content">
-          <div class="input-group">
-            <input
-              type="text"
-              class="input form-control" autofocus
-              placeholder="Search for an archetype.... "
-            />
-            <span class="input-group-btn">
-                <button type="button" class="btn btn btn-primary" (click)="search()"> <i class="fa fa-search"></i></button>
-            </span>
-          </div>
+        <div class="ibox-content" style="padding-bottom: 1px;">
+          <form [formGroup]="searchForm" (ngSubmit)="search(1)">
+            <div class="form-group">
+              <input
+                type="text"
+                name="searchTerm"
+                autofocus
+                class="input form-control"
+                placeholder="Search for an archetype.... "
+                formControlName="searchTerm"
+              />
+            </div>
+          </form>
         </div>
       </div>
     </div>

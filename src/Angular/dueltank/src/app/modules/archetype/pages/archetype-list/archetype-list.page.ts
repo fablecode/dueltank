@@ -5,6 +5,7 @@ import {ArchetypeSearchResult} from "../../../../shared/models/archetype-search-
 import {Subscription} from "rxjs";
 import {tap} from "rxjs/operators";
 import {AppConfigService} from "../../../../shared/services/app-config.service";
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   templateUrl: "./archetype-list.page.html",
@@ -14,11 +15,15 @@ import {AppConfigService} from "../../../../shared/services/app-config.service";
 export class ArchetypeListPage implements OnInit, OnDestroy {
   public archetypes: Archetype[];
   public searchText: string;
+
+  // form
+  public searchForm : FormGroup;
+  public searchTermControl: FormControl = new FormControl(null);
+  public searchTextControlSubscription: Subscription;
+
+
   public maxSize: number = 10;
-
-
   public currentPage = 1;
-  public page: number;
   public pageSize: number = 12;
   public rotate = true;
 
@@ -28,17 +33,33 @@ export class ArchetypeListPage implements OnInit, OnDestroy {
   // Subscriptions
   private subscriptions: Subscription[] = [];
 
-  constructor(private archetypeService: ArchetypeService, private configuration: AppConfigService){}
-
-  ngOnInit(): void {
-    this.search(1)
+  constructor
+  (
+    private archetypeService: ArchetypeService,
+    private configuration: AppConfigService,
+    private fb: FormBuilder
+  ){
+    this.searchForm = this.fb.group({
+      searchTerm: this.searchTermControl
+    });
   }
 
-  public search(page: number) {
-    this.isLoading = true;
+  ngOnInit(): void {
+    this.searchTextControlSubscription = this.searchTermControl.valueChanges
+      .debounceTime(500)
+      .distinctUntilChanged()
+      .subscribe((newValue: string) => {
+        this.search(1, newValue)
+      });
 
+    this.search(1);
+
+    this.subscriptions = [...this.subscriptions, this.searchTextControlSubscription]
+  }
+
+  public search(page: number, searchText: string = null) : void {
     this.archetypeService
-      .search(this.searchText, this.pageSize, page)
+      .search(searchText, this.pageSize, page)
       .pipe(
         tap(() => { this.isLoading = false;})
       )
@@ -53,6 +74,7 @@ export class ArchetypeListPage implements OnInit, OnDestroy {
   }
 
   public pageChanged(event: any): void {
+    this.isLoading = true;
     this.search(event.page)
 
   }

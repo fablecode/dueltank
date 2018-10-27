@@ -5,7 +5,7 @@ import {CommonModule} from "@angular/common";
 import {SharedModule} from "../shared/shared.module";
 import {PaginationModule, TabsModule} from "ngx-bootstrap";
 import {ArchetypeService} from "./services/archetype.service";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 const archetypeRoutes: Routes = [
   {
@@ -26,7 +26,7 @@ const archetypeRoutes: Routes = [
     CommonModule,
     SharedModule,
     RouterModule,
-    FormsModule,
+    FormsModule,ReactiveFormsModule,
     PaginationModule.forRoot(),
     TabsModule.forRoot(),
     RouterModule.forChild(archetypeRoutes)
