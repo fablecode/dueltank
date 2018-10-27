@@ -1,4 +1,4 @@
-﻿namespace dueltank.core.Models.Search.Card
+﻿namespace dueltank.core.Models.Search.Cards
 {
     public class CardSearchCriteria
     {

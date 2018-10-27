@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using dueltank.core.Models.Cards;
 
-namespace dueltank.core.Models.Search.Card
+namespace dueltank.core.Models.Search.Cards
 {
     public class CardSearchResult
     {

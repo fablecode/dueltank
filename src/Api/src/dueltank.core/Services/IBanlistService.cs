@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using dueltank.core.Models.Search.Banlist;
+using dueltank.core.Models.Search.Banlists;
 
 namespace dueltank.core.Services
 {

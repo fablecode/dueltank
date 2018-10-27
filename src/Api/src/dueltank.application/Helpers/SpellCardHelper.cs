@@ -4,7 +4,7 @@ using dueltank.core.Models.Db;
 using System;
 using System.Linq;
 using dueltank.core.Constants;
-using dueltank.core.Models.Search.Banlist;
+using dueltank.core.Models.Search.Banlists;
 
 namespace dueltank.application.Helpers
 {

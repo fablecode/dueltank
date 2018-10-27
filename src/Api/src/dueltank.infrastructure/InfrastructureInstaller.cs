@@ -40,6 +40,7 @@ namespace dueltank.infrastructure
             services.AddTransient<ITipRepository, TipRepository>();
             services.AddTransient<IRulingRepository, RulingRepository>();
             services.AddTransient<IBanlistRepository, BanlistRepository>();
+            services.AddTransient<IArchetypeRepository, ArchetypeRepository>();
 
             return services;
         }

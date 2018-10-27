@@ -28,7 +28,6 @@ namespace dueltank.application.Queries.DeckThumbnailImagePath
             };
 
             return Task.FromResult(response);
-
         }
     }
 }

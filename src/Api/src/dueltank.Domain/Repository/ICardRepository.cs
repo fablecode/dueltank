@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using dueltank.core.Models.Cards;
 using dueltank.core.Models.Db;
-using dueltank.core.Models.Search.Card;
+using dueltank.core.Models.Search.Cards;
 
 namespace dueltank.Domain.Repository
 {

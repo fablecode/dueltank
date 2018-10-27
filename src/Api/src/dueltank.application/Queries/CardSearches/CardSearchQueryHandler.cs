@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using dueltank.application.Helpers;
 using dueltank.application.Models.CardSearches.Output;
-using dueltank.core.Models.Search.Card;
+using dueltank.core.Models.Search.Cards;
 using dueltank.Domain.Repository;
 using MediatR;
 

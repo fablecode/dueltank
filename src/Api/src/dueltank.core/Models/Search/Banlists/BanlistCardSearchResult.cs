@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using dueltank.core.Models.Cards;
 
-namespace dueltank.core.Models.Search.Banlist
+namespace dueltank.core.Models.Search.Banlists
 {
     public class BanlistCardSearchResult
     {

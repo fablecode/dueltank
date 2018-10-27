@@ -1,7 +1,7 @@
 ﻿using System;
 using dueltank.application.Models.Cards.Output;
 using dueltank.core.Models.Cards;
-using dueltank.core.Models.Search.Banlist;
+using dueltank.core.Models.Search.Banlists;
 
 namespace dueltank.application.Helpers
 {
