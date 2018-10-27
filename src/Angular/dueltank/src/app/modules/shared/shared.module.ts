@@ -27,7 +27,8 @@ import {CurrentHoverCardService} from "../deck/services/current-hover-card.servi
   exports: [
     CurrentHoverCardComponent,
     CurrentHoverCardTextComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    SlugifyPipe
   ],
   providers:[
     CurrentHoverCardService

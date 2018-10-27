@@ -24,6 +24,7 @@ import {SharedModule} from "./modules/shared/shared.module";
 import {PrivatePolicyModule} from "./modules/privacy-policy/privatepolicy.module";
 import {BanlistModule} from "./modules/banlist/banlist.module";
 import {CurrentHoverCardComponent} from "./shared/components/current-hover-card/current-hover-card.component";
+import {ArchetypeModule} from "./modules/archetype/archetype.module";
 
 const appRoutes: Routes = [
   {   path: "", component: HomePage, pathMatch: "full"}
@@ -62,6 +63,7 @@ export function loadConfigService(configService: AppConfigService): Function
     SharedModule,
     BanlistModule,
     SharedModule,
+    ArchetypeModule,
     RouterModule.forRoot(appRoutes)
   ],
   exports: [
