@@ -11,6 +11,7 @@ AS
 		,[Url] NVARCHAR(2083)
 		,[Created] datetime
 		,[Updated] datetime
+		,[TotalCards] int
 	)
 
 	SET @SearchTerm = '"' + @SearchTerm + '*"';
@@ -21,14 +22,16 @@ AS
 		Name,
 		Url,
 		Created,
-		Updated
+		Updated,
+		TotalCards
 	)
 	SELECT
-		DISTINCT a.Id,
+		a.Id,
 		a.Name,
 		a.Url,
 		a.Created,
-		a.Updated
+		a.Updated,
+		COUNT(ac.CardId) AS TotalCards
 	FROM
 		dbo.Archetype a
 	INNER JOIN
@@ -36,6 +39,8 @@ AS
 	INNER JOIN
 			CONTAINSTABLE ([dbo].[Archetype], ([Name]), @SearchTerm) AS KEY_TBL 
 				ON ([a].[Id] = KEY_TBL.[KEY])
+	GROUP BY
+		a.Id, a.Name, a.Url, a.Created, a.Updated
 
 	-- Filtered row count before pagination is applied
 	SELECT @TotalRowsCount = COUNT(Id) FROM @ArchetypeList

@@ -35,7 +35,7 @@ BEGIN
 	INNER JOIN
 		dbo.Category c2 ON sc.CategoryId = c2.Id
 	INNER JOIN
-		dbo.ArchetypeCard ac ON c.Id = ac.CardId
+		dbo.ArchetypeCard ac ON c.Id = ac.CardId AND ac.ArchetypeId = @ArchetypeId
 	LEFT JOIN
 		dbo.BanlistCard bc ON bc.CardId = c.Id
 	LEFT JOIN
