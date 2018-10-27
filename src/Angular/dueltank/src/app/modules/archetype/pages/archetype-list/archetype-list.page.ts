@@ -31,21 +31,21 @@ export class ArchetypeListPage implements OnInit, OnDestroy {
   constructor(private archetypeService: ArchetypeService, private configuration: AppConfigService){}
 
   ngOnInit(): void {
-    let archetypeSearchResultSubscription = this.archetypeService
-      .search(this.searchText, this.pageSize, this.currentPage)
+    this.search(1)
+  }
+
+  public search(page: number) {
+    this.isLoading = true;
+
+    this.archetypeService
+      .search(this.searchText, this.pageSize, page)
       .pipe(
         tap(() => { this.isLoading = false;})
       )
       .subscribe((archetypeSearchResult: ArchetypeSearchResult) => {
         this.totalArchetypes = archetypeSearchResult.totalArchetypes;
         this.archetypes = archetypeSearchResult.archetypes;
-    });
-
-    this.subscriptions = [...this.subscriptions, archetypeSearchResultSubscription];
-  }
-
-  public search() {
-
+      });
   }
 
   public getApiEndPointUrl() : string {
@@ -53,9 +53,8 @@ export class ArchetypeListPage implements OnInit, OnDestroy {
   }
 
   public pageChanged(event: any): void {
-    this.page = event.page;
+    this.search(event.page)
 
-    console.log("Page changed to: " + this.page);
   }
 
   ngOnDestroy(): void {

@@ -60,6 +60,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  border-bottom: solid 1px #e7eaec;
 }
 
 .deck-desc .m-t small{
