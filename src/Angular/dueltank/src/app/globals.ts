@@ -23,6 +23,7 @@ export class Globals {
     lockout: "/account/lockout",
     externalLogin: "/account/external-login",
     externalLoginComplete: "/account/external-login-complete",
+    archetypes: "/archetypes",
     banlist: {
       tcg: "/banlists/tcg/latest",
       ocg: "/banlists/ocg/latest"

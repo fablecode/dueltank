@@ -31,7 +31,7 @@
     <div class="ibox">
       <div class="ibox-content product-box">
         <div class="archetype-image">
-          <a [routerLink]="['archetypes', archetype.id, archetype.name | slugify]">
+          <a [routerLink]="['/archetype', archetype.id, archetype.name | slugify]">
             <img alt="{{ archetype.name }}" title="{{ archetype.name }}" [src]="getApiEndPointUrl() + archetype.thumbnailUrl" height="173" width="200">
           </a>
         </div>
@@ -39,9 +39,9 @@
           <span class="archetype-card-number">
               {{ archetype.totalCards }} cards
           </span>
-          <a [routerLink]="['archetypes', archetype.id, archetype.name | slugify]" class="archetype-name" title="{{ archetype.name }}">{{ archetype.name }}</a>
+          <a [routerLink]="['/archetype', archetype.id, archetype.name | slugify]" class="archetype-name" title="{{ archetype.name }}">{{ archetype.name }}</a>
           <div class="m-t clearfix">
-            <a [routerLink]="['archetypes', archetype.id, archetype.name | slugify]" class="btn btn-xs btn-outline btn-primary pull-right" title="{{ archetype.name }}">View <i class="fa fa-long-arrow-right"></i> </a>
+            <a [routerLink]="['/archetype', archetype.id, archetype.name | slugify]" class="btn btn-xs btn-outline btn-primary pull-right" title="{{ archetype.name }}">View <i class="fa fa-long-arrow-right"></i> </a>
           </div>
         </div>
       </div>

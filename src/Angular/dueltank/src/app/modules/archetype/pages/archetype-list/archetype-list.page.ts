@@ -27,7 +27,7 @@ export class ArchetypeListPage implements OnInit, OnDestroy {
   public pageSize: number = 12;
   public rotate = true;
 
-  public isLoading = true;
+  public isLoading: boolean = true;
   public totalArchetypes: number;
 
   // Subscriptions

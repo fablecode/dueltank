@@ -1,0 +1,26 @@
+#card-text .ibox .ibox-content, #card-tips .ibox .ibox-content, #card-rulings .ibox .ibox-content, #card-trivia .ibox .ibox-content {
+  min-height: 32vh;
+  max-height: 32vh;
+}
+#current-card #current-card-image .row img {
+  margin-left: 10%;
+}
+.col-lg-3 .ibox > .ibox-content {
+  padding-bottom: 0;
+}
+
+#archetype-tabs ul li .archetype-card-img {
+  height: 160px;
+  width: 100px;
+  margin-bottom: 15px;
+}
+#archetype-tabs ul li .limit-img {
+  height: 20px;
+  width: 20px;
+}
+
+#archetype-tabs .ibox-content {
+  height: 81.1vh;
+  margin-bottom: 0;
+  overflow-y: auto;
+}

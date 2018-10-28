@@ -9,6 +9,7 @@ import {CurrentHoverCardTextComponent} from "../../shared/components/current-hov
 import {TabsModule} from "ngx-bootstrap";
 import {SafePipe} from "../../shared/pipes/safe.pipe";
 import {CurrentHoverCardService} from "../deck/services/current-hover-card.service";
+import {EncodeURI} from "../../shared/pipes/encodeURI.pipe";
 
 @NgModule({
   imports: [
@@ -22,13 +23,15 @@ import {CurrentHoverCardService} from "../deck/services/current-hover-card.servi
     CurrentHoverCardComponent,
     CurrentHoverCardTextComponent,
     SafePipe,
-    SlugifyPipe
+    SlugifyPipe,
+    EncodeURI
   ],
   exports: [
     CurrentHoverCardComponent,
     CurrentHoverCardTextComponent,
     LoadingSpinnerComponent,
-    SlugifyPipe
+    SlugifyPipe,
+    EncodeURI
   ],
   providers:[
     CurrentHoverCardService

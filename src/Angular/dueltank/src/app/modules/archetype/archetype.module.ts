@@ -6,21 +6,23 @@ import {SharedModule} from "../shared/shared.module";
 import {PaginationModule, TabsModule} from "ngx-bootstrap";
 import {ArchetypeService} from "./services/archetype.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ArchetypeViewPage} from "./pages/archetype-view/archetype-view.page";
 
 const archetypeRoutes: Routes = [
+  {path: "archetypes",component: ArchetypeListPage  },
   {
-    path: "archetypes",
-    component: ArchetypeListPage,
-    // children: [
-    //   {path:":id", component: LatestPage},
-    //   {path:":id/:name", component: LatestPage}
-    // ]
+    path: "archetype",
+    children: [
+      {path:":id", component: ArchetypeViewPage},
+      {path:":id/:name", component: ArchetypeViewPage}
+    ]
   }
 ];
 
 @NgModule({
   declarations: [
-    ArchetypeListPage
+    ArchetypeListPage,
+    ArchetypeViewPage
   ],
   imports: [
     CommonModule,
