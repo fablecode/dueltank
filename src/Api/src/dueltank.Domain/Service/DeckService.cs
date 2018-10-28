@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using dueltank.core.Constants;
 using dueltank.core.Models.Db;
 using dueltank.core.Models.Decks;
+using dueltank.core.Models.Search.Decks;
 using dueltank.core.Models.YgoPro;
 using dueltank.core.Services;
 using dueltank.Domain.Repository;
@@ -79,6 +80,11 @@ namespace dueltank.Domain.Service
         public Task<DeckDetail> GetDeckById(long id)
         {
             return _deckRepository.GetDeckById(id);
+        }
+
+        public Task<DeckSearchResult> Search(DeckSearchCriteria searchCriteria)
+        {
+            return _deckRepository.Search(searchCriteria);
         }
     }
 }

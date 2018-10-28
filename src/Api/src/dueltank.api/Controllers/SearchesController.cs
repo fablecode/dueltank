@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using dueltank.application.Queries.ArchetypeSearch;
 using dueltank.application.Queries.CardSearches;
+using dueltank.application.Queries.DeckSearch;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -45,6 +46,21 @@ namespace dueltank.api.Controllers
         [Route("archetypes")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         public async Task<IActionResult> Get([FromQuery] ArchetypeSearchQuery query)
+        {
+            var result = await _mediator.Send(query);
+
+            return Ok(result);
+        }
+        /// <summary>
+        /// Search for decks
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("decks")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Get([FromQuery] DeckSearchQuery query)
         {
             var result = await _mediator.Send(query);
 

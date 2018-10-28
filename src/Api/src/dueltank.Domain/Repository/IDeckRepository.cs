@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using dueltank.core.Models.Db;
 using dueltank.core.Models.Decks;
+using dueltank.core.Models.Search.Decks;
 
 namespace dueltank.Domain.Repository
 {
@@ -8,5 +9,6 @@ namespace dueltank.Domain.Repository
     {
         Task<Deck> Add(Deck ygoProDeck);
         Task<DeckDetail> GetDeckById(long id);
+        Task<DeckSearchResult> Search(DeckSearchCriteria searchCriteria);
     }
 }

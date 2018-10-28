@@ -1,17 +1,22 @@
-﻿using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
-using dueltank.core.Models.Cards;
+﻿using System.Collections.Generic;
+using System.Data;
 using dueltank.core.Models.Db;
 using dueltank.core.Models.Decks;
 using dueltank.Domain.Repository;
 using dueltank.infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Threading.Tasks;
+using dueltank.core.Models.Search.Decks;
 
 namespace dueltank.infrastructure.Repository
 {
     public class DeckRepository : IDeckRepository
     {
+        private const string DeckSearchWithoutSearchTermQuery = "EXEC DeckSearchWithoutSearchTerm @PageSize, @PageIndex, @TotalRowsCount out";
+        private const string DeckSearchWithSearchTermQuery = "EXEC DeckSearchWithSearchTerm @SearchTerm, @PageSize, @PageIndex, @TotalRowsCount out";
+
         private readonly DueltankDbContext _dbContext;
 
         public DeckRepository(DueltankDbContext dbContext)
@@ -62,6 +67,41 @@ namespace dueltank.infrastructure.Repository
             }
 
             return null;
+        }
+
+        public async Task<DeckSearchResult> Search(DeckSearchCriteria searchCriteria)
+        {
+            var response = new DeckSearchResult();
+
+            string query;
+            var sqlParameters = new List<object>();
+
+            if (string.IsNullOrWhiteSpace(searchCriteria.SearchTerm))
+            {
+                query = DeckSearchWithoutSearchTermQuery;
+            }
+            else
+            {
+                query = DeckSearchWithSearchTermQuery;
+                sqlParameters.Add(new SqlParameter("@SearchTerm", searchCriteria.SearchTerm));
+            }
+
+            var totalRowsCount = new SqlParameter
+            {
+                ParameterName = "TotalRowsCount",
+                Value = 0,
+                Direction = ParameterDirection.Output
+            };
+
+            sqlParameters.Add(totalRowsCount);
+
+            sqlParameters.Add(new SqlParameter("PageSize", searchCriteria.PageSize));
+            sqlParameters.Add(new SqlParameter("@PageIndex", searchCriteria.PageIndex));
+
+            response.Decks = await _dbContext.DeckDetail.FromSql(query, sqlParameters.ToArray()).ToListAsync();
+            response.TotalRecords = (int)totalRowsCount.Value;
+
+            return response;
         }
     }
 }
