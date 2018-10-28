@@ -10,6 +10,7 @@ AS
 		,[UserName] NVARCHAR(256)
 		,[Name] NVARCHAR(255)
 		,[Description] NVARCHAR(max)
+		,[VideoUrl] nvarchar(2083)
 		,[Created] datetime
 		,[Updated] datetime
 		,[TotalCards] int
@@ -23,6 +24,7 @@ AS
 		UserName,
 		Name,
 		Description,
+		VideoUrl,
 		Created,
 		Updated,
 		TotalCards
@@ -33,6 +35,7 @@ AS
 		anu.UserName,
 		d.Name,
 		d.Description,
+		d.VideoUrl,
 		d.Created,
 		d.Updated,
 		SUM(dc.Quantity) AS TotalCards
@@ -52,6 +55,7 @@ AS
 		anu.UserName, 
 		d.Name, 
 		d.Description, 
+		d.VideoUrl,
 		d.Created,
 		d.Updated
 

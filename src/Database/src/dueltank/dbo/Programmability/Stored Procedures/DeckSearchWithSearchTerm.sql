@@ -1,5 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[DeckSearchWithSearchTerm]
-	@SearchText nvarchar(500),
+	@SearchTerm nvarchar(500),
 	@PageSize int = 8,
 	@PageIndex int = 1,
 	@TotalRowsCount int OUTPUT
@@ -11,6 +11,7 @@ AS
 		,[UserName] NVARCHAR(256)
 		,[Name] NVARCHAR(255)
 		,[Description] NVARCHAR(max)
+		,[VideoUrl] nvarchar(2083)
 		,[Created] datetime
 		,[Updated] datetime
 		,[TotalCards] int
@@ -25,6 +26,7 @@ AS
 		UserName,
 		Name,
 		Description,
+		VideoUrl,
 		Created,
 		Updated,
 		TotalCards,
@@ -36,6 +38,7 @@ AS
 		anu.UserName,
 		d.Name,
 		d.Description,
+		d.VideoUrl,
 		d.Created,
 		d.Updated,
 		SUM(dc.Quantity) AS TotalCards,
@@ -49,7 +52,7 @@ AS
 	INNER JOIN
 		dbo.DeckType dt ON (dc.DeckTypeId = dt.Id)
 	INNER JOIN
-		CONTAINSTABLE ([dbo].[Deck], ([Name], [Description]), @SearchText) AS KEY_TBL 
+		CONTAINSTABLE ([dbo].[Deck], ([Name], [Description]), @SearchTerm) AS KEY_TBL 
 			ON ([d].[Id] = KEY_TBL.[KEY])
 	WHERE
 		dt.Name = 'Main'
@@ -58,7 +61,8 @@ AS
 		d.UserId, 
 		anu.UserName, 
 		d.Name, 
-		d.Description, 
+		d.Description,
+		d.VideoUrl,
 		d.Created,
 		d.Updated,
 		KEY_TBL.Rank
