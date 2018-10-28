@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Subject} from "rxjs";
-import {Card} from "../../../shared/models/card";
+import {Card} from "../models/card";
 
 @Injectable()
 export class CurrentHoverCardService {

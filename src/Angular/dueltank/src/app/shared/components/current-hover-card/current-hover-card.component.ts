@@ -12,7 +12,7 @@ import {defaultDeckCurrentCard} from "../../../modules/deck/utils/card.util";
 import {DeckCurrentCardTextService} from "../../../modules/deck/services/deck-current-card-text.service";
 import {RulingService} from "../../services/ruling.service";
 import {RulingSection} from "../../models/rulingSection";
-import {CurrentHoverCardService} from "../../../modules/deck/services/current-hover-card.service";
+import {CurrentHoverCardService} from "../../services/current-hover-card.service";
 
 @Component({
   selector: "currentHoverCard",

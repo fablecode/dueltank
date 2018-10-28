@@ -8,7 +8,7 @@ import {CurrentHoverCardComponent} from "../../shared/components/current-hover-c
 import {CurrentHoverCardTextComponent} from "../../shared/components/current-hover-card-text/current-hover-card-text.component";
 import {TabsModule} from "ngx-bootstrap";
 import {SafePipe} from "../../shared/pipes/safe.pipe";
-import {CurrentHoverCardService} from "../deck/services/current-hover-card.service";
+import {CurrentHoverCardService} from "../../shared/services/current-hover-card.service";
 import {EncodeURI} from "../../shared/pipes/encodeURI.pipe";
 
 @NgModule({

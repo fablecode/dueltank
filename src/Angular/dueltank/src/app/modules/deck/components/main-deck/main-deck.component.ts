@@ -9,7 +9,7 @@ import {applyFormatToCards} from "../../utils/format.util";
 import {DeckCardFilterService} from "../../services/deck-card-filter.service";
 import {Subscription} from "rxjs";
 import {DeckCardSearchResultService} from "../../services/deck-card-search-result.service";
-import {CurrentHoverCardService} from "../../services/current-hover-card.service";
+import {CurrentHoverCardService} from "../../../../shared/services/current-hover-card.service";
 
 @Component({
   selector: "mainDeck",

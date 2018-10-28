@@ -4,7 +4,7 @@ import {BanlistService} from "../../services/banlist.service";
 import {Banlist} from "../../../../shared/models/banlist";
 import {Card} from "../../../../shared/models/card";
 import {AppConfigService} from "../../../../shared/services/app-config.service";
-import {CurrentHoverCardService} from "../../../deck/services/current-hover-card.service";
+import {CurrentHoverCardService} from "../../../../shared/services/current-hover-card.service";
 import {tap} from "rxjs/operators";
 import {TabsetComponent} from "ngx-bootstrap";
 

@@ -9,7 +9,7 @@ import {Card} from "../../../../shared/models/card";
 import {forEach} from "@angular/router/src/utils/collection";
 import {isSpellCard, isTrapCard} from "../../../deck/utils/card.util";
 import {AppConfigService} from "../../../../shared/services/app-config.service";
-import {CurrentHoverCardService} from "../../../deck/services/current-hover-card.service";
+import {CurrentHoverCardService} from "../../../../shared/services/current-hover-card.service";
 
 @Component({
   templateUrl: "./archetype-view.page.html",

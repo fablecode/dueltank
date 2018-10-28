@@ -14,7 +14,7 @@ import {ExtraDeckService} from "../../services/extra-deck.service";
 import {SideDeckService} from "../../services/side-deck.service";
 import {canAddCardToExtraDeck} from "../../utils/extra-deck-rules.util";
 import {canAddCardToSideDeck} from "../../utils/side-deck-rules.util";
-import {CurrentHoverCardService} from "../../services/current-hover-card.service";
+import {CurrentHoverCardService} from "../../../../shared/services/current-hover-card.service";
 
 @Component({
   templateUrl: "./deck-view.page.html"
