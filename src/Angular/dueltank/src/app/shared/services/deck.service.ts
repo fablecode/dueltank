@@ -1,12 +1,12 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {Deck} from "../models/deck";
 import {AppConfigService} from "./app-config.service";
 import * as FileSaver from "file-saver";
 import {Card} from "../models/card";
 import {List} from "linqts";
-
+import {DeckSearchResult} from "../models/deck-search-result";
 
 @Injectable()
 export class DeckService {
@@ -16,38 +16,53 @@ export class DeckService {
     return this.http.get<Deck>(this.configuration.apiEndpoint + "/api/decks/" + deckId)
   }
 
+  public search(searchTerm: string, pageSize: number, pageIndex: number) : Observable<DeckSearchResult>
+  {
+    let httpParams = new HttpParams();
+
+    if(searchTerm) {
+      httpParams = httpParams.append("searchTerm", searchTerm)
+    }
+
+    httpParams = httpParams
+      .set("pageSize", String(pageSize))
+      .set("pageIndex", String(pageIndex));
+
+    return this.http.get<DeckSearchResult>(this.configuration.apiEndpoint + "/api/searches/decks", {params: httpParams})
+  }
+
   public downloadYdk(deck: Deck): void {
-    var text = [];
+    let text = [];
 
     text.push("#created by ...");
 
     // main cards
     text.push("#main");
-    deck.mainDeck.forEach(card => text.push(card.cardNumber))
+    deck.mainDeck.forEach(card => text.push(card.cardNumber));
 
     // extra cards
     text.push("#extra");
-    deck.extraDeck.forEach(card => text.push(card.cardNumber))
+    deck.extraDeck.forEach(card => text.push(card.cardNumber));
 
     // side cards
     text.push("!side");
-    deck.sideDeck.forEach(card => text.push(card.cardNumber))
+    deck.sideDeck.forEach(card => text.push(card.cardNumber));
 
-    var data = new Blob([text.join("\n")], { type: 'text/plain;charset=utf-8' });
+    let data = new Blob([text.join("\n")], { type: 'text/plain;charset=utf-8' });
     FileSaver.saveAs(data, deck.sanitizedName + '.ydk');
   }
 
   public deckToText(deck: Deck) : string {
     let text = [];
 
-    let mainDeckCards = new List<Card>(deck.mainDeck)
-    let extraDeckCards = new List<Card>(deck.extraDeck)
-    let sideDeckCards = new List<Card>(deck.sideDeck)
+    let mainDeckCards = new List<Card>(deck.mainDeck);
+    let extraDeckCards = new List<Card>(deck.extraDeck);
+    let sideDeckCards = new List<Card>(deck.sideDeck);
 
     text.push(deck.name + "\nBy " + deck.username);
     text.push(Array(deck.name.length).join("-"));
 
-    var numberOfCopiesByMainCards =  mainDeckCards
+    let numberOfCopiesByMainCards =  mainDeckCards
                                       .DistinctBy(card => card.name)
                                       .Select(card => {
                                         return {
@@ -59,7 +74,7 @@ export class DeckService {
                                       })
                                       .ToArray();
 
-    var numberOfCopiesByExtraCards =  extraDeckCards
+    let numberOfCopiesByExtraCards =  extraDeckCards
                                       .DistinctBy(card => card.name)
                                       .Select(card => {
                                         return {
@@ -71,7 +86,7 @@ export class DeckService {
                                       })
                                       .ToArray();
 
-    var numberOfCopiesBySideCards =  sideDeckCards
+    let numberOfCopiesBySideCards =  sideDeckCards
                                       .DistinctBy(card => card.name)
                                       .Select(card => {
                                         return {

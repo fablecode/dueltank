@@ -1,7 +1,7 @@
 import {RouterModule, Routes} from "@angular/router";
 import {AuthGuard} from "../../shared/guards/auth.guard";
 import {NgModule} from "@angular/core";
-import {ModalModule, TabsModule} from "ngx-bootstrap";
+import {ModalModule, PaginationModule, TabsModule} from "ngx-bootstrap";
 import {DeckListPage} from "./pages/deck-list/deck-list.page";
 import {DeckViewPage} from "./pages/deck-view/deck-view.page";
 import {CardNameToUrlPipe} from "../../shared/pipes/cardNameToUrl.pipe";
@@ -42,13 +42,14 @@ import {ExtraDeckService} from "./services/extra-deck.service";
 import {SideDeckService} from "./services/side-deck.service";
 
 const deckRoutes: Routes = [
+  {path: "decks", component: DeckListPage},
   {
-    path: "decks",
+    path: "deck", 
     children: [
-      { path: '', component: DeckListPage, pathMatch: 'full' },
       { path: ":id/:name", component: DeckViewPage}
     ]
   }
+
 ];
 
 @NgModule({
@@ -76,6 +77,7 @@ const deckRoutes: Routes = [
     YoutubePlayerModule,
     InfiniteScrollModule,
     RouterModule,
+    PaginationModule.forRoot(),
     DndModule.forRoot(),
     ToastrModule.forRoot(),
     TabsModule.forRoot(),

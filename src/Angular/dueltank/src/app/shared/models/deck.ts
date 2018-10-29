@@ -9,7 +9,7 @@ export class Deck {
   public description: string;
   public videoId: string;
   public youtubeUrl: string;
-  public totalCards: string;
+  public totalCards: number;
   public createdTimeAgo: string;
   public updatedTimeAgo: string;
   public created: Date;

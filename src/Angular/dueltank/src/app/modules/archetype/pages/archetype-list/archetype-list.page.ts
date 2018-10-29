@@ -3,7 +3,7 @@ import {Archetype} from "../../../../shared/models/archetype";
 import {ArchetypeService} from "../../services/archetype.service";
 import {ArchetypeSearchResult} from "../../../../shared/models/archetype-search-result";
 import {Subscription} from "rxjs";
-import {tap} from "rxjs/operators";
+import {debounceTime, distinctUntilChanged, tap} from "rxjs/operators";
 import {AppConfigService} from "../../../../shared/services/app-config.service";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 
@@ -45,8 +45,9 @@ export class ArchetypeListPage implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.searchTextControlSubscription = this.searchTermControl.valueChanges
-      .debounceTime(500)
+    this.searchTextControlSubscription = this.searchTermControl
+      .valueChanges
+      .debounceTime(300)
       .distinctUntilChanged()
       .subscribe((newValue: string) => {
         this.search(1, newValue)
