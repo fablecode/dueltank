@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using dueltank.core.Models.Decks;
+using dueltank.core.Models.DeckDetails;
 
 namespace dueltank.core.Models.Search.Decks
 {

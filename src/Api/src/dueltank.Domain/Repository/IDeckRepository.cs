@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using dueltank.core.Models.Db;
-using dueltank.core.Models.Decks;
+using dueltank.core.Models.DeckDetails;
 using dueltank.core.Models.Search.Decks;
 
 namespace dueltank.Domain.Repository

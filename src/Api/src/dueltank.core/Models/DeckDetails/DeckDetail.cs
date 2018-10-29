@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using dueltank.core.Models.Cards;
 using dueltank.core.Models.Db;
 
-namespace dueltank.core.Models.Decks
+namespace dueltank.core.Models.DeckDetails
 {
     public class DeckDetail
     {
@@ -23,7 +23,7 @@ namespace dueltank.core.Models.Decks
 
         public DateTime Updated { get; set; }
 
-        public int TotalCards => MainDeck.Count;
+        public int TotalCards { get; set; }
 
         public List<DeckCardDetail> MainDeck { get; set; } = new List<DeckCardDetail>();
 

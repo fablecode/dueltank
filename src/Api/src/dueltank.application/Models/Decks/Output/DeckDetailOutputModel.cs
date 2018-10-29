@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using dueltank.application.Models.Cards.Output;
-using dueltank.core.Models.Decks;
+using dueltank.core.Models.DeckDetails;
 using Humanizer;
 
 namespace dueltank.application.Models.Decks.Output

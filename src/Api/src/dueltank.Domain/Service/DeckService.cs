@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using dueltank.core.Constants;
 using dueltank.core.Models.Db;
-using dueltank.core.Models.Decks;
+using dueltank.core.Models.DeckDetails;
 using dueltank.core.Models.Search.Decks;
 using dueltank.core.Models.YgoPro;
 using dueltank.core.Services;

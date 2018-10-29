@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using dueltank.core.Models.Db;
-using dueltank.core.Models.Decks;
 using dueltank.Domain.Repository;
 using dueltank.infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using dueltank.core.Models.DeckDetails;
 using dueltank.core.Models.Search.Decks;
 
 namespace dueltank.infrastructure.Repository
@@ -35,38 +35,44 @@ namespace dueltank.infrastructure.Repository
 
         public async Task<DeckDetail> GetDeckById(long id)
         {
-            var deckResult = await _dbContext.Deck.AsNoTracking().Include(d => d.User).SingleOrDefaultAsync(d => d.Id == id);
-
-            var cardResult = _dbContext.CardDetail.FromSql("usp_GetDeckCardsByDeckId @DeckId", new SqlParameter("@DeckId", id)).ToList();
-
-            if (deckResult != null)
+            try
             {
-                var deckDetail = DeckDetail.From(deckResult);
+                var deckResult = await _dbContext.Deck.AsNoTracking().Include(d => d.User).SingleOrDefaultAsync(d => d.Id == id);
 
-                //var deckCards = await cardQuery.ToListAsync();
+                var cardResult = _dbContext.CardDetail.FromSql("EXEC usp_GetDeckCardsByDeckId @DeckId", new SqlParameter("DeckId", id)).AsNoTracking().ToList();
 
-                var groupedDeckCards = cardResult.GroupBy(dt => dt.DeckType, dt => dt);
-
-                foreach (var cardGroup in groupedDeckCards)
+                if (deckResult != null)
                 {
-                    switch (cardGroup.Key.ToLower())
+                    var deckDetail = DeckDetail.From(deckResult);
+
+                    var groupedDeckCards = cardResult.GroupBy(dt => dt.DeckType, dt => dt);
+
+                    foreach (var cardGroup in groupedDeckCards)
                     {
-                        case "main":
-                            deckDetail.MainDeck = cardGroup.ToList();
-                            break;
-                        case "extra":
-                            deckDetail.ExtraDeck = cardGroup.ToList();
-                            break;
-                        case "side":
-                            deckDetail.SideDeck = cardGroup.ToList();
-                            break;
+                        switch (cardGroup.Key.ToLower())
+                        {
+                            case "main":
+                                deckDetail.MainDeck = cardGroup.ToList();
+                                break;
+                            case "extra":
+                                deckDetail.ExtraDeck = cardGroup.ToList();
+                                break;
+                            case "side":
+                                deckDetail.SideDeck = cardGroup.ToList();
+                                break;
+                        }
                     }
+
+                    return deckDetail;
                 }
 
-                return deckDetail;
+                return null;
             }
+            catch (System.Exception ex)
+            {
 
-            return null;
+                 throw;
+            }
         }
 
         public async Task<DeckSearchResult> Search(DeckSearchCriteria searchCriteria)

@@ -1,8 +1,10 @@
-﻿using dueltank.core.Models.Archetypes;
-using dueltank.core.Models.Cards;
-using dueltank.core.Models.Decks;
-using dueltank.core.Models.Search.Banlists;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using ArchetypeSearch = dueltank.core.Models.Archetypes.ArchetypeSearch;
+using BanlistCardSearch = dueltank.core.Models.Search.Banlists.BanlistCardSearch;
+using CardSearch = dueltank.core.Models.Cards.CardSearch;
+using DeckCardDetail = dueltank.core.Models.Cards.DeckCardDetail;
+using DeckDetail = dueltank.core.Models.DeckDetails.DeckDetail;
+
 
 namespace dueltank.infrastructure.Database
 {
@@ -10,8 +12,8 @@ namespace dueltank.infrastructure.Database
     {
         public virtual DbSet<DeckCardDetail> CardDetail { get; set; }
         public virtual DbSet<DeckDetail> DeckDetail { get; set; }
-        public DbSet<CardSearch> CardSearch { get; set; }
-        public DbSet<BanlistCardSearch> BanlistCardSearch { get; set; }
-        public DbSet<ArchetypeSearch> ArchetypeSearch { get; set; }
+        public virtual DbSet<CardSearch> CardSearch { get; set; }
+        public virtual DbSet<BanlistCardSearch> BanlistCardSearch { get; set; }
+        public virtual DbSet<ArchetypeSearch> ArchetypeSearch { get; set; }
     }
 }
