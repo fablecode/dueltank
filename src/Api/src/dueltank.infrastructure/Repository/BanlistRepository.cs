@@ -46,7 +46,7 @@ namespace dueltank.infrastructure.Repository
             return result;
         }
 
-        public async Task<MostRecentBanlistResult> MostRecentBanlists(int pageSize)
+        public async Task<MostRecentBanlistResult> MostRecentBanlists()
         {
             var response = new MostRecentBanlistResult();
 

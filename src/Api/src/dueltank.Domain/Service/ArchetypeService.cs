@@ -25,5 +25,10 @@ namespace dueltank.Domain.Service
             return _archetypeRepository.ArchetypeById(archetypeId);
         }
 
+        public Task<MostRecentArchetypesResult> MostRecentArchetypes(int pageSize)
+        {
+            return _archetypeRepository.MostRecentArchetypes(pageSize);
+        }
+
     }
 }

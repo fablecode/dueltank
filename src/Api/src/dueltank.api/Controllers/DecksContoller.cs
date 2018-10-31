@@ -1,14 +1,15 @@
 ﻿using dueltank.api.Models;
 using dueltank.application.Commands.UploadYgoProDeck;
+using dueltank.application.Queries.DeckById;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
-using dueltank.application.Queries.DeckById;
+using dueltank.application.Queries.MostRecentDecks;
 
 
 namespace dueltank.api.Controllers
@@ -30,6 +31,8 @@ namespace dueltank.api.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [AllowAnonymous]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [HttpGet("{id}", Name = "GetDeckById")]
         public async Task<IActionResult> Get(long id)
         {
@@ -47,6 +50,8 @@ namespace dueltank.api.Controllers
         /// <param name="file"></param>
         /// <returns></returns>
         [HttpPost]
+        [ProducesResponseType((int)HttpStatusCode.Created)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [RequestSizeLimit(100_000_00)] // 10MB request size
         public async Task<IActionResult> UploadDeck([FromForm]IFormFile file)
         {
@@ -77,6 +82,17 @@ namespace dueltank.api.Controllers
             }
 
             return BadRequest("YgoPro deck file not selected");
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [ProducesResponseType((int) HttpStatusCode.OK)]
+        [Route("latest")]
+        public async Task<IActionResult> MostRecentDecks([FromQuery] int pageSize)
+        {
+            var result = await _mediator.Send(new MostRecentDecksQuery { PageSize = pageSize });
+
+            return Ok(result);
         }
     }
 }

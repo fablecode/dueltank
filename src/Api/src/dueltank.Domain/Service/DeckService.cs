@@ -87,5 +87,9 @@ namespace dueltank.Domain.Service
             return _deckRepository.Search(searchCriteria);
         }
 
+        public Task<MostRecentDecksResult> MostRecentDecks(int pageSize)
+        {
+            return _deckRepository.MostRecentDecks(pageSize);
+        }
     }
 }

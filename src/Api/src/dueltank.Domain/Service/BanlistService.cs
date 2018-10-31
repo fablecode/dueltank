@@ -18,5 +18,10 @@ namespace dueltank.Domain.Service
         {
             return _banlistRepository.LatestBanlistByFormatAcronym(formatAcronym);
         }
+
+        public Task<MostRecentBanlistResult> MostRecentBanlists()
+        {
+            return _banlistRepository.MostRecentBanlists();
+        }
     }
 }
