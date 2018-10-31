@@ -47,12 +47,16 @@ export class DeckViewPage implements OnInit, OnDestroy{
     let deckName = routeParams.name;
     let deckId = routeParams.id;
 
-    this.seo.title(deckName + " - DuelTank");
-    this.seo.keywords("View, Deck," + deckName + ", DuelTank")
+
+
     this.seo.robots("index,follow");
 
     this.deckService.getDeckById(Number(deckId)).subscribe((deck: Deck) => {
       this.selectedDeck = deck;
+
+      this.seo.title(this.selectedDeck.name + " - DuelTank");
+      this.seo.keywords("View, Deck," + deckName + ", DuelTank");
+
       this.deckLoaded = true;
     });
 

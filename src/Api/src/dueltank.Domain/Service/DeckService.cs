@@ -86,5 +86,6 @@ namespace dueltank.Domain.Service
         {
             return _deckRepository.Search(searchCriteria);
         }
+
     }
 }
