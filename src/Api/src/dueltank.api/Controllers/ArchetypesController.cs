@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using dueltank.api.Constants;
 using dueltank.application.Queries.AllCategories;
 using dueltank.application.Queries.ArchetypeById;
+using dueltank.application.Queries.MostRecentArchetypes;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -35,5 +36,22 @@ namespace dueltank.api.Controllers
 
             return NotFound();
         }
+
+        /// <summary>
+        /// Retrieve the most recent archetypes
+        /// </summary>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [Route("latest")]
+        public async Task<IActionResult> MostRecentArchetypes([FromQuery] int pageSize)
+        {
+            var result = await _mediator.Send(new MostRecentArchetypesQuery { PageSize = pageSize });
+
+            return Ok(result);
+        }
+
     }
 }

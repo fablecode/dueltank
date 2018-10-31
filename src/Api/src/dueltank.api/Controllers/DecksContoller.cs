@@ -84,6 +84,12 @@ namespace dueltank.api.Controllers
             return BadRequest("YgoPro deck file not selected");
         }
 
+
+        /// <summary>
+        /// Retrieve the most recent decks
+        /// </summary>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
         [ProducesResponseType((int) HttpStatusCode.OK)]
