@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Threading.Tasks;
+using dueltank.application.Queries.MostRecentBanlists;
 
 namespace dueltank.api.Controllers
 {
@@ -33,5 +34,17 @@ namespace dueltank.api.Controllers
 
             return Ok(result);
         }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [Route("latest")]
+        public async Task<IActionResult> MostRecentDecks()
+        {
+            var result = await _mediator.Send(new MostRecentBanlistsQuery());
+
+            return Ok(result);
+        }
+
     }
 }
