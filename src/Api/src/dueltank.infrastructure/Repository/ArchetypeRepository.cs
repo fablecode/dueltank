@@ -68,5 +68,17 @@ namespace dueltank.infrastructure.Repository
 
             return result;
         }
+
+        public async Task<MostRecentArchetypesResult> MostRecentArchetypes(int pageSize)
+        {
+            var response = new MostRecentArchetypesResult();
+
+            const string searchSqlQuery = "MostRecentArchetypes @PageSize";
+
+            response.Archetypes = await _dbContext.ArchetypeSearch.FromSql(searchSqlQuery, new SqlParameter("@PageSize", pageSize)).ToListAsync();
+
+            return response;
+        }
+
     }
 }

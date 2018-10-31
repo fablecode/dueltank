@@ -35,44 +35,36 @@ namespace dueltank.infrastructure.Repository
 
         public async Task<DeckDetail> GetDeckById(long id)
         {
-            try
+            var deckResult = await _dbContext.Deck.AsNoTracking().Include(d => d.User).SingleOrDefaultAsync(d => d.Id == id);
+
+            var cardResult = _dbContext.CardDetail.FromSql("EXEC usp_GetDeckCardsByDeckId @DeckId", new SqlParameter("DeckId", id)).AsNoTracking().ToList();
+
+            if (deckResult != null)
             {
-                var deckResult = await _dbContext.Deck.AsNoTracking().Include(d => d.User).SingleOrDefaultAsync(d => d.Id == id);
+                var deckDetail = DeckDetail.From(deckResult);
 
-                var cardResult = _dbContext.CardDetail.FromSql("EXEC usp_GetDeckCardsByDeckId @DeckId", new SqlParameter("DeckId", id)).AsNoTracking().ToList();
+                var groupedDeckCards = cardResult.GroupBy(dt => dt.DeckType, dt => dt);
 
-                if (deckResult != null)
+                foreach (var cardGroup in groupedDeckCards)
                 {
-                    var deckDetail = DeckDetail.From(deckResult);
-
-                    var groupedDeckCards = cardResult.GroupBy(dt => dt.DeckType, dt => dt);
-
-                    foreach (var cardGroup in groupedDeckCards)
+                    switch (cardGroup.Key.ToLower())
                     {
-                        switch (cardGroup.Key.ToLower())
-                        {
-                            case "main":
-                                deckDetail.MainDeck = cardGroup.ToList();
-                                break;
-                            case "extra":
-                                deckDetail.ExtraDeck = cardGroup.ToList();
-                                break;
-                            case "side":
-                                deckDetail.SideDeck = cardGroup.ToList();
-                                break;
-                        }
+                        case "main":
+                            deckDetail.MainDeck = cardGroup.ToList();
+                            break;
+                        case "extra":
+                            deckDetail.ExtraDeck = cardGroup.ToList();
+                            break;
+                        case "side":
+                            deckDetail.SideDeck = cardGroup.ToList();
+                            break;
                     }
-
-                    return deckDetail;
                 }
 
-                return null;
+                return deckDetail;
             }
-            catch (System.Exception ex)
-            {
 
-                 throw;
-            }
+            return null;
         }
 
         public async Task<DeckSearchResult> Search(DeckSearchCriteria searchCriteria)
@@ -106,6 +98,17 @@ namespace dueltank.infrastructure.Repository
 
             response.Decks = await _dbContext.DeckDetail.FromSql(query, sqlParameters.ToArray()).ToListAsync();
             response.TotalRecords = (int)totalRowsCount.Value;
+
+            return response;
+        }
+
+        public async Task<MostRecentDecksResult> MostRecentDecks(int pageSize)
+        {
+            var response = new MostRecentDecksResult();
+
+            const string searchSqlQuery = "MostRecentDecks @PageSize";
+
+            response.Decks = await _dbContext.DeckDetail.FromSql(searchSqlQuery, new SqlParameter("@PageSize", pageSize)).ToListAsync();
 
             return response;
         }

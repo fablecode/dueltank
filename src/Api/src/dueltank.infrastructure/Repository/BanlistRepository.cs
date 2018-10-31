@@ -45,5 +45,17 @@ namespace dueltank.infrastructure.Repository
 
             return result;
         }
+
+        public async Task<MostRecentBanlistResult> MostRecentBanlists(int pageSize)
+        {
+            var response = new MostRecentBanlistResult();
+
+            const string sqlQuery = "MostRecentBanlists";
+
+            response.Banlists = await _dbContext.MostRecentBanlist.FromSql(sqlQuery).ToListAsync();
+
+            return response;
+        }
+
     }
 }

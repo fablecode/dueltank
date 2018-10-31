@@ -8,5 +8,6 @@ namespace dueltank.Domain.Repository
     {
         Task<ArchetypeSearchResult> Search(ArchetypeSearchCriteria searchCriteria);
         Task<ArchetypeByIdResult> ArchetypeById(long archetypeId);
+        Task<MostRecentArchetypesResult> MostRecentArchetypes(int pageSize);
     }
 }

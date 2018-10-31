@@ -10,5 +10,6 @@ namespace dueltank.Domain.Repository
         Task<Deck> Add(Deck ygoProDeck);
         Task<DeckDetail> GetDeckById(long id);
         Task<DeckSearchResult> Search(DeckSearchCriteria searchCriteria);
+        Task<MostRecentDecksResult> MostRecentDecks(int pageSize);
     }
 }
