@@ -10,3 +10,8 @@
     CONSTRAINT [FK_Deck_AspNetUsers] FOREIGN KEY ([UserId]) REFERENCES [dbo].[AspNetUsers] ([Id])
 );
 
+GO
+CREATE FULLTEXT INDEX ON [dbo].[Deck]
+    ([Name] LANGUAGE 1033, [Description] LANGUAGE 1033)
+    KEY INDEX [PK_Deck]
+    ON [DeckCatalog];
