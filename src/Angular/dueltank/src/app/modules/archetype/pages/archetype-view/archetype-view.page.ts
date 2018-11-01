@@ -14,7 +14,6 @@ import {CurrentHoverCardService} from "../../../../shared/services/current-hover
 @Component({
   templateUrl: "./archetype-view.page.html",
   styleUrls: ["./archetype-view.page.css"],
-  encapsulation: ViewEncapsulation.None
 })
 export class ArchetypeViewPage implements OnInit, OnDestroy {
   public isLoading: boolean = true;
