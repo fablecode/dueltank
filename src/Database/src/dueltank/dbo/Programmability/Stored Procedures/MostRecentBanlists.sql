@@ -32,6 +32,7 @@ BEGIN
 	SELECT TOP (1) f.Acronym, bl.Name, ReleaseDate FROM Banlist bl	INNER JOIN Format f ON (bl.FormatId = f.Id) WHERE f.Id = @ocgId ORDER BY bl.ReleaseDate DESC
 
 	SELECT 
+		Id,
 		Acronym,
 	    Name,
 	    ReleaseDate 
