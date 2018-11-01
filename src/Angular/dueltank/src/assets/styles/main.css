@@ -647,8 +647,8 @@ cards-tabs .tab-content .active {
 }
 
 #random-archetypes .col-md-3 a img {
-  max-height:81.3px;
-  /*width: 80px;*/
+  height: 91.9px;
+  width: 80px;
 }
 
 #logo {

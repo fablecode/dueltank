@@ -99,7 +99,7 @@
           <div class="row">
             <div class="col-md-3 no-pd-rt" *ngFor="let archetype of archetypes">
               <a [routerLink]="['/archetype',  archetype.id, archetype.name | slugify]">
-                <img alt="{{ archetype.name }}" title="{{ archetype.name }}" [src]="getApiEndPointUrl() + archetype.thumbnailUrl" height="81" width="81">
+                <img alt="{{ archetype.name }}" title="{{ archetype.name }}" [src]="getApiEndPointUrl() + archetype.thumbnailUrl">
               </a>
             </div>
           </div>
