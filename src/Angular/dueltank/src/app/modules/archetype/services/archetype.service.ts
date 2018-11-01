@@ -26,4 +26,13 @@ export class ArchetypeService {
   public archetypeById(archetypeId: number) : Observable<Archetype> {
     return this.http.get<Archetype>(this.configuration.apiEndpoint + "/api/archetypes/" + archetypeId);
   }
+
+  public mostRecentArchetypes(pageSize: number) : Observable<ArchetypeSearchResult> {
+    let httpParams = new HttpParams();
+
+    httpParams = httpParams
+      .set("pageSize", String(pageSize));
+
+    return this.http.get<ArchetypeSearchResult>(this.configuration.apiEndpoint + "/api/archetypes/latest", {params: httpParams})
+  }
 }

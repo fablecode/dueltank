@@ -25,6 +25,7 @@ export class Globals {
     externalLoginComplete: "/account/external-login-complete",
     archetypes: "/archetypes",
     decks: "/decks",
+    home: "/",
     banlist: {
       tcg: "/banlists/tcg/latest",
       ocg: "/banlists/ocg/latest"

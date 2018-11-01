@@ -3,7 +3,7 @@
     <div class="sidebar-collapse" style="overflow: hidden; width: auto; height: 100%; background-color: #fff;">
       <ul sideNavigation class="nav metismenu" id="side-menu" style="display: block; padding-bottom: inherit;">
         <li>
-          <a href="" aria-expanded="false" alt="Home" title="Home"><i class="fa fa-home"></i> <span class="nav-label">Home</span> </a>
+          <a [routerLink]="[this.globals.routes.home]" aria-expanded="false" alt="Home" title="Home"><i class="fa fa-home"></i> <span class="nav-label">Home</span> </a>
         </li>
         <li>
           <a [routerLink]="[this.globals.routes.decks]" alt="Decks" title="Decks"><i class="fa fa-archive"></i> <span class="nav-label">Decks</span></a>

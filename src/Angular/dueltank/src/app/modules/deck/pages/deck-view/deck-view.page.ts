@@ -47,8 +47,6 @@ export class DeckViewPage implements OnInit, OnDestroy{
     let deckName = routeParams.name;
     let deckId = routeParams.id;
 
-
-
     this.seo.robots("index,follow");
 
     this.deckService.getDeckById(Number(deckId)).subscribe((deck: Deck) => {

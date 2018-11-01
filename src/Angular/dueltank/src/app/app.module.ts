@@ -27,7 +27,8 @@ import {CurrentHoverCardComponent} from "./shared/components/current-hover-card/
 import {ArchetypeModule} from "./modules/archetype/archetype.module";
 
 const appRoutes: Routes = [
-  {   path: "", component: HomePage, pathMatch: "full"}
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '**', component: HomePage }
 ];
 
 /**
@@ -39,6 +40,7 @@ export function loadConfigService(configService: AppConfigService): Function
 {
   return () => { return configService.load() };
 }
+
 
 @NgModule({
   declarations: [

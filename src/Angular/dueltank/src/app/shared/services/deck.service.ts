@@ -118,5 +118,14 @@ export class DeckService {
 
     return text.join("\n");
   }
+
+  public mostRecentDecks(pageSize: number) {
+    let httpParams = new HttpParams();
+
+    httpParams = httpParams
+      .set("pageSize", String(pageSize));
+
+    return this.http.get<DeckSearchResult>(this.configuration.apiEndpoint + "/api/decks/latest", {params: httpParams})
+  }
 }
 
