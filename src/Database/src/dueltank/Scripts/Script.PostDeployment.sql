@@ -28,3 +28,23 @@ ON
 WHEN NOT MATCHED THEN
 	INSERT (Id, ConcurrencyStamp, Name, NormalizedName)
 	VALUES (Id, Source.ConcurrencyStamp, Source.Name, Source.NormalizedName);
+
+MERGE dbo.DeckType AS Target
+USING
+(
+	SELECT 
+		* 
+	FROM
+	(
+		VALUES
+			('Main', GetDate(), GetDate()),
+			('Extra', GetDate(), GetDate()),
+			('Side', GetDate(), GetDate())
+		
+	)As s(Name, Created, Updated)
+) As Source
+ON 
+	Target.Name = Source.Name
+WHEN NOT MATCHED THEN
+	INSERT (Name, Created, Updated)
+	VALUES (Source.Name, Source.Created, Source.Updated);
