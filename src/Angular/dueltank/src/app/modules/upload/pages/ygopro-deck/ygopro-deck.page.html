@@ -48,16 +48,16 @@
                   </a>
                 </td>
                 <td class="text-right">
-                  <a tooltip="Upload file" (click)="item.upload()" *ngIf="item.isUploadable()">
+                  <a tooltip="Upload" (click)="item.upload()" *ngIf="item.isUploadable()">
                     <i class="fa fa-upload"></i>
                     &nbsp;&nbsp;
                   </a>
 
-                  <a tooltip="Cancel upload" (click)="item.cancel()" *ngIf="item.inProgress()">
+                  <a tooltip="Cancel" (click)="item.cancel()" *ngIf="item.inProgress()">
                     <i class="fa fa-times-circle"></i>
                     &nbsp;&nbsp;
                   </a>
-                  <a tooltip="Remove from queue" (click)="item.remove()" *ngIf="!item.inProgress()">
+                  <a tooltip="Remove" (click)="item.remove()" *ngIf="!item.inProgress()">
                     <i class="fa fa-trash"></i>
                   </a>
                 </td>
