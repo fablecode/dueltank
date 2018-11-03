@@ -18,7 +18,7 @@ export class YgoProDeckPage implements OnInit {
   constructor(public uploader: FileUploaderService, private fb: FormBuilder, private seo: SearchEngineOptimizationService) {
     this.seo.title("DuelTank - Upload YgoPro decks");
     this.seo.description("Upload your favourite YgoPro decks");
-    this.seo.keywords("DuelTank, deck, upload")
+    this.seo.keywords("DuelTank, deck, upload");
     this.seo.robots("index,follow");
   }
 
@@ -39,7 +39,7 @@ export class YgoProDeckPage implements OnInit {
 
   public completeItem = (item: FileQueueObject, response: any) => {
     this.onCompleteItem.emit({ item, response });
-  }
+  };
 
   ngOnInit(): void {
 

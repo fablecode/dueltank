@@ -1,77 +1,75 @@
-<form class="form-horizontal ng-pristine ng-valid" role="form" ng-submit="$ctrl.getCards()">
-  <div id="search-form" class="row">
-    <div class="col-lg-4" style="padding-left: 0">
-      <div class="ibox">
-        <div class="ibox-content" style="position: relative;">
-          <div id="deck-profile-card">
-            <div class="row">
-              <div id="deck-pc-fav" class="col-md-12">
-                <div id="deck-download-to" class="btn-group pull-right">
-                  <button type="button" class="btn btn-default">Download To...</button>
-                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li><a (click)="downloadYdk()"><i class="fa fa-file-text-o"></i> YgoPro Deck</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a id="copyDeck" ngxClipboard [cbContent]="deckToText()"><i class="fa fa-clipboard"></i>Clipboard</a></li>
-                    <li><a href (click)="addDeckToUserFavourites()"><i class="fa fa-thumbs-o-up"></i> Favourites</a></li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-md-12">
-                <img id="deck-pc-thumbnail" src="{{ configuration.apiEndpoint + deck.thumbnailUrl }}" alt="{{ deck.name }}" title="{{ deck.name }}" />
-                <h2 id="deck-pc-name" title="{{ deck.name }}">
-                  {{ deck.name }}
-                </h2>
-                <a href (click)="goToUserDecks(deck.username)" title="Deck created by {{ deck.username }}">{{ deck.username }}</a>
+<div id="search-form" class="row">
+  <div class="col-lg-4" style="padding-left: 0">
+    <div class="ibox">
+      <div class="ibox-content" style="position: relative;">
+        <div id="deck-profile-card">
+          <div class="row">
+            <div id="deck-pc-fav" class="col-md-12">
+              <div id="deck-download-to" class="btn-group pull-right">
+                <button type="button" class="btn btn-default">Download To...</button>
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="caret"></span>
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a (click)="downloadYdk()"><i class="fa fa-file-text-o"></i> YgoPro Deck</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a id="copyDeck" ngxClipboard [cbContent]="deckToText()"><i class="fa fa-clipboard"></i>Clipboard</a></li>
+                  <li><a href (click)="addDeckToUserFavourites()"><i class="fa fa-thumbs-o-up"></i> Favourites</a></li>
+                </ul>
               </div>
             </div>
-            <div class="row" style="margin-top: 0px">
-              <div class="col-md-6" style="height: 130px; overflow-y: auto;">
-                <br/>
-                <p>{{ deck.description }}</p>
-              </div>
-              <div
-                id="deck-pc-video-thumbnail" class="col-md-6 text-center"
-                [ngStyle]="{'background':'url(' + youtubeDefaultThumbnailUrl + ') no-repeat center center'}"
-                (click)="openYoutubeModal(template)"
-                *ngIf="deck.videoId">
-                <img alt="{{deck.name}}" src="/assets/images/youtube-play.png">
-                <ng-template #template>
-                  <div class="inmodal">
-                    <div class="modal-header">
-                      <h4 class="modal-title pull-left">{{deck.name}}</h4>
-                      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      <youtube-player
-                        [videoId]="deck.videoId"
-                        (ready)="savePlayer($event)"
-                        [height]="560"
-                        [width]="840"
-                      ></youtube-player>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-white" (click)="modalRef.hide()">Close</button>
-                    </div>
+            <div class="col-md-12">
+              <img id="deck-pc-thumbnail" src="{{ configuration.apiEndpoint + deck.thumbnailUrl }}" alt="{{ deck.name }}" title="{{ deck.name }}" />
+              <h2 id="deck-pc-name" title="{{ deck.name }}">
+                {{ deck.name }}
+              </h2>
+              <a href (click)="goToUserDecks(deck.username)" title="Deck created by {{ deck.username }}">{{ deck.username }}</a>
+            </div>
+          </div>
+          <div class="row" style="margin-top: 0px">
+            <div class="col-md-6" style="height: 130px; overflow-y: auto;">
+              <br/>
+              <p>{{ deck.description }}</p>
+            </div>
+            <div
+              id="deck-pc-video-thumbnail" class="col-md-6 text-center"
+              [ngStyle]="{'background':'url(' + youtubeDefaultThumbnailUrl + ') no-repeat center center'}"
+              (click)="openYoutubeModal(template)"
+              *ngIf="deck.videoId">
+              <img alt="{{deck.name}}" src="/assets/images/youtube-play.png">
+              <ng-template #template>
+                <div class="inmodal">
+                  <div class="modal-header">
+                    <h4 class="modal-title pull-left">{{deck.name}}</h4>
+                    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
                   </div>
-                </ng-template>
-              </div>
+                  <div class="modal-body">
+                    <youtube-player
+                      [videoId]="deck.videoId"
+                      (ready)="savePlayer($event)"
+                      [height]="560"
+                      [width]="840"
+                    ></youtube-player>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-white" (click)="modalRef.hide()">Close</button>
+                  </div>
+                </div>
+              </ng-template>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-lg-8" style="padding: 0">
-      <div class="row">
-        <deckCardFilters></deckCardFilters>
-      </div>
+  </div>
+  <div class="col-lg-8" style="padding: 0">
+    <div class="row">
+      <deckCardFilters></deckCardFilters>
     </div>
   </div>
-</form>
+</div>
 
 
