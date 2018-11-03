@@ -2,16 +2,16 @@
   <div class="col-lg-4" style="padding-left: 0">
     <div class="ibox">
       <div class="ibox-content" style="position: relative;">
-        <form class="form-horizontal">
+        <form class="form-horizontal" role="form" [formGroup]="newDeckForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label class="col-lg-2 control-label">Image:</label>
             <div class="col-lg-10">
               <div class="input-group">
-                <input type="text" class="form-control" readonly="" formControlName="file">
+                <input type="text" class="form-control" readonly="" formControlName="thumbnailFile" >
                 <label class="input-group-btn">
                       <span class="btn btn-success">
                         <span><i class="fa fa-folder-open"></i> Browse…</span>
-                        <input type="file" style="display: none;" accept=".ydk" #deckFileInput multiple (change)="onDeckSelected($event.target.files)">
+                        <input type="file" style="display: none;" accept=".png, .jpg, .jpeg, .gif" (change)="deckThumbnailSelected($event.target.files)">
                       </span>
                 </label>
               </div>
