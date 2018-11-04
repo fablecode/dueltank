@@ -20,7 +20,12 @@
           <div class="form-group">
             <label class="col-lg-2 control-label">Name:</label>
             <div class="col-lg-10">
-              <input name="deckName" type="text" class="form-control" ng-model="$ctrl.deckProfile.name" accept="image/*">
+              <input name="deckName" type="text" class="form-control" formControlName="deckName">
+              <div class="input-group" *ngIf="deckName.errors && (deckName.dirty || deckName.touched)">
+                <span class="error text-danger" *ngIf="deckName.errors.required">* Name is required</span>
+                <span class="error text-danger" *ngIf="deckName.errors.minlength">* Name must be at least 4 characters long, we need another {{deckName.errors.minlength.requiredLength - deckName.errors.minlength.actualLength}} characters </span>
+                <span class="error text-danger" *ngIf="deckName.errors.max">* Name can be max 255 long, remove another {{deckName.errors.maxlength.actualLength - deckName.errors.maxlength.requiredLength}} characters </span>
+              </div>
             </div>
           </div>
           <div class="form-group">
@@ -38,7 +43,7 @@
               <input name="youtubeUrl" type="text" class="form-control" ng-model="$ctrl.deckProfile.youtubeUrl">
             </div>
             <div class="col-lg-3">
-              <button type="button" class="btn btn-primary btn-block" ng-click="$ctrl.saveDeck()">Save</button>
+              <button type="submit" class="btn btn-primary btn-block" [disabled]="!newDeckForm.valid">Save</button>
             </div>
           </div>
           <div class="form-group">

@@ -11,9 +11,14 @@ import {ToastrService} from "ngx-toastr";
 export class DeckNewCardSearchComponent implements OnInit {
   @Input() deck: Deck;
 
+  // form group
   public newDeckForm: FormGroup;
-  private thumbnailFileSelectedControl: FormControl;
 
+  // form controls
+  private thumbnailFileSelected: FormControl;
+  public deckName: FormControl;
+
+  // deck thumbnail
   private selectedThumbnailFile : File;
 
   constructor(private fb: FormBuilder, private seo: SearchEngineOptimizationService, private toastr: ToastrService) {
@@ -31,10 +36,9 @@ export class DeckNewCardSearchComponent implements OnInit {
     if(files && files.length > 0 && files.length < 2) {
       if(files[0].size < 2000000) {
         this.selectedThumbnailFile = files[0];
-        this.thumbnailFileSelectedControl.setValue(files.item(0).name);
-
+        this.thumbnailFileSelected.setValue(files.item(0).name);
       } else {
-        this.toastr.warning("Image file is too big! Only 2MB allowed.");
+        this.toastr.warning("Image file is too big! Only 2MB or less is allowed.");
       }
 
     } else {
@@ -42,11 +46,24 @@ export class DeckNewCardSearchComponent implements OnInit {
     }
   }
 
+  public log (object: any ) {
+    console.log(object);
+  }
+  public onSubmit() : void {
+    console.log("New deck form was submitted.")
+  }
+
   private createForm() {
-    this.thumbnailFileSelectedControl = new FormControl("");
+    this.thumbnailFileSelected = new FormControl("");
+    this.deckName = new FormControl("", [
+      Validators.required,
+      Validators.minLength(4),
+      Validators.max(255)
+    ]);
 
     this.newDeckForm = this.fb.group({
-      thumbnailFile: this.thumbnailFileSelectedControl
+      thumbnailFile: this.thumbnailFileSelected,
+      deckName: this.deckName
     });
   }
 }
