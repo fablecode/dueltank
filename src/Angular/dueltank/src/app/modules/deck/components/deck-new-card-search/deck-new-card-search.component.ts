@@ -3,7 +3,8 @@ import {Deck} from "../../../../shared/models/deck";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {SearchEngineOptimizationService} from "../../../../shared/services/searchengineoptimization.service";
 import {ToastrService} from "ngx-toastr";
-import {DeckEditorInfo, DeckInfoService} from "../../services/deck-info.service";
+import {DeckInfoService} from "../../services/deck-info.service";
+import {DeckEditorInfo} from "../../../../shared/models/deck-editor-info";
 
 @Component({
   selector: "deckNewCardSearch",

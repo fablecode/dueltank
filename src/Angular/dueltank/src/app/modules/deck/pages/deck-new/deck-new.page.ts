@@ -15,6 +15,8 @@ import {SearchEngineOptimizationService} from "../../../../shared/services/searc
 import {DeckCardSearchResultService} from "../../services/deck-card-search-result.service";
 import {ExtraDeckService} from "../../services/extra-deck.service";
 import {SideDeckService} from "../../services/side-deck.service";
+import {DeckInfoService} from "../../services/deck-info.service";
+import {DeckEditorInfo} from "../../../../shared/models/deck-editor-info";
 
 @Component({
   templateUrl: "./deck-new.page.html"
@@ -38,7 +40,8 @@ export class DeckNewPage implements OnInit, OnDestroy {
     private mainDeckService: MainDeckService,
     private extraDeckService: ExtraDeckService,
     private sideDeckService: SideDeckService,
-    private currentHoverCardService: CurrentHoverCardService
+    private currentHoverCardService: CurrentHoverCardService,
+    private deckInfoService: DeckInfoService
   ){}
 
   ngOnInit(): void {
@@ -118,6 +121,12 @@ export class DeckNewPage implements OnInit, OnDestroy {
 
     let banListChangedSubscription = this.deckCardFilterService.banlistChangedSource$.subscribe( (format: Format) => {
       this.currentFormat = format;
+    });
+
+
+    // deck info
+    let deckInfoService = this.deckInfoService.saveDeck$.subscribe((deckEditorInfo: DeckEditorInfo) => {
+      this.deckService.addDeck(deckEditorInfo, this.newDeck);
     });
 
     // Add subscriptions to collection

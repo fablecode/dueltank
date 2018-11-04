@@ -1,5 +1,6 @@
 import {Injectable} from "@angular/core";
 import {Subject} from "rxjs";
+import {DeckEditorInfo} from "../../../shared/models/deck-editor-info";
 
 @Injectable()
 export class DeckInfoService {
@@ -31,11 +32,4 @@ export class DeckInfoService {
   public clearDeck() : void {
     this.shuffleDeckSource.next(true);
   }
-}
-
-export class DeckEditorInfo {
-  public thumbnail: File;
-  public name: string;
-  public description: string;
-  public videoUrl: string;
 }

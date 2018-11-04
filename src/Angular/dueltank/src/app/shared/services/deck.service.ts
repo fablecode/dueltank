@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {Deck} from "../models/deck";
 import {AppConfigService} from "./app-config.service";
@@ -7,6 +7,7 @@ import * as FileSaver from "file-saver";
 import {Card} from "../models/card";
 import {List} from "linqts";
 import {DeckSearchResult} from "../models/deck-search-result";
+import {DeckEditorInfo} from "../models/deck-editor-info";
 
 @Injectable()
 export class DeckService {
@@ -127,5 +128,19 @@ export class DeckService {
 
     return this.http.get<DeckSearchResult>(this.configuration.apiEndpoint + "/api/decks/latest", {params: httpParams})
   }
+
+  public addDeck(deckEditorInfo: DeckEditorInfo, newDeck: Deck) {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+      })
+    };
+
+    return this.http.post<AddDeckResult>(this.configuration.apiEndpoint + "/api/decks/", {info: deckEditorInfo, deck: newDeck}, httpOptions)
+  }
+}
+
+export class AddDeckResult {
 }
 
