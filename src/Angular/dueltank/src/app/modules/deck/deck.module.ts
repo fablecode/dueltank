@@ -42,6 +42,7 @@ import {ExtraDeckService} from "./services/extra-deck.service";
 import {SideDeckService} from "./services/side-deck.service";
 import {DeckNewPage} from "./pages/deck-new/deck-new.page";
 import {DeckNewCardSearchComponent} from "./components/deck-new-card-search/deck-new-card-search.component";
+import {DeckInfoService} from "./services/deck-info.service";
 
 const deckRoutes: Routes = [
   {path: "decks", component: DeckListPage},
@@ -106,7 +107,8 @@ const deckRoutes: Routes = [
     RulingService,
     MainDeckService,
     ExtraDeckService,
-    SideDeckService
+    SideDeckService,
+    DeckInfoService
   ]
 })
 export class DeckModule {}

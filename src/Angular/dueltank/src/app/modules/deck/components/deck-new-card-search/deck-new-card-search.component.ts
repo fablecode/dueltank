@@ -3,6 +3,7 @@ import {Deck} from "../../../../shared/models/deck";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {SearchEngineOptimizationService} from "../../../../shared/services/searchengineoptimization.service";
 import {ToastrService} from "ngx-toastr";
+import {DeckEditorInfo, DeckInfoService} from "../../services/deck-info.service";
 
 @Component({
   selector: "deckNewCardSearch",
@@ -23,7 +24,13 @@ export class DeckNewCardSearchComponent implements OnInit {
   // deck thumbnail
   private selectedThumbnailFile : File;
 
-  constructor(private fb: FormBuilder, private seo: SearchEngineOptimizationService, private toastr: ToastrService) {
+  constructor
+  (
+    private fb: FormBuilder,
+    private seo: SearchEngineOptimizationService,
+    private toastr: ToastrService,
+    private deckInfoService: DeckInfoService
+  ) {
     this.seo.title("DuelTank - Create new yugioh deck");
     this.seo.description("Use the dueltank deck editor to create a new yugioh deck");
     this.seo.keywords("DuelTank, deck, new, create");
@@ -49,7 +56,17 @@ export class DeckNewCardSearchComponent implements OnInit {
   }
 
   public onSubmit() : void {
-    console.log("New deck form was submitted.")
+    if(this.newDeckForm.valid) {
+     let deckInfo : DeckEditorInfo = new DeckEditorInfo();
+
+     deckInfo.thumbnail = this.selectedThumbnailFile;
+     deckInfo.name = this.deckName.value;
+     deckInfo.description = this.deckDescription.value;
+     deckInfo.videoUrl = this.deckVideoUrl.value;
+
+     console.log(deckInfo);
+     //this.deckInfoService.saveDeck(deckInfo);
+    }
   }
 
   private createForm() {
