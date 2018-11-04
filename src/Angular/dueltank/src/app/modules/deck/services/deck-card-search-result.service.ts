@@ -9,7 +9,7 @@ export class DeckCardSearchResultService {
   private cardSearchResultCardRightClick = new Subject<Card>();
 
   // Observable card streams
-  public cardSearchResultCardHover$ = this.cardSearchResultCardHover.asObservable();
+  //public cardSearchResultCardHover$ = this.cardSearchResultCardHover.asObservable();
   public cardSearchResultCardRightClick$ = this.cardSearchResultCardRightClick.asObservable();
 
   // Service message commands

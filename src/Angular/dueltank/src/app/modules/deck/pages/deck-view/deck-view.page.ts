@@ -68,10 +68,6 @@ export class DeckViewPage implements OnInit, OnDestroy{
       }
     );
 
-    let deckCardSearchResultHoverSubscription = this.deckCardSearchResultService.cardSearchResultCardHover$.subscribe((card: Card) => {
-      this.currentHoverCardService.cardChange(card);
-    });
-
     // main deck subscriptions
     let mainDeckCardDropSubscription = this.mainDeckService.cardDropSuccess$.subscribe((card: Card) => {
       if(canAddCardToMainDeck(this.selectedDeck, card, this.currentFormat)) {
@@ -144,7 +140,6 @@ export class DeckViewPage implements OnInit, OnDestroy{
     this.subscriptions = [
       ...this.subscriptions,
       cardFiltersLoadedSubscription,
-      deckCardSearchResultHoverSubscription,
       mainDeckCardDropSubscription,
       mainDeckCardHoverSubscription,
       removeMainDeckCardSubscription,
@@ -156,7 +151,7 @@ export class DeckViewPage implements OnInit, OnDestroy{
       removeSideDeckCardSubscription,
       banListLoadedSubscription,
       banListChangedSubscription
-    ]
+    ];
   }
 
   ngOnDestroy(): void {
