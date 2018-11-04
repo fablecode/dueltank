@@ -23,15 +23,18 @@
               <input name="deckName" type="text" class="form-control" formControlName="deckName">
               <div class="input-group" *ngIf="deckName.errors && (deckName.dirty || deckName.touched)">
                 <span class="error text-danger" *ngIf="deckName.errors.required">* Name is required</span>
-                <span class="error text-danger" *ngIf="deckName.errors.minlength">* Name must be at least 4 characters long, we need another {{deckName.errors.minlength.requiredLength - deckName.errors.minlength.actualLength}} characters </span>
-                <span class="error text-danger" *ngIf="deckName.errors.max">* Name can be max 255 long, remove another {{deckName.errors.maxlength.actualLength - deckName.errors.maxlength.requiredLength}} characters </span>
+                <span class="error text-danger" *ngIf="deckName.errors.minlength">* At least 4 characters long, we need another {{deckName.errors.minlength.requiredLength - deckName.errors.minlength.actualLength}} characters </span>
+                <span class="error text-danger" *ngIf="deckName.errors.maxlength">* 255 characters max, remove {{deckName.errors.maxlength.actualLength - deckName.errors.maxlength.requiredLength}} characters </span>
               </div>
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-2 control-label">Description:</label>
             <div class="col-lg-10">
-              <textarea class="form-control" rows="1" ng-model="$ctrl.deckProfile.description"></textarea>
+              <textarea class="form-control" rows="1" formControlName="deckDescription"></textarea>
+              <div class="input-group" *ngIf="deckDescription.errors && (deckDescription.dirty || deckDescription.touched)">
+                <span class="error text-danger" *ngIf="deckDescription.errors.maxlength">* 2083 characters max, remove {{deckDescription.errors.maxlength.actualLength - deckDescription.errors.maxlength.requiredLength}} characters </span>
+              </div>
             </div>
           </div>
           <div class="form-group">
@@ -40,7 +43,10 @@
               <i class="fa fa-youtube fa-2" aria-hidden="true" style="font-size: 2.5em;"></i>
             </div>
             <div class="col-lg-6">
-              <input name="youtubeUrl" type="text" class="form-control" ng-model="$ctrl.deckProfile.youtubeUrl">
+              <input name="youtubeUrl" type="url" class="form-control" formControlName="deckVideoUrl">
+              <div class="input-group" *ngIf="deckVideoUrl.errors && (deckVideoUrl.dirty || deckVideoUrl.touched)">
+                <span class="error text-danger" *ngIf="deckVideoUrl.errors.maxlength">* 2083 characters max, remove {{deckVideoUrl.errors.maxlength.actualLength - deckVideoUrl.errors.maxlength.requiredLength}} characters </span>
+              </div>
             </div>
             <div class="col-lg-3">
               <button type="submit" class="btn btn-primary btn-block" [disabled]="!newDeckForm.valid">Save</button>

@@ -17,6 +17,8 @@ export class DeckNewCardSearchComponent implements OnInit {
   // form controls
   private thumbnailFileSelected: FormControl;
   public deckName: FormControl;
+  public deckDescription: FormControl;
+  public deckVideoUrl: FormControl;
 
   // deck thumbnail
   private selectedThumbnailFile : File;
@@ -46,9 +48,6 @@ export class DeckNewCardSearchComponent implements OnInit {
     }
   }
 
-  public log (object: any ) {
-    console.log(object);
-  }
   public onSubmit() : void {
     console.log("New deck form was submitted.")
   }
@@ -58,12 +57,20 @@ export class DeckNewCardSearchComponent implements OnInit {
     this.deckName = new FormControl("", [
       Validators.required,
       Validators.minLength(4),
-      Validators.max(255)
+      Validators.maxLength(255)
+    ]);
+    this.deckDescription = new FormControl("", [
+      Validators.maxLength(2083)
+    ]);
+    this.deckVideoUrl = new FormControl("", [
+      Validators.maxLength(2083)
     ]);
 
     this.newDeckForm = this.fb.group({
       thumbnailFile: this.thumbnailFileSelected,
-      deckName: this.deckName
+      deckName: this.deckName,
+      deckDescription: this.deckDescription,
+      deckVideoUrl: this.deckVideoUrl
     });
   }
 }
