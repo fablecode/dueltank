@@ -8,7 +8,7 @@ import {Router} from "@angular/router";
 @Injectable()
 export class FileUploaderService {
 
-  public url: string = this.configuration.apiEndpoint + "/api/decks";
+  public url: string = this.configuration.apiEndpoint + "/api/ygoprodecks";
 
   private _queue: BehaviorSubject<FileQueueObject[]>;
   private _files: FileQueueObject[] = [];

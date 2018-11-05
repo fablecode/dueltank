@@ -1,12 +1,10 @@
 ﻿using dueltank.api.Models;
-using dueltank.application.Commands.UploadYgoProDeck;
 using dueltank.application.Queries.DeckById;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using dueltank.application.Queries.MostRecentDecks;
@@ -44,45 +42,23 @@ namespace dueltank.api.Controllers
             return NotFound(id);
         }
 
+
         /// <summary>
-        /// Upload an YgoPro deck
+        /// Add a new deck
         /// </summary>
-        /// <param name="file"></param>
+        /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        [ProducesResponseType((int)HttpStatusCode.Created)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int) HttpStatusCode.Created)]
+        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         [RequestSizeLimit(100_000_00)] // 10MB request size
-        public async Task<IActionResult> UploadDeck([FromForm]IFormFile file)
+        public IActionResult Post([FromBody] AddDeckInputModel input)
         {
-            if (file != null && file.Length >= 0)
-            {
-                var user = await _userManager.FindByNameAsync(User.Identity.Name);
-                if (user != null)
-                {
-                    var command = new UploadYgoProDeckCommand
-                    {
-                        Name = Path.GetFileNameWithoutExtension(file.FileName),
-                        UserId = user.Id
-                    };
+            var deckName = input.Info.Name;
 
-                    using (var reader = new StreamReader(file.OpenReadStream()))
-                        command.Deck = await reader.ReadToEndAsync();
-
-                    var result = await _mediator.Send(command);
-
-                    if (result.IsSuccessful)
-                        return CreatedAtRoute("GetDeckById", new { id = result.Data }, result.Data);
-
-                    return BadRequest(result.Errors);
-                }
-
-
-                return BadRequest();
-            }
-
-            return BadRequest("YgoPro deck file not selected");
+            return Ok();
         }
+
 
 
         /// <summary>
@@ -100,5 +76,33 @@ namespace dueltank.api.Controllers
 
             return Ok(result);
         }
+    }
+
+    public class AddDeckInputModel
+    {
+        public DeckInfoInputModel Info { get; set; }
+
+        public DeckInputModel Deck { get; set; }
+    }
+
+    public class DeckInputModel
+    {
+        public string Username { get; set; }
+        public long Id { get; set; }
+
+        public CardInputModel[] Main { get; set; }
+    }
+
+    public class CardInputModel
+    {
+        public long Id { get; set; }
+    }
+
+    public class DeckInfoInputModel
+    {
+        public IFormFile Thumbnail { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string VideoUrl { get; set; }
     }
 }
