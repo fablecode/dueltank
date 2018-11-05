@@ -66,7 +66,7 @@ export class DeckNewCardSearchComponent implements OnInit {
      deckInfo.videoUrl = this.deckVideoUrl.value;
 
      console.log(deckInfo);
-     //this.deckInfoService.saveDeck(deckInfo);
+     this.deckInfoService.saveDeck(deckInfo);
     }
   }
 

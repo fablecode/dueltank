@@ -129,15 +129,15 @@ export class DeckService {
     return this.http.get<DeckSearchResult>(this.configuration.apiEndpoint + "/api/decks/latest", {params: httpParams})
   }
 
-  public addDeck(deckEditorInfo: DeckEditorInfo, newDeck: Deck) {
+  public addDeck(deckEditorInfo: DeckEditorInfo, newDeck: Deck) : Observable<AddDeckResult> {
 
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type':  'application/json',
+        'Content-Type':  'application/json; charset=utf-8',
       })
     };
 
-    return this.http.post<AddDeckResult>(this.configuration.apiEndpoint + "/api/decks/", {info: deckEditorInfo, deck: newDeck}, httpOptions)
+    return this.http.post<AddDeckResult>(this.configuration.apiEndpoint + "/api/decks/", JSON.stringify({info: deckEditorInfo, deck: newDeck}), httpOptions)
   }
 }
 

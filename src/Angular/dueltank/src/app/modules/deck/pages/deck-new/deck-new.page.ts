@@ -9,7 +9,7 @@ import {DeckCardFilterService} from "../../services/deck-card-filter.service";
 import {CurrentHoverCardService} from "../../../../shared/services/current-hover-card.service";
 import {canAddCardToExtraDeck} from "../../utils/extra-deck-rules.util";
 import {canAddCardToSideDeck} from "../../utils/side-deck-rules.util";
-import {DeckService} from "../../../../shared/services/deck.service";
+import {AddDeckResult, DeckService} from "../../../../shared/services/deck.service";
 import {ActivatedRoute} from "@angular/router";
 import {SearchEngineOptimizationService} from "../../../../shared/services/searchengineoptimization.service";
 import {DeckCardSearchResultService} from "../../services/deck-card-search-result.service";
@@ -126,7 +126,11 @@ export class DeckNewPage implements OnInit, OnDestroy {
 
     // deck info
     let deckInfoService = this.deckInfoService.saveDeck$.subscribe((deckEditorInfo: DeckEditorInfo) => {
-      this.deckService.addDeck(deckEditorInfo, this.newDeck);
+      this.deckService
+        .addDeck(deckEditorInfo, this.newDeck)
+        .subscribe((addDeckResult: AddDeckResult) => {
+          console.log(addDeckResult);
+      });
     });
 
     // Add subscriptions to collection
@@ -143,7 +147,8 @@ export class DeckNewPage implements OnInit, OnDestroy {
       sideDeckCardHoverSubscription,
       removeSideDeckCardSubscription,
       banListLoadedSubscription,
-      banListChangedSubscription
+      banListChangedSubscription,
+      deckInfoService
     ];
   }
 
