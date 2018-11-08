@@ -54,7 +54,7 @@ namespace dueltank.api.Controllers
         [ProducesResponseType((int) HttpStatusCode.Created)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         [RequestSizeLimit(100_000_00)] // 10MB request size
-        public IActionResult Post([FromBody] AddDeckInputModel model)
+        public IActionResult Post([FromBody] DeckInputModel model)
         {
             var deckName = model.Name;
 
@@ -80,8 +80,11 @@ namespace dueltank.api.Controllers
         }
     }
 
-    public class AddDeckInputModel
+    public class DeckInputModel
     {
+        [Display(Name = "Deck Id")]
+        public long? Id { get; set; }
+
         [Required]
         [Display(Name = "Deck name")]
         public string Name { get; set; }
