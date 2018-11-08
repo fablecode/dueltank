@@ -1,4 +1,6 @@
-﻿using dueltank.api.Models;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using dueltank.api.Models;
 using dueltank.application.Queries.DeckById;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -44,17 +46,17 @@ namespace dueltank.api.Controllers
 
 
         /// <summary>
-        /// Add a new deck
+        /// Add new deck
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType((int) HttpStatusCode.Created)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         [RequestSizeLimit(100_000_00)] // 10MB request size
-        public IActionResult Post([FromBody] AddDeckInputModel input)
+        public IActionResult Post([FromBody] AddDeckInputModel model)
         {
-            var deckName = input.Info.Name;
+            var deckName = model.Name;
 
             return Ok();
         }
@@ -80,17 +82,47 @@ namespace dueltank.api.Controllers
 
     public class AddDeckInputModel
     {
-        public DeckInfoInputModel Info { get; set; }
+        [Required]
+        [Display(Name = "Deck name")]
+        public string Name { get; set; }
 
-        public DeckInputModel Deck { get; set; }
+        public string Description { get; set; }
+
+        [Display(Name = "Video url")]
+        public string VideoUrl { get; set; }
+
+        [Display(Name = "Main deck")]
+        public List<long> MainDeck { get; set; }
+
+        [Display(Name = "Extra deck")]
+        public List<long> ExtraDeck { get; set; }
+
+        [Display(Name = "Side deck")]
+        public List<long> SideDeck { get; set; }
     }
 
-    public class DeckInputModel
+    public class UpdateDeckInputModel
     {
-        public string Username { get; set; }
-        public long Id { get; set; }
+        [Display(Name = "Deck Id")]
+        public long? Id { get; set; }
 
-        public CardInputModel[] Main { get; set; }
+        [Required]
+        [Display(Name = "Deck name")]
+        public string Name { get; set; }
+
+        public string Description { get; set; }
+
+        [Display(Name = "Video url")]
+        public string VideoUrl { get; set; }
+
+        [Display(Name = "Main deck")]
+        public List<long> MainDeck { get; set; }
+
+        [Display(Name = "Extra deck")]
+        public List<long> ExtraDeck { get; set; }
+
+        [Display(Name = "Side deck")]
+        public List<long> SideDeck { get; set; }
     }
 
     public class CardInputModel

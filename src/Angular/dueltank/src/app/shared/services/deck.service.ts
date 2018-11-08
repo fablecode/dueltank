@@ -131,16 +131,28 @@ export class DeckService {
 
   public addDeck(deckEditorInfo: DeckEditorInfo, newDeck: Deck) : Observable<AddDeckResult> {
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json; charset=utf-8',
-      })
-    };
+    let requestData = new AddDeckRequest();
 
-    return this.http.post<AddDeckResult>(this.configuration.apiEndpoint + "/api/decks/", JSON.stringify({info: deckEditorInfo, deck: newDeck}), httpOptions)
+    requestData.name = deckEditorInfo.name;
+    requestData.description = deckEditorInfo.description;
+    requestData.videoUrl = deckEditorInfo.videoUrl;
+    requestData.mainDeck = new List(newDeck.mainDeck).Select((card: Card) => card.id).ToArray();
+    requestData.extraDeck = new List(newDeck.extraDeck).Select((card: Card) => card.id).ToArray();
+    requestData.sideDeck = new List(newDeck.sideDeck).Select((card: Card) => card.id).ToArray();
+
+    return this.http.post<AddDeckResult>(this.configuration.apiEndpoint + "/api/decks/", requestData)
   }
 }
 
 export class AddDeckResult {
+}
+
+export class AddDeckRequest {
+  public name: string;
+  public description: string;
+  public videoUrl: string;
+  public mainDeck: number[];
+  public extraDeck: number[];
+  public sideDeck: number[];
 }
 
