@@ -8,7 +8,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using dueltank.application.Commands.CreateDeck;
+using dueltank.application.Models.Decks.Input;
 using dueltank.application.Queries.MostRecentDecks;
 
 
@@ -25,6 +28,7 @@ namespace dueltank.api.Controllers
             _mediator = mediator;
             _userManager = userManager;
         }
+
         /// <summary>
         /// Get a deck by id
         /// </summary>
@@ -48,17 +52,35 @@ namespace dueltank.api.Controllers
         /// <summary>
         /// Add new deck
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="newDeck"></param>
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType((int) HttpStatusCode.Created)]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         [RequestSizeLimit(100_000_00)] // 10MB request size
-        public IActionResult Post([FromBody] DeckInputModel model)
+        public async Task<IActionResult> Post([FromBody] DeckInputModel newDeck)
         {
-            var deckName = model.Name;
+            var user = await _userManager.GetUserAsync(HttpContext.User);
 
-            return Ok();
+            //var user = await _userManager.FindByNameAsync(username.Id);
+
+            if (user != null)
+            {
+                var command = new CreateDeckCommand
+                {
+                    UserId = user.Id,
+                    Deck = newDeck
+                };
+
+                var result = await _mediator.Send(command);
+
+                if (result.IsSuccessful)
+                    return CreatedAtRoute("GetDeckById", new { id = result.Data }, result.Data);
+
+                return BadRequest(result.Errors);
+            }
+
+            return BadRequest();
         }
 
 
@@ -78,30 +100,6 @@ namespace dueltank.api.Controllers
 
             return Ok(result);
         }
-    }
-
-    public class DeckInputModel
-    {
-        [Display(Name = "Deck Id")]
-        public long? Id { get; set; }
-
-        [Required]
-        [Display(Name = "Deck name")]
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
-        [Display(Name = "Video url")]
-        public string VideoUrl { get; set; }
-
-        [Display(Name = "Main deck")]
-        public List<long> MainDeck { get; set; }
-
-        [Display(Name = "Extra deck")]
-        public List<long> ExtraDeck { get; set; }
-
-        [Display(Name = "Side deck")]
-        public List<long> SideDeck { get; set; }
     }
 
     public class UpdateDeckInputModel
