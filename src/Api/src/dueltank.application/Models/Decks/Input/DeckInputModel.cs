@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using dueltank.application.Models.Cards.Input;
 
 namespace dueltank.application.Models.Decks.Input
 {
@@ -22,12 +23,12 @@ namespace dueltank.application.Models.Decks.Input
         public string VideoUrl { get; set; }
 
         [Display(Name = "Main deck")]
-        public List<long> MainDeck { get; set; }
+        public List<CardInputModel> MainDeck { get; set; }
 
         [Display(Name = "Extra deck")]
-        public List<long> ExtraDeck { get; set; }
+        public List<CardInputModel> ExtraDeck { get; set; }
 
         [Display(Name = "Side deck")]
-        public List<long> SideDeck { get; set; }
+        public List<CardInputModel> SideDeck { get; set; }
     }
 }
