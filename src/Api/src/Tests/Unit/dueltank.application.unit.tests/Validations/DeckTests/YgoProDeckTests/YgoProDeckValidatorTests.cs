@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using dueltank.application.Validations.Deck;
+using dueltank.application.Validations.Deck.YgoProDeck;
 using dueltank.core.Models.YgoPro;
 using FluentAssertions;
 using FluentValidation.TestHelper;

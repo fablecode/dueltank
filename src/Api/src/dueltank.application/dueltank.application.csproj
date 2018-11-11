@@ -18,8 +18,4 @@
     <ProjectReference Include="..\dueltank.Domain\dueltank.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Validations\YgoProDeck\" />
-  </ItemGroup>
-
 </Project>

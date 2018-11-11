@@ -1,86 +1,80 @@
-﻿using NUnit.Framework;
+﻿using dueltank.application.Models.Decks.Input;
+using dueltank.application.Validations.Deck;
+using FluentValidation.TestHelper;
+using NUnit.Framework;
 
 namespace dueltank.application.unit.tests.Validations.DeckTests
 {
-    //[TestFixture]
-    //public class DeckNameValidatorTests
-    //{
-    //    private DeckInputModel _inputModel;
-    //    private DeckNameValidator _sut;
+    [TestFixture]
+    public class DeckNameValidatorTests
+    {
+        private DeckInputModel _inputModel;
+        private DeckNameValidator _sut;
 
-    //    [SetUp]
-    //    public void SetUp()
-    //    {
-    //        _sut = new DeckNameValidator();
-    //        _inputModel = new DeckInputModel();
-    //    }
+        [SetUp]
+        public void SetUp()
+        {
+            _sut = new DeckNameValidator();
+            _inputModel = new DeckInputModel();
+        }
 
-    //    [Test]
-    //    public void Given_DeckName_When_EqualToNull_Validation_Fails()
-    //    {
-    //        // Arrange
-    //        var expected = "'Deck name' must not be empty.";
+        [Test]
+        public void Given_DeckName_When_EqualToNull_Validation_Fails()
+        {
+            // Arrange
 
-    //        // Act
-    //        var results = _sut.Validate(_inputModel);
+            // Act
 
-    //        // Assert
-    //        results.Errors.Should().ContainSingle(err => err.ErrorMessage == expected);
-    //    }
+            // Assert
+            _sut.ShouldHaveValidationErrorFor(m => m.Name, _inputModel);
+        }
 
-    //    [Test]
-    //    public void Given_DeckName_When_EqualToEmpty_Validation_Fails()
-    //    {
-    //        // Arrange
-    //        var expected = "'Deck name' should not be empty.";
-    //        _inputModel.Name = string.Empty;
+        [Test]
+        public void Given_DeckName_When_EqualToEmpty_Validation_Fails()
+        {
+            // Arrange
+            _inputModel.Name = string.Empty;
 
-    //        // Act
-    //        var results = _sut.Validate(_inputModel);
+            // Act
 
-    //        // Assert
-    //        results.Errors.Should().ContainSingle(err => err.ErrorMessage == expected);
-    //    }
+            // Assert
+            _sut.ShouldHaveValidationErrorFor(m => m.Name, _inputModel);
+        }
 
-    //    [Test]
-    //    public void Given_DeckName_When_NotNullAndNotEmpty_Validation_Pass()
-    //    {
-    //        // Arrange
-    //        _inputModel.Name = "deck name";
+        [Test]
+        public void Given_DeckName_When_NotNullAndNotEmpty_Validation_Pass()
+        {
+            // Arrange
+            _inputModel.Name = "deck name";
 
-    //        // Act
-    //        var results = _sut.Validate(_inputModel);
+            // Act
 
-    //        // Assert
-    //        results.Errors.Should().BeEmpty();
-    //    }
+            // Assert
+            _sut.ShouldNotHaveValidationErrorFor(m => m.Name, _inputModel);
+        }
 
-    //    [Test]
-    //    public void Given_DeckName_When_LengthIsLessThan_Minimun_Validation_Fails()
-    //    {
-    //        // Arrange
-    //        var expected = "Deck name must be between 3-50 characters.";
+        [Test]
+        public void Given_DeckName_When_LengthIsLessThan_Minimun_Validation_Fails()
+        {
+            // Arrange
+            _inputModel.Name = "de";
 
-    //        // Act
-    //        _inputModel.Name = "de";
-    //        var results = _sut.Validate(_inputModel);
+            // Act
 
-    //        // Assert
-    //        results.Errors.Should().ContainSingle(err => err.ErrorMessage == expected);
-    //    }
+            // Assert
+            _sut.ShouldHaveValidationErrorFor(m => m.Name, _inputModel);
+        }
 
-    //    [Test]
-    //    public void Given_DeckName_When_LengthIsGreaterThan_Max_Validation_Fails()
-    //    {
-    //        // Arrange
-    //        var expected = "Deck name must be between 3-50 characters.";
-    //        _inputModel.Name = "deck name deck name deck namedeck name deck name deck name deck name deck name deck name";
+        [Test]
+        public void Given_DeckName_When_LengthIsGreaterThan_Max_Validation_Fails()
+        {
+            // Arrange
+            _inputModel.Name = new string('*', 256);
 
-    //        // Act
-    //        var results = _sut.Validate(_inputModel);
+            // Act
 
-    //        // Assert
-    //        results.Errors.Should().ContainSingle(err => err.ErrorMessage == expected);
-    //    }
-    //}
+            // Assert
+            _sut.ShouldHaveValidationErrorFor(m => m.Name, _inputModel);
+        }
+    }
 }

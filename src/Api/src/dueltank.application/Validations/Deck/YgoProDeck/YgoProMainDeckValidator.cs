@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using dueltank.core.Constants;
-using dueltank.core.Models.YgoPro;
 using FluentValidation;
 
-namespace dueltank.application.Validations.Deck
+namespace dueltank.application.Validations.Deck.YgoProDeck
 {
-    public class YgoProMainDeckValidator : AbstractValidator<YgoProDeck>
+    public class YgoProMainDeckValidator : AbstractValidator<core.Models.YgoPro.YgoProDeck>
     {
         public YgoProMainDeckValidator()
         {

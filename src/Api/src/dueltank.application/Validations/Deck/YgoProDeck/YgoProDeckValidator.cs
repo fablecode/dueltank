@@ -1,12 +1,11 @@
 ﻿using System.Linq;
 using dueltank.application.Validations.Helpers;
 using dueltank.core.Constants;
-using dueltank.core.Models.YgoPro;
 using FluentValidation;
 
-namespace dueltank.application.Validations.Deck
+namespace dueltank.application.Validations.Deck.YgoProDeck
 {
-    public class YgoProDeckValidator : AbstractValidator<YgoProDeck>
+    public class YgoProDeckValidator : AbstractValidator<core.Models.YgoPro.YgoProDeck>
     {
         public YgoProDeckValidator()
         {
@@ -26,7 +25,7 @@ namespace dueltank.application.Validations.Deck
                 .WithMessage("You can only have up to 3 copies of the same card in your Main, Extra and Side Deck combined.");
         }
 
-        private static bool OnlyThreeCopiesOfTheSameCard(YgoProDeck deck)
+        private static bool OnlyThreeCopiesOfTheSameCard(core.Models.YgoPro.YgoProDeck deck)
         {
             var allCards =
                 deck

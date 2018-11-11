@@ -2,6 +2,7 @@
 using dueltank.application.Commands.UploadYgoProDeck;
 using dueltank.application.Configuration;
 using dueltank.application.Validations.Deck;
+using dueltank.application.Validations.Deck.YgoProDeck;
 using dueltank.core.Models.YgoPro;
 using dueltank.core.Services;
 using dueltank.Domain.Configuration;
