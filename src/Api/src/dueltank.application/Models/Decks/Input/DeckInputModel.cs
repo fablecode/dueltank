@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using dueltank.application.Models.Cards.Input;
 
@@ -9,7 +10,7 @@ namespace dueltank.application.Models.Decks.Input
         [Display(Name = "Deck Id")]
         public long? Id { get; set; }
 
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         [Required]
         [MaxLength(255)]

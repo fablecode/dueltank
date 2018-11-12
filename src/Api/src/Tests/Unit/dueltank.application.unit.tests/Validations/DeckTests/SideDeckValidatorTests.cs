@@ -68,7 +68,7 @@ namespace dueltank.application.unit.tests.Validations.DeckTests
         public void Given_SideDeck_With_15Cards_IfAnyCard_IsInvalidCardType_Validation_Fails()
         {
             // Arrange
-            var expected = "Side deck has an invalid card.";
+            const string expected = "Side deck has an invalid card.";
             _fixture.RepeatCount = 15;
             _inputModel.SideDeck =
                 _fixture
