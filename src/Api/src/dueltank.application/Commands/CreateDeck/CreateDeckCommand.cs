@@ -6,6 +6,5 @@ namespace dueltank.application.Commands.CreateDeck
     public class CreateDeckCommand : IRequest<CommandResult>
     {
         public DeckInputModel Deck { get; set; }
-        public string UserId { get; set; }
     }
 }

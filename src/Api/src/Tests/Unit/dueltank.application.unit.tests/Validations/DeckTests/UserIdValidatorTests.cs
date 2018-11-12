@@ -20,18 +20,6 @@ namespace dueltank.application.unit.tests.Validations.DeckTests
         }
 
         [Test]
-        public void Given_A_Null_UserId_Then_Validation_StopOnFirstFailure()
-        {
-            // Arrange
-
-            // Act
-            var results = _sut.Validate(_inputModel);
-
-            // Assert
-            results.Errors.Should().HaveCount(1);
-        }
-
-        [Test]
         public void Given_A_Empty_UserId_Then_Validation_StopOnFirstFailure()
         {
             // Arrange

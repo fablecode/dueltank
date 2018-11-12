@@ -8,6 +8,8 @@ namespace dueltank.application.Validations.Decks
 {
     public class DeckValidator : AbstractValidator<DeckInputModel>
     {
+        public const string InsertDeckRuleSet = "Insert";
+
         public DeckValidator()
         {
             Include(new DeckNameValidator());
@@ -22,6 +24,14 @@ namespace dueltank.application.Validations.Decks
                 .WithMessage("You can only have up to 3 copies of the same card in your Main, Extra and Side Deck combined.");
 
             RuleFor(d => d.UserId).UserIdValidator();
+
+            RuleSet(InsertDeckRuleSet, () =>
+            {
+                RuleFor(d => d.Id)
+                    .Cascade(CascadeMode.StopOnFirstFailure)
+                    .Must(d => !d.HasValue)
+                    .WithMessage("{PropertyName} cannot have a value when creating a deck.");
+            });
         }
 
         private static bool OnlyThreeCopiesOfTheSameCard(DeckInputModel deck)

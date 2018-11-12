@@ -66,9 +66,10 @@ namespace dueltank.api.Controllers
 
             if (user != null)
             {
+                newDeck.UserId = user.Id;
+
                 var command = new CreateDeckCommand
                 {
-                    UserId = user.Id,
                     Deck = newDeck
                 };
 

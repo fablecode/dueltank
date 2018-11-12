@@ -6,6 +6,7 @@ using dueltank.application.Models.Cards.Input;
 using dueltank.application.Models.Decks.Input;
 using dueltank.application.Validations.Decks;
 using FluentAssertions;
+using FluentValidation.TestHelper;
 using NUnit.Framework;
 
 namespace dueltank.application.unit.tests.Validations.DeckTests
@@ -152,5 +153,22 @@ namespace dueltank.application.unit.tests.Validations.DeckTests
             // Assert
             results.Errors.Should().BeEmpty();
         }
+
+        [Test]
+        public void Given_A_New_Deck_If_Id_HasValue_Validation_Should_Fail()
+        {
+            // Arrange
+            _inputModel.Id = 89798789;
+            _inputModel.MainDeck = new List<CardInputModel>();
+            _inputModel.ExtraDeck = new List<CardInputModel>();
+            _inputModel.SideDeck = new List<CardInputModel>();
+
+            // Act
+            var result = _sut.ShouldHaveValidationErrorFor(deck => deck.Id, _inputModel, DeckValidator.InsertDeckRuleSet);
+
+            // Assert
+            result.Should().ContainSingle(err => err.ErrorMessage == "Deck Id cannot have a value when creating a deck.");
+        }
+
     }
 }
