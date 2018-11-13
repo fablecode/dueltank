@@ -1,7 +1,10 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using dueltank.application.Models.Decks.Input;
+using dueltank.core.Models.DeckDetails;
+using dueltank.core.Services;
 using FluentValidation;
 using MediatR;
 
@@ -10,10 +13,14 @@ namespace dueltank.application.Commands.CreateDeck
     public class CreateDeckCommandHandler : IRequestHandler<CreateDeckCommand, CommandResult>
     {
         private readonly IValidator<DeckInputModel> _validator;
+        private readonly IDeckService _deckService;
+        private readonly IMapper _mapper;
 
-        public CreateDeckCommandHandler(IValidator<DeckInputModel> validator)
+        public CreateDeckCommandHandler(IValidator<DeckInputModel> validator, IDeckService deckService, IMapper mapper)
         {
             _validator = validator;
+            _deckService = deckService;
+            _mapper = mapper;
         }
 
         public async Task<CommandResult> Handle(CreateDeckCommand request, CancellationToken cancellationToken)
@@ -24,6 +31,8 @@ namespace dueltank.application.Commands.CreateDeck
 
             if (validationResult.IsValid)
             {
+                var deckModel = _mapper.Map<DeckModel>(request.Deck);
+
 
             }
             else

@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using AutoMapper;
 using dueltank.application.Commands.UploadYgoProDeck;
 using dueltank.application.Configuration;
 using dueltank.application.Models.Decks.Input;
@@ -24,6 +25,8 @@ namespace dueltank.application
             services.AddCqrs();
             services.AddValidation();
             services.AddDomainServices();
+
+            services.AddAutoMapper();
 
             return services;
         }

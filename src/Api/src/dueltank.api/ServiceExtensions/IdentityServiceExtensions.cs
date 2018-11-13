@@ -14,8 +14,6 @@ using System;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
-using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
-using Microsoft.AspNetCore.Http;
 
 
 namespace dueltank.api.ServiceExtensions

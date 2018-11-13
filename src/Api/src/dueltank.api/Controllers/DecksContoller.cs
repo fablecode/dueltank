@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using dueltank.api.ServiceExtensions;
 using dueltank.application.Commands.CreateDeck;
 using dueltank.application.Models.Decks.Input;
 using dueltank.application.Queries.MostRecentDecks;
@@ -60,25 +61,30 @@ namespace dueltank.api.Controllers
         [RequestSizeLimit(100_000_00)] // 10MB request size
         public async Task<IActionResult> Post([FromBody] DeckInputModel newDeck)
         {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
-
-            //var user = await _userManager.FindByNameAsync(username.Id);
-
-            if (user != null)
+            if (ModelState.IsValid)
             {
-                newDeck.UserId = user.Id;
+                var user = await _userManager.GetUserAsync(User);
 
-                var command = new CreateDeckCommand
+                if (user != null)
                 {
-                    Deck = newDeck
-                };
+                    newDeck.UserId = user.Id;
 
-                var result = await _mediator.Send(command);
+                    var command = new CreateDeckCommand
+                    {
+                        Deck = newDeck
+                    };
 
-                if (result.IsSuccessful)
-                    return CreatedAtRoute("GetDeckById", new { id = result.Data }, result.Data);
+                    var result = await _mediator.Send(command);
 
-                return BadRequest(result.Errors);
+                    if (result.IsSuccessful)
+                        return CreatedAtRoute("GetDeckById", new { id = result.Data }, result.Data);
+
+                    return BadRequest(result.Errors);
+                }
+            }
+            else
+            {
+                return BadRequest(ModelState.Errors());
             }
 
             return BadRequest();

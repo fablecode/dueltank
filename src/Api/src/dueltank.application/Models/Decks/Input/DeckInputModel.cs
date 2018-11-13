@@ -1,7 +1,6 @@
-﻿using System;
+﻿using dueltank.application.Models.Cards.Input;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using dueltank.application.Models.Cards.Input;
 
 namespace dueltank.application.Models.Decks.Input
 {
