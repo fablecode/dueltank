@@ -55,6 +55,36 @@ namespace dueltank.Domain.Service
             return newDeck;
         }
 
+        public async Task<Deck> Add(DeckModel deckModel)
+        {
+            var newDeck = new Deck
+            {
+                UserId = deckModel.UserId,
+                Name = deckModel.Name,
+                Description = deckModel.Description,
+                Created = DateTime.UtcNow,
+                Updated = DateTime.UtcNow
+            };
+
+            var deckTypes = (await _deckTypeRepository.AllDeckTypes()).ToDictionary(dt => dt.Name, dt => dt);
+
+            var mainDeckUniqueCards = deckModel.MainDeck.Select(c => c.Id).Distinct().ToList();
+            var extraDeckUniqueCards = deckModel.ExtraDeck.Select(c => c.Id).Distinct().ToList();
+            var sideDeckUniqueCards = deckModel.SideDeck.Select(c => c.Id).Distinct().ToList();
+
+            var mainDeckCardCopies = deckModel.MainDeck.GroupBy(c => c.Id).ToDictionary(g => g.Key, g => g.Count());
+            var extraDeckCardCopies = deckModel.ExtraDeck.GroupBy(c => c.Id).ToDictionary(g => g.Key, g => g.Count());
+            var sideDeckCardCopies = deckModel.SideDeck.GroupBy(c => c.Id).ToDictionary(g => g.Key, g => g.Count());
+
+            newDeck = await AddCardsToDeck(mainDeckUniqueCards, newDeck, deckTypes[DeckTypeConstants.Main], mainDeckCardCopies);
+            newDeck = await AddCardsToDeck(extraDeckUniqueCards, newDeck, deckTypes[DeckTypeConstants.Extra], extraDeckCardCopies);
+            newDeck = await AddCardsToDeck(sideDeckUniqueCards, newDeck, deckTypes[DeckTypeConstants.Side], sideDeckCardCopies);
+
+            await _deckRepository.Add(newDeck);
+
+            return newDeck;
+        }
+
         private async Task<Deck> AddCardsToDeck(List<long> uniqueCards, Deck newDeck, DeckType deckType, IReadOnlyDictionary<long, int> cardCopies)
         {
             foreach (var cardNumber in uniqueCards)

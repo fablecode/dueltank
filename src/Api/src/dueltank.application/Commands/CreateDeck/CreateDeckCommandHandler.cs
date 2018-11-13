@@ -33,7 +33,9 @@ namespace dueltank.application.Commands.CreateDeck
             {
                 var deckModel = _mapper.Map<DeckModel>(request.Deck);
 
+                var result = await _deckService.Add(deckModel);
 
+                commandResult.Data = result.Id;
             }
             else
             {

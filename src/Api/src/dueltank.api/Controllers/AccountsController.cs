@@ -509,7 +509,6 @@ namespace dueltank.api.Controllers
                 new Claim("profile-image-url", user.ProfileImageUrl ?? string.Empty),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, DatetimeHelpers.ToUnixEpochDate(DateTime.Now), ClaimValueTypes.Integer64),
-                //new Claim(JwtRegisteredClaimNames.NameId, user.Id),
                 new Claim(options.ClaimsIdentity.UserNameClaimType, user.UserName)
             };
             var userClaims = await _userManager.GetClaimsAsync(user);

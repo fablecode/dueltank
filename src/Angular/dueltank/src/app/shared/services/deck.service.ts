@@ -136,9 +136,9 @@ export class DeckService {
     requestData.name = deckEditorInfo.name;
     requestData.description = deckEditorInfo.description;
     requestData.videoUrl = deckEditorInfo.videoUrl;
-    requestData.mainDeck = new List(newDeck.mainDeck).Select((card: Card) => card.id).ToArray();
-    requestData.extraDeck = new List(newDeck.extraDeck).Select((card: Card) => card.id).ToArray();
-    requestData.sideDeck = new List(newDeck.sideDeck).Select((card: Card) => card.id).ToArray();
+    requestData.mainDeck = newDeck.mainDeck;
+    requestData.extraDeck = newDeck.extraDeck;
+    requestData.sideDeck = newDeck.sideDeck;
 
     return this.http.post<AddDeckResult>(this.configuration.apiEndpoint + "/api/decks/", requestData)
   }
@@ -151,8 +151,8 @@ export class AddDeckRequest {
   public name: string;
   public description: string;
   public videoUrl: string;
-  public mainDeck: number[];
-  public extraDeck: number[];
-  public sideDeck: number[];
+  public mainDeck: Card[];
+  public extraDeck: Card[];
+  public sideDeck: Card[];
 }
 
