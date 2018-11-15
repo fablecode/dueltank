@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -16,12 +17,14 @@ namespace dueltank.application.Commands.UpdateDeck
         private readonly IValidator<DeckInputModel> _validator;
         private readonly IDeckService _deckService;
         private readonly IMapper _mapper;
+        private readonly IUserService _userService;
 
-        public UpdateDeckCommandHandler(IValidator<DeckInputModel> validator, IDeckService deckService, IMapper mapper)
+        public UpdateDeckCommandHandler(IValidator<DeckInputModel> validator, IDeckService deckService, IMapper mapper, IUserService userService)
         {
             _validator = validator;
             _deckService = deckService;
             _mapper = mapper;
+            _userService = userService;
         }
 
         public async Task<CommandResult> Handle(UpdateDeckCommand request, CancellationToken cancellationToken)
@@ -32,11 +35,20 @@ namespace dueltank.application.Commands.UpdateDeck
 
             if (validationResult.IsValid)
             {
-                var deckModel = _mapper.Map<DeckModel>(request.Deck);
+                var isOwnerOfDeck = await _userService.IsUserDeckOwner(request.Deck.UserId, request.Deck.Id.GetValueOrDefault());
 
-                var result = await _deckService.Update(deckModel);
+                if (isOwnerOfDeck)
+                {
+                    var deckModel = _mapper.Map<DeckModel>(request.Deck);
 
-                commandResult.Data = result.Id;
+                    var result = await _deckService.Update(deckModel);
+
+                    commandResult.Data = result.Id;
+                }
+                else
+                {
+                    commandResult.Errors = new List<string> { "Insufficient permissions to modify this deck." };
+                }
             }
             else
             {

@@ -62,6 +62,7 @@ namespace dueltank.application
             services.AddTransient<IRulingService, RulingService>();
             services.AddTransient<IBanlistService, BanlistService>();
             services.AddTransient<IArchetypeService, ArchetypeService>();
+            services.AddTransient<IUserService, UserService>();
 
             return services;
         }

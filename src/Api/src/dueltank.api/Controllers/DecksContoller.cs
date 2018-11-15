@@ -12,6 +12,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using dueltank.api.ServiceExtensions;
 using dueltank.application.Commands.CreateDeck;
+using dueltank.application.Commands.UpdateDeck;
 using dueltank.application.Models.Decks.Input;
 using dueltank.application.Queries.MostRecentDecks;
 
@@ -47,6 +48,22 @@ namespace dueltank.api.Controllers
                 return Ok(result);
 
             return NotFound(id);
+        }
+
+        /// <summary>
+        /// Retrieve the most recent decks
+        /// </summary>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpGet]
+        [ProducesResponseType((int) HttpStatusCode.OK)]
+        [Route("latest")]
+        public async Task<IActionResult> MostRecentDecks([FromQuery] int pageSize)
+        {
+            var result = await _mediator.Send(new MostRecentDecksQuery { PageSize = pageSize });
+
+            return Ok(result);
         }
 
 
@@ -90,23 +107,44 @@ namespace dueltank.api.Controllers
             return BadRequest();
         }
 
-
-
-
         /// <summary>
-        /// Retrieve the most recent decks
+        /// Update a deck by UserId and deckId
         /// </summary>
-        /// <param name="pageSize"></param>
+        /// <param name="updateDeck"></param>
         /// <returns></returns>
-        [AllowAnonymous]
-        [HttpGet]
-        [ProducesResponseType((int) HttpStatusCode.OK)]
-        [Route("latest")]
-        public async Task<IActionResult> MostRecentDecks([FromQuery] int pageSize)
+        [HttpPut]
+        [ProducesResponseType((int)HttpStatusCode.NoContent)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [RequestSizeLimit(100_000_00)] // 10MB request size
+        public async Task<IActionResult> Put([FromBody] DeckInputModel updateDeck)
         {
-            var result = await _mediator.Send(new MostRecentDecksQuery { PageSize = pageSize });
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(User);
 
-            return Ok(result);
+                if (user != null)
+                {
+                    updateDeck.UserId = user.Id;
+
+                    var command = new UpdateDeckCommand
+                    {
+                        Deck = updateDeck
+                    };
+
+                    var result = await _mediator.Send(command);
+
+                    if (result.IsSuccessful)
+                        return NoContent();
+
+                    return BadRequest(result.Errors);
+                }
+            }
+            else
+            {
+                return BadRequest(ModelState.Errors());
+            }
+
+            return BadRequest();
         }
     }
 
