@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using dueltank.core.Models.Db;
 using dueltank.Domain.Repository;
@@ -24,13 +25,13 @@ namespace dueltank.infrastructure.Repository
             _dbContext = dbContext;
         }
 
-        public async Task<Deck> Add(Deck ygoProDeck)
+        public async Task<Deck> Add(Deck deck)
         {
-            await _dbContext.Deck.AddAsync(ygoProDeck);
+            await _dbContext.Deck.AddAsync(deck);
 
             await _dbContext.SaveChangesAsync();
 
-            return ygoProDeck;
+            return deck;
         }
 
         public async Task<DeckDetail> GetDeckById(long id)
@@ -111,6 +112,15 @@ namespace dueltank.infrastructure.Repository
             response.Decks = await _dbContext.DeckDetail.FromSql(searchSqlQuery, new SqlParameter("@PageSize", pageSize)).ToListAsync();
 
             return response;
+        }
+
+        public async Task<Deck> Update(Deck deck)
+        {
+            _dbContext.Deck.Update(deck);
+
+            await _dbContext.SaveChangesAsync();
+
+            return deck;
         }
     }
 }

@@ -170,5 +170,21 @@ namespace dueltank.application.unit.tests.Validations.DeckTests
             result.Should().ContainSingle(err => err.ErrorMessage == "Deck Id cannot have a value when creating a deck.");
         }
 
+        [Test]
+        public void Given_A_Deck_When_Updating_The_Deck_If_Id_HasNotValue_ValidationFail()
+        {
+            // Arrange
+            _inputModel.Id = null;
+            _inputModel.MainDeck = new List<CardInputModel>();
+            _inputModel.ExtraDeck = new List<CardInputModel>();
+            _inputModel.SideDeck = new List<CardInputModel>();
+
+            // Act
+            var result = _sut.ShouldHaveValidationErrorFor(deck => deck.Id, _inputModel, DeckValidator.UpdateDeckRuleSet);
+
+            // Assert
+            result.Should().ContainSingle(err => err.ErrorMessage == "Deck Id must have a value when updating a deck.");
+        }
+
     }
 }

@@ -9,6 +9,7 @@ namespace dueltank.application.Validations.Decks
     public class DeckValidator : AbstractValidator<DeckInputModel>
     {
         public const string InsertDeckRuleSet = "Insert";
+        public const string UpdateDeckRuleSet = "Update";
 
         public DeckValidator()
         {
@@ -31,6 +32,14 @@ namespace dueltank.application.Validations.Decks
                     .Cascade(CascadeMode.StopOnFirstFailure)
                     .Must(d => !d.HasValue)
                     .WithMessage("{PropertyName} cannot have a value when creating a deck.");
+            });
+
+            RuleSet(UpdateDeckRuleSet, () =>
+            {
+                RuleFor(d => d.Id)
+                    .Cascade(CascadeMode.StopOnFirstFailure)
+                    .Must(d => d.HasValue)
+                    .WithMessage("{PropertyName} must have a value when updating a deck.");
             });
         }
 

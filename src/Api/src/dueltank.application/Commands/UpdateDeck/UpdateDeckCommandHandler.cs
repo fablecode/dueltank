@@ -9,32 +9,32 @@ using dueltank.core.Services;
 using FluentValidation;
 using MediatR;
 
-namespace dueltank.application.Commands.CreateDeck
+namespace dueltank.application.Commands.UpdateDeck
 {
-    public class CreateDeckCommandHandler : IRequestHandler<CreateDeckCommand, CommandResult>
+    public class UpdateDeckCommandHandler : IRequestHandler<UpdateDeckCommand, CommandResult>
     {
         private readonly IValidator<DeckInputModel> _validator;
         private readonly IDeckService _deckService;
         private readonly IMapper _mapper;
 
-        public CreateDeckCommandHandler(IValidator<DeckInputModel> validator, IDeckService deckService, IMapper mapper)
+        public UpdateDeckCommandHandler(IValidator<DeckInputModel> validator, IDeckService deckService, IMapper mapper)
         {
             _validator = validator;
             _deckService = deckService;
             _mapper = mapper;
         }
 
-        public async Task<CommandResult> Handle(CreateDeckCommand request, CancellationToken cancellationToken)
+        public async Task<CommandResult> Handle(UpdateDeckCommand request, CancellationToken cancellationToken)
         {
             var commandResult = new CommandResult();
 
-            var validationResult = await _validator.ValidateAsync(request.Deck, ruleSet: $"default,{DeckValidator.InsertDeckRuleSet}", cancellationToken: cancellationToken);
+            var validationResult = await _validator.ValidateAsync(request.Deck, ruleSet: $"default,{DeckValidator.UpdateDeckRuleSet}", cancellationToken: cancellationToken);
 
             if (validationResult.IsValid)
             {
                 var deckModel = _mapper.Map<DeckModel>(request.Deck);
 
-                var result = await _deckService.Add(deckModel);
+                var result = await _deckService.Update(deckModel);
 
                 commandResult.Data = result.Id;
             }

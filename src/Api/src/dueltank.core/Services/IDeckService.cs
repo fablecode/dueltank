@@ -10,6 +10,7 @@ namespace dueltank.core.Services
     {
         Task<Deck> Add(YgoProDeck ygoProDeck);
         Task<Deck> Add(DeckModel deckModel);
+        Task<Deck> Update(DeckModel deckModel);
         Task<DeckDetail> GetDeckById(long id);
         Task<DeckSearchResult> Search(DeckSearchCriteria searchCriteria);
         Task<MostRecentDecksResult> MostRecentDecks(int pageSize);

@@ -7,9 +7,10 @@ namespace dueltank.Domain.Repository
 {
     public interface IDeckRepository
     {
-        Task<Deck> Add(Deck ygoProDeck);
+        Task<Deck> Add(Deck deck);
         Task<DeckDetail> GetDeckById(long id);
         Task<DeckSearchResult> Search(DeckSearchCriteria searchCriteria);
         Task<MostRecentDecksResult> MostRecentDecks(int pageSize);
+        Task<Deck> Update(Deck deck);
     }
 }
