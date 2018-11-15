@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {Deck} from "../models/deck";
 import {AppConfigService} from "./app-config.service";
@@ -8,6 +8,8 @@ import {Card} from "../models/card";
 import {List} from "linqts";
 import {DeckSearchResult} from "../models/deck-search-result";
 import {DeckEditorInfo} from "../models/deck-editor-info";
+import {AddDeckRequest} from "../models/add-deck-request";
+import {UpdateDeckRequest} from "../models/update-deck-request";
 
 @Injectable()
 export class DeckService {
@@ -142,17 +144,23 @@ export class DeckService {
 
     return this.http.post<AddDeckResult>(this.configuration.apiEndpoint + "/api/decks/", requestData)
   }
+
+  public updateDeck(deckEditorInfo: DeckEditorInfo, existingDeck: Deck) : Observable<AddDeckResult> {
+
+    let requestData = new UpdateDeckRequest();
+
+    requestData.id = existingDeck.id;
+    requestData.name = deckEditorInfo.name;
+    requestData.description = deckEditorInfo.description;
+    requestData.videoUrl = deckEditorInfo.videoUrl;
+    requestData.mainDeck = existingDeck.mainDeck;
+    requestData.extraDeck = existingDeck.extraDeck;
+    requestData.sideDeck = existingDeck.sideDeck;
+
+    return this.http.post<AddDeckResult>(this.configuration.apiEndpoint + "/api/decks/", requestData)
+  }
 }
 
 export class AddDeckResult {
-}
-
-export class AddDeckRequest {
-  public name: string;
-  public description: string;
-  public videoUrl: string;
-  public mainDeck: Card[];
-  public extraDeck: Card[];
-  public sideDeck: Card[];
 }
 
