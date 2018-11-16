@@ -50,7 +50,8 @@ const deckRoutes: Routes = [
     path: "deck", 
     children: [
       { path: ":id/:name", component: DeckViewPage},
-      { path: "new", component: DeckNewPage}
+      { path: "new", component: DeckNewPage},
+      // { path: "editor/:id/:name", component: DeckEditorPage}
     ]
   }
 

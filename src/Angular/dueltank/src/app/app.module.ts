@@ -23,8 +23,8 @@ import {UploadModule} from "./modules/upload/upload.module";
 import {SharedModule} from "./modules/shared/shared.module";
 import {PrivatePolicyModule} from "./modules/privacy-policy/privatepolicy.module";
 import {BanlistModule} from "./modules/banlist/banlist.module";
-import {CurrentHoverCardComponent} from "./shared/components/current-hover-card/current-hover-card.component";
 import {ArchetypeModule} from "./modules/archetype/archetype.module";
+import {UserModule} from "./modules/user/user.module";
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -66,6 +66,7 @@ export function loadConfigService(configService: AppConfigService): Function
     BanlistModule,
     SharedModule,
     ArchetypeModule,
+    UserModule,
     RouterModule.forRoot(appRoutes)
   ],
   exports: [
