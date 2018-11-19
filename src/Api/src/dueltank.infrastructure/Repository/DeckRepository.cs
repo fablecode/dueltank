@@ -103,6 +103,11 @@ namespace dueltank.infrastructure.Repository
             return response;
         }
 
+        public Task<DeckSearchResult> Search(string userId, DeckSearchCriteria searchCriteria)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<MostRecentDecksResult> MostRecentDecks(int pageSize)
         {
             var response = new MostRecentDecksResult();

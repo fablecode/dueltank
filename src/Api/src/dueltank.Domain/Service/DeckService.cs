@@ -156,6 +156,11 @@ namespace dueltank.Domain.Service
             return _deckRepository.Search(searchCriteria);
         }
 
+        public Task<DeckSearchResult> Search(string userId, DeckSearchCriteria searchCriteria)
+        {
+            return _deckRepository.Search(userId, searchCriteria);
+        }
+
         public Task<MostRecentDecksResult> MostRecentDecks(int pageSize)
         {
             return _deckRepository.MostRecentDecks(pageSize);
