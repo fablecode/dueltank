@@ -76,6 +76,8 @@ BEGIN
 	END
 	ELSE
 	BEGIN
+		SET @SearchTerm = '"' + @SearchTerm + '*"';
+
 		INSERT INTO @DeckList
 		(
 			Id,
