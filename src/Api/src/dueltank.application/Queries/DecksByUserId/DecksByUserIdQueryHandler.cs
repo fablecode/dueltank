@@ -19,8 +19,9 @@ namespace dueltank.application.Queries.DecksByUserId
         {
             var response = new DeckSearchResultOutputModel();
 
-            var result = await _deckService.Search(request.UserId, new DeckSearchCriteria
+            var result = await _deckService.Search(request.UserId, new DeckSearchByUserIdCriteria
             {
+                UserId = request.UserId,
                 PageIndex = request.PageIndex,
                 PageSize = request.PageSize,
                 SearchTerm = request.SearchTerm

@@ -17,6 +17,7 @@ namespace dueltank.infrastructure.Repository
     {
         private const string DeckSearchWithoutSearchTermQuery = "EXEC DeckSearchWithoutSearchTerm @PageSize, @PageIndex, @TotalRowsCount out";
         private const string DeckSearchWithSearchTermQuery = "EXEC DeckSearchWithSearchTerm @SearchTerm, @PageSize, @PageIndex, @TotalRowsCount out";
+        private const string DeckSearchByUserIdQuery = "EXEC DeckSearchByUserId @UserId, @SearchTerm, @PageSize, @PageIndex, @TotalRowsCount out";
 
         private readonly DueltankDbContext _dbContext;
 
@@ -103,9 +104,30 @@ namespace dueltank.infrastructure.Repository
             return response;
         }
 
-        public Task<DeckSearchResult> Search(string userId, DeckSearchCriteria searchCriteria)
+        public async Task<DeckSearchResult> Search(string userId, DeckSearchByUserIdCriteria searchCriteria)
         {
-            throw new NotImplementedException();
+            var response = new DeckSearchResult();
+
+            var sqlParameters = new List<object>();
+
+            var totalRowsCount = new SqlParameter
+            {
+                ParameterName = "TotalRowsCount",
+                Value = 0,
+                Direction = ParameterDirection.Output
+            };
+
+            sqlParameters.Add(totalRowsCount);
+
+            sqlParameters.Add(new SqlParameter("@UserId", searchCriteria.UserId));
+            sqlParameters.Add(new SqlParameter("@SearchTerm", searchCriteria.SearchTerm));
+            sqlParameters.Add(new SqlParameter("@PageSize", searchCriteria.PageSize));
+            sqlParameters.Add(new SqlParameter("@PageIndex", searchCriteria.PageIndex));
+
+            response.Decks = await _dbContext.DeckDetail.FromSql(DeckSearchByUserIdQuery, sqlParameters.ToArray()).ToListAsync();
+            response.TotalRecords = (int)totalRowsCount.Value;
+
+            return response;
         }
 
         public async Task<MostRecentDecksResult> MostRecentDecks(int pageSize)

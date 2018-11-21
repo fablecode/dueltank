@@ -156,7 +156,7 @@ namespace dueltank.Domain.Service
             return _deckRepository.Search(searchCriteria);
         }
 
-        public Task<DeckSearchResult> Search(string userId, DeckSearchCriteria searchCriteria)
+        public Task<DeckSearchResult> Search(string userId, DeckSearchByUserIdCriteria searchCriteria)
         {
             return _deckRepository.Search(userId, searchCriteria);
         }

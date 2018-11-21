@@ -10,7 +10,7 @@ namespace dueltank.Domain.Repository
         Task<Deck> Add(Deck deck);
         Task<DeckDetail> GetDeckById(long id);
         Task<DeckSearchResult> Search(DeckSearchCriteria searchCriteria);
-        Task<DeckSearchResult> Search(string userId, DeckSearchCriteria searchCriteria);
+        Task<DeckSearchResult> Search(string userId, DeckSearchByUserIdCriteria searchCriteria);
         Task<MostRecentDecksResult> MostRecentDecks(int pageSize);
         Task<Deck> Update(Deck deck);
     }
