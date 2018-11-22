@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -15,8 +16,7 @@ namespace dueltank.infrastructure.Repository
     {
         private readonly DueltankDbContext _dbContext;
 
-        private const string ArchetypeSearchWithoutSearchTermQuery = "EXEC ArchetypeSearchWithoutSearchTerm @PageSize, @PageIndex, @TotalRowsCount out";
-        private const string ArchetypeSearchWithSearchTermQuery = "EXEC ArchetypeSearchWithSearchTerm @SearchTerm, @PageSize, @PageIndex, @TotalRowsCount out";
+        private const string ArchetypeSearchQuery = "EXEC ArchetypeSearch @SearchTerm, @PageSize, @PageIndex, @TotalRowsCount out";
         private const string CardsByArchetypeIdQuery = "EXEC CardsByArchetypeId @archetypeId";
 
         public ArchetypeRepository(DueltankDbContext dbContext)
@@ -27,19 +27,7 @@ namespace dueltank.infrastructure.Repository
         public async Task<ArchetypeSearchResult> Search(ArchetypeSearchCriteria searchCriteria)
         {
             var response = new ArchetypeSearchResult();
-
-            string query;
             var sqlParameters = new List<object>();
-
-            if (string.IsNullOrWhiteSpace(searchCriteria.SearchTerm))
-            {
-                query = ArchetypeSearchWithoutSearchTermQuery;
-            }
-            else
-            {
-                query = ArchetypeSearchWithSearchTermQuery;
-                sqlParameters.Add(new SqlParameter("@SearchTerm", searchCriteria.SearchTerm));
-            }
 
             var totalRowsCount = new SqlParameter
             {
@@ -49,11 +37,11 @@ namespace dueltank.infrastructure.Repository
             };
 
             sqlParameters.Add(totalRowsCount);
-
+            sqlParameters.Add(new SqlParameter("@SearchTerm", (object)searchCriteria.SearchTerm ?? DBNull.Value));
             sqlParameters.Add(new SqlParameter("PageSize", searchCriteria.PageSize));
             sqlParameters.Add(new SqlParameter("@PageIndex", searchCriteria.PageIndex));
 
-            response.Archetypes = await _dbContext.ArchetypeSearch.FromSql(query, sqlParameters.ToArray()).ToListAsync();
+            response.Archetypes = await _dbContext.ArchetypeSearch.FromSql(ArchetypeSearchQuery, sqlParameters.ToArray()).ToListAsync();
             response.TotalRecords = (int)totalRowsCount.Value;
 
             return response;

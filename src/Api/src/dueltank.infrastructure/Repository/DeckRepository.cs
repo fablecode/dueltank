@@ -15,8 +15,7 @@ namespace dueltank.infrastructure.Repository
 {
     public class DeckRepository : IDeckRepository
     {
-        private const string DeckSearchWithoutSearchTermQuery = "EXEC DeckSearchWithoutSearchTerm @PageSize, @PageIndex, @TotalRowsCount out";
-        private const string DeckSearchWithSearchTermQuery = "EXEC DeckSearchWithSearchTerm @SearchTerm, @PageSize, @PageIndex, @TotalRowsCount out";
+        private const string DeckSearchQuery = "EXEC DeckSearch @SearchTerm, @PageSize, @PageIndex, @TotalRowsCount out";
         private const string DeckSearchByUserIdQuery = "EXEC DeckSearchByUserId @UserId, @SearchTerm, @PageSize, @PageIndex, @TotalRowsCount out";
 
         private readonly DueltankDbContext _dbContext;
@@ -73,18 +72,7 @@ namespace dueltank.infrastructure.Repository
         {
             var response = new DeckSearchResult();
 
-            string query;
             var sqlParameters = new List<object>();
-
-            if (string.IsNullOrWhiteSpace(searchCriteria.SearchTerm))
-            {
-                query = DeckSearchWithoutSearchTermQuery;
-            }
-            else
-            {
-                query = DeckSearchWithSearchTermQuery;
-                sqlParameters.Add(new SqlParameter("@SearchTerm", searchCriteria.SearchTerm));
-            }
 
             var totalRowsCount = new SqlParameter
             {
@@ -95,10 +83,11 @@ namespace dueltank.infrastructure.Repository
 
             sqlParameters.Add(totalRowsCount);
 
-            sqlParameters.Add(new SqlParameter("PageSize", searchCriteria.PageSize));
+            sqlParameters.Add(new SqlParameter("@SearchTerm", (object)searchCriteria.SearchTerm ?? DBNull.Value));
+            sqlParameters.Add(new SqlParameter("@PageSize", searchCriteria.PageSize));
             sqlParameters.Add(new SqlParameter("@PageIndex", searchCriteria.PageIndex));
 
-            response.Decks = await _dbContext.DeckDetail.FromSql(query, sqlParameters.ToArray()).ToListAsync();
+            response.Decks = await _dbContext.DeckDetail.FromSql(DeckSearchQuery, sqlParameters.ToArray()).ToListAsync();
             response.TotalRecords = (int)totalRowsCount.Value;
 
             return response;

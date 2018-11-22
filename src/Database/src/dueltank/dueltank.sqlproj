@@ -256,14 +256,7 @@
       <QuotedIdentifier>On</QuotedIdentifier>
       <AnsiNulls>On</AnsiNulls>
     </Build>
-    <Build Include="dbo\Storage\Full-Text Catalogs\ArchetypeCatalog.sql" />
-    <Build Include="dbo\Storage\Full-Text Catalogs\CardCatalog.sql" />
-    <Build Include="dbo\Storage\Full-Text Catalogs\DeckCatalog.sql" />
-    <Build Include="dbo\Programmability\Stored Procedures\ArchetypeSearchWithoutSearchTerm.sql">
-      <QuotedIdentifier>On</QuotedIdentifier>
-      <AnsiNulls>On</AnsiNulls>
-    </Build>
-    <Build Include="dbo\Programmability\Stored Procedures\ArchetypeSearchWithSearchTerm.sql">
+    <Build Include="dbo\Programmability\Stored Procedures\ArchetypeSearch.sql">
       <QuotedIdentifier>On</QuotedIdentifier>
       <AnsiNulls>On</AnsiNulls>
     </Build>
@@ -271,23 +264,19 @@
       <QuotedIdentifier>On</QuotedIdentifier>
       <AnsiNulls>On</AnsiNulls>
     </Build>
+    <Build Include="dbo\Programmability\Stored Procedures\CardSearch.sql">
+      <QuotedIdentifier>On</QuotedIdentifier>
+      <AnsiNulls>On</AnsiNulls>
+    </Build>
     <Build Include="dbo\Programmability\Stored Procedures\CardSearchByName.sql">
       <QuotedIdentifier>On</QuotedIdentifier>
       <AnsiNulls>On</AnsiNulls>
     </Build>
-    <Build Include="dbo\Programmability\Stored Procedures\CardSearchWithoutSearchTerm.sql">
+    <Build Include="dbo\Programmability\Stored Procedures\DeckSearch.sql">
       <QuotedIdentifier>On</QuotedIdentifier>
       <AnsiNulls>On</AnsiNulls>
     </Build>
-    <Build Include="dbo\Programmability\Stored Procedures\CardSearchWithSearchTerm.sql">
-      <QuotedIdentifier>On</QuotedIdentifier>
-      <AnsiNulls>On</AnsiNulls>
-    </Build>
-    <Build Include="dbo\Programmability\Stored Procedures\DeckSearchWithoutSearchTerm.sql">
-      <QuotedIdentifier>On</QuotedIdentifier>
-      <AnsiNulls>On</AnsiNulls>
-    </Build>
-    <Build Include="dbo\Programmability\Stored Procedures\DeckSearchWithSearchTerm.sql">
+    <Build Include="dbo\Programmability\Stored Procedures\DeckSearchByUserId.sql">
       <QuotedIdentifier>On</QuotedIdentifier>
       <AnsiNulls>On</AnsiNulls>
     </Build>
@@ -311,10 +300,9 @@
       <QuotedIdentifier>On</QuotedIdentifier>
       <AnsiNulls>On</AnsiNulls>
     </Build>
-    <Build Include="dbo\Programmability\Stored Procedures\DeckSearchByUserId.sql">
-      <QuotedIdentifier>On</QuotedIdentifier>
-      <AnsiNulls>On</AnsiNulls>
-    </Build>
+    <Build Include="dbo\Storage\Full-Text Catalogs\ArchetypeCatalog.sql" />
+    <Build Include="dbo\Storage\Full-Text Catalogs\CardCatalog.sql" />
+    <Build Include="dbo\Storage\Full-Text Catalogs\DeckCatalog.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />

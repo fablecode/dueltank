@@ -1,11 +1,9 @@
-﻿CREATE PROCEDURE [dbo].[DeckSearchByUserId]
-	@UserId nvarchar(128),
+﻿CREATE PROCEDURE [dbo].[DeckSearch]
 	@SearchTerm nvarchar(500),
 	@PageSize int = 8,
 	@PageIndex int = 1,
 	@TotalRowsCount int OUTPUT
 AS
-BEGIN
 	DECLARE @DeckList TABLE
 	(
 		[Id] bigint
@@ -19,6 +17,7 @@ BEGIN
 		,[TotalCards] int
 		,[Rank] int DEFAULT 1
 	)
+
 
 	IF @SearchTerm IS NULL OR @SearchTerm = ''
 	BEGIN
@@ -53,7 +52,7 @@ BEGIN
 		INNER JOIN
 			dbo.DeckType dt ON (dc.DeckTypeId = dt.Id)
 		WHERE
-			dt.Name = 'Main' AND anu.Id = @UserId
+			dt.Name = 'Main'
 		GROUP BY
 			d.Id, 
 			d.UserId, 
@@ -114,7 +113,7 @@ BEGIN
 			CONTAINSTABLE ([dbo].[Deck], ([Name], [Description]), @SearchTerm) AS KEY_TBL 
 				ON ([d].[Id] = KEY_TBL.[KEY])
 		WHERE
-			dt.Name = 'Main' AND anu.Id = @UserId
+			dt.Name = 'Main'
 		GROUP BY
 			d.Id, 
 			d.UserId, 
@@ -136,4 +135,3 @@ BEGIN
 		OFFSET @pageSize * (@pageIndex - 1) ROWS
 		FETCH NEXT @pageSize ROWS ONLY
 	END
-END

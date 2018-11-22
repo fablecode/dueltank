@@ -1,20 +1,19 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using dueltank.api.Models;
+﻿using dueltank.api.Models;
+using dueltank.api.ServiceExtensions;
+using dueltank.application.Commands.CreateDeck;
+using dueltank.application.Commands.UpdateDeck;
+using dueltank.application.Models.Decks.Input;
 using dueltank.application.Queries.DeckById;
+using dueltank.application.Queries.MostRecentDecks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using dueltank.api.ServiceExtensions;
-using dueltank.application.Commands.CreateDeck;
-using dueltank.application.Commands.UpdateDeck;
-using dueltank.application.Models.Decks.Input;
-using dueltank.application.Queries.MostRecentDecks;
 
 
 namespace dueltank.api.Controllers
