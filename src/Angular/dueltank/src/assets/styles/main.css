@@ -329,8 +329,9 @@ cards-tabs .tab-content .active {
 }
 
 .user-deck-list .col-md-1 a img {
-  width: 90px;
-  height: 80px;
+  width: 80px;
+  height: 60px;
+  margin-left: 15px;
 }
 .user-deck-list h2 a,
 .user-deck-list small a {
