@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using dueltank.api.Controllers;
+using dueltank.application.Models.Decks.Input;
 
 namespace dueltank.api.Mappings.Profiles
 {

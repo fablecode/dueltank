@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using dueltank.application.Models.Decks.Output;
 using dueltank.core.Models.Search.Decks;
@@ -27,6 +28,11 @@ namespace dueltank.application.Queries.DecksByUserId
                 SearchTerm = request.SearchTerm
             });
 
+            if (result.Decks.Any())
+            {
+                response.Decks = result.Decks.Select(DeckDetailOutputModel.From).ToList();
+                response.TotalDecks = result.TotalRecords;
+            }
 
             return response;
         }

@@ -1,24 +1,24 @@
-﻿using AutoMapper;
+﻿using System.Net;
+using System.Threading.Tasks;
+using AutoMapper;
 using dueltank.api.Models;
 using dueltank.api.ServiceExtensions;
+using dueltank.application.Models.Decks.Input;
 using dueltank.application.Queries.DecksByUserId;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using System.Threading.Tasks;
-using dueltank.application.Models.Decks.Input;
 
 namespace dueltank.api.Controllers
 {
     [Route("api/[controller]")]
-    public class UserDecksController : Controller
+    public class UsersController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
 
-        public UserDecksController(UserManager<ApplicationUser> userManager, IMapper mapper, IMediator mediator)
+        public UsersController(UserManager<ApplicationUser> userManager, IMapper mapper, IMediator mediator)
         {
             _userManager = userManager;
             _mapper = mapper;
@@ -57,6 +57,5 @@ namespace dueltank.api.Controllers
         }
 
         private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(User);
-
     }
 }

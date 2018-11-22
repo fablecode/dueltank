@@ -119,8 +119,8 @@ namespace dueltank.infrastructure.Repository
 
             sqlParameters.Add(totalRowsCount);
 
+            sqlParameters.Add(new SqlParameter("@SearchTerm", (object) searchCriteria.SearchTerm ?? DBNull.Value));
             sqlParameters.Add(new SqlParameter("@UserId", searchCriteria.UserId));
-            sqlParameters.Add(new SqlParameter("@SearchTerm", searchCriteria.SearchTerm));
             sqlParameters.Add(new SqlParameter("@PageSize", searchCriteria.PageSize));
             sqlParameters.Add(new SqlParameter("@PageIndex", searchCriteria.PageIndex));
 
