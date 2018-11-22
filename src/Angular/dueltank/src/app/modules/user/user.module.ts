@@ -6,6 +6,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {PaginationModule, TabsModule} from "ngx-bootstrap";
 import {UserDeckListPage} from "./pages/user-deck-list/user-deck-list.page";
 import {UsernameDeckListPage} from "./pages/username-deck-list/username-deck-list.page";
+import {UserDecksService} from "./services/user-decks.service";
 
 
 const userRoutes: Routes = [
@@ -41,6 +42,8 @@ const userRoutes: Routes = [
     TabsModule.forRoot(),
     RouterModule.forChild(userRoutes)
   ],
-  providers: []
+  providers: [
+    UserDecksService
+  ]
 })
 export class UserModule {}

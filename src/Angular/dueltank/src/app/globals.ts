@@ -32,6 +32,9 @@ export class Globals {
     banlist: {
       tcg: "/banlists/tcg/latest",
       ocg: "/banlists/ocg/latest"
+    },
+    user: {
+      decks: "/user/decks"
     }
   }
 }

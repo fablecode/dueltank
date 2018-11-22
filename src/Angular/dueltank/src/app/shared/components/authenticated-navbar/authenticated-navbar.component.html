@@ -8,7 +8,7 @@
     </a>
     <ul class="dropdown-menu animated fadeIn m-t-xs">
       <li>
-        <a href="#" alt="Decks" title="Decks"><i class="fa fa-archive"></i>&nbsp;&nbsp;My Decks</a>
+        <a [routerLink]="[this.globals.routes.user.decks]" title="{{this.user.name}} Decks"><i class="fa fa-archive"></i>&nbsp;&nbsp;My Decks</a>
       </li>
       <li>
         <a href="#" alt="Favourites" title="Favourites"><i class="fa fa-thumbs-o-up"></i>&nbsp;&nbsp;Favourites</a>

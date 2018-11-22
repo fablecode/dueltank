@@ -323,6 +323,11 @@ cards-tabs .tab-content .active {
   left: 0px;
 }
 
+.user-deck-list {
+  padding-bottom: 5px;
+  border-bottom: solid 1px #e7eaec;
+}
+
 .user-deck-list h2 a,
 .user-deck-list small a {
   color: #676a6c;

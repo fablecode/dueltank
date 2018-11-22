@@ -31,7 +31,7 @@ export class DeckService {
       .set("pageSize", String(pageSize))
       .set("pageIndex", String(pageIndex));
 
-    return this.http.get<DeckSearchResult>(this.configuration.apiEndpoint + "/api/searches/decks", {params: httpParams})
+    return this.http.get<DeckSearchResult>(this.configuration.apiEndpoint + "/api/searches/decks", {params: httpParams});
   }
 
   public downloadYdk(deck: Deck): void {
