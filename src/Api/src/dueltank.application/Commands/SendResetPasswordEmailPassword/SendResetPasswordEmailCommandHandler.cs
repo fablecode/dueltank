@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace dueltank.application.Commands.SendResetPasswordEmailPassword
 {
-    public class SendResetPasswordEmailCommandHandler : IRequestHandler<SendResetPasswordEmailPasswordCommand>
+    public class SendResetPasswordEmailCommandHandler : IRequest<SendResetPasswordEmailPasswordCommand>
     {
         private readonly IEmailService _emailService;
         private readonly IEmailConfiguration _emailConfiguration;

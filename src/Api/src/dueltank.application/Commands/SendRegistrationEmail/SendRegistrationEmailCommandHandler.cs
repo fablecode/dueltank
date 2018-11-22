@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace dueltank.application.Commands.SendRegistrationEmail
 {
-    public class SendRegistrationEmailCommandHandler : IRequestHandler<SendRegistrationEmailCommand>
+    public class SendRegistrationEmailCommandHandler : IRequest<SendRegistrationEmailCommand>
     {
         private readonly IEmailService _emailService;
         private readonly IEmailConfiguration _emailConfiguration;

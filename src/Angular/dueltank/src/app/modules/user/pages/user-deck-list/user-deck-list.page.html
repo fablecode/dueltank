@@ -35,7 +35,7 @@
           <div class="row m-b-sm m-t-sm user-deck-list" *ngFor="let deck of decks">
             <div class="col-md-1">
               <a href="#" title="{{ deck.name }}">
-                <img [src]="getApiEndPointUrl() + deck.thumbnailUrl" alt="{{ deck.name }}" title="{{ deck.name }}" width="115px" height="80px"/>
+                <img [src]="getApiEndPointUrl() + deck.thumbnailUrl" alt="{{ deck.name }}" title="{{ deck.name }}"/>
               </a>
             </div>
             <div class="col-md-9">

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Net;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace dueltank.api.ServiceExtensions
 {
