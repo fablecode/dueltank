@@ -21,7 +21,7 @@ export class UserDeckListPage implements OnInit {
 
   public maxSize: number = 10;
   public currentPage = 1;
-  public pageSize: number = 6;
+  public pageSize: number = 8;
   public rotate = true;
 
   // form

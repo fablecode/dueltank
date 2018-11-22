@@ -34,13 +34,13 @@
         <div class="ibox-content" style="padding-bottom: 1px;">
           <div class="row m-b-sm m-t-sm user-deck-list" *ngFor="let deck of decks">
             <div class="col-md-1">
-              <a href="#" title="{{ deck.name }}">
+              <a [routerLink]="['/deck', deck.id, deck.name | slugify]" title="{{ deck.name }}">
                 <img [src]="getApiEndPointUrl() + deck.thumbnailUrl" alt="{{ deck.name }}" title="{{ deck.name }}"/>
               </a>
             </div>
             <div class="col-md-9">
               <h2 style="margin-bottom: 0">
-                <a href="#" title="{{deck.name}}">{{ deck.name }}</a>
+                <a [routerLink]="['/deck', deck.id, deck.name | slugify]" title="{{deck.name}}">{{ deck.name }}</a>
               </h2>
               <small><i class="fa fa-clock-o"></i>&nbsp;Created {{deck.createdTimeAgo}}</small>
             </div>
