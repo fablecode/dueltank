@@ -1,0 +1,21 @@
+<loadingSpinner [loading]="isLoading"></loadingSpinner>
+<div class="row animated fadeIn">
+  <div class="col-lg-2">
+    <currentHoverCard></currentHoverCard>
+  </div>
+  <div class="col-lg-10">
+    <deckEditCardSearch [deck]="selectedDeck" *ngIf="deckLoaded"></deckEditCardSearch>
+    <div class="row" style="margin-top: 10px;">
+      <div class="col-lg-12">
+        <div class="row">
+          <div id="deck" class="col-lg-8">
+            <deckTypes [deck]="selectedDeck"></deckTypes>
+          </div>
+          <div id="deck-card-search-result" class="col-lg-4">
+            <deckCardSearchResult></deckCardSearchResult>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

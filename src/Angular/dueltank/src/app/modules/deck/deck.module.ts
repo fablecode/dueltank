@@ -43,6 +43,8 @@ import {SideDeckService} from "./services/side-deck.service";
 import {DeckNewPage} from "./pages/deck-new/deck-new.page";
 import {DeckNewCardSearchComponent} from "./components/deck-new-card-search/deck-new-card-search.component";
 import {DeckInfoService} from "./services/deck-info.service";
+import {DeckEditorPage} from "./pages/deck-editor/deck-editor.page";
+import {DeckEditCardSearchComponent} from "./components/deck-edit-card-search/deck-edit-card-search.component";
 
 const deckRoutes: Routes = [
   {path: "decks", component: DeckListPage},
@@ -51,7 +53,7 @@ const deckRoutes: Routes = [
     children: [
       { path: ":id/:name", component: DeckViewPage},
       { path: "new", component: DeckNewPage},
-      // { path: "editor/:id/:name", component: DeckEditorPage}
+      { path: "editor/:id/:name", component: DeckEditorPage}
     ]
   }
 
@@ -71,7 +73,9 @@ const deckRoutes: Routes = [
     DeckTypesComponent,
     MainDeckComponent,
     ExtraDeckComponent,
-    SideDeckComponent
+    SideDeckComponent,
+    DeckEditorPage,
+    DeckEditCardSearchComponent
   ],
   imports: [
     CommonModule,

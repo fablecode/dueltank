@@ -45,7 +45,7 @@
               <small><i class="fa fa-clock-o"></i>&nbsp;Created {{deck.createdTimeAgo}}</small>
             </div>
             <div class="col-md-2 text-center" style="padding-top: 2%">
-              <a href="#" class="btn btn-white btn-sm" title="{{deck.name}}"><i class="fa fa-pencil"></i> Edit </a>
+              <a [routerLink]="['/deck/editor', deck.id, deck.name | slugify]" class="btn btn-white btn-sm" title="{{deck.name}}"><i class="fa fa-pencil"></i> Edit </a>
               <a href="#" class="btn btn-white btn-sm" placement="bottom" title="{{deck.name}}"><i class="fa fa-trash"></i> Delete </a>
             </div>
           </div>

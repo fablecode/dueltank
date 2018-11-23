@@ -23,6 +23,10 @@ export function applyFormatToCards(format : Format, cards: Card[]) {
 
   cardList.ForEach(card => {
     let banlistCard = banlistCards.SingleOrDefault(blc => blc.banlistId === format.latestBanlist.id && blc.cardId === card.id);
+
+    // reset card limit
+    card.limit = UNLIMITED;
+
     if(banlistCard) {
       card.limit = banlistCard.limit;
     }
@@ -32,6 +36,10 @@ export function applyFormatToCards(format : Format, cards: Card[]) {
 export function applyFormatToCard(format : Format, card: Card) {
   let banlistCards = new List<BanlistCard>(format.latestBanlist.cards);
   let banlistCard = banlistCards.SingleOrDefault(blc => blc.banlistId === format.latestBanlist.id && blc.cardId === card.id);
+
+  // reset card limit
+  card.limit = UNLIMITED;
+
   if(banlistCard) {
     card.limit = banlistCard.limit;
   }
