@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Transactions;
 using dueltank.core.Constants;
 using dueltank.core.Models.Db;
 using dueltank.core.Models.DeckDetails;
@@ -94,34 +95,41 @@ namespace dueltank.Domain.Service
 
         public async Task<Deck> Update(DeckModel deckModel)
         {
-            await _deckCardRepository.DeleteDeckCardsByDeckId(deckModel.Id.GetValueOrDefault());
-
-            var existingDeck = new Deck
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                Id = deckModel.Id.GetValueOrDefault(),
-                Name = deckModel.Name,
-                Description = deckModel.Description,
-                VideoUrl = deckModel.VideoUrl,
-                Updated = DateTime.UtcNow
-            };
+                await _deckCardRepository.DeleteDeckCardsByDeckId(deckModel.Id.GetValueOrDefault());
+
+                var existingDeck = new Deck
+                {
+                    Id = deckModel.Id.GetValueOrDefault(),
+                    Name = deckModel.Name,
+                    Description = deckModel.Description,
+                    VideoUrl = deckModel.VideoUrl,
+                    Updated = DateTime.UtcNow
+                };
 
 
-            var deckTypes = (await _deckTypeRepository.AllDeckTypes()).ToDictionary(dt => dt.Name, dt => dt);
+                var deckTypes = (await _deckTypeRepository.AllDeckTypes()).ToDictionary(dt => dt.Name, dt => dt);
 
-            var mainDeckUniqueCards = deckModel.MainDeck.Select(c => c.Id).Distinct().ToList();
-            var extraDeckUniqueCards = deckModel.ExtraDeck.Select(c => c.Id).Distinct().ToList();
-            var sideDeckUniqueCards = deckModel.SideDeck.Select(c => c.Id).Distinct().ToList();
+                var mainDeckUniqueCards = deckModel.MainDeck.Select(c => c.Id).Distinct().ToList();
+                var extraDeckUniqueCards = deckModel.ExtraDeck.Select(c => c.Id).Distinct().ToList();
+                var sideDeckUniqueCards = deckModel.SideDeck.Select(c => c.Id).Distinct().ToList();
 
-            var mainDeckCardCopies = deckModel.MainDeck.GroupBy(c => c.Id).ToDictionary(g => g.Key, g => g.Count());
-            var extraDeckCardCopies = deckModel.ExtraDeck.GroupBy(c => c.Id).ToDictionary(g => g.Key, g => g.Count());
-            var sideDeckCardCopies = deckModel.SideDeck.GroupBy(c => c.Id).ToDictionary(g => g.Key, g => g.Count());
+                var mainDeckCardCopies = deckModel.MainDeck.GroupBy(c => c.Id).ToDictionary(g => g.Key, g => g.Count());
+                var extraDeckCardCopies = deckModel.ExtraDeck.GroupBy(c => c.Id).ToDictionary(g => g.Key, g => g.Count());
+                var sideDeckCardCopies = deckModel.SideDeck.GroupBy(c => c.Id).ToDictionary(g => g.Key, g => g.Count());
 
-            existingDeck = await AddCardsToDeck(mainDeckUniqueCards, existingDeck, deckTypes[DeckTypeConstants.Main], mainDeckCardCopies);
-            existingDeck = await AddCardsToDeck(extraDeckUniqueCards, existingDeck, deckTypes[DeckTypeConstants.Extra], extraDeckCardCopies);
-            existingDeck = await AddCardsToDeck(sideDeckUniqueCards, existingDeck, deckTypes[DeckTypeConstants.Side], sideDeckCardCopies);
+                existingDeck = await AddCardsToDeck(mainDeckUniqueCards, existingDeck, deckTypes[DeckTypeConstants.Main], mainDeckCardCopies);
+                existingDeck = await AddCardsToDeck(extraDeckUniqueCards, existingDeck, deckTypes[DeckTypeConstants.Extra], extraDeckCardCopies);
+                existingDeck = await AddCardsToDeck(sideDeckUniqueCards, existingDeck, deckTypes[DeckTypeConstants.Side], sideDeckCardCopies);
 
 
-            return await _deckRepository.Update(existingDeck);
+                var updateResult = await _deckRepository.Update(existingDeck);
+
+                scope.Complete();
+
+                return updateResult;
+            }
         }
 
         private async Task<Deck> AddCardsToDeck(List<long> uniqueCards, Deck newDeck, DeckType deckType, IReadOnlyDictionary<long, int> cardCopies)
