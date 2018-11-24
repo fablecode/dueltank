@@ -6,7 +6,8 @@ namespace dueltank.application.Validations.Decks
 {
     public class YoutubeUrlValidator : AbstractValidator<DeckInputModel>
     {
-        public const string UrlRegexExpression = @"(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^""&?\/ ]{11})";
+        public const string UrlRegexExpression =
+            @"(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^""&?\/ ]{11})";
 
         public YoutubeUrlValidator()
         {
@@ -17,7 +18,7 @@ namespace dueltank.application.Validations.Decks
                 .When(d => !string.IsNullOrWhiteSpace(d.VideoUrl));
         }
 
-        private bool ContainsYoutubeVideoId(string videoUrl)
+        private static bool ContainsYoutubeVideoId(string videoUrl)
         {
             var idMatch = new Regex(UrlRegexExpression).Match(videoUrl);
 

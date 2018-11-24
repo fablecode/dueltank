@@ -15,5 +15,6 @@ namespace dueltank.core.Services
         Task<DeckSearchResult> Search(DeckSearchCriteria searchCriteria);
         Task<DeckSearchResult> Search(string userId, DeckSearchByUserIdCriteria searchCriteria);
         Task<MostRecentDecksResult> MostRecentDecks(int pageSize);
+        long SaveDeckThumbnail(DeckThumbnail deckThumbnailModel);
     }
 }

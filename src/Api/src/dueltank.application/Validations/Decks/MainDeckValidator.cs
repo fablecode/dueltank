@@ -11,7 +11,7 @@ namespace dueltank.application.Validations.Decks
     {
         private const int MinimumCards = 40;
         private const int MaximumCards = 60;
-        private static readonly string[] ValidCardTypes = { "monster", "spell", "trap" };
+        private static readonly string[] ValidCardTypes = {"monster", "spell", "trap"};
 
         public MainDeckValidator()
         {
@@ -23,7 +23,6 @@ namespace dueltank.application.Validations.Decks
                 .WithMessage("{PropertyName} must have at least " + MinimumCards + " to " + MaximumCards + " cards.")
                 .Must(AreAllCardTypesValid)
                 .WithMessage("{PropertyName} has an invalid card.");
-
         }
 
         private static bool AreAllCardTypesValid(List<CardInputModel> deck)

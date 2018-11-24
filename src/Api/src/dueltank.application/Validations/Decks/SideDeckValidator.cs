@@ -9,7 +9,7 @@ namespace dueltank.application.Validations.Decks
 {
     public class SideDeckValidator : AbstractValidator<DeckInputModel>
     {
-        private static readonly string[] ValidCardTypes = { "monster", "spell", "trap", "fusion", "xyz", "synchro" };
+        private static readonly string[] ValidCardTypes = {"monster", "spell", "trap", "fusion", "xyz", "synchro"};
 
         public SideDeckValidator()
         {

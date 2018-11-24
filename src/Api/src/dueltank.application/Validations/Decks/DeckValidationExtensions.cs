@@ -6,9 +6,7 @@ namespace dueltank.application.Validations.Decks
     {
         public static IRuleBuilderOptions<T, long?> DeckIdValidator<T>(this IRuleBuilder<T, long?> rule)
         {
-            return rule.
-                NotNull().
-                SetValidator(new DeckIdValidator());
+            return rule.NotNull().SetValidator(new DeckIdValidator());
         }
     }
 }

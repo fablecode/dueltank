@@ -22,7 +22,8 @@ namespace dueltank.application.Validations.Decks
             RuleFor(d => d)
                 .Cascade(CascadeMode.StopOnFirstFailure)
                 .Must(OnlyThreeCopiesOfTheSameCard)
-                .WithMessage("You can only have up to 3 copies of the same card in your Main, Extra and Side Deck combined.");
+                .WithMessage(
+                    "You can only have up to 3 copies of the same card in your Main, Extra and Side Deck combined.");
 
             RuleFor(d => d.UserId).UserIdValidator();
 

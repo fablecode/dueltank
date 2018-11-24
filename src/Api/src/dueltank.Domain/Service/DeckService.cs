@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -10,6 +12,8 @@ using dueltank.core.Models.Search.Decks;
 using dueltank.core.Models.YgoPro;
 using dueltank.core.Services;
 using dueltank.Domain.Repository;
+using ImageProcessor;
+using ImageProcessor.Imaging.Formats;
 
 namespace dueltank.Domain.Service
 {
@@ -108,7 +112,6 @@ namespace dueltank.Domain.Service
                     Updated = DateTime.UtcNow
                 };
 
-
                 var deckTypes = (await _deckTypeRepository.AllDeckTypes()).ToDictionary(dt => dt.Name, dt => dt);
 
                 var mainDeckUniqueCards = deckModel.MainDeck.Select(c => c.Id).Distinct().ToList();
@@ -172,6 +175,29 @@ namespace dueltank.Domain.Service
         public Task<MostRecentDecksResult> MostRecentDecks(int pageSize)
         {
             return _deckRepository.MostRecentDecks(pageSize);
+        }
+
+        public long SaveDeckThumbnail(DeckThumbnail deckThumbnailModel)
+        {
+            var quality = 90;
+            ISupportedImageFormat format = new PngFormat();
+            var size = new Size(170, 0);
+
+            using (var inStream = new MemoryStream(deckThumbnailModel.Thumbnail))
+            {
+                using (var imageFactory = new ImageFactory())
+                {
+                    // Load, resize, set the format and quality and save an image.
+                    imageFactory
+                        .Load(inStream)
+                        .Resize(size)
+                        .Format(format)
+                        .Quality(quality)
+                        .Save(deckThumbnailModel.ImageFilePath);
+                }
+            }
+
+            return deckThumbnailModel.DeckId;
         }
     }
 }

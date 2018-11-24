@@ -4,8 +4,8 @@ using dueltank.application.Commands.UploadYgoProDeck;
 using dueltank.application.Configuration;
 using dueltank.application.Models.Decks.Input;
 using dueltank.application.Validations.Deck;
-using dueltank.application.Validations.Deck.YgoProDeck;
 using dueltank.application.Validations.Decks;
+using dueltank.application.Validations.Decks.YgoProDeck;
 using dueltank.core.Models.YgoPro;
 using dueltank.core.Services;
 using dueltank.Domain.Configuration;
@@ -43,6 +43,7 @@ namespace dueltank.application
             services.AddTransient<IValidator<UploadYgoProDeckCommand>, UploadYgoProDeckCommandValidator>();
             services.AddTransient<IValidator<YgoProDeck>, YgoProDeckValidator>();
             services.AddTransient<IValidator<DeckInputModel>, DeckValidator>();
+            services.AddTransient<IValidator<DeckThumbnailInputModel>, DeckThumbnailValidator>();
 
             return services;
         }

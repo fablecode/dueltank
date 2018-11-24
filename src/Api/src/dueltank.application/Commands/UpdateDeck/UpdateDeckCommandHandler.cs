@@ -43,7 +43,8 @@ namespace dueltank.application.Commands.UpdateDeck
 
                     var result = await _deckService.Update(deckModel);
 
-                    commandResult.Data = result.Id;
+                    commandResult.Data = new UpdateDeckOutputModel { DeckId = result.Id};
+                    commandResult.IsSuccessful = true;
                 }
                 else
                 {
@@ -57,5 +58,10 @@ namespace dueltank.application.Commands.UpdateDeck
 
             return commandResult;
         }
+    }
+
+    public class UpdateDeckOutputModel
+    {
+        public long DeckId { get; set; }
     }
 }

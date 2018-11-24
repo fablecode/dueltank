@@ -2,7 +2,7 @@
 using dueltank.core.Constants;
 using FluentValidation;
 
-namespace dueltank.application.Validations.Deck.YgoProDeck
+namespace dueltank.application.Validations.Decks.YgoProDeck
 {
     public class YgoProMainDeckValidator : AbstractValidator<core.Models.YgoPro.YgoProDeck>
     {
