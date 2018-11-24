@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
 import {SearchEngineOptimizationService} from "../../../../shared/services/searchengineoptimization.service";
-import {AddDeckResult, DeckService} from "../../../../shared/services/deck.service";
+import {AddDeckResult, DeckService, UpdateDeckResult} from "../../../../shared/services/deck.service";
 import {Deck} from "../../../../shared/models/deck";
 import {tap} from "rxjs/operators";
 import {Card} from "../../../../shared/models/card";
@@ -148,8 +148,8 @@ export class DeckEditorPage implements OnInit, OnDestroy {
     let deckInfoService = this.deckInfoService.saveDeck$.subscribe((deckEditorInfo: DeckEditorInfo) => {
       this.deckService
         .updateDeck(deckEditorInfo, this.selectedDeck)
-        .subscribe((addDeckResult: AddDeckResult) => {
-          console.log(addDeckResult);
+        .subscribe((updateDeckResult: UpdateDeckResult) => {
+          console.log(updateDeckResult);
         });
     });
 
