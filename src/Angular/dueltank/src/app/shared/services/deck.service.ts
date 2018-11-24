@@ -145,7 +145,7 @@ export class DeckService {
     return this.http.post<AddDeckResult>(this.configuration.apiEndpoint + "/api/decks/", requestData)
   }
 
-  public updateDeck(deckEditorInfo: DeckEditorInfo, existingDeck: Deck) : Observable<AddDeckResult> {
+  public updateDeck(deckEditorInfo: DeckEditorInfo, existingDeck: Deck) : Observable<UpdateDeckResult> {
 
     let requestData = new UpdateDeckRequest();
 
@@ -157,10 +157,25 @@ export class DeckService {
     requestData.extraDeck = existingDeck.extraDeck;
     requestData.sideDeck = existingDeck.sideDeck;
 
-    return this.http.post<AddDeckResult>(this.configuration.apiEndpoint + "/api/decks/", requestData)
+    return this.http.put<UpdateDeckResult>(this.configuration.apiEndpoint + "/api/decks/", requestData)
+  }
+
+  public updateThumbnail(deckId: number, thumbnailFile: File) : Observable<DeckThumbnailUpdatedResult> {
+    // create form data for file
+    const form = new FormData();
+
+    form.append('file', thumbnailFile, thumbnailFile.name);
+    form.append('deckId', deckId.toString(), "deckId");
+
+    return this.http.patch<DeckThumbnailUpdatedResult>(this.configuration.apiEndpoint + "/api/deckthumbnails", form)
   }
 }
 
 export class AddDeckResult {
+}
+
+export class UpdateDeckResult {
+}
+export class DeckThumbnailUpdatedResult {
 }
 
