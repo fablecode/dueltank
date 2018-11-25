@@ -9,7 +9,7 @@ import {DeckCardFilterService} from "../../services/deck-card-filter.service";
 import {CurrentHoverCardService} from "../../../../shared/services/current-hover-card.service";
 import {canAddCardToExtraDeck} from "../../utils/extra-deck-rules.util";
 import {canAddCardToSideDeck} from "../../utils/side-deck-rules.util";
-import {AddDeckResult, DeckService} from "../../../../shared/services/deck.service";
+import {DeckService} from "../../../../shared/services/deck.service";
 import {ActivatedRoute} from "@angular/router";
 import {SearchEngineOptimizationService} from "../../../../shared/services/searchengineoptimization.service";
 import {DeckCardSearchResultService} from "../../services/deck-card-search-result.service";
@@ -17,6 +17,7 @@ import {ExtraDeckService} from "../../services/extra-deck.service";
 import {SideDeckService} from "../../services/side-deck.service";
 import {DeckInfoService} from "../../services/deck-info.service";
 import {DeckEditorInfo} from "../../../../shared/models/deck-editor-info";
+import {AddDeckOutput} from "../../../../shared/models/decks/output/add-deck-output";
 
 @Component({
   templateUrl: "./deck-new.page.html"
@@ -128,7 +129,7 @@ export class DeckNewPage implements OnInit, OnDestroy {
     let deckInfoService = this.deckInfoService.saveDeck$.subscribe((deckEditorInfo: DeckEditorInfo) => {
       this.deckService
         .addDeck(deckEditorInfo, this.newDeck)
-        .subscribe((addDeckResult: AddDeckResult) => {
+        .subscribe((addDeckResult: AddDeckOutput) => {
           console.log(addDeckResult);
       });
     });

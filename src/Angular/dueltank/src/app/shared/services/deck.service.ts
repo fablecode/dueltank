@@ -10,6 +10,9 @@ import {DeckSearchResult} from "../models/deck-search-result";
 import {DeckEditorInfo} from "../models/deck-editor-info";
 import {AddDeckRequest} from "../models/add-deck-request";
 import {UpdateDeckRequest} from "../models/update-deck-request";
+import {UpdateDeckOutput} from "../models/decks/output/update-deck-output";
+import {AddDeckOutput} from "../models/decks/output/add-deck-output";
+import {DeckThumbnailUpdatedOutput} from "../models/decks/output/deck-thumbnail-updated-output";
 
 @Injectable()
 export class DeckService {
@@ -131,7 +134,7 @@ export class DeckService {
     return this.http.get<DeckSearchResult>(this.configuration.apiEndpoint + "/api/decks/latest", {params: httpParams})
   }
 
-  public addDeck(deckEditorInfo: DeckEditorInfo, newDeck: Deck) : Observable<AddDeckResult> {
+  public addDeck(deckEditorInfo: DeckEditorInfo, newDeck: Deck) : Observable<AddDeckOutput> {
 
     let requestData = new AddDeckRequest();
 
@@ -142,10 +145,10 @@ export class DeckService {
     requestData.extraDeck = newDeck.extraDeck;
     requestData.sideDeck = newDeck.sideDeck;
 
-    return this.http.post<AddDeckResult>(this.configuration.apiEndpoint + "/api/decks/", requestData)
+    return this.http.post<AddDeckOutput>(this.configuration.apiEndpoint + "/api/decks/", requestData)
   }
 
-  public updateDeck(deckEditorInfo: DeckEditorInfo, existingDeck: Deck) : Observable<UpdateDeckResult> {
+  public updateDeck(deckEditorInfo: DeckEditorInfo, existingDeck: Deck) : Observable<UpdateDeckOutput> {
 
     let requestData = new UpdateDeckRequest();
 
@@ -157,25 +160,17 @@ export class DeckService {
     requestData.extraDeck = existingDeck.extraDeck;
     requestData.sideDeck = existingDeck.sideDeck;
 
-    return this.http.put<UpdateDeckResult>(this.configuration.apiEndpoint + "/api/decks/", requestData)
+    return this.http.put<UpdateDeckOutput>(this.configuration.apiEndpoint + "/api/decks/", requestData)
   }
 
-  public updateThumbnail(deckId: number, thumbnailFile: File) : Observable<DeckThumbnailUpdatedResult> {
+  public updateThumbnail(deckId: number, thumbnailFile: File) : Observable<DeckThumbnailUpdatedOutput> {
     // create form data for file
     const form = new FormData();
 
     form.append('file', thumbnailFile, thumbnailFile.name);
-    form.append('deckId', deckId.toString(), "deckId");
+    form.append('deckId', deckId.toString());
 
-    return this.http.patch<DeckThumbnailUpdatedResult>(this.configuration.apiEndpoint + "/api/deckthumbnails", form)
+    return this.http.patch<DeckThumbnailUpdatedOutput>(this.configuration.apiEndpoint + "/api/deckthumbnails", form)
   }
-}
-
-export class AddDeckResult {
-}
-
-export class UpdateDeckResult {
-}
-export class DeckThumbnailUpdatedResult {
 }
 
