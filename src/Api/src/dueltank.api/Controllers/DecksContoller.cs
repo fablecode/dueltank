@@ -79,7 +79,7 @@ namespace dueltank.api.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.GetUserAsync(User);
+                var user = await GetCurrentUserAsync();
 
                 if (user != null)
                 {
@@ -119,7 +119,7 @@ namespace dueltank.api.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.GetUserAsync(User);
+                var user = await GetCurrentUserAsync();
 
                 if (user != null)
                 {
@@ -133,7 +133,7 @@ namespace dueltank.api.Controllers
                     var result = await _mediator.Send(command);
 
                     if (result.IsSuccessful)
-                        return NoContent();
+                        return Ok(result.Data);
 
                     return BadRequest(result.Errors);
                 }
@@ -145,6 +145,9 @@ namespace dueltank.api.Controllers
 
             return BadRequest();
         }
+
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(User);
+
     }
 
     public class UpdateDeckInputModel

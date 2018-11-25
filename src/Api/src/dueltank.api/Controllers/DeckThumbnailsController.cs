@@ -11,10 +11,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace dueltank.api.Controllers
 {
+    [Route("api/[controller]")]
     public class DeckThumbnailsController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMediator _mediator;
+
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(User);
 
         public DeckThumbnailsController(UserManager<ApplicationUser> userManager, IMediator mediator)
         {
@@ -27,7 +30,7 @@ namespace dueltank.api.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.GetUserAsync(User);
+                var user = await GetCurrentUserAsync();
 
                 if (user != null)
                 {
@@ -49,7 +52,7 @@ namespace dueltank.api.Controllers
                     var result = await _mediator.Send(command);
 
                     if (result.IsSuccessful)
-                        Ok(result.Data);
+                        return Ok(result.Data);
 
                     return BadRequest(result.Errors);
                 }

@@ -35,6 +35,12 @@ namespace dueltank.infrastructure.Repository
         {
             return await _dbContext.CardSearch.FromSql(CardSearchByNameQuery, new SqlParameter("@name", name)).SingleOrDefaultAsync();
         }
+        public async Task<Card> GetCardById(long id)
+        {
+            return await _dbContext.Card
+                .AsNoTracking()
+                .SingleOrDefaultAsync(c => c.Id == id);
+        }
 
         public async Task<CardSearchResult> Search(CardSearchCriteria searchCriteria)
         {

@@ -7,6 +7,7 @@ namespace dueltank.Domain.Repository
 {
     public interface ICardRepository
     {
+        Task<Card> GetCardById(long id);
         Task<Card> GetCardByNumber(long cardNumber);
         Task<CardSearchResult> Search(CardSearchCriteria searchCriteria);
         Task<CardSearch> GetCardByName(string name);

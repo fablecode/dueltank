@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using dueltank.application.Commands.UpdateDeck;
 using dueltank.application.Models.Decks.Input;
 using dueltank.core.Models.DeckDetails;
 using dueltank.core.Services;
@@ -50,11 +51,11 @@ namespace dueltank.application.Commands.UpdateDeckThumbnail
                 {
                     var deckThumbnailModel = _mapper.Map<DeckThumbnail>(request.DeckThumbnail);
 
-                    deckThumbnailModel.ImageFilePath = Path.Combine(_settings.Value.DeckThumbnailImageFolderPath, request.DeckThumbnail.DeckId + ".png");
+                    deckThumbnailModel.ImageFilePath = Path.Combine(_settings.Value.DeckThumbnailImageFolderPath, $"{request.DeckThumbnail.DeckId}.png");
 
                     var result = _deckService.SaveDeckThumbnail(deckThumbnailModel);
 
-                    commandResult.Data = result;
+                    commandResult.Data = new UpdateDeckThumbnailOutputModel { DeckId = result, Thumbnail = $"{request.DeckThumbnail.DeckId}.png" };
                     commandResult.IsSuccessful = true;
                 }
                 else
