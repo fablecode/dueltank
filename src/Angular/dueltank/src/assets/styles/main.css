@@ -705,3 +705,7 @@ cards-tabs .tab-content .active {
   display: inherit;
   padding: 5px 5px 5px 0;
 }
+.decklist-list-border {
+  border-top: 1px solid #e7eaec;
+  margin:0
+}
