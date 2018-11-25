@@ -14,8 +14,8 @@ BEGIN
 		,[Name] NVARCHAR(255)
 		,[Description] NVARCHAR(max)
 		,[VideoUrl] nvarchar(2083)
-		,[Created] datetime
-		,[Updated] datetime
+		,[Created] datetime2
+		,[Updated] datetime2
 		,[TotalCards] int
 		,[Rank] int DEFAULT 1
 	)
