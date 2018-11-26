@@ -1,10 +1,10 @@
-﻿using dueltank.application.Queries.ArchetypeById;
+﻿using System.Net;
+using System.Threading.Tasks;
+using dueltank.application.Queries.ArchetypeById;
 using dueltank.application.Queries.MostRecentArchetypes;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace dueltank.api.Controllers
 {
@@ -19,7 +19,7 @@ namespace dueltank.api.Controllers
         }
 
         /// <summary>
-        /// Get archetype by id
+        ///     Get archetype by id
         /// </summary>
         /// <param name="archetypeId"></param>
         /// <returns></returns>
@@ -27,7 +27,7 @@ namespace dueltank.api.Controllers
         [HttpGet("{archetypeId:long}")]
         public async Task<IActionResult> Get([FromRoute] long archetypeId)
         {
-            var result = await _mediator.Send(new ArchetypeByIdQuery { ArchetypeId = archetypeId });
+            var result = await _mediator.Send(new ArchetypeByIdQuery {ArchetypeId = archetypeId});
 
             if (result != null)
                 return Ok(result);
@@ -36,20 +36,19 @@ namespace dueltank.api.Controllers
         }
 
         /// <summary>
-        /// Retrieve the most recent archetypes
+        ///     Retrieve the most recent archetypes
         /// </summary>
         /// <param name="pageSize"></param>
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int) HttpStatusCode.OK)]
         [Route("latest")]
         public async Task<IActionResult> MostRecentArchetypes([FromQuery] int pageSize)
         {
-            var result = await _mediator.Send(new MostRecentArchetypesQuery { PageSize = pageSize });
+            var result = await _mediator.Send(new MostRecentArchetypesQuery {PageSize = pageSize});
 
             return Ok(result);
         }
-
     }
 }

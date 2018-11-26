@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
-using dueltank.api.Constants;
 using dueltank.application.Queries.AllFormats;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -19,13 +18,13 @@ namespace dueltank.api.Controllers
         }
 
         /// <summary>
-        /// Retrieve all the Formats
+        ///     Retrieve all the Formats
         /// </summary>
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
         //[ResponseCache(CacheProfileName = CacheConstants.OneWeekPolicy)]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int) HttpStatusCode.OK)]
         public async Task<IActionResult> Get()
         {
             var result = await _mediator.Send(new AllFormatsQuery());

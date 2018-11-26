@@ -20,7 +20,7 @@ namespace dueltank.api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] string name)
         {
-            var result = await _mediator.Send(new CardByNameQuery { Name = name });
+            var result = await _mediator.Send(new CardByNameQuery {Name = name});
 
             if (result != null)
                 return Ok(result);

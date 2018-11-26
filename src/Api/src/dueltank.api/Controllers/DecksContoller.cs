@@ -1,4 +1,6 @@
-﻿using dueltank.api.Models;
+﻿using System.Net;
+using System.Threading.Tasks;
+using dueltank.api.Models;
 using dueltank.api.ServiceExtensions;
 using dueltank.application.Commands.CreateDeck;
 using dueltank.application.Commands.UpdateDeck;
@@ -7,14 +9,8 @@ using dueltank.application.Queries.DeckById;
 using dueltank.application.Queries.MostRecentDecks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Net;
-using System.Threading.Tasks;
-
 
 namespace dueltank.api.Controllers
 {
@@ -31,13 +27,13 @@ namespace dueltank.api.Controllers
         }
 
         /// <summary>
-        /// Get a deck by id
+        ///     Get a deck by id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [AllowAnonymous]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int) HttpStatusCode.OK)]
+        [ProducesResponseType((int) HttpStatusCode.NotFound)]
         [HttpGet("{id}", Name = "GetDeckById")]
         public async Task<IActionResult> Get(long id)
         {
@@ -50,7 +46,7 @@ namespace dueltank.api.Controllers
         }
 
         /// <summary>
-        /// Retrieve the most recent decks
+        ///     Retrieve the most recent decks
         /// </summary>
         /// <param name="pageSize"></param>
         /// <returns></returns>
@@ -60,14 +56,14 @@ namespace dueltank.api.Controllers
         [Route("latest")]
         public async Task<IActionResult> MostRecentDecks([FromQuery] int pageSize)
         {
-            var result = await _mediator.Send(new MostRecentDecksQuery { PageSize = pageSize });
+            var result = await _mediator.Send(new MostRecentDecksQuery {PageSize = pageSize});
 
             return Ok(result);
         }
 
 
         /// <summary>
-        /// Add new deck
+        ///     Add new deck
         /// </summary>
         /// <param name="newDeck"></param>
         /// <returns></returns>
@@ -93,7 +89,7 @@ namespace dueltank.api.Controllers
                     var result = await _mediator.Send(command);
 
                     if (result.IsSuccessful)
-                        return CreatedAtRoute("GetDeckById", new { id = result.Data }, result.Data);
+                        return CreatedAtRoute("GetDeckById", new {id = result.Data}, result.Data);
 
                     return BadRequest(result.Errors);
                 }
@@ -107,13 +103,13 @@ namespace dueltank.api.Controllers
         }
 
         /// <summary>
-        /// Update a deck by UserId and deckId
+        ///     Update a deck by UserId and deckId
         /// </summary>
         /// <param name="updateDeck"></param>
         /// <returns></returns>
         [HttpPut]
-        [ProducesResponseType((int)HttpStatusCode.NoContent)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int) HttpStatusCode.NoContent)]
+        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         [RequestSizeLimit(100_000_00)] // 10MB request size
         public async Task<IActionResult> Put([FromBody] DeckInputModel updateDeck)
         {
@@ -146,44 +142,9 @@ namespace dueltank.api.Controllers
             return BadRequest();
         }
 
-        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(User);
-
-    }
-
-    public class UpdateDeckInputModel
-    {
-        [Display(Name = "Deck Id")]
-        public long? Id { get; set; }
-
-        [Required]
-        [Display(Name = "Deck name")]
-        public string Name { get; set; }
-
-        public string Description { get; set; }
-
-        [Display(Name = "Video url")]
-        public string VideoUrl { get; set; }
-
-        [Display(Name = "Main deck")]
-        public List<long> MainDeck { get; set; }
-
-        [Display(Name = "Extra deck")]
-        public List<long> ExtraDeck { get; set; }
-
-        [Display(Name = "Side deck")]
-        public List<long> SideDeck { get; set; }
-    }
-
-    public class CardInputModel
-    {
-        public long Id { get; set; }
-    }
-
-    public class DeckInfoInputModel
-    {
-        public IFormFile Thumbnail { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public string VideoUrl { get; set; }
+        private Task<ApplicationUser> GetCurrentUserAsync()
+        {
+            return _userManager.GetUserAsync(User);
+        }
     }
 }

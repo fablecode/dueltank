@@ -14,15 +14,18 @@ namespace dueltank.api.Controllers
     [Route("api/[controller]")]
     public class DeckThumbnailsController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMediator _mediator;
-
-        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(User);
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public DeckThumbnailsController(UserManager<ApplicationUser> userManager, IMediator mediator)
         {
             _userManager = userManager;
             _mediator = mediator;
+        }
+
+        private Task<ApplicationUser> GetCurrentUserAsync()
+        {
+            return _userManager.GetUserAsync(User);
         }
 
         [HttpPatch]
@@ -39,7 +42,7 @@ namespace dueltank.api.Controllers
                         DeckThumbnail = new DeckThumbnailInputModel
                         {
                             DeckId = inputModel.DeckId,
-                            UserId = user.Id,
+                            UserId = user.Id
                         }
                     };
 

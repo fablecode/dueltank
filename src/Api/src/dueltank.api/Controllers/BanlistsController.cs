@@ -1,11 +1,11 @@
-﻿using dueltank.application.Enums;
+﻿using System.Net;
+using System.Threading.Tasks;
+using dueltank.application.Enums;
 using dueltank.application.Queries.LatestBanlist;
+using dueltank.application.Queries.MostRecentBanlists;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using System.Threading.Tasks;
-using dueltank.application.Queries.MostRecentBanlists;
 
 namespace dueltank.api.Controllers
 {
@@ -20,24 +20,24 @@ namespace dueltank.api.Controllers
         }
 
         /// <summary>
-        /// Get the latest banlist by format
+        ///     Get the latest banlist by format
         /// </summary>
         /// <param name="format"></param>
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
         [Route("{format:alpha:length(1,3)}/latest")]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int) HttpStatusCode.OK)]
         public async Task<IActionResult> Latest([FromRoute] BanlistFormat format)
         {
-            var result = await _mediator.Send(new LatestBanlistQuery { Format = format});
+            var result = await _mediator.Send(new LatestBanlistQuery {Format = format});
 
             return Ok(result);
         }
 
         [AllowAnonymous]
         [HttpGet]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int) HttpStatusCode.OK)]
         [Route("latest")]
         public async Task<IActionResult> MostRecentDecks()
         {
@@ -45,6 +45,5 @@ namespace dueltank.api.Controllers
 
             return Ok(result);
         }
-
     }
 }

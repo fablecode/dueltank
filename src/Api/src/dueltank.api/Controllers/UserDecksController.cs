@@ -1,22 +1,22 @@
-﻿using AutoMapper;
+﻿using System.Net;
+using System.Threading.Tasks;
+using AutoMapper;
 using dueltank.api.Models;
 using dueltank.api.ServiceExtensions;
+using dueltank.application.Models.Decks.Input;
 using dueltank.application.Queries.DecksByUserId;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using System.Threading.Tasks;
-using dueltank.application.Models.Decks.Input;
 
 namespace dueltank.api.Controllers
 {
     [Route("api/[controller]")]
     public class UserDecksController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public UserDecksController(UserManager<ApplicationUser> userManager, IMapper mapper, IMediator mediator)
         {
@@ -26,7 +26,7 @@ namespace dueltank.api.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int) HttpStatusCode.OK)]
         public async Task<IActionResult> Get([FromQuery] SearchDecksByUserIdInputModel searchModel)
         {
             if (ModelState.IsValid)
@@ -56,7 +56,9 @@ namespace dueltank.api.Controllers
             return BadRequest();
         }
 
-        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(User);
-
+        private Task<ApplicationUser> GetCurrentUserAsync()
+        {
+            return _userManager.GetUserAsync(User);
+        }
     }
 }

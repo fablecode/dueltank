@@ -19,13 +19,13 @@ namespace dueltank.api.Controllers
         }
 
         /// <summary>
-        /// Retrieve all the Categories
+        ///     Retrieve all the Categories
         /// </summary>
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
         [ResponseCache(CacheProfileName = CacheConstants.OneWeekPolicy)]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int) HttpStatusCode.OK)]
         public async Task<IActionResult> Get()
         {
             var result = await _mediator.Send(new AllCategoriesQuery());

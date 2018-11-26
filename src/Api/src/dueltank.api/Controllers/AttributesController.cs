@@ -1,10 +1,10 @@
-﻿using dueltank.application.Queries.AllAttributes;
+﻿using System.Net;
+using System.Threading.Tasks;
+using dueltank.api.Constants;
+using dueltank.application.Queries.AllAttributes;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using System.Threading.Tasks;
-using dueltank.api.Constants;
 
 namespace dueltank.api.Controllers
 {
@@ -19,13 +19,13 @@ namespace dueltank.api.Controllers
         }
 
         /// <summary>
-        /// Retrieve all the Attributes
+        ///     Retrieve all the Attributes
         /// </summary>
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
         [ResponseCache(CacheProfileName = CacheConstants.OneWeekPolicy)]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int) HttpStatusCode.OK)]
         public async Task<IActionResult> Get()
         {
             var result = await _mediator.Send(new AllAttributesQuery());

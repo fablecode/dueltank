@@ -23,15 +23,15 @@ namespace dueltank.api.Controllers
         }
 
         /// <summary>
-        /// Upload an YgoPro deck
+        ///     Upload an YgoPro deck
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
-        [ProducesResponseType((int)HttpStatusCode.Created)]
-        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int) HttpStatusCode.Created)]
+        [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         [RequestSizeLimit(100_000_00)]
         [HttpPost] // 10MB request size
-        public async Task<IActionResult> Post([FromForm]IFormFile file)
+        public async Task<IActionResult> Post([FromForm] IFormFile file)
         {
             if (file != null && file.Length >= 0)
             {
@@ -45,12 +45,14 @@ namespace dueltank.api.Controllers
                     };
 
                     using (var reader = new StreamReader(file.OpenReadStream()))
+                    {
                         command.Deck = await reader.ReadToEndAsync();
+                    }
 
                     var result = await _mediator.Send(command);
 
                     if (result.IsSuccessful)
-                        return CreatedAtRoute("GetDeckById", new { id = result.Data }, result.Data);
+                        return CreatedAtRoute("GetDeckById", new {id = result.Data}, result.Data);
 
                     return BadRequest(result.Errors);
                 }
@@ -61,6 +63,5 @@ namespace dueltank.api.Controllers
 
             return BadRequest("YgoPro deck file not selected");
         }
-
     }
 }

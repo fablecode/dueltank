@@ -1,12 +1,12 @@
-﻿using dueltank.api.Constants;
+﻿using System.Net;
+using System.Threading.Tasks;
+using dueltank.api.Constants;
+using dueltank.application.Queries.ArchetypeImageById;
 using dueltank.application.Queries.CardImageByName;
 using dueltank.application.Queries.DeckThumbnailImagePath;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using System.Threading.Tasks;
-using dueltank.application.Queries.ArchetypeImageById;
 
 namespace dueltank.api.Controllers
 {
@@ -21,24 +21,24 @@ namespace dueltank.api.Controllers
         }
 
         /// <summary>
-        /// Card image by name
+        ///     Card image by name
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet("cards/{name}")]
         [ResponseCache(CacheProfileName = CacheConstants.TwoWeeksPolicy)]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int) HttpStatusCode.OK)]
+        [ProducesResponseType((int) HttpStatusCode.NotFound)]
         public async Task<IActionResult> Cards(string name)
         {
-            var result = await _mediator.Send(new CardImageByNameQuery { Name = name });
+            var result = await _mediator.Send(new CardImageByNameQuery {Name = name});
 
             return File(result.Image, result.ContentType);
         }
 
         /// <summary>
-        /// Deck thumbnail by deck id
+        ///     Deck thumbnail by deck id
         /// </summary>
         /// <param name="deckId"></param>
         /// <returns></returns>
@@ -46,13 +46,13 @@ namespace dueltank.api.Controllers
         [HttpGet("decks/{deckId}/thumbnail")]
         public async Task<IActionResult> DeckThumbnail(long deckId)
         {
-            var result = await _mediator.Send(new DeckThumbnailImagePathQuery { DeckId = deckId });
+            var result = await _mediator.Send(new DeckThumbnailImagePathQuery {DeckId = deckId});
 
             return File(result.Image, result.ContentType);
         }
 
         /// <summary>
-        /// Archetype image by archetype id
+        ///     Archetype image by archetype id
         /// </summary>
         /// <param name="archetypeId"></param>
         /// <returns></returns>
@@ -60,7 +60,7 @@ namespace dueltank.api.Controllers
         [HttpGet("archetypes/{archetypeId}")]
         public async Task<IActionResult> Archetypes(long archetypeId)
         {
-            var result = await _mediator.Send(new ArchetypeImageByIdQuery { ArchetypeId = archetypeId });
+            var result = await _mediator.Send(new ArchetypeImageByIdQuery {ArchetypeId = archetypeId});
 
             return File(result.Image, result.ContentType);
         }
