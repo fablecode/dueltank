@@ -3,14 +3,14 @@ import {Deck} from "../../../../shared/models/deck";
 import {canAddCardToMainDeck} from "../../utils/main-deck-rules.util";
 import {Card} from "../../../../shared/models/card";
 import {MainDeckService} from "../../services/main-deck.service";
-import {Subscription} from "rxjs";
+import {Observable, Subscription, throwError} from "rxjs";
 import {Format} from "../../../../shared/models/format";
 import {DeckCardFilterService} from "../../services/deck-card-filter.service";
 import {CurrentHoverCardService} from "../../../../shared/services/current-hover-card.service";
 import {canAddCardToExtraDeck} from "../../utils/extra-deck-rules.util";
 import {canAddCardToSideDeck} from "../../utils/side-deck-rules.util";
 import {DeckService} from "../../../../shared/services/deck.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {SearchEngineOptimizationService} from "../../../../shared/services/searchengineoptimization.service";
 import {DeckCardSearchResultService} from "../../services/deck-card-search-result.service";
 import {ExtraDeckService} from "../../services/extra-deck.service";
@@ -18,6 +18,12 @@ import {SideDeckService} from "../../services/side-deck.service";
 import {DeckInfoService} from "../../services/deck-info.service";
 import {DeckEditorInfo} from "../../../../shared/models/deck-editor-info";
 import {AddDeckOutput} from "../../../../shared/models/decks/output/add-deck-output";
+import {catchError, mergeMap} from "rxjs/operators";
+import {UpdateDeckOutput} from "../../../../shared/models/decks/output/update-deck-output";
+import {HttpErrorResponse} from "@angular/common/http";
+import {ToastrService} from "ngx-toastr";
+import {UpdateDeckThumbnailOutput} from "../../../../shared/models/decks/output/update-deck-thumbnail-output";
+import {SlugifyPipe} from "../../../../shared/pipes/slugify.pipe";
 
 @Component({
   templateUrl: "./deck-new.page.html"
@@ -42,7 +48,10 @@ export class DeckNewPage implements OnInit, OnDestroy {
     private extraDeckService: ExtraDeckService,
     private sideDeckService: SideDeckService,
     private currentHoverCardService: CurrentHoverCardService,
-    private deckInfoService: DeckInfoService
+    private deckInfoService: DeckInfoService,
+    private toastr: ToastrService,
+    private router: Router,
+    private slugify: SlugifyPipe
   ){}
 
   ngOnInit(): void {
@@ -132,6 +141,23 @@ export class DeckNewPage implements OnInit, OnDestroy {
         .subscribe((addDeckResult: AddDeckOutput) => {
           console.log(addDeckResult);
       });
+
+      this.deckService
+        .addDeck(deckEditorInfo, this.newDeck)
+        .pipe(
+          mergeMap((addDeckResult: AddDeckOutput) => {
+
+            if(deckEditorInfo.thumbnail) {
+              return this.deckService.updateThumbnail(addDeckResult.deckId, deckEditorInfo.thumbnail)
+            }
+
+            return Observable.of(addDeckResult);
+          }),
+          catchError(this.handleError)
+        )
+        .subscribe((updateDeckThumbnailOutput: any) => {
+          this.router.navigate(['/deck/editor', updateDeckThumbnailOutput.deckId, this.slugify.transform(deckEditorInfo.name)])
+        });
     });
 
     // Add subscriptions to collection
@@ -151,6 +177,19 @@ export class DeckNewPage implements OnInit, OnDestroy {
       banListChangedSubscription,
       deckInfoService
     ];
+  }
+
+  handleError(httpError: HttpErrorResponse) {
+    let errorMessage = '';
+    if (httpError.error && httpError.error instanceof ErrorEvent) {
+      // client-side error
+      errorMessage = `Error: ${httpError.error.message}`;
+    } else {
+      // server-side error
+      errorMessage = `Error Code: ${httpError.status}\nMessage: ${httpError.message}`;
+    }
+    this.toastr.error(errorMessage);
+    return throwError(errorMessage);
   }
 
   ngOnDestroy(): void {
