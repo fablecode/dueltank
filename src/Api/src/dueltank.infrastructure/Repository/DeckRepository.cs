@@ -17,6 +17,7 @@ namespace dueltank.infrastructure.Repository
     {
         private const string DeckSearchQuery = "EXEC DeckSearch @SearchTerm, @PageSize, @PageIndex, @TotalRowsCount out";
         private const string DeckSearchByUserIdQuery = "EXEC DeckSearchByUserId @UserId, @SearchTerm, @PageSize, @PageIndex, @TotalRowsCount out";
+        private const string DeckSearchByUsernameQuery = "EXEC DeckSearchByUsername @Username, @SearchTerm, @PageSize, @PageIndex, @TotalRowsCount out";
 
         private readonly DueltankDbContext _dbContext;
 
@@ -93,7 +94,7 @@ namespace dueltank.infrastructure.Repository
             return response;
         }
 
-        public async Task<DeckSearchResult> Search(string userId, DeckSearchByUserIdCriteria searchCriteria)
+        public async Task<DeckSearchResult> Search(DeckSearchByUserIdCriteria searchCriteria)
         {
             var response = new DeckSearchResult();
 
@@ -114,6 +115,31 @@ namespace dueltank.infrastructure.Repository
             sqlParameters.Add(new SqlParameter("@PageIndex", searchCriteria.PageIndex));
 
             response.Decks = await _dbContext.DeckDetail.FromSql(DeckSearchByUserIdQuery, sqlParameters.ToArray()).ToListAsync();
+            response.TotalRecords = (int)totalRowsCount.Value;
+
+            return response;
+        }
+        public async Task<DeckSearchResult> Search(DeckSearchByUsernameCriteria searchCriteria)
+        {
+            var response = new DeckSearchResult();
+
+            var sqlParameters = new List<object>();
+
+            var totalRowsCount = new SqlParameter
+            {
+                ParameterName = "TotalRowsCount",
+                Value = 0,
+                Direction = ParameterDirection.Output
+            };
+
+            sqlParameters.Add(totalRowsCount);
+
+            sqlParameters.Add(new SqlParameter("@SearchTerm", (object)searchCriteria.SearchTerm ?? DBNull.Value));
+            sqlParameters.Add(new SqlParameter("@Username", searchCriteria.Username));
+            sqlParameters.Add(new SqlParameter("@PageSize", searchCriteria.PageSize));
+            sqlParameters.Add(new SqlParameter("@PageIndex", searchCriteria.PageIndex));
+
+            response.Decks = await _dbContext.DeckDetail.FromSql(DeckSearchByUsernameQuery, sqlParameters.ToArray()).ToListAsync();
             response.TotalRecords = (int)totalRowsCount.Value;
 
             return response;

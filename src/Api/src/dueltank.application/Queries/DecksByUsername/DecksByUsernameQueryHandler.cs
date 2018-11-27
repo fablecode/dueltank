@@ -1,28 +1,28 @@
-﻿using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using dueltank.application.Models.Decks.Output;
+﻿using dueltank.application.Models.Decks.Output;
 using dueltank.core.Models.Search.Decks;
 using dueltank.core.Services;
 using MediatR;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace dueltank.application.Queries.DecksByUserId
+namespace dueltank.application.Queries.DecksByUsername
 {
-    public class DecksByUserIdQueryHandler : IRequestHandler<DecksByUserIdQuery, DeckSearchResultOutputModel>
+    public class DecksByUsernameQueryHandler : IRequestHandler<DecksByUsernameQuery, DeckSearchResultOutputModel>
     {
         private readonly IDeckService _deckService;
 
-        public DecksByUserIdQueryHandler(IDeckService deckService)
+        public DecksByUsernameQueryHandler(IDeckService deckService)
         {
             _deckService = deckService;
         }
-        public async Task<DeckSearchResultOutputModel> Handle(DecksByUserIdQuery request, CancellationToken cancellationToken)
+        public async Task<DeckSearchResultOutputModel> Handle(DecksByUsernameQuery request, CancellationToken cancellationToken)
         {
             var response = new DeckSearchResultOutputModel();
 
-            var result = await _deckService.Search(new DeckSearchByUserIdCriteria
+            var result = await _deckService.Search(new DeckSearchByUsernameCriteria
             {
-                UserId = request.UserId,
+                Username = request.Username,
                 PageIndex = request.PageIndex,
                 PageSize = request.PageSize,
                 SearchTerm = request.SearchTerm

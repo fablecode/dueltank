@@ -27,7 +27,7 @@ namespace dueltank.api.Controllers
 
         [HttpGet]
         [ProducesResponseType((int) HttpStatusCode.OK)]
-        public async Task<IActionResult> Get([FromQuery] SearchDecksByUserIdInputModel searchModel)
+        public async Task<IActionResult> Get([FromQuery] SearchDecksInputModel searchModel)
         {
             if (ModelState.IsValid)
             {

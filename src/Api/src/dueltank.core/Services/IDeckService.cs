@@ -13,7 +13,8 @@ namespace dueltank.core.Services
         Task<Deck> Update(DeckModel deckModel);
         Task<DeckDetail> GetDeckById(long id);
         Task<DeckSearchResult> Search(DeckSearchCriteria searchCriteria);
-        Task<DeckSearchResult> Search(string userId, DeckSearchByUserIdCriteria searchCriteria);
+        Task<DeckSearchResult> Search(DeckSearchByUserIdCriteria searchCriteria);
+        Task<DeckSearchResult> Search(DeckSearchByUsernameCriteria searchCriteria);
         Task<MostRecentDecksResult> MostRecentDecks(int pageSize);
         long SaveDeckThumbnail(DeckThumbnail deckThumbnailModel);
     }
