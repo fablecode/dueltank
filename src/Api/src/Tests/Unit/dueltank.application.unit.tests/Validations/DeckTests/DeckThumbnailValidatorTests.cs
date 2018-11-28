@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using dueltank.application.Models.Decks.Input;
+﻿using dueltank.application.Models.Decks.Input;
 using dueltank.application.Validations.Decks;
 using FluentAssertions;
 using FluentValidation.TestHelper;
