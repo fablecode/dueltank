@@ -1,10 +1,9 @@
-﻿using System.Linq;
-using AutoFixture;
-using dueltank.application.Validations.Deck;
+﻿using AutoFixture;
 using dueltank.application.Validations.Decks.YgoProDeck;
 using dueltank.core.Models.YgoPro;
 using FluentAssertions;
 using NUnit.Framework;
+using System.Linq;
 
 namespace dueltank.application.unit.tests.Validations.DeckTests.YgoProDeckTests
 {
