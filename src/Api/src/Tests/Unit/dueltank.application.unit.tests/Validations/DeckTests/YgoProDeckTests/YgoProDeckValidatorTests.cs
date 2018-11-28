@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using dueltank.application.Validations.Deck;
-using dueltank.application.Validations.Decks.YgoProDeck;
+﻿using dueltank.application.Validations.Decks.YgoProDeck;
 using dueltank.core.Models.YgoPro;
 using FluentAssertions;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 
 namespace dueltank.application.unit.tests.Validations.DeckTests.YgoProDeckTests
 {
