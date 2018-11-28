@@ -15,7 +15,7 @@
                   <li><a (click)="downloadYdk()"><i class="fa fa-file-text-o"></i> YgoPro Deck</a></li>
                   <li role="separator" class="divider"></li>
                   <li><a id="copyDeck" ngxClipboard [cbContent]="deckToText()"><i class="fa fa-clipboard"></i>Clipboard</a></li>
-                  <li><a href (click)="addDeckToUserFavourites()"><i class="fa fa-thumbs-o-up"></i> Favourites</a></li>
+                  <!--<li><a href (click)="addDeckToUserFavourites()"><i class="fa fa-thumbs-o-up"></i> Favourites</a></li>-->
                 </ul>
               </div>
             </div>
@@ -24,7 +24,7 @@
               <h2 id="deck-pc-name" title="{{ deck.name }}">
                 {{ deck.name }}
               </h2>
-              <a href (click)="goToUserDecks(deck.username)" title="Deck created by {{ deck.username }}">{{ deck.username }}</a>
+              <a [routerLink]="[this.globals.routes.user.root, deck.username, 'decks']" title="Deck created by {{ deck.username }}">{{ deck.username }}</a>
             </div>
           </div>
           <div class="row" style="margin-top: 0px">

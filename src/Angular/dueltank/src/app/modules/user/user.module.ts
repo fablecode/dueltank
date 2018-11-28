@@ -14,18 +14,9 @@ const userRoutes: Routes = [
     path: "user",
     children:[
       {path:"decks", component: UserDeckListPage},
-      {path:":username/decks", component: UsernameDeckListPage},
-      // { path: "editor/:id/:name", component: DeckEditorPage}
-    ],
-
-  },
-  // {
-  //   path: "archetype",
-  //   children: [
-  //     {path:":id", component: ArchetypeViewPage},
-  //     {path:":id/:name", component: ArchetypeViewPage}
-  //   ]
-  // }
+      {path:":username/decks", component: UsernameDeckListPage}
+    ]
+  }
 ];
 
 @NgModule({

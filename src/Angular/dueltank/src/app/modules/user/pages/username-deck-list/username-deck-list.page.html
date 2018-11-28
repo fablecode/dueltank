@@ -1,0 +1,70 @@
+<loadingSpinner [loading]="isLoading"></loadingSpinner>
+<div class="row border-bottom white-bg page">
+  <div class="col-lg-10">
+    <h2 style="margin-top: 10px;"><i class="fa fa-archive"></i>&nbsp;{{this.username}} decks</h2>
+  </div>
+</div>
+<div class="row wrapper wrapper-content animated fadeIn" style="padding-bottom: 0px;">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox">
+        <div class="ibox-content" style="padding-bottom: 1px;">
+          <form [formGroup]="searchForm" (ngSubmit)="search(1)">
+            <div class="form-group">
+              <input
+                type="text"
+                name="searchTerm"
+                class="input form-control"
+                placeholder="Search for a deck.... "
+                formControlName="searchTerm"
+                autofocus
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row wrapper wrapper-content animated fadeIn" style="padding-bottom: 0px; padding-top: 0px;">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox">
+        <div class="ibox-content" style="padding-bottom: 1px;">
+          <div class="row m-b-sm m-t-sm user-deck-list" *ngFor="let deck of decks">
+            <div class="col-md-1">
+              <a [routerLink]="['/deck', deck.id, deck.name | slugify]" title="{{ deck.name }}">
+                <img [src]="getApiEndPointUrl() + deck.thumbnailUrl" alt="{{ deck.name }}" title="{{ deck.name }}"/>
+              </a>
+            </div>
+            <div class="col-md-11">
+              <h2 style="margin-bottom: 0">
+                <a [routerLink]="['/deck', deck.id, deck.name | slugify]" title="{{deck.name}}">{{ deck.name }}</a>
+              </h2>
+              <small style="margin-right: 10px;"><i class="fa fa-user"></i>&nbsp;{{deck.username}}</small>
+              <small><i class="fa fa-clock-o"></i>&nbsp;Created {{deck.createdTimeAgo}}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="ibox text-center" style="margin-bottom: 20px;">
+      <div class="ibox-content" style="padding: 0px">
+        <pagination
+          [totalItems]="totalDecks"
+          [(ngModel)]="currentPage"
+          (pageChanged)="pageChanged($event)"
+          [maxSize]="maxSize"
+          [itemsPerPage]="pageSize"
+          [rotate]="rotate"
+          [boundaryLinks]="true"
+          previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+      </div>
+    </div>
+  </div>
+</div>

@@ -33,7 +33,7 @@
                     <span class="deck-card-number">
                         {{ deck.totalCards }} cards
                     </span>
-                    <small class="text-muted">{{ deck.username }}</small>
+                    <a [routerLink]="[this.globals.routes.user.root, deck.username, 'decks']"><small class="text-muted">{{ deck.username }}</small> </a>
                     <a [routerLink]="['/deck', deck.id, deck.name | slugify]" class="deck-name" title="{{ deck.name }}">{{ deck.name }}</a>
                     <hr class="decklist-list-border"/>
                     <div class="m-t clearfix">

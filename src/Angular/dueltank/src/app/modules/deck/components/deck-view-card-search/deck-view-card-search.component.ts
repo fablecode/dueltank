@@ -3,6 +3,7 @@ import {Deck} from "../../../../shared/models/deck";
 import {DeckService} from "../../../../shared/services/deck.service";
 import {AppConfigService} from "../../../../shared/services/app-config.service";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
+import {Globals} from "../../../../globals";
 
 @Component({
   templateUrl: "./deck-view-card-search.component.html",
@@ -19,7 +20,8 @@ export class DeckViewCardSearchComponent implements OnInit {
   (
     private deckService: DeckService,
     public configuration: AppConfigService,
-    private modalService: BsModalService
+    private modalService: BsModalService,
+    public globals: Globals
   ){}
 
   public downloadYdk(): void {

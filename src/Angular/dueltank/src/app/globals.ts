@@ -26,7 +26,8 @@ export class Globals {
     archetypes: "/archetypes",
     decks: "/decks",
     deck: {
-      new: "/deck/new"
+      new: "/deck/new",
+      editor: "/deck/editor"
     },
     home: "/",
     banlist: {
@@ -34,6 +35,7 @@ export class Globals {
       ocg: "/banlists/ocg/latest"
     },
     user: {
+      root: "/user",
       decks: "/user/decks"
     }
   }
