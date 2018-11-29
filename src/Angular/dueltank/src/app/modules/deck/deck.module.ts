@@ -45,6 +45,7 @@ import {DeckNewCardSearchComponent} from "./components/deck-new-card-search/deck
 import {DeckInfoService} from "./services/deck-info.service";
 import {DeckEditorPage} from "./pages/deck-editor/deck-editor.page";
 import {DeckEditCardSearchComponent} from "./components/deck-edit-card-search/deck-edit-card-search.component";
+import {SlugifyPipe} from "../../shared/pipes/slugify.pipe";
 
 const deckRoutes: Routes = [
   {path: "decks", component: DeckListPage},
@@ -113,7 +114,8 @@ const deckRoutes: Routes = [
     MainDeckService,
     ExtraDeckService,
     SideDeckService,
-    DeckInfoService
+    DeckInfoService,
+    SlugifyPipe
   ]
 })
 export class DeckModule {}
