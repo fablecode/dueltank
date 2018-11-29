@@ -37,6 +37,7 @@ export class Globals {
     user: {
       root: "/user",
       decks: "/user/decks"
-    }
+    },
+    contact: "/contact"
   }
 }
