@@ -25,6 +25,7 @@ import {PrivatePolicyModule} from "./modules/privacy-policy/privatepolicy.module
 import {BanlistModule} from "./modules/banlist/banlist.module";
 import {ArchetypeModule} from "./modules/archetype/archetype.module";
 import {UserModule} from "./modules/user/user.module";
+import {ContactModule} from "./modules/contact/contact.module";
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -67,6 +68,7 @@ export function loadConfigService(configService: AppConfigService): Function
     SharedModule,
     ArchetypeModule,
     UserModule,
+    ContactModule,
     RouterModule.forRoot(appRoutes)
   ],
   exports: [

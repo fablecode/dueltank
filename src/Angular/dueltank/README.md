@@ -3,6 +3,25 @@
 ![alt text](https://fablecode.visualstudio.com/_apis/public/build/definitions/9e9640ec-37b8-4d8b-8cb2-19c074a1fa41/6/badge?maxAge=0 "Visual studio team services build status")
 
 # Dueltank
+A web-based repository for storing, building or uploading [Yu-Gi-Oh](https://www.yugioh-card.com/en/) decks.
+
+## Live Url
+[https://www.dueltank.com](https://www.dueltank.com)
+
+## Installing
+```
+ $ git clone https://github.com/fablecode/dueltank.git
+```
+
+## Prerequisite
+1. Setup the [Database](https://github.com/fablecode/dueltank/tree/master/src/Database/src)
+2. Setup api [Api](https://github.com/fablecode/dueltank/tree/master/src/Api/src)
+
+## Built With
+* [WebStorm](https://www.jetbrains.com/webstorm/)
+* [Angular 6](https://angular.io/guide/quickstart)
+
+## Angular 6
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.3.
 
