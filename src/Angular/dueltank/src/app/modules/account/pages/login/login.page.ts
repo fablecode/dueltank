@@ -42,14 +42,14 @@ export class LoginPage implements OnInit {
     this.email = new FormControl('', [
       Validators.required,
       Validators.minLength(4),
-      Validators.max(254),
+      Validators.maxLength(254),
       Validators.email,
       Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")
     ]);
     this.password = new FormControl("", [
       Validators.required,
       Validators.minLength(6),
-      Validators.max(100)
+      Validators.maxLength(100)
     ]);
 
     this.rememberMe = new FormControl("");

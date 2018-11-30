@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 
+
 @Component({
   templateUrl: './contact.component.html'
 })
@@ -49,7 +50,19 @@ export class ContactComponent implements OnInit {
 
   public onSubmit() : void {
     if(this.contactForm.valid) {
+      var contact = new ContactMessage();
+
+      contact.name = this.contactForm.controls.name.value;
+      contact.email = this.contactForm.controls.email.value;
+      contact.message = this.contactForm.controls.message.value;
 
     }
   }
 }
+
+class ContactMessage {
+  public name: string;
+  public email: string;
+  public message: string;
+}
+

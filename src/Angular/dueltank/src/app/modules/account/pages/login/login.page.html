@@ -16,6 +16,8 @@
                 <div class="form-group" *ngIf="email.errors && (email.dirty || email.touched)">
                   <span class="error text-danger" *ngIf="email.errors.required">Email is required</span>
                   <span class="error text-danger" *ngIf="email.errors.pattern">The email address must contain at least the @ character</span>
+                  <span class="error text-danger" *ngIf="email.errors.minlength">* At least 2 characters long, we need another {{email.errors.minlength.requiredLength - email.errors.minlength.actualLength}} characters </span>
+                  <span class="error text-danger" *ngIf="email.errors.maxlength">* 254 characters max, remove {{email.errors.maxlength.actualLength - email.errors.maxlength.requiredLength}} characters </span>
                 </div>
               </div>
               <div class="form-group">
@@ -23,6 +25,7 @@
                 <div class="form-group" *ngIf="password.errors && (password.dirty || password.touched)">
                   <span class="error text-danger" *ngIf="password.errors.required">* Password is required</span>
                   <span class="error text-danger" *ngIf="password.errors.minlength">* Password must be 6 characters long, we need another {{password.errors.minlength.requiredLength - password.errors.minlength.actualLength}} characters </span>
+                  <span class="error text-danger" *ngIf="password.errors.maxlength">* 100 characters max, remove {{password.errors.maxlength.actualLength - password.errors.maxlength.requiredLength}} characters </span>
                 </div>
               </div>
               <div class="form-group">
