@@ -19,7 +19,7 @@
               </div>
             </div>
             <div class="col-md-12">
-              <img id="deck-pc-thumbnail" src="{{ configuration.apiEndpoint + deck.thumbnailUrl }}" alt="{{ deck.name }}" title="{{ deck.name }}" />
+              <img id="deck-pc-thumbnail" class="img-thumbnail" src="{{ configuration.apiEndpoint + deck.thumbnailUrl }}" alt="{{ deck.name }}" title="{{ deck.name }}" />
               <h2 id="deck-pc-name" title="{{ deck.name }}">
                 {{ deck.name }}
               </h2>
@@ -27,7 +27,7 @@
             </div>
           </div>
           <div class="row" style="margin-top: 0px">
-            <div class="col-md-6" style="height: 130px; overflow-y: auto;">
+            <div class="col-md-6" style="max-height: 150px; overflow-y: auto;">
               <br/>
               <p>{{ deck.description }}</p>
             </div>

@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {ContactService} from "../../services/contact.service";
+import {Contact} from "../../../../shared/models/contact/contact";
+import {ContactResult} from "../../../../shared/models/contact/contact-result";
 
 
 @Component({
@@ -11,7 +14,7 @@ export class ContactComponent implements OnInit {
   public email: FormControl;
   public message: FormControl;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private contactService: ContactService) { }
 
   ngOnInit() {
     this.createFormControls();
@@ -50,19 +53,17 @@ export class ContactComponent implements OnInit {
 
   public onSubmit() : void {
     if(this.contactForm.valid) {
-      var contact = new ContactMessage();
+      let contact = new Contact();
 
       contact.name = this.contactForm.controls.name.value;
       contact.email = this.contactForm.controls.email.value;
       contact.message = this.contactForm.controls.message.value;
 
+      this.contactService
+        .sendMessage(contact)
+        .subscribe((contactResult: ContactResult) => {
+          console.log("Contact message sent!")
+        });
     }
   }
 }
-
-class ContactMessage {
-  public name: string;
-  public email: string;
-  public message: string;
-}
-
