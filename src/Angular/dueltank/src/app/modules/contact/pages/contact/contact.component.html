@@ -44,7 +44,7 @@
         <div class="form-group">
           <div class="col-lg-2"></div>
           <div class="col-lg-10">
-            <button class="btn btn-primary pull-right" type="submit" [disabled]="!contactForm.valid">Send</button>
+            <button class="btn btn-primary pull-right" type="submit" [disabled]="!contactForm.valid"><i class="fa fa-spinner fa-spin" *ngIf="isSendingMessage"></i> Send</button>
           </div>
         </div>
       </form>

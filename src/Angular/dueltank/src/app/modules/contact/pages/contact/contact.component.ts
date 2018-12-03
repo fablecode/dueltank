@@ -3,6 +3,8 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ContactService} from "../../services/contact.service";
 import {Contact} from "../../../../shared/models/contact/contact";
 import {ContactResult} from "../../../../shared/models/contact/contact-result";
+import {tap} from "rxjs/operators";
+import {ToastrService} from "ngx-toastr";
 
 
 @Component({
@@ -14,7 +16,14 @@ export class ContactComponent implements OnInit {
   public email: FormControl;
   public message: FormControl;
 
-  constructor(private fb: FormBuilder, private contactService: ContactService) { }
+  public isSendingMessage: boolean = false;
+
+  constructor
+  (
+    private fb: FormBuilder,
+    private contactService: ContactService,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit() {
     this.createFormControls();
@@ -59,10 +68,16 @@ export class ContactComponent implements OnInit {
       contact.email = this.contactForm.controls.email.value;
       contact.message = this.contactForm.controls.message.value;
 
+      this.isSendingMessage = true;
+
       this.contactService
         .sendMessage(contact)
+        .pipe(
+          tap(() => this.isSendingMessage = false)
+        )
         .subscribe((contactResult: ContactResult) => {
-          console.log("Contact message sent!")
+          this.contactForm.controls.message.reset();
+          this.toastr.success("Message sent!");
         });
     }
   }
