@@ -33,8 +33,8 @@ namespace dueltank.api.Controllers
                     Message = model.Message
                 });
 
-                if (result.IsSuccessful)
-                    return Ok();
+                if(result.IsSuccessful)
+                return Ok();
 
                 return BadRequest(result.Errors);
             }

@@ -3,8 +3,10 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {ContactService} from "../../services/contact.service";
 import {Contact} from "../../../../shared/models/contact/contact";
 import {ContactResult} from "../../../../shared/models/contact/contact-result";
-import {tap} from "rxjs/operators";
+import {catchError, tap} from "rxjs/operators";
 import {ToastrService} from "ngx-toastr";
+import {HttpErrorResponse} from "@angular/common/http";
+import {throwError} from "rxjs";
 
 
 @Component({
@@ -73,12 +75,26 @@ export class ContactComponent implements OnInit {
       this.contactService
         .sendMessage(contact)
         .pipe(
-          tap(() => this.isSendingMessage = false)
+          tap(() => this.isSendingMessage = false),
+          catchError(this.handleError)
         )
         .subscribe((contactResult: ContactResult) => {
           this.contactForm.controls.message.reset();
           this.toastr.success("Message sent!");
         });
     }
+  }
+
+  handleError(httpError: HttpErrorResponse) {
+    let errorMessage = '';
+    if (httpError.error && httpError.error instanceof ErrorEvent) {
+      // client-side error
+      errorMessage = `Error: ${httpError.error.message}`;
+    } else {
+      // server-side error
+      errorMessage = `Error Code: ${httpError.status}\nMessage: ${httpError.message}`;
+    }
+    this.toastr.error(errorMessage);
+    return throwError(errorMessage);
   }
 }
