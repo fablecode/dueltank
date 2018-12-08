@@ -14,5 +14,6 @@ namespace dueltank.Domain.Repository
         Task<DeckSearchResult> Search(DeckSearchByUsernameCriteria searchCriteria);
         Task<MostRecentDecksResult> MostRecentDecks(int pageSize);
         Task<Deck> Update(Deck deck);
+        Task<long> DeleteDeckByIdAndUserId(string userId, long deckId);
     }
 }

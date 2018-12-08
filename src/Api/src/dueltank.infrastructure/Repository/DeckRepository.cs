@@ -18,6 +18,7 @@ namespace dueltank.infrastructure.Repository
         private const string DeckSearchQuery = "EXEC DeckSearch @SearchTerm, @PageSize, @PageIndex, @TotalRowsCount out";
         private const string DeckSearchByUserIdQuery = "EXEC DeckSearchByUserId @UserId, @SearchTerm, @PageSize, @PageIndex, @TotalRowsCount out";
         private const string DeckSearchByUsernameQuery = "EXEC DeckSearchByUsername @Username, @SearchTerm, @PageSize, @PageIndex, @TotalRowsCount out";
+        private const string DeleteDeckByIdQuery = "EXEC DeleteDeckById @UserId, @DeckId";
 
         private readonly DueltankDbContext _dbContext;
 
@@ -163,6 +164,13 @@ namespace dueltank.infrastructure.Repository
             await _dbContext.SaveChangesAsync();
 
             return deck;
+        }
+
+        public async Task<long> DeleteDeckByIdAndUserId(string userId, long deckId)
+        {
+            var sqlParameters = new List<object> {new SqlParameter("@UserId", userId), new SqlParameter("@DeckId", deckId)};
+
+            return await _dbContext.Database.ExecuteSqlCommandAsync(DeleteDeckByIdQuery, sqlParameters.ToArray());
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 using dueltank.api.Models;
 using dueltank.api.Models.Decks.Input;
@@ -29,6 +30,8 @@ namespace dueltank.api.Controllers
         }
 
         [HttpPatch]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Patch([FromForm] UpdateDeckThumbnailInputModel inputModel)
         {
             if (ModelState.IsValid)

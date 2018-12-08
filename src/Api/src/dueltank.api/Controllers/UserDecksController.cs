@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using dueltank.api.Models;
 using dueltank.api.ServiceExtensions;
+using dueltank.application.Commands.DeleteDeck;
 using dueltank.application.Models.Decks.Input;
 using dueltank.application.Queries.DecksByUserId;
 using MediatR;
@@ -56,9 +57,52 @@ namespace dueltank.api.Controllers
             return BadRequest();
         }
 
+        [HttpDelete]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> Delete([FromQuery] long id)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await GetCurrentUserAsync();
+
+                if (user != null)
+
+                {
+                    var command = new DeleteDeckCommand
+                    {
+                        Deck = new DeckInputModel
+                        {
+                            Id = id,
+                            UserId = user.Id
+                        }
+                    };
+
+                    var result = await _mediator.Send(command);
+
+                    if (result.IsSuccessful)
+                        return Ok(result.Data);
+
+                    return BadRequest(result.Errors);
+                }
+            }
+            else
+            {
+                return BadRequest(ModelState.Errors());
+            }
+
+
+            return BadRequest();
+        }
+
+        #region private helpers
+
         private Task<ApplicationUser> GetCurrentUserAsync()
         {
             return _userManager.GetUserAsync(User);
         }
+
+        #endregion
+
     }
 }

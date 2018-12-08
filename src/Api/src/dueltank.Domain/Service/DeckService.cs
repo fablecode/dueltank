@@ -217,5 +217,10 @@ namespace dueltank.Domain.Service
 
             return deckThumbnailModel.DeckId;
         }
+
+        public Task<long> DeleteDeckByIdAndUserId(string userId, long deckId)
+        {
+            return _deckRepository.DeleteDeckByIdAndUserId(userId, deckId);
+        }
     }
 }
