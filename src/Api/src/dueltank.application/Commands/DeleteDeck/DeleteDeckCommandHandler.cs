@@ -25,7 +25,7 @@ namespace dueltank.application.Commands.DeleteDeck
 
             if (isOwnerOfDeck)
             {
-                var result = _deckService.DeleteDeckByIdAndUserId(request.Deck.UserId, request.Deck.Id.GetValueOrDefault());
+                var result = await _deckService.DeleteDeckByIdAndUserId(request.Deck.UserId, request.Deck.Id.GetValueOrDefault());
 
                 commandResult.Data = result;
                 commandResult.IsSuccessful = true;
