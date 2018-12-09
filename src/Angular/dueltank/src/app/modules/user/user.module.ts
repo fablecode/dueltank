@@ -7,6 +7,8 @@ import {PaginationModule, TabsModule} from "ngx-bootstrap";
 import {UserDeckListPage} from "./pages/user-deck-list/user-deck-list.page";
 import {UsernameDeckListPage} from "./pages/username-deck-list/username-deck-list.page";
 import {UserDecksService} from "./services/user-decks.service";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {BrowserModule} from "@angular/platform-browser";
 
 
 const userRoutes: Routes = [
@@ -29,6 +31,8 @@ const userRoutes: Routes = [
     SharedModule,
     RouterModule,
     FormsModule,ReactiveFormsModule,
+    BrowserModule,
+    BrowserAnimationsModule,
     PaginationModule.forRoot(),
     TabsModule.forRoot(),
     RouterModule.forChild(userRoutes)
