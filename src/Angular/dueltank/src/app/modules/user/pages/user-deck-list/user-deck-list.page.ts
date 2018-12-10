@@ -9,22 +9,24 @@ import {DeckSearchResult} from "../../../../shared/models/deck-search-result";
 import {Deck} from "../../../../shared/models/deck";
 import {AppConfigService} from "../../../../shared/services/app-config.service";
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
-import {animate, group, style, transition, trigger} from "@angular/animations";
+import {animate, group, state, style, transition, trigger} from "@angular/animations";
 
 @Component({
   templateUrl: "./user-deck-list.page.html",
   animations: [
     trigger('itemAnim', [
+      // the "in" style determines the "resting" state of the element when it is visible.
+      state('in', style({opacity: 1})),
+
+      // fade in when created. this could also be written as transition('void => *')
       transition(':enter', [
-        style({ transform: 'translateY(-20%)' }),
-        animate(500)
+        style({opacity: 0}),
+        animate(600 )
       ]),
-      transition(':leave', [
-        group([
-          animate('0.5s ease', style({ transform: 'translateY(-20%)', 'height':'0px' })),
-          animate('0.5s 0.2s ease', style({ opacity: 0 }))
-        ])
-      ])
+
+      // fade out when destroyed. this could also be written as transition('void => *')
+      transition(':leave',
+        animate(600, style({opacity: 0})))
     ])
   ]
 })

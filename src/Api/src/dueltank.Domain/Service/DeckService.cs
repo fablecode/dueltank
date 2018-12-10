@@ -141,7 +141,7 @@ namespace dueltank.Domain.Service
 
         private async Task<Deck> AddCardsToDeckByCardNumber(List<long> uniqueCards, Deck newDeck, DeckType deckType, IReadOnlyDictionary<long, int> cardCopies)
         {
-            return await AddCardsToDeck(uniqueCards, newDeck, deckType, cardCopies, _cardRepository.GetCardById, (cardIds, card) => cardIds.FindIndex(c => c == card.CardNumber) + 1);
+            return await AddCardsToDeck(uniqueCards, newDeck, deckType, cardCopies, _cardRepository.GetCardByNumber, (cardIds, card) => cardIds.FindIndex(c => c == card.CardNumber) + 1);
         }
         private async Task<Deck> AddCardsToDeckByCardId(List<long> uniqueCards, Deck newDeck, DeckType deckType, IReadOnlyDictionary<long, int> cardCopies)
         {
