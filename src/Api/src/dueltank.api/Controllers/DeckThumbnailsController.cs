@@ -58,7 +58,7 @@ namespace dueltank.api.Controllers
                     var result = await _mediator.Send(command);
 
                     if (result.IsSuccessful)
-                        return Ok(result.Data);
+                        return Ok(new { deckId = result.Data});
 
                     return BadRequest(result.Errors);
                 }

@@ -88,9 +88,9 @@ namespace dueltank.Domain.Service
             var extraDeckCardCopies = deckModel.ExtraDeck.GroupBy(c => c.Id).ToDictionary(g => g.Key, g => g.Count());
             var sideDeckCardCopies = deckModel.SideDeck.GroupBy(c => c.Id).ToDictionary(g => g.Key, g => g.Count());
 
-            newDeck = await AddCardsToDeckByCardNumber(mainDeckUniqueCards, newDeck, deckTypes[DeckTypeConstants.Main], mainDeckCardCopies);
-            newDeck = await AddCardsToDeckByCardNumber(extraDeckUniqueCards, newDeck, deckTypes[DeckTypeConstants.Extra], extraDeckCardCopies);
-            newDeck = await AddCardsToDeckByCardNumber(sideDeckUniqueCards, newDeck, deckTypes[DeckTypeConstants.Side], sideDeckCardCopies);
+            newDeck = await AddCardsToDeckByCardId(mainDeckUniqueCards, newDeck, deckTypes[DeckTypeConstants.Main], mainDeckCardCopies);
+            newDeck = await AddCardsToDeckByCardId(extraDeckUniqueCards, newDeck, deckTypes[DeckTypeConstants.Extra], extraDeckCardCopies);
+            newDeck = await AddCardsToDeckByCardId(sideDeckUniqueCards, newDeck, deckTypes[DeckTypeConstants.Side], sideDeckCardCopies);
 
             await _deckRepository.Add(newDeck);
 
