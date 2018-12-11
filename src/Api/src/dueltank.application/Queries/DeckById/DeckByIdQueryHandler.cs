@@ -1,7 +1,6 @@
 ﻿using dueltank.application.Helpers;
 using dueltank.application.Models.Decks.Output;
 using dueltank.core.Services;
-using dueltank.Domain.Helpers;
 using MediatR;
 using System.Linq;
 using System.Threading;
