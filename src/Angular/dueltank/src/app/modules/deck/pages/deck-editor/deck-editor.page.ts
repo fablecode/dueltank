@@ -64,6 +64,10 @@ export class DeckEditorPage implements OnInit, OnDestroy {
       .subscribe((deck: Deck) => {
       this.selectedDeck = deck;
 
+      if(this.selectedDeck.videoId) {
+        this.selectedDeck.videoId = "https://www.youtube.com/watch?v=" + this.selectedDeck.videoId;
+      }
+
       this.seo.title(this.selectedDeck.name + " - DuelTank");
       this.seo.keywords("Editor, Deck," + deckName + ", DuelTank");
 
