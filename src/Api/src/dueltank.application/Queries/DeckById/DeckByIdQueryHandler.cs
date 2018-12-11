@@ -1,6 +1,7 @@
 ﻿using dueltank.application.Helpers;
 using dueltank.application.Models.Decks.Output;
 using dueltank.core.Services;
+using dueltank.Domain.Helpers;
 using MediatR;
 using System.Linq;
 using System.Threading;
@@ -26,7 +27,7 @@ namespace dueltank.application.Queries.DeckById
                 var response = DeckDetailOutputModel.From(deckResult);
 
                 if (!string.IsNullOrWhiteSpace(response.YoutubeUrl))
-                    response.VideoId = response.YoutubeUrl;
+                    response.VideoId = YoutubeHelpers.ExtractVideoId(response.YoutubeUrl);
 
                 // we duplicate card based on quantity property, also maintain order
                 var mainList = deckResult.MainDeck.SelectMany(c => Enumerable.Repeat(c, c.Quantity)).OrderBy(c => c.SortOrder).ToList();
