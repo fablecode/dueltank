@@ -9,7 +9,7 @@ import {canAddCardToExtraDeck} from "../../utils/extra-deck-rules.util";
 import {canAddCardToSideDeck} from "../../utils/side-deck-rules.util";
 import {Format} from "../../../../shared/models/format";
 import {DeckEditorInfo} from "../../../../shared/models/deck-editor-info";
-import {Observable, Subscription, throwError} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import {DeckCardFilterService} from "../../services/deck-card-filter.service";
 import {DeckCardSearchResultService} from "../../services/deck-card-search-result.service";
 import {MainDeckService} from "../../services/main-deck.service";
@@ -17,7 +17,7 @@ import {ExtraDeckService} from "../../services/extra-deck.service";
 import {SideDeckService} from "../../services/side-deck.service";
 import {CurrentHoverCardService} from "../../../../shared/services/current-hover-card.service";
 import {DeckInfoService} from "../../services/deck-info.service";
-import {tap, mergeMap, catchError} from 'rxjs/operators';
+import {tap, mergeMap} from 'rxjs/operators';
 import {UpdateDeckOutput} from "../../../../shared/models/decks/output/update-deck-output";
 import {ToastrService} from "ngx-toastr";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -160,12 +160,12 @@ export class DeckEditorPage implements OnInit, OnDestroy {
             }
 
             return Observable.of(updateDeckOutput);
-          }),
-          catchError(this.handleError)
+          })
         )
         .subscribe(() => {
           this.toastr.success(this.selectedDeck.name + " saved!.")
-        });
+        },
+        error => this.handleError(error));
     });
 
     // Add subscriptions to collection
@@ -192,16 +192,7 @@ export class DeckEditorPage implements OnInit, OnDestroy {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
-  handleError(httpError: HttpErrorResponse) {
-    let errorMessage = '';
-    if (httpError.error && httpError.error instanceof ErrorEvent) {
-      // client-side error
-      errorMessage = `Error: ${httpError.error.message}`;
-    } else {
-      // server-side error
-      errorMessage = `Error Code: ${httpError.status}\nMessage: ${httpError.message}`;
-    }
-    this.toastr.error(errorMessage);
-    return throwError(errorMessage);
+  handleError(httpError: HttpErrorResponse) : void {
+    this.toastr.error(httpError.error[0]);
   }
 }

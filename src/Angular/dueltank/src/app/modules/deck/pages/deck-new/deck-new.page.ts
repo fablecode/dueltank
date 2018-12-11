@@ -19,10 +19,8 @@ import {DeckInfoService} from "../../services/deck-info.service";
 import {DeckEditorInfo} from "../../../../shared/models/deck-editor-info";
 import {AddDeckOutput} from "../../../../shared/models/decks/output/add-deck-output";
 import {catchError, mergeMap} from "rxjs/operators";
-import {UpdateDeckOutput} from "../../../../shared/models/decks/output/update-deck-output";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ToastrService} from "ngx-toastr";
-import {UpdateDeckThumbnailOutput} from "../../../../shared/models/decks/output/update-deck-thumbnail-output";
 import {SlugifyPipe} from "../../../../shared/pipes/slugify.pipe";
 
 @Component({
