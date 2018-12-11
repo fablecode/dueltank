@@ -138,12 +138,6 @@ export class DeckNewPage implements OnInit, OnDestroy {
     let deckInfoService = this.deckInfoService.saveDeck$.subscribe((deckEditorInfo: DeckEditorInfo) => {
       this.deckService
         .addDeck(deckEditorInfo, this.newDeck)
-        .subscribe((addDeckResult: AddDeckOutput) => {
-          console.log(addDeckResult);
-      });
-
-      this.deckService
-        .addDeck(deckEditorInfo, this.newDeck)
         .pipe(
           mergeMap((addDeckResult: AddDeckOutput) => {
 
@@ -155,8 +149,8 @@ export class DeckNewPage implements OnInit, OnDestroy {
           }),
           catchError(this.handleError)
         )
-        .subscribe((updateDeckThumbnailOutput: any) => {
-          this.router.navigate(['/deck/editor', updateDeckThumbnailOutput.deckId, this.slugify.transform(deckEditorInfo.name)])
+        .subscribe((addDeckOutput: any) => {
+          this.router.navigate(['/deck/editor', addDeckOutput.deckId, this.slugify.transform(deckEditorInfo.name)])
         });
     });
 
