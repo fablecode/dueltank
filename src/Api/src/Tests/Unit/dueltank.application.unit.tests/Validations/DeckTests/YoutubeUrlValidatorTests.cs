@@ -1,11 +1,13 @@
 ﻿using dueltank.application.Models.Decks.Input;
 using dueltank.application.Validations.Decks;
+using dueltank.tests.core;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
 
 namespace dueltank.application.unit.tests.Validations.DeckTests
 {
     [TestFixture]
+    [Category(TestType.Unit)]
     public class YoutubeUrlValidatorTests
     {
         private YoutubeUrlValidator _sut;

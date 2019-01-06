@@ -1,10 +1,12 @@
 ﻿using dueltank.application.Validations.Decks;
+using dueltank.tests.core;
 using FluentAssertions;
 using NUnit.Framework;
 
 namespace dueltank.application.unit.tests.Validations.DeckTests
 {
     [TestFixture]
+    [Category(TestType.Unit)]
     public class DeckIdValidatorTests
     {
         private DeckIdValidator _sut;

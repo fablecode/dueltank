@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\dueltank.application\dueltank.application.csproj" />
+    <ProjectReference Include="..\..\dueltank.tests.core\dueltank.tests.core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -7,10 +7,12 @@ using FluentValidation.TestHelper;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using dueltank.tests.core;
 
 namespace dueltank.application.unit.tests.Validations.DeckTests
 {
     [TestFixture]
+    [Category(TestType.Unit)]
     public class MainDeckValidatorTests
     {
         private DeckInputModel _inputModel;

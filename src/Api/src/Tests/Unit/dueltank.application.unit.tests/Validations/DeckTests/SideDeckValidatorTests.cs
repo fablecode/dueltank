@@ -3,6 +3,7 @@ using AutoFixture;
 using dueltank.application.Models.Cards.Input;
 using dueltank.application.Models.Decks.Input;
 using dueltank.application.Validations.Decks;
+using dueltank.tests.core;
 using FluentAssertions;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
@@ -10,6 +11,7 @@ using NUnit.Framework;
 namespace dueltank.application.unit.tests.Validations.DeckTests
 {
     [TestFixture]
+    [Category(TestType.Unit)]
     public class SideDeckValidatorTests
     {
         private Fixture _fixture;

@@ -1,11 +1,13 @@
 ﻿using System;
 using dueltank.application.Validations.Users;
+using dueltank.tests.core;
 using FluentAssertions;
 using NUnit.Framework;
 
 namespace dueltank.application.unit.tests.Validations.DeckTests
 {
     [TestFixture]
+    [Category(TestType.Unit)]
     public class UserIdValidatorTests
     {
         private UserIdValidator _sut;
