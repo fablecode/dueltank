@@ -1,9 +1,7 @@
-﻿using System.Reflection;
-using AutoMapper;
+﻿using AutoMapper;
 using dueltank.application.Commands.UploadYgoProDeck;
 using dueltank.application.Configuration;
 using dueltank.application.Models.Decks.Input;
-using dueltank.application.Validations.Deck;
 using dueltank.application.Validations.Decks;
 using dueltank.application.Validations.Decks.YgoProDeck;
 using dueltank.core.Models.YgoPro;
@@ -13,6 +11,7 @@ using dueltank.Domain.Service;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace dueltank.application
 {
