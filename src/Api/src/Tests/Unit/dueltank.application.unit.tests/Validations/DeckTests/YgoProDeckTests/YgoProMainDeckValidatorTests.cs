@@ -5,10 +5,12 @@ using FluentAssertions;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using dueltank.tests.core;
 
 namespace dueltank.application.unit.tests.Validations.DeckTests.YgoProDeckTests
 {
     [TestFixture]
+    [Category(TestType.Unit)]
     public class YgoProMainDeckValidatorTests
     {
         private YgoProDeck _inputModel;

@@ -6,10 +6,12 @@ using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
+using dueltank.tests.core;
 
 namespace dueltank.infrastructure.unit.tests
 {
     [TestFixture]
+    [Category(TestType.Unit)]
     public class LimitRepositoryTests
     {
         private LimitRepository _sut;
@@ -29,7 +31,7 @@ namespace dueltank.infrastructure.unit.tests
         public async Task Selects_AllLimits()
         {
             // Arrange
-            var expected = 2;
+            const int expected = 2;
             using (var context = new DueltankDbContext(_dbContextOptions))
             {
                 context.Limit.Add(new Limit

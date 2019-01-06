@@ -7,10 +7,12 @@ using NUnit.Framework;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using dueltank.tests.core;
 
 namespace dueltank.infrastructure.unit.tests
 {
     [TestFixture]
+    [Category(TestType.Unit)]
     public class DeckTypeRepositoryTests
     {
         private DeckTypeRepository _sut;

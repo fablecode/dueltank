@@ -5,11 +5,13 @@ using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
+using dueltank.tests.core;
 using Type = dueltank.core.Models.Db.Type;
 
 namespace dueltank.infrastructure.unit.tests
 {
     [TestFixture]
+    [Category(TestType.Unit)]
     public class TypeRepositoryTests
     {
         private TypeRepository _sut;

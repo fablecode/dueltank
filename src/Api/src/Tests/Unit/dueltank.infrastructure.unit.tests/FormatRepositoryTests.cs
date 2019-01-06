@@ -1,16 +1,17 @@
-﻿using dueltank.infrastructure.Database;
+﻿using dueltank.core.Models.Db;
+using dueltank.infrastructure.Database;
 using dueltank.infrastructure.Repository;
+using dueltank.tests.core;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
-using dueltank.core.Models.Db;
-using Attribute = dueltank.core.Models.Db.Attribute;
 
 namespace dueltank.infrastructure.unit.tests
 {
     [TestFixture]
+    [Category(TestType.Unit)]
     public class FormatRepositoryTests
     {
         private FormatRepository _sut;

@@ -1,16 +1,17 @@
-﻿using System;
-using System.Threading.Tasks;
-using dueltank.core.Models.Db;
+﻿using dueltank.core.Models.Db;
 using dueltank.infrastructure.Database;
 using dueltank.infrastructure.Repository;
+using dueltank.tests.core;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
-using Attribute = dueltank.core.Models.Db.Attribute;
+using System;
+using System.Threading.Tasks;
 
 namespace dueltank.infrastructure.unit.tests
 {
     [TestFixture]
+    [Category(TestType.Unit)]
     public class CardRepositoryTests
     {
         private CardRepository _sut;

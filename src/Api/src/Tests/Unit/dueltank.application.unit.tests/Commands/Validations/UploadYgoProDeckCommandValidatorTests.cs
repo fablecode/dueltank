@@ -1,11 +1,13 @@
 ﻿using System;
 using dueltank.application.Commands.UploadYgoProDeck;
+using dueltank.tests.core;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
 
 namespace dueltank.application.unit.tests.Commands.Validations
 {
     [TestFixture]
+    [Category(TestType.Unit)]
     public class UploadYgoProDeckCommandValidatorTests
     {
         private UploadYgoProDeckCommandValidator _sut;

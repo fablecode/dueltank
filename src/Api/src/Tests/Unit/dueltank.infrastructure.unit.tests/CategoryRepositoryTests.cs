@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using dueltank.core.Models.Db;
 using dueltank.infrastructure.Database;
 using dueltank.infrastructure.Repository;
+using dueltank.tests.core;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
@@ -10,6 +11,7 @@ using NUnit.Framework;
 namespace dueltank.infrastructure.unit.tests
 {
     [TestFixture]
+    [Category(TestType.Unit)]
     public class CategoryRepositoryTests
     {
         private CategoryRepository _sut;

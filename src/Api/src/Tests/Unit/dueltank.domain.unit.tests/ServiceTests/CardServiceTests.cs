@@ -4,10 +4,12 @@ using dueltank.Domain.Service;
 using NSubstitute;
 using NUnit.Framework;
 using System.Threading.Tasks;
+using dueltank.tests.core;
 
 namespace dueltank.domain.unit.tests.ServiceTests
 {
     [TestFixture]
+    [Category(TestType.Unit)]
     public class CardServiceTests
     {
         CardService _sut;

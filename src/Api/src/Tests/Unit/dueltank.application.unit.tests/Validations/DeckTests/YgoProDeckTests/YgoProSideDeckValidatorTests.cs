@@ -4,10 +4,12 @@ using dueltank.core.Models.YgoPro;
 using FluentAssertions;
 using NUnit.Framework;
 using System.Linq;
+using dueltank.tests.core;
 
 namespace dueltank.application.unit.tests.Validations.DeckTests.YgoProDeckTests
 {
     [TestFixture]
+    [Category(TestType.Unit)]
     public class YgoProSideDeckValidatorTests
     {
         private Fixture _fixture;

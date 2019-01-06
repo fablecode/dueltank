@@ -1,12 +1,14 @@
 ﻿using System.IO;
 using System.Reflection;
 using dueltank.Domain.Helpers;
+using dueltank.tests.core;
 using FluentAssertions;
 using NUnit.Framework;
 
 namespace dueltank.domain.unit.tests.Helpers
 {
     [TestFixture]
+    [Category(TestType.Unit)]
     public class YgoProDeckHelpersTests
     {
         [TestCase("7737", "00007737")]

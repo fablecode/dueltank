@@ -7,10 +7,12 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using dueltank.tests.core;
 
 namespace dueltank.infrastructure.unit.tests
 {
     [TestFixture]
+    [Category(TestType.Unit)]
     public class SubCategoryRepositoryTests
     {
         private SubCategoryRepository _sut;
@@ -30,7 +32,7 @@ namespace dueltank.infrastructure.unit.tests
         public async Task Selects_All_SubCategories()
         {
             // Arrange
-            var expected = 2;
+            const int expected = 2;
             using (var context = new DueltankDbContext(_dbContextOptions))
             {
                 context.Category.Add(new Category

@@ -5,10 +5,12 @@ using NSubstitute;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using dueltank.tests.core;
 
 namespace dueltank.domain.unit.tests.ServiceTests
 {
     [TestFixture]
+    [Category(TestType.Unit)]
     public class DeckTypeServiceTests
     {
         private DeckTypeService _sut;
