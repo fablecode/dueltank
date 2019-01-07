@@ -39,7 +39,7 @@ namespace dueltank.api.Controllers
         [HttpGet]
         [ProducesResponseType((int) HttpStatusCode.OK)]
         [Route("latest")]
-        public async Task<IActionResult> MostRecentDecks()
+        public async Task<IActionResult> MostRecentBanlists()
         {
             var result = await _mediator.Send(new MostRecentBanlistsQuery());
 

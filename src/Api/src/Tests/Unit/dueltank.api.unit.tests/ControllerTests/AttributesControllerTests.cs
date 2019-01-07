@@ -38,6 +38,7 @@ namespace dueltank.api.unit.tests.ControllerTests
             // Assert
             result.Should().BeOfType<OkObjectResult>();
         }
+
         [Test]
         public async Task Get_WhenCalled_Should_Return_All_Monster_Attributes()
         {
