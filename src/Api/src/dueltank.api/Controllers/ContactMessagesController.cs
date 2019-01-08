@@ -10,11 +10,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace dueltank.api.Controllers
 {
     [Route("api/[controller]")]
-    public class ContactMessages : Controller
+    public class ContactMessagesController : Controller
     {
         private readonly IMediator _mediator;
 
-        public ContactMessages(IMediator mediator)
+        public ContactMessagesController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -34,7 +34,7 @@ namespace dueltank.api.Controllers
                 });
 
                 if(result.IsSuccessful)
-                return Ok();
+                    return Ok();
 
                 return BadRequest(result.Errors);
             }
