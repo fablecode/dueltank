@@ -37,6 +37,7 @@ Included items must then not match any entries in the exclude list to remain inc
 				<ModulePath>.*autofixture.dll</ModulePath>
 				<ModulePath>.*FluentAssertions.dll</ModulePath>
 				<ModulePath>.*FluentAssertions.core.dll</ModulePath>
+				<ModulePath>.*nunit3.testadapter.dll</ModulePath>
               </Exclude>
             </ModulePaths>
 
@@ -44,6 +45,8 @@ Included items must then not match any entries in the exclude list to remain inc
             <!-- (Use "\." to delimit namespaces in C# or Visual Basic, "::" in C++.)  -->
             <Functions>
               <Exclude>
+				<Function>.*get_.*</Function>
+				<Function>.*set_.*</Function>
                 <Function>^Fabrikam\.UnitTest\..*</Function>
                 <Function>^std::.*</Function>
                 <Function>^ATL::.*</Function>
