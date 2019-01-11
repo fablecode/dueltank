@@ -28,30 +28,24 @@ namespace dueltank.api.Controllers
 
         [HttpGet]
         [ProducesResponseType((int) HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Get([FromQuery] SearchDecksInputModel searchModel)
         {
-            if (ModelState.IsValid)
-            {
-                var user = await GetCurrentUserAsync();
+            var user = await GetCurrentUserAsync();
 
-                if (user != null)
+            if (user != null)
+            {
+                var inputModel = _mapper.Map<DecksByUserIdInputModel>(searchModel);
+
+                var result = await _mediator.Send(new DecksByUserIdQuery
                 {
-                    var inputModel = _mapper.Map<DecksByUserIdInputModel>(searchModel);
+                    UserId = user.Id,
+                    SearchTerm = inputModel.SearchTerm,
+                    PageSize = inputModel.PageSize,
+                    PageIndex = inputModel.PageIndex
+                });
 
-                    var result = await _mediator.Send(new DecksByUserIdQuery
-                    {
-                        UserId = user.Id,
-                        SearchTerm = inputModel.SearchTerm,
-                        PageSize = inputModel.PageSize,
-                        PageIndex = inputModel.PageIndex
-                    });
-
-                    return Ok(result);
-                }
-            }
-            else
-            {
-                return BadRequest(ModelState.Errors());
+                return Ok(result);
             }
 
             return BadRequest();
@@ -62,35 +56,26 @@ namespace dueltank.api.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Delete([FromQuery] long id)
         {
-            if (ModelState.IsValid)
+            var user = await GetCurrentUserAsync();
+
+            if (user != null)
             {
-                var user = await GetCurrentUserAsync();
-
-                if (user != null)
-
+                var command = new DeleteDeckCommand
                 {
-                    var command = new DeleteDeckCommand
+                    Deck = new DeckInputModel
                     {
-                        Deck = new DeckInputModel
-                        {
-                            Id = id,
-                            UserId = user.Id
-                        }
-                    };
+                        Id = id,
+                        UserId = user.Id
+                    }
+                };
 
-                    var result = await _mediator.Send(command);
+                var result = await _mediator.Send(command);
 
-                    if (result.IsSuccessful)
-                        return Ok(new { id = result.Data} );
+                if (result.IsSuccessful)
+                    return Ok(new { id = result.Data} );
 
-                    return BadRequest(result.Errors);
-                }
+                return BadRequest(result.Errors);
             }
-            else
-            {
-                return BadRequest(ModelState.Errors());
-            }
-
 
             return BadRequest();
         }
