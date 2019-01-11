@@ -29,7 +29,6 @@ namespace dueltank.api.Controllers
         [HttpGet("cards/{name}")]
         [ResponseCache(CacheProfileName = CacheConstants.TwoWeeksPolicy)]
         [ProducesResponseType((int) HttpStatusCode.OK)]
-        [ProducesResponseType((int) HttpStatusCode.NotFound)]
         public async Task<IActionResult> Cards(string name)
         {
             var result = await _mediator.Send(new CardImageByNameQuery {Name = name});
