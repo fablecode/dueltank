@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using dueltank.api.Controllers;
+﻿using dueltank.api.Controllers;
 using dueltank.api.Models;
 using dueltank.application.Commands;
 using dueltank.application.Models.Decks.Input;
@@ -11,12 +7,15 @@ using dueltank.tests.core;
 using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NSubstitute;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace dueltank.api.unit.tests.ControllerTests
 {
