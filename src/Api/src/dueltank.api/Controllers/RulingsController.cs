@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
-using dueltank.application.Queries.TipsByCardId;
+using dueltank.application.Queries.RulingsByCardId;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace dueltank.api.Controllers
 {
     [Route("api/cards/{cardId}/[controller]")]
-    public class TipsController : Controller
+    public class RulingsController : Controller
     {
         private readonly IMediator _mediator;
 
-        public TipsController(IMediator mediator)
+        public RulingsController(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -22,7 +22,7 @@ namespace dueltank.api.Controllers
         [ProducesResponseType((int) HttpStatusCode.OK)]
         public async Task<IActionResult> Get([FromRoute] long cardId)
         {
-            var result = await _mediator.Send(new TipsByCardIdQuery {CardId = cardId});
+            var result = await _mediator.Send(new RulingsByCardIdQuery {CardId = cardId});
 
             return Ok(result);
         }
