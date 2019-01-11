@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
+using dueltank.api.Constants;
 using dueltank.application.Queries.AllFormats;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -23,7 +24,7 @@ namespace dueltank.api.Controllers
         /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
-        //[ResponseCache(CacheProfileName = CacheConstants.OneWeekPolicy)]
+        [ResponseCache(CacheProfileName = CacheConstants.OneWeekPolicy)]
         [ProducesResponseType((int) HttpStatusCode.OK)]
         public async Task<IActionResult> Get()
         {
