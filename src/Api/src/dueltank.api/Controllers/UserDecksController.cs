@@ -1,14 +1,13 @@
-﻿using System.Net;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using dueltank.api.Models;
-using dueltank.api.ServiceExtensions;
 using dueltank.application.Commands.DeleteDeck;
 using dueltank.application.Models.Decks.Input;
 using dueltank.application.Queries.DecksByUserId;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace dueltank.api.Controllers
 {

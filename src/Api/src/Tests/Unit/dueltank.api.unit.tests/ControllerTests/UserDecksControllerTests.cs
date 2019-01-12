@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using dueltank.api.Controllers;
 using dueltank.api.Models;
+using dueltank.application.Commands;
 using dueltank.application.Models.Decks.Input;
 using dueltank.application.Models.Decks.Output;
 using dueltank.tests.core;
@@ -82,5 +84,55 @@ namespace dueltank.api.unit.tests.ControllerTests
             result.Should().BeOfType<OkObjectResult>();
         }
 
+        [Test]
+        public async Task Delete_WhenCalled_With_A_DeckId_And_User_Is_Not_Found_Should_Return_BadRequestResult()
+        {
+            // Arrange
+            const int deckId = 2342;
+
+            _userManager.GetUserAsync(Arg.Any<ClaimsPrincipal>()).Returns((ApplicationUser) null);
+
+            // Act
+            var result = await _sut.Delete(deckId) as BadRequestResult;
+
+            // Assert
+            result.Should().BeOfType<BadRequestResult>();
+        }
+
+        [Test]
+        public async Task Delete_WhenCalled_With_A_DeckId_And_Deck_Deletion_Fails_Should_Return_BadRequestObjectResult()
+        {
+            // Arrange
+            const string expected = "Insufficient permissions to delete this deck.";
+
+            const int deckId = 2342;
+
+            _userManager.GetUserAsync(Arg.Any<ClaimsPrincipal>()).Returns(new ApplicationUser { Id = Guid.NewGuid().ToString() });
+            _mediator.Send(Arg.Any<IRequest<CommandResult>>()).Returns(new CommandResult{ Errors = new List<string> { "Insufficient permissions to delete this deck." } });
+
+            // Act
+            var result = await _sut.Delete(deckId) as BadRequestObjectResult;
+
+            // Assert
+            result.Should().BeOfType<BadRequestObjectResult>();
+            var errors = result?.Value as IEnumerable<string>;
+            errors.Should().ContainSingle(expected);
+        }
+
+        [Test]
+        public async Task Delete_WhenCalled_With_A_DeckId_And_Deck_Deletion_Succeeds_Should_Return_OkObjectResult()
+        {
+            // Arrange
+            const int deckId = 2342;
+
+            _userManager.GetUserAsync(Arg.Any<ClaimsPrincipal>()).Returns(new ApplicationUser { Id = Guid.NewGuid().ToString() });
+            _mediator.Send(Arg.Any<IRequest<CommandResult>>()).Returns(new CommandResult{ IsSuccessful = true, Data = 2342 });
+
+            // Act
+            var result = await _sut.Delete(deckId) as OkObjectResult;
+
+            // Assert
+            result.Should().BeOfType<OkObjectResult>();
+        }
     }
 }
