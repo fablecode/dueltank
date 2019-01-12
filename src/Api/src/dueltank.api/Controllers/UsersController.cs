@@ -31,28 +31,21 @@ namespace dueltank.api.Controllers
         [ProducesResponseType((int) HttpStatusCode.OK)]
         public async Task<IActionResult> Get([FromQuery] SearchDecksInputModel searchModel)
         {
-            if (ModelState.IsValid)
-            {
-                var user = await GetCurrentUserAsync();
+            var user = await GetCurrentUserAsync();
 
-                if (user != null)
+            if (user != null)
+            {
+                var inputModel = _mapper.Map<DecksByUserIdInputModel>(searchModel);
+
+                var result = await _mediator.Send(new DecksByUserIdQuery
                 {
-                    var inputModel = _mapper.Map<DecksByUserIdInputModel>(searchModel);
+                    UserId = user.Id,
+                    SearchTerm = inputModel.SearchTerm,
+                    PageSize = inputModel.PageSize,
+                    PageIndex = inputModel.PageIndex
+                });
 
-                    var result = await _mediator.Send(new DecksByUserIdQuery
-                    {
-                        UserId = user.Id,
-                        SearchTerm = inputModel.SearchTerm,
-                        PageSize = inputModel.PageSize,
-                        PageIndex = inputModel.PageIndex
-                    });
-
-                    return Ok(result);
-                }
-            }
-            else
-            {
-                return BadRequest(ModelState.Errors());
+                return Ok(result);
             }
 
             return BadRequest();

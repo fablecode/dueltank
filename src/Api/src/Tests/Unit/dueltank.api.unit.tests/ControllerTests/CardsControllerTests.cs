@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using dueltank.api.Controllers;
+﻿using dueltank.api.Controllers;
 using dueltank.application.Models.Cards.Output;
 using dueltank.tests.core;
 using FluentAssertions;
@@ -8,6 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using NUnit.Framework;
+using System.Threading.Tasks;
 
 namespace dueltank.api.unit.tests.ControllerTests
 {
