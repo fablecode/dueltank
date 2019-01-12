@@ -13,6 +13,9 @@ namespace dueltank.api.Controllers
     [Route("api/[controller]")]
     public class YgoProDecksController : Controller
     {
+        public const string YgoproDeckFileNotSelected = "YgoPro deck file not selected";
+        public const string YgoproDeckFileIsEmpty = "YgoPro deck file is empty";
+
         private readonly IMediator _mediator;
         private readonly UserManager<ApplicationUser> _userManager;
 
@@ -33,35 +36,47 @@ namespace dueltank.api.Controllers
         [HttpPost] // 10MB request size
         public async Task<IActionResult> Post([FromForm] IFormFile file)
         {
-            if (file != null && file.Length >= 0)
+            if (file != null)
             {
-                var user = await _userManager.FindByNameAsync(User.Identity.Name);
-                if (user != null)
+                if (file.Length > 0)
                 {
-                    var command = new UploadYgoProDeckCommand
-                    {
-                        Name = Path.GetFileNameWithoutExtension(file.FileName),
-                        UserId = user.Id
-                    };
+                    var user = await GetCurrentUserAsync();
 
-                    using (var reader = new StreamReader(file.OpenReadStream()))
+                    if (user != null)
                     {
-                        command.Deck = await reader.ReadToEndAsync();
+                        var command = new UploadYgoProDeckCommand
+                        {
+                            Name = Path.GetFileNameWithoutExtension(file.FileName),
+                            UserId = user.Id
+                        };
+
+                        using (var reader = new StreamReader(file.OpenReadStream()))
+                        {
+                            command.Deck = await reader.ReadToEndAsync();
+                        }
+
+                        var result = await _mediator.Send(command);
+
+                        if (result.IsSuccessful)
+                            return CreatedAtRoute("GetDeckById", new { id = result.Data }, result.Data);
+
+                        return BadRequest(result.Errors);
                     }
 
-                    var result = await _mediator.Send(command);
 
-                    if (result.IsSuccessful)
-                        return CreatedAtRoute("GetDeckById", new {id = result.Data}, result.Data);
-
-                    return BadRequest(result.Errors);
+                    return BadRequest();
                 }
 
-
-                return BadRequest();
+                return BadRequest(YgoproDeckFileIsEmpty);
             }
 
-            return BadRequest("YgoPro deck file not selected");
+            return BadRequest(YgoproDeckFileNotSelected);
         }
+
+        private Task<ApplicationUser> GetCurrentUserAsync()
+        {
+            return _userManager.GetUserAsync(User);
+        }
+
     }
 }

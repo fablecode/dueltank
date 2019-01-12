@@ -72,6 +72,7 @@ namespace dueltank.api.unit.tests.ControllerTests
         [Test]
         public async Task Patch_WhenCalled_With_A_Valid_DeckThumbnail_And_Authenticated_User_Is_Not_Found_Should_Return_BadRequestResult()
         {
+            // Arrange
             var formFile = Substitute.For<IFormFile>();
             var content = new byte[] { 1, 2, 3, 4 };
             const string fileName = "thumbnail.png";
@@ -103,6 +104,7 @@ namespace dueltank.api.unit.tests.ControllerTests
         [Test]
         public async Task Patch_WhenCalled_With_A_Valid_DeckThumbnail_If_Deck_Is_Updated_Should_Return_OkObjectResult()
         {
+            // Arrange
             var formFile = Substitute.For<IFormFile>();
             var content = new byte[] { 1, 2, 3, 4 };
             const string fileName = "thumbnail.png";
