@@ -32,6 +32,7 @@ Included items must then not match any entries in the exclude list to remain inc
                 <ModulePath>.*CPPUnitTestFramework.*</ModulePath>
 				<ModulePath>.*nunit.framework.dll</ModulePath>
 				<ModulePath>.*Polly.dll</ModulePath>
+				<ModulePath>.*automapper.dll</ModulePath>
 				<ModulePath>.*Moq.dll</ModulePath>
 				<ModulePath>.*tests.dll</ModulePath>
 				<ModulePath>.*autofixture.dll</ModulePath>
