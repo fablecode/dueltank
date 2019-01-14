@@ -4,7 +4,7 @@ using dueltank.tests.core;
 using FluentValidation.TestHelper;
 using NUnit.Framework;
 
-namespace dueltank.application.unit.tests.Commands.Validations
+namespace dueltank.application.unit.tests.CommandTests.Validations
 {
     [TestFixture]
     [Category(TestType.Unit)]

@@ -26,9 +26,9 @@ namespace dueltank.application.Models.Decks.Input
         public List<CardInputModel> MainDeck { get; set; }
 
         [Display(Name = "Extra deck")]
-        public List<CardInputModel> ExtraDeck { get; set; }
+        public List<CardInputModel> ExtraDeck { get; set; } = new List<CardInputModel>();
 
         [Display(Name = "Side deck")]
-        public List<CardInputModel> SideDeck { get; set; }
+        public List<CardInputModel> SideDeck { get; set; } = new List<CardInputModel>();
     }
 }
