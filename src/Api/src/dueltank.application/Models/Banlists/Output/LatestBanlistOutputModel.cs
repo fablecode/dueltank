@@ -7,10 +7,10 @@ namespace dueltank.application.Models.Banlists.Output
     {
         public string Format { get; set; }
 
+        public string ReleaseDate { get; set; }
         public List<CardOutputModel> Forbidden { get; set; }
         public List<CardOutputModel> Limited { get; set; }
         public List<CardOutputModel> SemiLimited { get; set; }
         public List<CardOutputModel> Unlimited { get; set; }
-        public string ReleaseDate { get; set; }
     }
 }
