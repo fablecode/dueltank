@@ -15,7 +15,7 @@ namespace dueltank.application.unit.tests.CommandTests
 {
     [TestFixture]
     [Category(TestType.Unit)]
-    public class SendContactUsEmailTests
+    public class SendContactUsEmailCommandTests
     {
         private SendContactUsEmailCommandHandler _sut;
         private IEmailService _emailService;
