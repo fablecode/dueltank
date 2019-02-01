@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using dueltank.application.Models.Decks.Input;
+using dueltank.application.Models.Decks.Output;
 using dueltank.application.Validations.Decks;
 using dueltank.core.Models.DeckDetails;
 using dueltank.core.Services;
@@ -58,17 +59,5 @@ namespace dueltank.application.Commands.UpdateDeck
 
             return commandResult;
         }
-    }
-
-    public class UpdateDeckOutputModel
-    {
-        public long DeckId { get; set; }
-    }
-
-    public class UpdateDeckThumbnailOutputModel
-    {
-        public long DeckId { get; set; }
-
-        public string Thumbnail { get; set; }
     }
 }

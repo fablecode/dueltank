@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using dueltank.core.Services;
+﻿using dueltank.core.Services;
 using dueltank.Domain.Configuration;
 using dueltank.Domain.Model;
 using MailKit;
 using MediatR;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace dueltank.application.Commands.SendContactUsEmail
 {

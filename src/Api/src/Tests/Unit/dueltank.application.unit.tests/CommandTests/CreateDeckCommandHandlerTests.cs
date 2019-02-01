@@ -68,6 +68,7 @@ namespace dueltank.application.unit.tests.CommandTests
             result.IsSuccessful.Should().BeFalse();
 
         }
+
         [Test]
         public async Task Given_An_Invalid_Deck_Create_Command_Should_Return_A_List_Of_Errors()
         {

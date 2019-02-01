@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using dueltank.application.Commands.UpdateDeck;
 using dueltank.application.Models.Decks.Input;
+using dueltank.application.Models.Decks.Output;
 using dueltank.core.Models.DeckDetails;
 using dueltank.core.Services;
 using FluentValidation;
