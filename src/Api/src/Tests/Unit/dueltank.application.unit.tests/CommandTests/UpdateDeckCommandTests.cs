@@ -125,7 +125,7 @@ namespace dueltank.application.unit.tests.CommandTests
         }
 
         [Test]
-        public async Task Given_An_Valid_Deck_User_Is_Not_Owner_Update_Command_Should_Fail()
+        public async Task Given_An_Valid_Deck_If_User_Is_Not_Owner_Update_Command_Should_Fail()
         {
             // Arrange
             var deck = new DeckInputModel

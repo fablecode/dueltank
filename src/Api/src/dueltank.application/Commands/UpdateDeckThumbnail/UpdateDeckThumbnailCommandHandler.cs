@@ -1,10 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
-using dueltank.application.Commands.UpdateDeck;
+﻿using AutoMapper;
 using dueltank.application.Models.Decks.Input;
 using dueltank.application.Models.Decks.Output;
 using dueltank.core.Models.DeckDetails;
@@ -12,6 +6,11 @@ using dueltank.core.Services;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Options;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace dueltank.application.Commands.UpdateDeckThumbnail
 {
