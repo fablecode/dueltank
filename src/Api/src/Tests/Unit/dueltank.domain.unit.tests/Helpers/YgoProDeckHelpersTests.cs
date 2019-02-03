@@ -119,7 +119,7 @@ namespace dueltank.domain.unit.tests.Helpers
             new object[]
             {
                 GetResourceContents("Fairy Counter Deck.ydk"),
-                0
+                1
             }
         };
 
