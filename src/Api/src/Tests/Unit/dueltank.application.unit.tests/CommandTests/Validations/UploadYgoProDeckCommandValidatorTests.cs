@@ -10,13 +10,13 @@ namespace dueltank.application.unit.tests.CommandTests.Validations
     [Category(TestType.Unit)]
     public class UploadYgoProDeckCommandValidatorTests
     {
-        private UploadYgoProDeckCommandValidator _sut;
-
         [SetUp]
         public void SetUp()
         {
             _sut = new UploadYgoProDeckCommandValidator();
         }
+
+        private UploadYgoProDeckCommandValidator _sut;
 
         [TestCase(null)]
         [TestCase("")]

@@ -1,4 +1,7 @@
-﻿using dueltank.application.Commands.SendContactUsEmail;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using dueltank.application.Commands.SendContactUsEmail;
 using dueltank.core.Services;
 using dueltank.Domain.Configuration;
 using dueltank.Domain.Model;
@@ -7,9 +10,6 @@ using FluentAssertions;
 using MailKit;
 using NSubstitute;
 using NUnit.Framework;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace dueltank.application.unit.tests.CommandTests
 {
@@ -17,10 +17,6 @@ namespace dueltank.application.unit.tests.CommandTests
     [Category(TestType.Unit)]
     public class SendContactUsEmailCommandTests
     {
-        private SendContactUsEmailCommandHandler _sut;
-        private IEmailService _emailService;
-        private IEmailConfiguration _emailConfiguration;
-
         [SetUp]
         public void SetUp()
         {
@@ -28,6 +24,78 @@ namespace dueltank.application.unit.tests.CommandTests
             _emailConfiguration = Substitute.For<IEmailConfiguration>();
 
             _sut = new SendContactUsEmailCommandHandler(_emailService, _emailConfiguration);
+        }
+
+        private SendContactUsEmailCommandHandler _sut;
+        private IEmailService _emailService;
+        private IEmailConfiguration _emailConfiguration;
+
+        [Test]
+        public async Task
+            Given_A_Valid_Command_If_Connection_To_EmailServer_Fails_Should_Handle_ServiceNotAuthenticated_Exception_And_Return_Errors()
+        {
+            // Arrange
+            var command = new SendContactUsEmailCommand
+            {
+                Name = "bottom",
+                Email = "poo@toilet.com",
+                Message = "Flash the loo"
+            };
+
+            _emailConfiguration.SmtpUsername.Returns("dueltanco@gmail.com");
+
+            _emailService.When(x => x.Send(Arg.Any<EmailMessage>()))
+                .Do(x => throw new ServiceNotAuthenticatedException());
+
+            // Act
+            var result = await _sut.Handle(command, CancellationToken.None);
+
+            // Assert
+            result.Errors.Should().NotBeEmpty();
+        }
+
+        [Test]
+        public async Task
+            Given_A_Valid_Command_If_Connection_To_EmailServer_Fails_Should_Handle_ServiceNotConnected_Exception_And_Return_Errors()
+        {
+            // Arrange
+            var command = new SendContactUsEmailCommand
+            {
+                Name = "bottom",
+                Email = "poo@toilet.com",
+                Message = "Flash the loo"
+            };
+
+            _emailConfiguration.SmtpUsername.Returns("dueltanco@gmail.com");
+
+            _emailService.When(x => _emailService.Send(Arg.Any<EmailMessage>()))
+                .Do(x => throw new ServiceNotConnectedException());
+
+            // Act
+            var result = await _sut.Handle(command, CancellationToken.None);
+
+            // Assert
+            result.Errors.Should().NotBeEmpty();
+        }
+
+        [Test]
+        public void Given_A_Valid_Command_Should_Invoke_Send_Method_Once()
+        {
+            // Arrange
+            var command = new SendContactUsEmailCommand
+            {
+                Name = "bottom",
+                Email = "poo@toilet.com",
+                Message = "Flash the loo"
+            };
+
+            _emailService.Send(Arg.Any<EmailMessage>());
+
+            // Act
+            _sut.Handle(command, CancellationToken.None);
+
+            // Assert
+            _emailService.Received(1).Send(Arg.Any<EmailMessage>());
         }
 
         [Test]
@@ -48,70 +116,6 @@ namespace dueltank.application.unit.tests.CommandTests
 
             // Assert
             act.Should().NotThrow();
-        }
-
-        [Test]
-        public void Given_A_Valid_Command_Should_Invoke_Send_Method_Once()
-        {
-            // Arrange
-            var command = new SendContactUsEmailCommand
-            {
-                Name = "bottom",
-                Email = "poo@toilet.com",
-                Message = "Flash the loo"
-            };
-
-            _emailService.Send(Arg.Any<EmailMessage>());
-
-            // Act
-           _sut.Handle(command, CancellationToken.None);
-
-            // Assert
-            _emailService.Received(1).Send(Arg.Any<EmailMessage>());
-        }
-
-        [Test]
-        public async Task Given_A_Valid_Command_If_Connection_To_EmailServer_Fails_Should_Handle_ServiceNotConnected_Exception_And_Return_Errors()
-        {
-            // Arrange
-            var command = new SendContactUsEmailCommand
-            {
-                Name = "bottom",
-                Email = "poo@toilet.com",
-                Message = "Flash the loo"
-            };
-
-            _emailConfiguration.SmtpUsername.Returns("dueltanco@gmail.com");
-
-            _emailService.When(x => _emailService.Send(Arg.Any<EmailMessage>())).Do(x => throw new ServiceNotConnectedException());
-
-            // Act
-            var result = await  _sut.Handle(command, CancellationToken.None);
-
-            // Assert
-            result.Errors.Should().NotBeEmpty();
-        }
-
-        [Test]
-        public async Task Given_A_Valid_Command_If_Connection_To_EmailServer_Fails_Should_Handle_ServiceNotAuthenticated_Exception_And_Return_Errors()
-        {
-            // Arrange
-            var command = new SendContactUsEmailCommand
-            {
-                Name = "bottom",
-                Email = "poo@toilet.com",
-                Message = "Flash the loo"
-            };
-
-            _emailConfiguration.SmtpUsername.Returns("dueltanco@gmail.com");
-
-            _emailService.When(x => x.Send(Arg.Any<EmailMessage>())).Do(x => throw new ServiceNotAuthenticatedException());
-
-            // Act
-            var result = await _sut.Handle(command, CancellationToken.None);
-
-            // Assert
-            result.Errors.Should().NotBeEmpty();
         }
     }
 }

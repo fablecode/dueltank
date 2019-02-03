@@ -1,4 +1,7 @@
-﻿using dueltank.application.Commands.DeleteDeck;
+﻿using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using dueltank.application.Commands.DeleteDeck;
 using dueltank.application.Models.Cards.Input;
 using dueltank.application.Models.Decks.Input;
 using dueltank.core.Services;
@@ -6,9 +9,6 @@ using dueltank.tests.core;
 using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace dueltank.application.unit.tests.CommandTests
 {
@@ -16,10 +16,6 @@ namespace dueltank.application.unit.tests.CommandTests
     [Category(TestType.Unit)]
     public class DeleteDeckCommandTests
     {
-        private IUserService _userService;
-        private IDeckService _deckService;
-        private DeleteDeckCommandHandler _sut;
-
         [SetUp]
         public void SetUp()
         {
@@ -28,6 +24,10 @@ namespace dueltank.application.unit.tests.CommandTests
 
             _sut = new DeleteDeckCommandHandler(_userService, _deckService);
         }
+
+        private IUserService _userService;
+        private IDeckService _deckService;
+        private DeleteDeckCommandHandler _sut;
 
         [Test]
         public async Task Given_A_Deck_If_User_Is_Not_Owner_DeleteCommand_Should_Fail()
@@ -38,7 +38,7 @@ namespace dueltank.application.unit.tests.CommandTests
                 MainDeck = new List<CardInputModel>()
             };
 
-            var command = new DeleteDeckCommand { Deck = deck };
+            var command = new DeleteDeckCommand {Deck = deck};
 
             _userService.IsUserDeckOwner(Arg.Any<string>(), Arg.Any<long>()).Returns(false);
 
@@ -50,26 +50,6 @@ namespace dueltank.application.unit.tests.CommandTests
         }
 
         [Test]
-        public async Task Given_A_Deck_If_User_Is_Not_Owner_Should_Return_Errors()
-        {
-            // Arrange
-            var deck = new DeckInputModel
-            {
-                MainDeck = new List<CardInputModel>()
-            };
-
-            var command = new DeleteDeckCommand { Deck = deck };
-
-            _userService.IsUserDeckOwner(Arg.Any<string>(), Arg.Any<long>()).Returns(false);
-
-            // Act
-            var result = await _sut.Handle(command, CancellationToken.None);
-
-            // Assert
-            result.Errors.Should().NotBeEmpty();
-        }
-
-        [Test]
         public async Task Given_A_Deck_If_User_Is_Not_Owner_Should_Not_Invoke_DeleteDeckByIdAndUserId()
         {
             // Arrange
@@ -78,7 +58,7 @@ namespace dueltank.application.unit.tests.CommandTests
                 MainDeck = new List<CardInputModel>()
             };
 
-            var command = new DeleteDeckCommand { Deck = deck };
+            var command = new DeleteDeckCommand {Deck = deck};
 
             _userService.IsUserDeckOwner(Arg.Any<string>(), Arg.Any<long>()).Returns(false);
 
@@ -87,6 +67,26 @@ namespace dueltank.application.unit.tests.CommandTests
 
             // Assert
             await _deckService.DidNotReceive().DeleteDeckByIdAndUserId(Arg.Any<string>(), Arg.Any<long>());
+        }
+
+        [Test]
+        public async Task Given_A_Deck_If_User_Is_Not_Owner_Should_Return_Errors()
+        {
+            // Arrange
+            var deck = new DeckInputModel
+            {
+                MainDeck = new List<CardInputModel>()
+            };
+
+            var command = new DeleteDeckCommand {Deck = deck};
+
+            _userService.IsUserDeckOwner(Arg.Any<string>(), Arg.Any<long>()).Returns(false);
+
+            // Act
+            var result = await _sut.Handle(command, CancellationToken.None);
+
+            // Assert
+            result.Errors.Should().NotBeEmpty();
         }
 
         [Test]
@@ -99,7 +99,7 @@ namespace dueltank.application.unit.tests.CommandTests
                 MainDeck = new List<CardInputModel>()
             };
 
-            var command = new DeleteDeckCommand { Deck = deck };
+            var command = new DeleteDeckCommand {Deck = deck};
 
             _deckService.DeleteDeckByIdAndUserId(Arg.Any<string>(), Arg.Any<long>()).Returns(3242);
             _userService.IsUserDeckOwner(Arg.Any<string>(), Arg.Any<long>()).Returns(true);

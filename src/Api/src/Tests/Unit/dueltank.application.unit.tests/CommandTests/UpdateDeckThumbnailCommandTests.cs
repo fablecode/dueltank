@@ -1,4 +1,7 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
 using dueltank.application.Commands.UpdateDeckThumbnail;
 using dueltank.application.Mappings.Profiles;
 using dueltank.application.Models.Decks.Input;
@@ -11,9 +14,6 @@ using FluentValidation.Results;
 using Microsoft.Extensions.Options;
 using NSubstitute;
 using NUnit.Framework;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace dueltank.application.unit.tests.CommandTests
 {
@@ -21,22 +21,12 @@ namespace dueltank.application.unit.tests.CommandTests
     [Category(TestType.Unit)]
     public class UpdateDeckThumbnailCommandTests
     {
-        private UpdateDeckThumbnailCommandHandler _sut;
-        private IUserService _userService;
-        private IDeckService _deckService;
-        private IOptions<ApplicationSettings> _settings;
-        private IValidator<DeckThumbnailInputModel> _validator;
-
         [SetUp]
         public void SetUp()
         {
             var config = new MapperConfiguration
             (
-                cfg =>
-                {
-                    cfg.AddProfile(new DeckThumbnailProfile());
-
-                }
+                cfg => { cfg.AddProfile(new DeckThumbnailProfile()); }
             );
 
             var mapper = config.CreateMapper();
@@ -49,13 +39,19 @@ namespace dueltank.application.unit.tests.CommandTests
             _sut = new UpdateDeckThumbnailCommandHandler(_settings, _validator, _userService, _deckService, mapper);
         }
 
+        private UpdateDeckThumbnailCommandHandler _sut;
+        private IUserService _userService;
+        private IDeckService _deckService;
+        private IOptions<ApplicationSettings> _settings;
+        private IValidator<DeckThumbnailInputModel> _validator;
+
         [Test]
         public async Task Given_An_Invalid_DeckThumbnail_UpdateDeckThumbnail_Command_Should_Not_Be_Successful()
         {
             // Arrange
             var deckThumbnailInputModel = new DeckThumbnailInputModel();
 
-            var command = new UpdateDeckThumbnailCommand { DeckThumbnail = deckThumbnailInputModel };
+            var command = new UpdateDeckThumbnailCommand {DeckThumbnail = deckThumbnailInputModel};
             _validator.Validate(Arg.Any<DeckThumbnailInputModel>()).Returns(new ValidationResult());
 
             // Act
@@ -71,8 +67,11 @@ namespace dueltank.application.unit.tests.CommandTests
             // Arrange
             var deckThumbnailInputModel = new DeckThumbnailInputModel();
 
-            var command = new UpdateDeckThumbnailCommand { DeckThumbnail = deckThumbnailInputModel };
-            _validator.Validate(Arg.Any<DeckThumbnailInputModel>()).Returns(new ValidationResult{ Errors = { new ValidationFailure("Validation property.", "Validation failed.") }});
+            var command = new UpdateDeckThumbnailCommand {DeckThumbnail = deckThumbnailInputModel};
+            _validator.Validate(Arg.Any<DeckThumbnailInputModel>()).Returns(new ValidationResult
+            {
+                Errors = {new ValidationFailure("Validation property.", "Validation failed.")}
+            });
 
             // Act
             var result = await _sut.Handle(command, CancellationToken.None);
@@ -82,21 +81,22 @@ namespace dueltank.application.unit.tests.CommandTests
         }
 
         [Test]
-        public async Task Given_An_Valid_DeckThumbnail_UpdateDeckThumbnail_Command_Should_Be_Successful()
+        public async Task
+            Given_An_Valid_DeckThumbnail_If_User_Is_Not_OwnerUpdateDeckThumbnail_Command_Should_Be_Successful()
         {
             // Arrange
             var deckThumbnailInputModel = new DeckThumbnailInputModel
             {
                 DeckId = 3242,
-                Thumbnail = new byte[] {1,2,3},
+                Thumbnail = new byte[] {1, 2, 3},
                 UserId = Guid.NewGuid().ToString()
             };
 
-            var command = new UpdateDeckThumbnailCommand { DeckThumbnail = deckThumbnailInputModel };
+            var command = new UpdateDeckThumbnailCommand {DeckThumbnail = deckThumbnailInputModel};
             _validator.Validate(Arg.Any<DeckThumbnailInputModel>()).Returns(new ValidationResult());
 
             _userService.IsUserDeckOwner(Arg.Any<string>(), Arg.Any<long>()).Returns(true);
-            _settings.Value.Returns(new ApplicationSettings { DeckThumbnailImageFolderPath = "c:/deck/thumbnail"});
+            _settings.Value.Returns(new ApplicationSettings {DeckThumbnailImageFolderPath = "c:/deck/thumbnail"});
             _deckService.SaveDeckThumbnail(Arg.Any<DeckThumbnail>()).Returns(3242);
 
             // Act
@@ -107,21 +107,21 @@ namespace dueltank.application.unit.tests.CommandTests
         }
 
         [Test]
-        public async Task Given_An_Valid_DeckThumbnail_If_User_Is_Not_OwnerUpdateDeckThumbnail_Command_Should_Be_Successful()
+        public async Task Given_An_Valid_DeckThumbnail_UpdateDeckThumbnail_Command_Should_Be_Successful()
         {
             // Arrange
             var deckThumbnailInputModel = new DeckThumbnailInputModel
             {
                 DeckId = 3242,
-                Thumbnail = new byte[] {1,2,3},
+                Thumbnail = new byte[] {1, 2, 3},
                 UserId = Guid.NewGuid().ToString()
             };
 
-            var command = new UpdateDeckThumbnailCommand { DeckThumbnail = deckThumbnailInputModel };
+            var command = new UpdateDeckThumbnailCommand {DeckThumbnail = deckThumbnailInputModel};
             _validator.Validate(Arg.Any<DeckThumbnailInputModel>()).Returns(new ValidationResult());
 
             _userService.IsUserDeckOwner(Arg.Any<string>(), Arg.Any<long>()).Returns(true);
-            _settings.Value.Returns(new ApplicationSettings { DeckThumbnailImageFolderPath = "c:/deck/thumbnail"});
+            _settings.Value.Returns(new ApplicationSettings {DeckThumbnailImageFolderPath = "c:/deck/thumbnail"});
             _deckService.SaveDeckThumbnail(Arg.Any<DeckThumbnail>()).Returns(3242);
 
             // Act

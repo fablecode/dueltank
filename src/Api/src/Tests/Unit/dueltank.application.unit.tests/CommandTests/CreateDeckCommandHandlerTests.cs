@@ -1,4 +1,9 @@
-﻿using AutoFixture;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using AutoFixture;
 using AutoMapper;
 using dueltank.application.Commands.CreateDeck;
 using dueltank.application.Mappings.Profiles;
@@ -12,11 +17,6 @@ using dueltank.tests.core;
 using FluentAssertions;
 using NSubstitute;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace dueltank.application.unit.tests.CommandTests
 {
@@ -24,20 +24,12 @@ namespace dueltank.application.unit.tests.CommandTests
     [Category(TestType.Unit)]
     public class CreateDeckCommandHandlerTests
     {
-        private CreateDeckCommandHandler _sut;
-        private Fixture _fixture;
-        private IDeckService _deckService;
-
         [SetUp]
         public void SetUp()
         {
             var config = new MapperConfiguration
             (
-                cfg =>
-                {
-                    cfg.AddProfile(new DeckProfile());
-
-                }
+                cfg => { cfg.AddProfile(new DeckProfile()); }
             );
 
             var mapper = config.CreateMapper();
@@ -48,6 +40,10 @@ namespace dueltank.application.unit.tests.CommandTests
             _deckService = Substitute.For<IDeckService>();
             _sut = new CreateDeckCommandHandler(new DeckValidator(), _deckService, mapper);
         }
+
+        private CreateDeckCommandHandler _sut;
+        private Fixture _fixture;
+        private IDeckService _deckService;
 
         [Test]
         public async Task Given_An_Invalid_Deck_Create_Command_Should_Not_Be_Successful()
@@ -66,7 +62,6 @@ namespace dueltank.application.unit.tests.CommandTests
 
             // Assert
             result.IsSuccessful.Should().BeFalse();
-
         }
 
         [Test]
@@ -110,7 +105,7 @@ namespace dueltank.application.unit.tests.CommandTests
                     .ToList();
 
 
-            var command = new CreateDeckCommand { Deck = deck};
+            var command = new CreateDeckCommand {Deck = deck};
             _deckService.Add(Arg.Any<DeckModel>()).Returns(new Deck {Id = 23424 /*new deck id*/});
 
             // Act
@@ -118,38 +113,6 @@ namespace dueltank.application.unit.tests.CommandTests
 
             // Assert
             result.IsSuccessful.Should().BeTrue();
-        }
-
-        [Test]
-        public async Task Given_An_Valid_Deck_Create_Command_Should_Be_Successful_And_No_Errors_Returned()
-        {
-            // Arrange
-            var deck = new DeckInputModel
-            {
-                Name = "deck tester",
-                UserId = Guid.NewGuid().ToString(),
-                MainDeck = new List<CardInputModel>()
-            };
-
-            _fixture.RepeatCount = 40;
-
-            deck.MainDeck =
-                _fixture
-                    .Build<CardInputModel>()
-                    .With(c => c.BaseType, "monster")
-                    .Without(c => c.Types)
-                    .CreateMany()
-                    .ToList();
-
-
-            var command = new CreateDeckCommand { Deck = deck};
-            _deckService.Add(Arg.Any<DeckModel>()).Returns(new Deck {Id = 23424 /*new deck id*/});
-
-            // Act
-            var result = await _sut.Handle(command, CancellationToken.None);
-
-            // Assert
-            result.Errors.Should().BeNullOrEmpty();
         }
 
         [Test]
@@ -176,8 +139,8 @@ namespace dueltank.application.unit.tests.CommandTests
                     .ToList();
 
 
-            var command = new CreateDeckCommand { Deck = deck};
-            _deckService.Add(Arg.Any<DeckModel>()).Returns(new Deck { Id = 23424 /*new deck id*/});
+            var command = new CreateDeckCommand {Deck = deck};
+            _deckService.Add(Arg.Any<DeckModel>()).Returns(new Deck {Id = 23424 /*new deck id*/});
 
             // Act
             var result = await _sut.Handle(command, CancellationToken.None);
@@ -186,6 +149,38 @@ namespace dueltank.application.unit.tests.CommandTests
             dynamic dyn = result.Data;
             int newDeckId = int.Parse(dyn.GetType().GetProperty("deckId").GetValue(dyn, null).ToString());
             newDeckId.Should().Be(expected);
+        }
+
+        [Test]
+        public async Task Given_An_Valid_Deck_Create_Command_Should_Be_Successful_And_No_Errors_Returned()
+        {
+            // Arrange
+            var deck = new DeckInputModel
+            {
+                Name = "deck tester",
+                UserId = Guid.NewGuid().ToString(),
+                MainDeck = new List<CardInputModel>()
+            };
+
+            _fixture.RepeatCount = 40;
+
+            deck.MainDeck =
+                _fixture
+                    .Build<CardInputModel>()
+                    .With(c => c.BaseType, "monster")
+                    .Without(c => c.Types)
+                    .CreateMany()
+                    .ToList();
+
+
+            var command = new CreateDeckCommand {Deck = deck};
+            _deckService.Add(Arg.Any<DeckModel>()).Returns(new Deck {Id = 23424 /*new deck id*/});
+
+            // Act
+            var result = await _sut.Handle(command, CancellationToken.None);
+
+            // Assert
+            result.Errors.Should().BeNullOrEmpty();
         }
 
         [Test]
@@ -210,7 +205,7 @@ namespace dueltank.application.unit.tests.CommandTests
                     .ToList();
 
 
-            var command = new CreateDeckCommand { Deck = deck};
+            var command = new CreateDeckCommand {Deck = deck};
             _deckService.Add(Arg.Any<DeckModel>()).Returns(new Deck {Id = 23424 /*new deck id*/});
 
             // Act
