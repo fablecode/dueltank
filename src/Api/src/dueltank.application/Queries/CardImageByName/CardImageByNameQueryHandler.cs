@@ -1,19 +1,23 @@
-﻿using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using dueltank.application.Helpers;
+﻿using dueltank.core.Services;
 using MediatR;
 using Microsoft.Extensions.Options;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace dueltank.application.Queries.CardImageByName
 {
     public class CardImageByNameQueryHandler : IRequestHandler<CardImageByNameQuery, CardImageByNameResult>
     {
         private readonly IOptions<ApplicationSettings> _settings;
+        private readonly IImageService _imageService;
+        private readonly IFileService _fileService;
 
-        public CardImageByNameQueryHandler(IOptions<ApplicationSettings> settings)
+        public CardImageByNameQueryHandler(IOptions<ApplicationSettings> settings, IImageService imageService, IFileService fileService)
         {
             _settings = settings;
+            _imageService = imageService;
+            _fileService = fileService;
         }
 
 
@@ -21,11 +25,11 @@ namespace dueltank.application.Queries.CardImageByName
         {
             const string defaultImage = "no-card-image.png";
 
-            var imageFilePath = ImageHelper.GetImagePath(request.Name, _settings.Value.CardImageFolderPath, defaultImage);
+            var imageFilePath = _imageService.GetImagePath(request.Name, _settings.Value.CardImageFolderPath, defaultImage);
 
             var response = new CardImageByNameResult
             {
-                Image = File.ReadAllBytes(imageFilePath),
+                Image = _fileService.ReadAllBytes(imageFilePath),
                 ContentType = MimeMapping.MimeUtility.GetMimeMapping(Path.GetExtension(imageFilePath))
             };
 
