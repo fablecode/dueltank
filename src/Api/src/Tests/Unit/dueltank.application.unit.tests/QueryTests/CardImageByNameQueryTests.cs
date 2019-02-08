@@ -35,8 +35,8 @@ namespace dueltank.application.unit.tests.QueryTests
             // Arrange
             const string expected = "image/png";
 
-            _settings.Value.Returns(new ApplicationSettings{ ArchetypeImageFolderPath = @"C:Image\Archetype\Thumbnail"});
-            _imageService.GetImagePath(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>()).Returns(@"C:Image\Archetype\Thumbnail\" + cardName + ".png");
+            _settings.Value.Returns(new ApplicationSettings{ CardImageFolderPath = @"C:Image\Card\Thumbnail"});
+            _imageService.GetImagePath(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>()).Returns(@"C:Image\Card\Thumbnail\" + cardName + ".png");
             _fileService.ReadAllBytes(Arg.Any<string>()).Returns(new byte[] { 1, 2, 3 });
 
             // Act
@@ -53,8 +53,8 @@ namespace dueltank.application.unit.tests.QueryTests
             // Arrange
             var expected = new byte[] {1, 2, 3};
 
-            _settings.Value.Returns(new ApplicationSettings{ ArchetypeImageFolderPath = @"C:Image\Archetype\Thumbnail"});
-            _imageService.GetImagePath(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>()).Returns(@"C:Image\Archetype\Thumbnail\" + cardName + ".png");
+            _settings.Value.Returns(new ApplicationSettings { CardImageFolderPath = @"C:Image\Card\Thumbnail" });
+            _imageService.GetImagePath(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>()).Returns(@"C:Image\Card\Thumbnail\" + cardName + ".png");
             _fileService.ReadAllBytes(Arg.Any<string>()).Returns(new byte[] { 1, 2, 3 });
 
             // Act
@@ -68,8 +68,8 @@ namespace dueltank.application.unit.tests.QueryTests
         public async Task Given_A_Card_Name_Should_Return_Invoke_GetImagePath_Once(string cardName)
         {
             // Arrange
-            _settings.Value.Returns(new ApplicationSettings{ ArchetypeImageFolderPath = @"C:Image\Archetype\Thumbnail"});
-            _imageService.GetImagePath(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>()).Returns(@"C:Image\Archetype\Thumbnail\" + cardName + ".png");
+            _settings.Value.Returns(new ApplicationSettings { CardImageFolderPath = @"C:Image\Card\Thumbnail" });
+            _imageService.GetImagePath(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>()).Returns(@"C:Image\Card\Thumbnail\" + cardName + ".png");
             _fileService.ReadAllBytes(Arg.Any<string>()).Returns(new byte[] { 1, 2, 3 });
 
             // Act
@@ -83,8 +83,8 @@ namespace dueltank.application.unit.tests.QueryTests
         public async Task Given_A_Card_Name_Should_Return_Invoke_ReadAllBytes_Once(string cardName)
         {
             // Arrange
-            _settings.Value.Returns(new ApplicationSettings{ ArchetypeImageFolderPath = @"C:Image\Archetype\Thumbnail"});
-            _imageService.GetImagePath(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>()).Returns(@"C:Image\Archetype\Thumbnail\" + cardName + ".png");
+            _settings.Value.Returns(new ApplicationSettings { CardImageFolderPath = @"C:Image\Card\Thumbnail" });
+            _imageService.GetImagePath(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>()).Returns(@"C:Image\Card\Thumbnail\" + cardName + ".png");
             _fileService.ReadAllBytes(Arg.Any<string>()).Returns(new byte[] { 1, 2, 3 });
 
             // Act

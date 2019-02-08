@@ -43,6 +43,7 @@ namespace dueltank.application.unit.tests.Validations.DeckTests
                         _fixture
                             .Build<CardInputModel>()
                             .With(c => c.BaseType, "monster")
+                            .With(c => c.Id, new Random().Next(int.MaxValue))
                             .Without(c => c.Types)
                             .CreateMany()
                             .ToList();
