@@ -1,21 +1,21 @@
-﻿using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using dueltank.application.Helpers;
+﻿using dueltank.application.Helpers;
 using dueltank.application.Models.CardSearches.Output;
 using dueltank.core.Models.Search.Cards;
-using dueltank.Domain.Repository;
+using dueltank.core.Services;
 using MediatR;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace dueltank.application.Queries.CardSearches
 {
     public class CardSearchQueryHandler : IRequestHandler<CardSearchQuery, CardSearchResultOutputModel>
     {
-        private readonly ICardRepository _cardRepository;
+        private readonly ICardService _cardService;
 
-        public CardSearchQueryHandler(ICardRepository cardRepository)
+        public CardSearchQueryHandler(ICardService cardService)
         {
-            _cardRepository = cardRepository;
+            _cardService = cardService;
         }
 
         public async Task<CardSearchResultOutputModel> Handle(CardSearchQuery request, CancellationToken cancellationToken)
@@ -38,7 +38,7 @@ namespace dueltank.application.Queries.CardSearches
                 PageIndex = request.PageIndex
             };
 
-            var searchResult = await _cardRepository.Search(searchCriteria);
+            var searchResult = await _cardService.Search(searchCriteria);
 
             response.TotalRecords = searchResult.TotalRecords;
             response.Cards = searchResult.Cards.Select(CardSearchMapperHelper.MapToCardOutputModel).ToList();
