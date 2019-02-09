@@ -1,11 +1,10 @@
-﻿using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using dueltank.application.Models.Archetypes.Output;
-using dueltank.application.Models.Decks.Output;
+﻿using dueltank.application.Models.Decks.Output;
 using dueltank.core.Models.Search.Decks;
 using dueltank.core.Services;
 using MediatR;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace dueltank.application.Queries.DeckSearch
 {
