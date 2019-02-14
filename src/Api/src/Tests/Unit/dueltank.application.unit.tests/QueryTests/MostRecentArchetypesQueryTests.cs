@@ -7,10 +7,12 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using dueltank.tests.core;
 
 namespace dueltank.application.unit.tests.QueryTests
 {
     [TestFixture]
+    [Category(TestType.Unit)]
     public class MostRecentArchetypesQueryTests
     {
         private IArchetypeService _archetypeService;
