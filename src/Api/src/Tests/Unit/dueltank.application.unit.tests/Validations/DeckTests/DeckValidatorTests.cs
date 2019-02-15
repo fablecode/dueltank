@@ -117,13 +117,13 @@ namespace dueltank.application.unit.tests.Validations.DeckTests
             {
                 new CardInputModel
                 {
-                    Id = 46,
+                    Id = long.MaxValue,
                     Name = "test card",
                     BaseType = "spell"
                 },
                 new CardInputModel
                 {
-                    Id = 46,
+                    Id = long.MaxValue,
                     Name = "test card",
                     BaseType = "spell"
                 }
@@ -144,7 +144,7 @@ namespace dueltank.application.unit.tests.Validations.DeckTests
             {
                 new CardInputModel
                 {
-                    Id = 46,
+                    Id = long.MaxValue,
                     Name = "test card",
                     BaseType = "spell"
                 }
