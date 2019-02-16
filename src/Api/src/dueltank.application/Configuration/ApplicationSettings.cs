@@ -1,4 +1,4 @@
-﻿namespace dueltank.application
+﻿namespace dueltank.application.Configuration
 {
     public class ApplicationSettings
     {

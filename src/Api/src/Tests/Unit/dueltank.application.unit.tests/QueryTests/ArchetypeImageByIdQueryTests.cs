@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using dueltank.application.Configuration;
 using dueltank.application.Queries.ArchetypeImageById;
 using dueltank.core.Services;
 using dueltank.tests.core;

@@ -53,7 +53,9 @@ namespace dueltank.api
             services.AddSwaggerDocumentation();
             services.AddIdentityConfiguration(Configuration);
 
+            // IOptions<> configuration
             services.Configure<ApplicationSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
 
             services.AddCors(options =>
             {

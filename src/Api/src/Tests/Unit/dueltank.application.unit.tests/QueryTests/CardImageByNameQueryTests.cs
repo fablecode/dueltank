@@ -7,6 +7,7 @@ using NSubstitute;
 using NUnit.Framework;
 using System.Threading;
 using System.Threading.Tasks;
+using dueltank.application.Configuration;
 
 namespace dueltank.application.unit.tests.QueryTests
 {

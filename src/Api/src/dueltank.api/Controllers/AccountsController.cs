@@ -1,4 +1,21 @@
-﻿using System;
+﻿using dueltank.api.Helpers;
+using dueltank.api.Models;
+using dueltank.api.Models.AccountViewModels;
+using dueltank.api.Models.QueryParameters;
+using dueltank.api.ServiceExtensions;
+using dueltank.application.Commands.SendRegistrationEmail;
+using dueltank.application.Commands.SendResetPasswordEmailPassword;
+using dueltank.application.Configuration;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IdentityModel.Tokens.Jwt;
@@ -7,31 +24,15 @@ using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using dueltank.api.Helpers;
-using dueltank.api.Models;
-using dueltank.api.Models.AccountViewModels;
-using dueltank.api.Models.QueryParameters;
-using dueltank.api.ServiceExtensions;
-using dueltank.application.Commands.SendRegistrationEmail;
-using dueltank.application.Commands.SendResetPasswordEmailPassword;
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 
 namespace dueltank.api.Controllers
 {
     [Route("api/[controller]/[action]")]
     public class AccountsController : Controller
     {
-        private readonly IConfiguration _config;
         private readonly ILogger<AccountsController> _logger;
         private readonly IMediator _mediator;
+        private readonly IOptions<JwtSettings> _jwtSettings;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
@@ -43,7 +44,7 @@ namespace dueltank.api.Controllers
             RoleManager<IdentityRole> roleManager,
             ILogger<AccountsController> logger,
             IMediator mediator,
-            IConfiguration config
+            IOptions<JwtSettings> jwtSettings
         )
         {
             _userManager = userManager;
@@ -51,7 +52,7 @@ namespace dueltank.api.Controllers
             _roleManager = roleManager;
             _logger = logger;
             _mediator = mediator;
-            _config = config;
+            _jwtSettings = jwtSettings;
         }
 
         /// <summary>
@@ -64,8 +65,7 @@ namespace dueltank.api.Controllers
         [AllowAnonymous]
         [ProducesResponseType((int) HttpStatusCode.BadRequest)]
         [ProducesResponseType((int) HttpStatusCode.OK)]
-        public async Task<IActionResult> Register([FromBody] RegisterViewModel model,
-            [FromQuery] RegisterQueryParameters queryParameters)
+        public async Task<IActionResult> Register([FromBody] RegisterViewModel model, [FromQuery] RegisterQueryParameters queryParameters)
         {
             if (ModelState.IsValid)
             {
@@ -505,11 +505,11 @@ namespace dueltank.api.Controllers
 
         private async Task<string> BuildToken(ApplicationUser user)
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Value.Key));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
-                _config["Jwt:Issuer"],
+            var token = new JwtSecurityToken(_jwtSettings.Value.Issuer,
+                _jwtSettings.Value.Issuer,
                 await GetValidClaims(user),
                 expires: DateTime.Now.AddMinutes(30),
                 signingCredentials: creds);

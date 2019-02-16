@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using dueltank.application.Commands.UpdateDeckThumbnail;
+using dueltank.application.Configuration;
 using dueltank.application.Mappings.Profiles;
 using dueltank.application.Models.Decks.Input;
 using dueltank.core.Models.DeckDetails;

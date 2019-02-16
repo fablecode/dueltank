@@ -30,7 +30,7 @@ namespace dueltank.application.unit.tests.QueryTests
         public async Task Given_A_CardId_If_No_Tips_Are_Found_Should_Return_Default_Tip()
         {
             // Arrange
-            var expected = "No tips for this card yet.....";
+            const string expected = "No tips for this card yet.....";
 
             var query = new TipsByCardIdQuery();
 
@@ -47,7 +47,7 @@ namespace dueltank.application.unit.tests.QueryTests
         public async Task Given_A_CardId_Should_Return_Tips()
         {
             // Arrange
-            var expected = "Blue-Eyes White Dragon";
+            const string expected = "Blue-Eyes White Dragon";
 
             var query = new TipsByCardIdQuery();
 

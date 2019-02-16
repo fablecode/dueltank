@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using dueltank.application.Configuration;
 
 namespace dueltank.application.Queries.CardImageByName
 {
