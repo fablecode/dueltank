@@ -225,8 +225,7 @@ namespace dueltank.api.Controllers
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordViewModel model,
-            [FromQuery] ResetPasswordQueryParameters queryParameters)
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordViewModel model, [FromQuery] ResetPasswordQueryParameters queryParameters)
         {
             if (ModelState.IsValid)
             {
@@ -234,8 +233,7 @@ namespace dueltank.api.Controllers
 
                 if (user == null) return Ok();
 
-                var result = await _userManager.ResetPasswordAsync(user, WebUtility.UrlDecode(queryParameters.Code),
-                    model.Password);
+                var result = await _userManager.ResetPasswordAsync(user, WebUtility.UrlDecode(queryParameters.Code), model.Password);
                 if (result.Succeeded) return Ok();
 
                 return BadRequest(result.Errors.Descriptions());

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Specialized;
-using System.Security.Policy;
-using dueltank.api.Helpers;
+﻿using dueltank.api.Helpers;
 using dueltank.tests.core;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Routing;
 using NUnit.Framework;
+using System.Collections.Specialized;
 
 namespace dueltank.api.unit.tests.HelpersTests
 {
