@@ -16,10 +16,13 @@ using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using dueltank.tests.core;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace dueltank.api.unit.tests.ControllerTests.AccountsControllerTests
 {
+    [TestFixture]
+    [Category(TestType.Unit)]
     public class LoginTests
     {
         private UserManager<ApplicationUser> _userManager;

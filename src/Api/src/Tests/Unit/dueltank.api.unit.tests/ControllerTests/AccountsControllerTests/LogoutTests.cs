@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using dueltank.api.Controllers;
 using dueltank.api.Models;
 using dueltank.application.Configuration;
+using dueltank.tests.core;
 using FluentAssertions;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
@@ -17,6 +18,8 @@ using NUnit.Framework;
 
 namespace dueltank.api.unit.tests.ControllerTests.AccountsControllerTests
 {
+    [TestFixture]
+    [Category(TestType.Unit)]
     public class LogoutTests
     {
         private UserManager<ApplicationUser> _userManager;
