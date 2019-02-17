@@ -154,8 +154,10 @@ namespace dueltank.api.Controllers
                         ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     }
                 }
-
-                return BadRequest();
+                else
+                {
+                    return BadRequest();
+                }
             }
 
             return BadRequest(ModelState.Errors());
