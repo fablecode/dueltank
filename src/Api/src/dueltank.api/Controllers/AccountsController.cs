@@ -494,8 +494,9 @@ namespace dueltank.api.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> VerifyUsername(string username)
         {
-            var user = await _userManager.Users.SingleOrDefaultAsync(u =>
-                u.UserName.Equals(username, StringComparison.OrdinalIgnoreCase));
+            //var user = await _userManager.Users.SingleOrDefaultAsync(u =>
+            //    u.UserName.Equals(username, StringComparison.OrdinalIgnoreCase));
+            var user = await _userManager.FindByNameAsync(username);
 
             return user != null ? Json($"Username {username} is already in use.") : Json(true);
         }
