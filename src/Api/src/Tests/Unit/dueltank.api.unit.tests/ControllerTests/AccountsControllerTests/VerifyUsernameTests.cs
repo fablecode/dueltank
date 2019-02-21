@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using dueltank.api.Controllers;
+﻿using dueltank.api.Controllers;
 using dueltank.api.Models;
 using dueltank.application.Configuration;
 using dueltank.tests.core;
@@ -13,12 +8,13 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NSubstitute;
-using NSubstitute.Core;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace dueltank.api.unit.tests.ControllerTests.AccountsControllerTests
 {
@@ -80,15 +76,18 @@ namespace dueltank.api.unit.tests.ControllerTests.AccountsControllerTests
         public async Task Given_A_Username_If_User_Is_Not_Found_Should_Return_User_Details()
         {
             // Arrange
+            const string expected = "Username dueltank is already in use.";
             const string username = "dueltank";
 
-            _userManager.FindByNameAsync(Arg.Any<string>()).Returns(new ApplicationUser());
+            _userManager.FindByNameAsync(username).Returns(new ApplicationUser());
 
             // Act
-            var result = await _sut.VerifyUsername(username);
+            var result = await _sut.VerifyUsername(username) as JsonResult;
 
             // Assert
             result.Should().BeOfType<JsonResult>();
+            var resultValue = result?.Value as string;
+            resultValue.Should().BeEquivalentTo(expected);
         }
     }
 }

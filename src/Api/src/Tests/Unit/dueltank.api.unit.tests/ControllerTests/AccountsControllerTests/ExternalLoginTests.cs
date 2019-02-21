@@ -74,12 +74,12 @@ namespace dueltank.api.unit.tests.ControllerTests.AccountsControllerTests
         public void Given_Valid_Url_Query_Parameters_Should_Return_ChallengeResult()
         {
             // Arrange
-            var provider = "facebook";
-            var returnUrl = "/home";
-            var loginUrl = "/login";
-            var lockoutUrl = "/lockout";
-            var externalLoginUrl = "http://www.facebook.com/login";
-            var externalLoginCompleteUrl = "http://www.dueltank.com";
+            const string provider = "facebook";
+            const string returnUrl = "/home";
+            const string loginUrl = "/login";
+            const string lockoutUrl = "/lockout";
+            const string externalLoginUrl = "http://www.facebook.com/login";
+            const string externalLoginCompleteUrl = "http://www.dueltank.com";
 
             var urlHelper = Substitute.For<IUrlHelper>();
             urlHelper.Action(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<object>(), Arg.Any<string>()).Returns("callback");

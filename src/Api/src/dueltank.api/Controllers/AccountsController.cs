@@ -306,7 +306,7 @@ namespace dueltank.api.Controllers
                 {
                     var claim = info.Principal.Claims.FirstOrDefault(x =>
                         x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier");
-                    profileImage = "https://graph.facebook.com/" + claim.Value + "/picture?width=200&height=200";
+                    profileImage = "https://graph.facebook.com/" + claim?.Value + "/picture?width=200&height=200";
                 }
 
                 var existingUser = await _userManager.FindByEmailAsync(email);
