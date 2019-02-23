@@ -206,8 +206,6 @@ namespace dueltank.api.unit.tests.ControllerTests.AccountsControllerTests
         public async Task Given_Valid_LoginInfo_If_SignIn_Succeeds_GetExternalLoginInfoAsync_Should_Be_Invoked_Once()
         {
             // Arrange
-            const string expected = "/externalLoginCompleteUrl";
-
             const string returnUrl = "/home";
             const string loginUrl = "/login";
             const string lockoutUrl = "/lockoutUrl";

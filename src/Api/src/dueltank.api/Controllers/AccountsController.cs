@@ -359,8 +359,9 @@ namespace dueltank.api.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (!await _userManager.Users.AnyAsync(u =>
-                    u.UserName.Equals(model.Username, StringComparison.OrdinalIgnoreCase)))
+                var existingUser = await _userManager.FindByNameAsync(model.Username);
+
+                if (existingUser == null)
                 {
                     // Get the information about the user from the external login provider
                     var info = await _signInManager.GetExternalLoginInfoAsync();
