@@ -1,11 +1,11 @@
 ﻿using dueltank.core.Models.Db;
 using dueltank.Domain.Repository;
 using dueltank.Domain.Service;
+using dueltank.tests.core;
 using NSubstitute;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using dueltank.tests.core;
 
 namespace dueltank.domain.unit.tests.ServiceTests
 {

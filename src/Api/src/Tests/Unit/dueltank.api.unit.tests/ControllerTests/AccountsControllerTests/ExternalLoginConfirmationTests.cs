@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using dueltank.api.Controllers;
+﻿using dueltank.api.Controllers;
 using dueltank.api.Models;
 using dueltank.api.Models.AccountViewModels;
-using dueltank.api.Models.QueryParameters;
 using dueltank.application.Configuration;
 using dueltank.tests.core;
 using FluentAssertions;
@@ -19,6 +13,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using NSubstitute;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace dueltank.api.unit.tests.ControllerTests.AccountsControllerTests
 {
