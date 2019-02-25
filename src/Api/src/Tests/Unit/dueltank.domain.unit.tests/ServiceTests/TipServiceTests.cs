@@ -11,32 +11,32 @@ namespace dueltank.domain.unit.tests.ServiceTests
 {
     [TestFixture]
     [Category(TestType.Unit)]
-    public class RulingServiceTests
+    public class TipServiceTests
     {
-        private RulingService _sut;
-        private IRulingRepository _rulingRepository;
+        private TipService _sut;
+        private ITipRepository _tipRepository;
 
         [SetUp]
         public void SetUp()
         {
-            _rulingRepository = Substitute.For<IRulingRepository>();
+            _tipRepository = Substitute.For<ITipRepository>();
 
-            _sut = new RulingService(_rulingRepository);
+            _sut = new TipService(_tipRepository);
         }
 
         [Test]
-        public async Task Should_Invoke_GetByCardId_Once()
+        public async Task Should_Invoke_GetTipsByCardId_Once()
         {
             // Arrange
             const int cardId = 90;
 
-            _rulingRepository.GetByCardId(Arg.Any<long>()).Returns(new List<RulingSection>());
+            _tipRepository.GetByCardId(Arg.Any<long>()).Returns(new List<TipSection>());
 
             // Act
-            await _sut.GetRulingsByCardId(cardId);
+            await _sut.GetTipsByCardId(cardId);
 
             // Assert
-            await _rulingRepository.Received(1).GetByCardId(Arg.Any<long>());
+            await _tipRepository.Received(1).GetByCardId(Arg.Any<long>());
         }
     }
 }
