@@ -4,6 +4,8 @@ using dueltank.Domain.Service;
 using NSubstitute;
 using NUnit.Framework;
 using System.Threading.Tasks;
+using dueltank.core.Models.Cards;
+using dueltank.core.Models.Search.Cards;
 using dueltank.tests.core;
 
 namespace dueltank.domain.unit.tests.ServiceTests
@@ -36,6 +38,35 @@ namespace dueltank.domain.unit.tests.ServiceTests
             // Assert
             await _cardRepository.Received(1).GetCardByNumber(cardNumber);
 
+        }
+        [Test]
+        public async Task Should_Invoke_GetCardByName_Once()
+        {
+            // Arrange
+            const string cardNumber = "Call Of The Haunted";
+
+            _cardRepository.GetCardByName(Arg.Any<string>()).Returns(new CardSearch());
+
+            // Act
+            await _sut.GetCardByName(cardNumber);
+
+            // Assert
+            await _cardRepository.Received(1).GetCardByName(cardNumber);
+        }
+
+        [Test]
+        public async Task Should_Invoke_Search_Once()
+        {
+            // Arrange
+            var cardSearchCriteria = new CardSearchCriteria();
+
+            _cardRepository.Search(Arg.Any<CardSearchCriteria>()).Returns(new CardSearchResult());
+
+            // Act
+            await _sut.Search(cardSearchCriteria);
+
+            // Assert
+            await _cardRepository.Received(1).Search(Arg.Any<CardSearchCriteria>());
         }
     }
 }
