@@ -10,7 +10,7 @@ namespace dueltank.domain.unit.tests.ServiceTests.DeckServiceTests
 {
     [TestFixture]
     [Category(TestType.Unit)]
-    public class DeckSearchByUserIdTests
+    public class DeckSearchByUsernameTests
     {
         private DeckService _sut;
         private IDeckTypeRepository _deckTypeRepository;
@@ -35,7 +35,7 @@ namespace dueltank.domain.unit.tests.ServiceTests.DeckServiceTests
         }
 
         [Test]
-        public async Task Given_A_DeckSearchByUserIdCriteria_Should_Invoke_Search_Once()
+        public async Task Given_A_DeckSearchByUsernameCriteria_Should_Invoke_Search_Once()
         {
             // Arrange
             const int expected = 1;
