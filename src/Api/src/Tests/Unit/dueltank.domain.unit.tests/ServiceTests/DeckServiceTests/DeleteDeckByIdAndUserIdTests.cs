@@ -1,4 +1,5 @@
-﻿using dueltank.core.Models.Search.Decks;
+﻿using System;
+using dueltank.core.Models.Search.Decks;
 using dueltank.Domain.Repository;
 using dueltank.Domain.Service;
 using dueltank.tests.core;
@@ -10,7 +11,7 @@ namespace dueltank.domain.unit.tests.ServiceTests.DeckServiceTests
 {
     [TestFixture]
     [Category(TestType.Unit)]
-    public class DeckSearchByUsernameTests
+    public class DeleteDeckByIdAndUserIdTests
     {
         private DeckService _sut;
         private IDeckTypeRepository _deckTypeRepository;
@@ -35,18 +36,21 @@ namespace dueltank.domain.unit.tests.ServiceTests.DeckServiceTests
         }
 
         [Test]
-        public async Task Given_A_DeckSearchByUsernameCriteria_Should_Invoke_Search_Once()
+        public async Task Given_A_UserId_Adn_DeckId_Should_Invoke_DeleteDeckByIdAndUserId_Once()
         {
             // Arrange
             const int expected = 1;
 
-            _deckRepository.Search(Arg.Any<DeckSearchByUsernameCriteria>()).Returns(new DeckSearchResult());
+            _deckRepository.Search(Arg.Any<DeckSearchCriteria>()).Returns(new DeckSearchResult());
 
             // Act
-            await _sut.Search(new DeckSearchByUsernameCriteria());
+            var userId = Guid.NewGuid().ToString();
+            const int deckId = 234242;
+
+            await _sut.DeleteDeckByIdAndUserId(userId, deckId);
 
             // Assert
-            await _deckRepository.Received(expected).Search(Arg.Any<DeckSearchByUsernameCriteria>());
+            await _deckRepository.Received(expected).DeleteDeckByIdAndUserId(userId, deckId);
         }
     }
 }
