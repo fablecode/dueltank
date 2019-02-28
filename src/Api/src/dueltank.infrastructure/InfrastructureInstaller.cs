@@ -1,8 +1,10 @@
 ﻿using dueltank.core.Services;
 using dueltank.Domain.Repository;
 using dueltank.Domain.Service;
+using dueltank.Domain.SystemIO;
 using dueltank.infrastructure.Database;
 using dueltank.infrastructure.Repository;
+using dueltank.infrastructure.SystemIO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -43,6 +45,9 @@ namespace dueltank.infrastructure
             services.AddTransient<IArchetypeRepository, ArchetypeRepository>();
             services.AddTransient<IDeckCardRepository, DeckCardRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+
+
+            services.AddTransient<IDeckFileSystem, DeckFileSystem>();
 
             return services;
         }

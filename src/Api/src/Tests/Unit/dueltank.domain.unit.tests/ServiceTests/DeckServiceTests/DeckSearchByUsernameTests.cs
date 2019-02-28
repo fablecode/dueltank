@@ -5,6 +5,7 @@ using dueltank.tests.core;
 using NSubstitute;
 using NUnit.Framework;
 using System.Threading.Tasks;
+using dueltank.Domain.SystemIO;
 
 namespace dueltank.domain.unit.tests.ServiceTests.DeckServiceTests
 {
@@ -24,13 +25,15 @@ namespace dueltank.domain.unit.tests.ServiceTests.DeckServiceTests
             _cardRepository = Substitute.For<ICardRepository>();
             _deckTypeRepository = Substitute.For<IDeckTypeRepository>();
             var deckCardRepository = Substitute.For<IDeckCardRepository>();
+            var deckFileSystem = Substitute.For<IDeckFileSystem>();
 
             _sut = new DeckService
             (
                 _deckRepository,
                 _cardRepository,
                 _deckTypeRepository,
-                deckCardRepository
+                deckCardRepository,
+                deckFileSystem
             );
         }
 

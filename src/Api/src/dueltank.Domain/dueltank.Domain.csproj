@@ -7,7 +7,6 @@
   <ItemGroup>
     <PackageReference Include="ImageProcessor" Version="2.6.2.25" />
     <PackageReference Include="MailKit" Version="2.0.7" />
-    <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
   </ItemGroup>
 
   <ItemGroup>

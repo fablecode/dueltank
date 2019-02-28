@@ -1,23 +1,23 @@
-﻿using System;
-using dueltank.core.Models.Search.Decks;
+﻿using System.Threading.Tasks;
+using dueltank.core.Models.DeckDetails;
 using dueltank.Domain.Repository;
 using dueltank.Domain.Service;
+using dueltank.Domain.SystemIO;
 using dueltank.tests.core;
 using NSubstitute;
 using NUnit.Framework;
-using System.Threading.Tasks;
-using dueltank.Domain.SystemIO;
 
 namespace dueltank.domain.unit.tests.ServiceTests.DeckServiceTests
 {
     [TestFixture]
     [Category(TestType.Unit)]
-    public class DeleteDeckByIdAndUserIdTests
+    public class SaveDeckThumbnailTests
     {
         private DeckService _sut;
         private IDeckTypeRepository _deckTypeRepository;
         private ICardRepository _cardRepository;
         private IDeckRepository _deckRepository;
+        private IDeckFileSystem _deckFileSystem;
 
         [SetUp]
         public void SetUp()
@@ -26,7 +26,7 @@ namespace dueltank.domain.unit.tests.ServiceTests.DeckServiceTests
             _cardRepository = Substitute.For<ICardRepository>();
             _deckTypeRepository = Substitute.For<IDeckTypeRepository>();
             var deckCardRepository = Substitute.For<IDeckCardRepository>();
-            var deckFileSystem = Substitute.For<IDeckFileSystem>();
+            _deckFileSystem = Substitute.For<IDeckFileSystem>();
 
             _sut = new DeckService
             (
@@ -34,26 +34,28 @@ namespace dueltank.domain.unit.tests.ServiceTests.DeckServiceTests
                 _cardRepository,
                 _deckTypeRepository,
                 deckCardRepository,
-                deckFileSystem
+                _deckFileSystem
             );
         }
 
         [Test]
-        public async Task Given_A_UserId_Adn_DeckId_Should_Invoke_DeleteDeckByIdAndUserId_Once()
+        public void Given_A_DeckThumbnail_Should_Invoke_SaveDeckThumbnail_Once()
         {
             // Arrange
             const int expected = 1;
 
-            _deckRepository.Search(Arg.Any<DeckSearchCriteria>()).Returns(new DeckSearchResult());
+            var deckThumbnailModel = new DeckThumbnail { DeckId = 12312321};
+
+            _deckFileSystem.SaveDeckThumbnail(Arg.Any<DeckThumbnail>()).Returns(23423);
 
             // Act
-            var userId = Guid.NewGuid().ToString();
-            const int deckId = 234242;
-
-            await _sut.DeleteDeckByIdAndUserId(userId, deckId);
+            _sut.SaveDeckThumbnail(deckThumbnailModel);
 
             // Assert
-            await _deckRepository.Received(expected).DeleteDeckByIdAndUserId(userId, deckId);
+            _deckFileSystem.Received(expected).SaveDeckThumbnail(Arg.Any<DeckThumbnail>());
         }
+
     }
+
+
 }

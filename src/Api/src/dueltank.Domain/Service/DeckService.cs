@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Transactions;
-using dueltank.core.Constants;
+﻿using dueltank.core.Constants;
 using dueltank.core.Models.Db;
 using dueltank.core.Models.DeckDetails;
 using dueltank.core.Models.Search.Decks;
 using dueltank.core.Models.YgoPro;
 using dueltank.core.Services;
 using dueltank.Domain.Repository;
-using ImageProcessor;
-using ImageProcessor.Imaging.Formats;
+using dueltank.Domain.SystemIO;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Transactions;
 
 namespace dueltank.Domain.Service
 {
@@ -23,18 +20,21 @@ namespace dueltank.Domain.Service
         private readonly ICardRepository _cardRepository;
         private readonly IDeckTypeRepository _deckTypeRepository;
         private readonly IDeckCardRepository _deckCardRepository;
+        private readonly IDeckFileSystem _deckFileSystem;
 
         public DeckService
         (
             IDeckRepository deckRepository, 
             ICardRepository cardRepository, 
             IDeckTypeRepository deckTypeRepository,
-            IDeckCardRepository  deckCardRepository)
+            IDeckCardRepository  deckCardRepository,
+            IDeckFileSystem deckFileSystem)
         {
             _deckRepository = deckRepository;
             _cardRepository = cardRepository;
             _deckTypeRepository = deckTypeRepository;
             _deckCardRepository = deckCardRepository;
+            _deckFileSystem = deckFileSystem;
         }
 
         public async Task<Deck> Add(YgoProDeck ygoProDeck)
@@ -197,23 +197,7 @@ namespace dueltank.Domain.Service
 
         public long SaveDeckThumbnail(DeckThumbnail deckThumbnailModel)
         {
-            var quality = 90;
-            ISupportedImageFormat format = new PngFormat();
-            var size = new Size(170, 0);
-
-            using (var inStream = new MemoryStream(deckThumbnailModel.Thumbnail))
-            {
-                using (var imageFactory = new ImageFactory())
-                {
-                    // Load, resize, set the format and quality and save an image.
-                    imageFactory
-                        .Load(inStream)
-                        .Resize(size)
-                        .Format(format)
-                        .Quality(quality)
-                        .Save(deckThumbnailModel.ImageFilePath);
-                }
-            }
+            _deckFileSystem.SaveDeckThumbnail(deckThumbnailModel);
 
             return deckThumbnailModel.DeckId;
         }
