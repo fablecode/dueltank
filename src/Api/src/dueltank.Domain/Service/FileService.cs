@@ -1,5 +1,4 @@
-﻿using System.IO;
-using dueltank.core.Services;
+﻿using dueltank.core.Services;
 using dueltank.Domain.SystemIO;
 
 namespace dueltank.Domain.Service

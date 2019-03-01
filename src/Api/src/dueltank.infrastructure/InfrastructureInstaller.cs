@@ -49,6 +49,7 @@ namespace dueltank.infrastructure
 
             services.AddTransient<IDeckFileSystem, DeckFileSystem>();
             services.AddTransient<IFileSystem, FileSystem>();
+            services.AddTransient<IDirectorySystem, DirectorySystem>();
 
             return services;
         }
