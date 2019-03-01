@@ -1,6 +1,6 @@
 ﻿using dueltank.Domain.Configuration;
 
-namespace dueltank.application.Configuration
+namespace dueltank.infrastructure.Configuration
 {
     public class EmailConfiguration : IEmailConfiguration
     {

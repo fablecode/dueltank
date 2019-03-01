@@ -1,12 +1,10 @@
 ﻿using AutoMapper;
 using dueltank.application.Commands.UploadYgoProDeck;
-using dueltank.application.Configuration;
 using dueltank.application.Models.Decks.Input;
 using dueltank.application.Validations.Decks;
 using dueltank.application.Validations.Decks.YgoProDeck;
 using dueltank.core.Models.YgoPro;
 using dueltank.core.Services;
-using dueltank.Domain.Configuration;
 using dueltank.Domain.Service;
 using FluentValidation;
 using MediatR;
@@ -19,8 +17,6 @@ namespace dueltank.application
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            services.AddTransient<IEmailConfiguration, EmailConfiguration>();
-
             services.AddCqrs();
             services.AddValidation();
             services.AddDomainServices();

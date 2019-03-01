@@ -1,9 +1,11 @@
 ﻿using dueltank.core.Services;
 using dueltank.Domain.Repository;
 using dueltank.Domain.Service;
+using dueltank.Domain.Smtp;
 using dueltank.Domain.SystemIO;
 using dueltank.infrastructure.Database;
 using dueltank.infrastructure.Repository;
+using dueltank.infrastructure.Smtp;
 using dueltank.infrastructure.SystemIO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -50,6 +52,7 @@ namespace dueltank.infrastructure
             services.AddTransient<IDeckFileSystem, DeckFileSystem>();
             services.AddTransient<IFileSystem, FileSystem>();
             services.AddTransient<IDirectorySystem, DirectorySystem>();
+            services.AddTransient<ISmtpClient, SmtpClient>();
 
             return services;
         }

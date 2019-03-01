@@ -22,6 +22,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Reflection;
+using dueltank.infrastructure.Configuration;
 
 namespace dueltank.api
 {
