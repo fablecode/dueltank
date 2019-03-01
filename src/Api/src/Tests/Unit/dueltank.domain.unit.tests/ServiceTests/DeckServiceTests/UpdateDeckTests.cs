@@ -16,7 +16,7 @@ namespace dueltank.domain.unit.tests.ServiceTests.DeckServiceTests
 {
     [TestFixture]
     [Category(TestType.Unit)]
-    public class AddDeckTests
+    public class UpdateDeckTests
     {
         private DeckService _sut;
         private IDeckTypeRepository _deckTypeRepository;
@@ -43,10 +43,10 @@ namespace dueltank.domain.unit.tests.ServiceTests.DeckServiceTests
         }
 
         [Test]
-        public async Task Given_A_Valid_Deck_If_Cards_Are_Found_Not_Found_Should_Return_Newly_Created_Deck()
+        public async Task Given_A_Valid_Deck_If_Cards_Are_Found_Not_Found_Should_Return_Updated_Deck()
         {
             // Arrange
-            var newDeck = new DeckModel
+            var updatedDeck = new DeckModel
             {
                 UserId = Guid.NewGuid().ToString(),
                 Name = "Jinzo Deck",
@@ -90,18 +90,28 @@ namespace dueltank.domain.unit.tests.ServiceTests.DeckServiceTests
                 }
             });
 
+            _deckRepository.GetDeckById(Arg.Any<long>()).Returns(new DeckDetail
+            {
+                Id = 2342342,
+                UserId = Guid.NewGuid().ToString(),
+                Created = DateTime.Now
+            });
+
+
+            _deckRepository.Update(Arg.Any<Deck>()).Returns(new Deck());
+
             // Act
-            var result = await _sut.Add(newDeck);
+            var result = await _sut.Update(updatedDeck);
 
             // Assert
             result.Should().NotBeNull();
         }
 
         [Test]
-        public async Task Given_A_Valid_Deck_Should_Persist_And_Return_Newly_Created_Deck()
+        public async Task Given_A_Valid_Deck_Should_Update_And_Return_Updated_Deck()
         {
             // Arrange
-            var newDeck = new DeckModel
+            var updatedDeck = new DeckModel
             {
                 UserId = Guid.NewGuid().ToString(),
                 Name = "Jinzo Deck",
@@ -145,20 +155,28 @@ namespace dueltank.domain.unit.tests.ServiceTests.DeckServiceTests
                 }
             });
 
-            _cardRepository.GetCardById(Arg.Any<long>()).Returns(new Card());
+            _deckRepository.GetDeckById(Arg.Any<long>()).Returns(new DeckDetail
+            {
+                Id = 2342342,
+                UserId = Guid.NewGuid().ToString(),
+                Created = DateTime.Now
+            });
+
+
+            _deckRepository.Update(Arg.Any<Deck>()).Returns(new Deck());
 
             // Act
-            var result = await _sut.Add(newDeck);
+            var result = await _sut.Update(updatedDeck);
 
             // Assert
             result.Should().NotBeNull();
         }
 
         [Test]
-        public async Task Given_A_Valid_YgoProDeck_Should_Invoke_Add_Method_Once()
+        public async Task Given_A_Valid_Deck_Should_Invoke_Updated_Method_Once()
         {
             // Arrange
-            var newDeck = new DeckModel
+            var updatedDeck = new DeckModel
             {
                 UserId = Guid.NewGuid().ToString(),
                 Name = "Jinzo Deck",
@@ -202,20 +220,28 @@ namespace dueltank.domain.unit.tests.ServiceTests.DeckServiceTests
                 }
             });
 
-            _cardRepository.GetCardById(Arg.Any<long>()).Returns(new Card());
+            _deckRepository.GetDeckById(Arg.Any<long>()).Returns(new DeckDetail
+            {
+                Id = 2342342,
+                UserId = Guid.NewGuid().ToString(),
+                Created = DateTime.Now
+            });
+
+
+            _deckRepository.Update(Arg.Any<Deck>()).Returns(new Deck());
 
             // Act
-            await _sut.Add(newDeck);
+            await _sut.Update(updatedDeck);
 
             // Assert
-            await _deckRepository.Received(1).Add(Arg.Any<Deck>());
+            await _deckRepository.Received(1).Update(Arg.Any<Deck>());
         }
 
         [Test]
-        public async Task Given_A_Valid_YgoProDeck_Should_Invoke_AllDeckTypes_Method_Once()
+        public async Task Given_A_Valid_Deck_Should_Invoke_AllDeckTypes_Method_Once()
         {
             // Arrange
-            var newDeck = new DeckModel
+            var updatedDeck = new DeckModel
             {
                 UserId = Guid.NewGuid().ToString(),
                 Name = "Jinzo Deck",
@@ -259,10 +285,18 @@ namespace dueltank.domain.unit.tests.ServiceTests.DeckServiceTests
                 }
             });
 
-            _cardRepository.GetCardById(Arg.Any<long>()).Returns(new Card());
+            _deckRepository.GetDeckById(Arg.Any<long>()).Returns(new DeckDetail
+            {
+                Id = 2342342,
+                UserId = Guid.NewGuid().ToString(),
+                Created = DateTime.Now
+            });
+
+
+            _deckRepository.Update(Arg.Any<Deck>()).Returns(new Deck());
 
             // Act
-            await _sut.Add(newDeck);
+            await _sut.Update(updatedDeck);
 
             // Assert
             await _deckTypeRepository.Received(1).AllDeckTypes();
@@ -274,7 +308,7 @@ namespace dueltank.domain.unit.tests.ServiceTests.DeckServiceTests
             // Arrange
             const int expected = 2;
 
-            var newDeck = new DeckModel
+            var updatedDeck = new DeckModel
             {
                 UserId = Guid.NewGuid().ToString(),
                 Name = "Jinzo Deck",
@@ -309,10 +343,19 @@ namespace dueltank.domain.unit.tests.ServiceTests.DeckServiceTests
                 }
             });
 
-            _cardRepository.GetCardById(Arg.Any<long>()).Returns(new Card());
+
+            _deckRepository.GetDeckById(Arg.Any<long>()).Returns(new DeckDetail
+            {
+                Id = 2342342,
+                UserId = Guid.NewGuid().ToString(),
+                Created = DateTime.Now
+            });
+
+
+            _deckRepository.Update(Arg.Any<Deck>()).Returns(new Deck());
 
             // Act
-            await _sut.Add(newDeck);
+            await _sut.Update(updatedDeck);
 
             // Assert
             await _cardRepository.Received(expected).GetCardById(Arg.Any<long>());
