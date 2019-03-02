@@ -14,15 +14,20 @@ namespace dueltank.application.Helpers
     {
         public static bool IsMonsterCard(DeckCardDetail deckCard)
         {
-            return string.Equals(deckCard.Category, CardConstants.MonsterType, StringComparison.OrdinalIgnoreCase);
+            return IsMonsterCard(deckCard.Category);
         }
-        public static bool IsMonsterCard(CardSearch card)
+        public static bool IsMonsterCard(CardSearch cardSearch)
         {
-            return string.Equals(card.Category, CardConstants.MonsterType, StringComparison.OrdinalIgnoreCase);
+            return IsMonsterCard(cardSearch.Category);
         }
-        public static bool IsMonsterCard(BanlistCardSearch card)
+        public static bool IsMonsterCard(BanlistCardSearch banlistCardSearch)
         {
-            return string.Equals(card.Category, CardConstants.MonsterType, StringComparison.OrdinalIgnoreCase);
+            return IsMonsterCard(banlistCardSearch.Category);
+
+        }
+        public static bool IsMonsterCard(string category)
+        {
+            return string.Equals(category, CardConstants.MonsterType, StringComparison.OrdinalIgnoreCase);
         }
 
         public static CardDetailOutputModel MapToCardOutputModel(DeckCardDetail deckCardSearch)
