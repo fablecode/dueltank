@@ -11,15 +11,15 @@ namespace dueltank.application.Helpers
             CardDetailOutputModel cardOutputModel;
             if (MonsterCardHelper.IsMonsterCard(deckCardSearch))
             {
-                cardOutputModel = MapToMonsterCardOutputModel(deckCardSearch);
+                cardOutputModel = MonsterCardHelper.MapToCardOutputModel(deckCardSearch);
             }
             else if (SpellCardHelper.IsSpellCard(deckCardSearch))
             {
-                cardOutputModel = MapToSpellCardOutputModel(deckCardSearch);
+                cardOutputModel = SpellCardHelper.MapToCardOutputModel(deckCardSearch);
             }
             else if (TrapCardHelper.IsTrapCard(deckCardSearch))
             {
-                cardOutputModel = MapToTrapCardOutputModel(deckCardSearch);
+                cardOutputModel = TrapCardHelper.MapToCardOutputModel(deckCardSearch);
             }
             else
             {
@@ -27,21 +27,6 @@ namespace dueltank.application.Helpers
             }
 
             return cardOutputModel;
-        }
-
-        public static CardDetailOutputModel MapToMonsterCardOutputModel(DeckCardDetail deckCardSearch)
-        {
-            return MonsterCardHelper.MapToCardOutputModel(deckCardSearch);
-        }
-
-        public static CardDetailOutputModel MapToSpellCardOutputModel(DeckCardDetail deckCardSearch)
-        {
-            return SpellCardHelper.MapToCardOutputModel(deckCardSearch);
-        }
-
-        public static CardDetailOutputModel MapToTrapCardOutputModel(DeckCardDetail deckCardSearch)
-        {
-            return TrapCardHelper.MapToCardOutputModel(deckCardSearch);
         }
     }
 }
