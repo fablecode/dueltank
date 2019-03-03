@@ -13,7 +13,7 @@ namespace dueltank.application.unit.tests.HelperTests
     public class AttributeMapperTests
     {
         [Test]
-        public void Given_An_Emppty_Attribute_Collection_Should_Map_To_Empty_AttributeOutputModel_Collection()
+        public void Given_An_Empty_Attribute_Collection_Should_Map_To_Empty_AttributeOutputModel_Collection()
         {
             // Arrange
             var attributes = new List<Attribute>();
