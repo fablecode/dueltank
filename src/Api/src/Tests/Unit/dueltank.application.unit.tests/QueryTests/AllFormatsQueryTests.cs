@@ -1,4 +1,4 @@
-﻿using dueltank.application.Queries.AllCategories;
+﻿using dueltank.application.Queries.AllFormats;
 using dueltank.core.Models.Db;
 using dueltank.core.Services;
 using dueltank.tests.core;
@@ -8,7 +8,6 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using dueltank.application.Queries.AllFormats;
 
 namespace dueltank.application.unit.tests.QueryTests
 {
@@ -33,7 +32,8 @@ namespace dueltank.application.unit.tests.QueryTests
             // Arrange
             const int expected = 2;
 
-            _formatService.AllFormats().Returns(new List<Format> {
+            _formatService.AllFormats().Returns(new List<Format>
+            {
                 new Format
                 {
                     Id = 2342,

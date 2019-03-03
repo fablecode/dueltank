@@ -3,6 +3,7 @@ using System.Linq;
 using dueltank.application.Models.BanlistCards.Output;
 using dueltank.application.Models.Banlists.Output;
 using dueltank.application.Models.Formats.Output;
+using dueltank.core.Constants;
 using dueltank.core.Models.Db;
 
 namespace dueltank.application.Helpers
@@ -28,7 +29,7 @@ namespace dueltank.application.Helpers
 
                 if (latestBanlist != null)
                 {
-                    model.Acronym = $"{format.Acronym} - {latestBanlist.ReleaseDate:MMM d, yyyy}";
+                    model.Acronym = $"{format.Acronym} - {latestBanlist.ReleaseDate.ToString(BanlistConstants.ReleaseDateFormat)}";
                     model.LatestBanlist = new BanlistOutputModel
                     {
                         Id = latestBanlist.Id,
