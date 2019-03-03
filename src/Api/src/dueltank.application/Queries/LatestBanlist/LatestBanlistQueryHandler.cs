@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using dueltank.application.Helpers;
 using dueltank.application.Models.Banlists.Output;
+using dueltank.core.Constants;
 using dueltank.core.Services;
 using MediatR;
 
@@ -32,13 +33,13 @@ namespace dueltank.application.Queries.LatestBanlist
                         .Select(nc => nc)
                         .ToList();
 
-                var forbiddenCards = groupedCards.SingleOrDefault(grp => grp.Key == "Forbidden");
-                var limnitCards = groupedCards.SingleOrDefault(grp => grp.Key == "Limited");
-                var semiLimitedCards = groupedCards.SingleOrDefault(grp => grp.Key == "Semi-Limited");
-                var unlimitedCards = groupedCards.SingleOrDefault(grp => grp.Key == "Unlimited");
+                var forbiddenCards = groupedCards.SingleOrDefault(grp => grp.Key == LimitConstants.Forbidden);
+                var limnitCards = groupedCards.SingleOrDefault(grp => grp.Key == LimitConstants.Limited);
+                var semiLimitedCards = groupedCards.SingleOrDefault(grp => grp.Key == LimitConstants.SemiLimited);
+                var unlimitedCards = groupedCards.SingleOrDefault(grp => grp.Key == LimitConstants.Unlimited);
 
                 response.Format = request.Format.ToString().ToUpper();
-                response.ReleaseDate = banlistCardSearchResult.ReleaseDate.ToString("MMMM dd, yyyy");
+                response.ReleaseDate = banlistCardSearchResult.ReleaseDate.ToString(BanlistConstants.ReleaseDateFormat);
 
                 if (forbiddenCards != null)
                     response.Forbidden = forbiddenCards.Select(CardSearchMapperHelper.MapToCardOutputModel).ToList();

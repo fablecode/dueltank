@@ -12,15 +12,15 @@ namespace dueltank.application.Helpers
             CardOutputModel cardOutputModel;
             if (MonsterCardHelper.IsMonsterCard(cardSearch))
             {
-                cardOutputModel = MapToMonsterCardOutputModel(cardSearch);
+                cardOutputModel = MonsterCardHelper.MapToCardOutputModel(cardSearch);
             }
             else if (SpellCardHelper.IsSpellCard(cardSearch))
             {
-                cardOutputModel = MapToSpellCardOutputModel(cardSearch);
+                cardOutputModel = SpellCardHelper.MapToCardOutputModel(cardSearch);
             }
             else if (TrapCardHelper.IsTrapCard(cardSearch))
             {
-                cardOutputModel = MapToTrapCardOutputModel(cardSearch);
+                cardOutputModel = TrapCardHelper.MapToCardOutputModel(cardSearch);
             }
             else
             {
@@ -29,20 +29,21 @@ namespace dueltank.application.Helpers
 
             return cardOutputModel;
         }
+
         public static CardOutputModel MapToCardOutputModel(BanlistCardSearch cardSearch)
         {
             CardOutputModel cardOutputModel;
             if (MonsterCardHelper.IsMonsterCard(cardSearch))
             {
-                cardOutputModel = MapToMonsterCardOutputModel(cardSearch);
+                cardOutputModel = MonsterCardHelper.MapToCardOutputModel(cardSearch);
             }
             else if (SpellCardHelper.IsSpellCard(cardSearch))
             {
-                cardOutputModel = MapToSpellCardOutputModel(cardSearch);
+                cardOutputModel = SpellCardHelper.MapToCardOutputModel(cardSearch);
             }
             else if (TrapCardHelper.IsTrapCard(cardSearch))
             {
-                cardOutputModel = MapToTrapCardOutputModel(cardSearch);
+                cardOutputModel = TrapCardHelper.MapToCardOutputModel(cardSearch);
             }
             else
             {
@@ -50,33 +51,6 @@ namespace dueltank.application.Helpers
             }
 
             return cardOutputModel;
-        }
-
-        public static CardOutputModel MapToMonsterCardOutputModel(CardSearch cardSearch)
-        {
-            return MonsterCardHelper.MapToCardOutputModel(cardSearch);
-        }
-        public static CardOutputModel MapToMonsterCardOutputModel(BanlistCardSearch cardSearch)
-        {
-            return MonsterCardHelper.MapToCardOutputModel(cardSearch);
-        }
-
-        public static CardOutputModel MapToSpellCardOutputModel(CardSearch cardSearch)
-        {
-            return SpellCardHelper.MapToCardOutputModel(cardSearch);
-        }
-        public static CardOutputModel MapToSpellCardOutputModel(BanlistCardSearch cardSearch)
-        {
-            return SpellCardHelper.MapToCardOutputModel(cardSearch);
-        }
-
-        public static CardOutputModel MapToTrapCardOutputModel(CardSearch cardSearch)
-        {
-            return TrapCardHelper.MapToCardOutputModel(cardSearch);
-        }
-        public static CardOutputModel MapToTrapCardOutputModel(BanlistCardSearch cardSearch)
-        {
-            return TrapCardHelper.MapToCardOutputModel(cardSearch);
         }
     }
 }
