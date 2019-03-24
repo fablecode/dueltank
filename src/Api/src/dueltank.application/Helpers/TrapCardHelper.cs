@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using AutoMapper;
 using dueltank.application.Models.Cards.Output;
 using dueltank.core.Constants;
 using dueltank.core.Models.Cards;
@@ -104,10 +105,10 @@ namespace dueltank.application.Helpers
             return card;
         }
 
-        public static CardDetailOutputModel MapToCardOutputModel(DeckCardDetail deckCardSearch)
+        public static CardDetailOutputModel MapToCardOutputModel(IMapper mapper, DeckCardDetail deckCardSearch)
         {
             var card = MapToTrapCard(deckCardSearch);
-            var cardOutputModel = CardDetailOutputModel.From(card);
+            var cardOutputModel = mapper.Map<CardDetailOutputModel>(card);
             cardOutputModel.BaseType = CardConstants.TrapType.ToLower();
 
             cardOutputModel.Types.Add(card.CardSubCategory.First().SubCategory.Category.Name);
@@ -115,10 +116,10 @@ namespace dueltank.application.Helpers
 
             return cardOutputModel;
         }
-        public static CardOutputModel MapToCardOutputModel(CardSearch cardSearch)
+        public static CardOutputModel MapToCardOutputModel(IMapper mapper, CardSearch cardSearch)
         {
             var card = MapToTrapCard(cardSearch);
-            var cardOutputModel = CardOutputModel.From(card);
+            var cardOutputModel = mapper.Map<CardOutputModel>(card);
             cardOutputModel.BaseType = CardConstants.TrapType.ToLower();
 
             cardOutputModel.Types.Add(card.CardSubCategory.First().SubCategory.Category.Name);
@@ -126,10 +127,10 @@ namespace dueltank.application.Helpers
 
             return cardOutputModel;
         }
-        public static CardOutputModel MapToCardOutputModel(BanlistCardSearch cardSearch)
+        public static CardOutputModel MapToCardOutputModel(IMapper mapper, BanlistCardSearch cardSearch)
         {
             var card = MapToTrapCard(cardSearch);
-            var cardOutputModel = CardOutputModel.From(card);
+            var cardOutputModel = mapper.Map<CardOutputModel>(card);
             cardOutputModel.BaseType = CardConstants.TrapType.ToLower();
 
             cardOutputModel.Types.Add(card.CardSubCategory.First().SubCategory.Category.Name);

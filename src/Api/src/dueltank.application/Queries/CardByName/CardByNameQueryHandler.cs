@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using dueltank.application.Helpers;
 using dueltank.application.Models.Cards.Output;
 using dueltank.core.Services;
@@ -10,10 +11,12 @@ namespace dueltank.application.Queries.CardByName
     public class CardByNameQueryHandler : IRequestHandler<CardByNameQuery, CardOutputModel>
     {
         private readonly ICardService _cardService;
+        private readonly IMapper _mapper;
 
-        public CardByNameQueryHandler(ICardService cardService)
+        public CardByNameQueryHandler(ICardService cardService, IMapper mapper)
         {
             _cardService = cardService;
+            _mapper = mapper;
         }
         public async Task<CardOutputModel> Handle(CardByNameQuery request, CancellationToken cancellationToken)
         {
@@ -23,7 +26,7 @@ namespace dueltank.application.Queries.CardByName
 
                 if (result != null)
                 {
-                    return CardSearchMapperHelper.MapToCardOutputModel(result);
+                    return CardSearchMapperHelper.MapToCardOutputModel(_mapper, result);
                 }
             }
 

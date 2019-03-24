@@ -1,7 +1,4 @@
-﻿using dueltank.core.Constants;
-using dueltank.core.Models.Db;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace dueltank.application.Models.Cards.Output
 {
@@ -24,20 +21,5 @@ namespace dueltank.application.Models.Cards.Output
         public long? Def { get; set; }
         public List<string> Types { get; set; } = new List<string>();
         public string BaseType { get; set; }
-
-        public static CardDetailOutputModel From(Card model)
-        {
-            return new CardDetailOutputModel
-            {
-                Id = model.Id,
-                Name = model.Name,
-                Description = model.Description,
-                CardNumber = model.CardNumber,
-                ImageUrl = $"/api/images/cards/{model.Name}",
-                Limit = model.BanlistCard.Any() ? model.BanlistCard.First().Limit.Name.ToLower() : LimitConstants.Unlimited.ToLower(),
-                Atk = model.Atk,
-                Def = model.Def
-            };
-        }
     }
 }

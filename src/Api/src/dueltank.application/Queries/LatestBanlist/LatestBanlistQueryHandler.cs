@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using dueltank.application.Helpers;
 using dueltank.application.Models.Banlists.Output;
 using dueltank.core.Constants;
@@ -12,10 +13,12 @@ namespace dueltank.application.Queries.LatestBanlist
     public class LatestBanlistQueryHandler : IRequestHandler<LatestBanlistQuery, LatestBanlistOutputModel>
     {
         private readonly IBanlistService _banlistService;
+        private readonly IMapper _mapper;
 
-        public LatestBanlistQueryHandler(IBanlistService banlistService)
+        public LatestBanlistQueryHandler(IBanlistService banlistService, IMapper mapper)
         {
             _banlistService = banlistService;
+            _mapper = mapper;
         }
 
         public async Task<LatestBanlistOutputModel> Handle(LatestBanlistQuery request, CancellationToken cancellationToken)
@@ -42,16 +45,16 @@ namespace dueltank.application.Queries.LatestBanlist
                 response.ReleaseDate = banlistCardSearchResult.ReleaseDate.ToString(BanlistConstants.ReleaseDateFormat);
 
                 if (forbiddenCards != null)
-                    response.Forbidden = forbiddenCards.Select(CardSearchMapperHelper.MapToCardOutputModel).ToList();
+                    response.Forbidden = forbiddenCards.Select(card => CardSearchMapperHelper.MapToCardOutputModel(_mapper, card)).ToList();
 
                 if (limnitCards != null)
-                    response.Limited = limnitCards.Select(CardSearchMapperHelper.MapToCardOutputModel).ToList();
+                    response.Limited = limnitCards.Select(card => CardSearchMapperHelper.MapToCardOutputModel(_mapper, card)).ToList();
 
                 if (semiLimitedCards != null)
-                    response.SemiLimited = semiLimitedCards.Select(CardSearchMapperHelper.MapToCardOutputModel).ToList();
+                    response.SemiLimited = semiLimitedCards.Select(card => CardSearchMapperHelper.MapToCardOutputModel(_mapper, card)).ToList();
 
                 if (unlimitedCards != null)
-                    response.Unlimited = unlimitedCards.Select(CardSearchMapperHelper.MapToCardOutputModel).ToList();
+                    response.Unlimited = unlimitedCards.Select(card => CardSearchMapperHelper.MapToCardOutputModel(_mapper, card)).ToList();
             }
 
             return response;

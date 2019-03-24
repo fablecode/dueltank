@@ -1,5 +1,7 @@
 ﻿using System;
+using AutoMapper;
 using dueltank.application.Helpers;
+using dueltank.application.Mappings.Profiles;
 using dueltank.core.Models.Cards;
 using dueltank.tests.core;
 using FluentAssertions;
@@ -11,6 +13,19 @@ namespace dueltank.application.unit.tests.HelperTests.CardSearchMapperHelperTest
     [Category(TestType.Unit)]
     public class CardSearchMapperTests
     {
+        private IMapper _mapper;
+
+        [SetUp]
+        public void SetUp()
+        {
+            var config = new MapperConfiguration
+            (
+                cfg => { cfg.AddProfile(new CardProfile()); }
+            );
+
+            _mapper = config.CreateMapper();
+        }
+
         [Test]
         public void Given_An_Invalid_CardSearch_Should_Throw_ArgumentOutOfRangeException()
         {
@@ -18,7 +33,7 @@ namespace dueltank.application.unit.tests.HelperTests.CardSearchMapperHelperTest
             var deckCardSearch = new CardSearch();
 
             // Act
-            Action act = () => CardSearchMapperHelper.MapToCardOutputModel(deckCardSearch);
+            Action act = () => CardSearchMapperHelper.MapToCardOutputModel(_mapper, deckCardSearch);
 
             // Assert
             act.Should().Throw<ArgumentOutOfRangeException>();
@@ -42,7 +57,7 @@ namespace dueltank.application.unit.tests.HelperTests.CardSearchMapperHelperTest
 
 
             // Act
-            var result = CardSearchMapperHelper.MapToCardOutputModel(deckCardDetail);
+            var result = CardSearchMapperHelper.MapToCardOutputModel(_mapper, deckCardDetail);
 
             // Assert
             result.Types.Should().Contain("Monster");
@@ -62,7 +77,7 @@ namespace dueltank.application.unit.tests.HelperTests.CardSearchMapperHelperTest
 
 
             // Act
-            var result = CardSearchMapperHelper.MapToCardOutputModel(deckCardDetail);
+            var result = CardSearchMapperHelper.MapToCardOutputModel(_mapper, deckCardDetail);
 
             // Assert
             result.Types.Should().Contain("Spell");
@@ -82,7 +97,7 @@ namespace dueltank.application.unit.tests.HelperTests.CardSearchMapperHelperTest
 
 
             // Act
-            var result = CardSearchMapperHelper.MapToCardOutputModel(deckCardDetail);
+            var result = CardSearchMapperHelper.MapToCardOutputModel(_mapper, deckCardDetail);
 
             // Assert
             result.Types.Should().Contain("Trap");

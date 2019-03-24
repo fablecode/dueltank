@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using AutoMapper;
 using dueltank.application.Helpers;
+using dueltank.application.Mappings.Profiles;
 using dueltank.core.Models.Search.Banlists;
 using dueltank.tests.core;
 using FluentAssertions;
@@ -11,6 +13,20 @@ namespace dueltank.application.unit.tests.HelperTests.MonsterCardHelperTests
     [Category(TestType.Unit)]
     public class MonsterBanlistCardSearchMapToCardOutputModelTests
     {
+        private IMapper _mapper;
+
+        [SetUp]
+        public void SetUp()
+        {
+            var config = new MapperConfiguration
+            (
+                cfg => { cfg.AddProfile(new CardProfile()); }
+            );
+
+            _mapper = config.CreateMapper();
+        }
+
+
         [Test]
         public void Given_A_BanlistCardSearch_Should_Map_To_Monster_CardOutputModel()
         {
@@ -23,7 +39,7 @@ namespace dueltank.application.unit.tests.HelperTests.MonsterCardHelperTests
             };
 
             // Act
-            var result = MonsterCardHelper.MapToCardOutputModel(cardSearch);
+            var result = MonsterCardHelper.MapToCardOutputModel(_mapper, cardSearch);
 
             // Assert
             result.Should().NotBeNull();
@@ -43,7 +59,7 @@ namespace dueltank.application.unit.tests.HelperTests.MonsterCardHelperTests
             };
 
             // Act
-            var result = MonsterCardHelper.MapToCardOutputModel(deckCardDetail);
+            var result = MonsterCardHelper.MapToCardOutputModel(_mapper, deckCardDetail);
 
             // Assert
             result.Types.Should().BeEquivalentTo(expected);

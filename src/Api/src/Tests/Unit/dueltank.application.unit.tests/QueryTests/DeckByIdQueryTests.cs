@@ -1,5 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using dueltank.application.Mappings.Profiles;
 using dueltank.application.Queries.DeckById;
 using dueltank.core.Models.DeckDetails;
 using dueltank.core.Services;
@@ -19,8 +21,15 @@ namespace dueltank.application.unit.tests.QueryTests
         public void SetUp()
         {
             _deckService = Substitute.For<IDeckService>();
+            var config = new MapperConfiguration
+            (
+                cfg => { cfg.AddProfile(new CardProfile()); }
+            );
 
-            _sut = new DeckByIdQueryHandler(_deckService);
+            var mapper = config.CreateMapper();
+
+
+            _sut = new DeckByIdQueryHandler(_deckService, mapper);
         }
 
         [Test]

@@ -6,16 +6,19 @@ using MediatR;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace dueltank.application.Queries.CardSearches
 {
     public class CardSearchQueryHandler : IRequestHandler<CardSearchQuery, CardSearchResultOutputModel>
     {
         private readonly ICardService _cardService;
+        private readonly IMapper _mapper;
 
-        public CardSearchQueryHandler(ICardService cardService)
+        public CardSearchQueryHandler(ICardService cardService, IMapper mapper)
         {
             _cardService = cardService;
+            _mapper = mapper;
         }
 
         public async Task<CardSearchResultOutputModel> Handle(CardSearchQuery request, CancellationToken cancellationToken)
@@ -41,7 +44,7 @@ namespace dueltank.application.Queries.CardSearches
             var searchResult = await _cardService.Search(searchCriteria);
 
             response.TotalRecords = searchResult.TotalRecords;
-            response.Cards = searchResult.Cards.Select(CardSearchMapperHelper.MapToCardOutputModel).ToList();
+            response.Cards = searchResult.Cards.Select(card => CardSearchMapperHelper.MapToCardOutputModel(_mapper, card)).ToList();
 
             return response;
         }

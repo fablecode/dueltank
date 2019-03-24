@@ -26,10 +26,10 @@ namespace dueltank.api.Controllers
         /// <param name="name"></param>
         /// <returns></returns>
         [AllowAnonymous]
-        [HttpGet("cards/{name}")]
+        [HttpGet("cards")]
         [ResponseCache(CacheProfileName = CacheConstants.TwoWeeksPolicy)]
         [ProducesResponseType((int) HttpStatusCode.OK)]
-        public async Task<IActionResult> Cards(string name)
+        public async Task<IActionResult> Cards([FromQuery]string name)
         {
             var result = await _mediator.Send(new CardImageByNameQuery {Name = name});
 

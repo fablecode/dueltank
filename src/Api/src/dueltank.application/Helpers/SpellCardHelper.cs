@@ -3,6 +3,7 @@ using dueltank.core.Models.Cards;
 using dueltank.core.Models.Db;
 using System;
 using System.Linq;
+using AutoMapper;
 using dueltank.core.Constants;
 using dueltank.core.Models.Search.Banlists;
 
@@ -107,10 +108,10 @@ namespace dueltank.application.Helpers
             return card;
         }
 
-        public static CardDetailOutputModel MapToCardOutputModel(DeckCardDetail model)
+        public static CardDetailOutputModel MapToCardOutputModel(IMapper mapper, DeckCardDetail model)
         {
             var card = MapToSpellCard(model);
-            var cardOutputModel = CardDetailOutputModel.From(card);
+            var cardOutputModel = mapper.Map<CardDetailOutputModel>(card);
             cardOutputModel.BaseType = CardConstants.SpellType.ToLower();
 
             cardOutputModel.Types.Add(card.CardSubCategory.First().SubCategory.Category.Name);
@@ -118,10 +119,10 @@ namespace dueltank.application.Helpers
 
             return cardOutputModel;
         }
-        public static CardOutputModel MapToCardOutputModel(CardSearch model)
+        public static CardOutputModel MapToCardOutputModel(IMapper mapper, CardSearch model)
         {
             var card = MapToSpellCard(model);
-            var cardOutputModel = CardOutputModel.From(card);
+            var cardOutputModel = mapper.Map<CardOutputModel>(card);
             cardOutputModel.BaseType = CardConstants.SpellType.ToLower();
 
             cardOutputModel.Types.Add(card.CardSubCategory.First().SubCategory.Category.Name);
@@ -129,10 +130,10 @@ namespace dueltank.application.Helpers
 
             return cardOutputModel;
         }
-        public static CardOutputModel MapToCardOutputModel(BanlistCardSearch model)
+        public static CardOutputModel MapToCardOutputModel(IMapper mapper, BanlistCardSearch model)
         {
             var card = MapToSpellCard(model);
-            var cardOutputModel = CardOutputModel.From(card);
+            var cardOutputModel = mapper.Map<CardOutputModel>(card);
             cardOutputModel.BaseType = CardConstants.SpellType.ToLower();
 
             cardOutputModel.Types.Add(card.CardSubCategory.First().SubCategory.Category.Name);

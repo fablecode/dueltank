@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using dueltank.application.Mappings.Profiles;
 using dueltank.application.Queries.CardSearches;
 using dueltank.core.Models.Cards;
 using dueltank.core.Models.Search.Cards;
@@ -24,7 +26,16 @@ namespace dueltank.application.unit.tests.QueryTests
         {
             _cardService = Substitute.For<ICardService>();
 
-            _sut = new CardSearchQueryHandler(_cardService);
+            var config = new MapperConfiguration
+            (
+                cfg => { cfg.AddProfile(new CardProfile()); }
+            );
+
+            var mapper = config.CreateMapper();
+
+
+
+            _sut = new CardSearchQueryHandler(_cardService, mapper);
         }
 
         [Test]

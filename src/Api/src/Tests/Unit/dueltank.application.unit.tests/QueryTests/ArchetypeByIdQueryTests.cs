@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using dueltank.application.Mappings.Profiles;
 using dueltank.application.Queries.ArchetypeById;
 using dueltank.core.Models.Archetypes;
 using dueltank.core.Models.Cards;
@@ -26,7 +28,16 @@ namespace dueltank.application.unit.tests.QueryTests
         {
             _archetypeService = Substitute.For<IArchetypeService>();
 
-            _sut = new ArchetypeByIdQueryHandler(_archetypeService);
+
+            var config = new MapperConfiguration
+            (
+                cfg => { cfg.AddProfile(new CardProfile()); }
+            );
+
+            var mapper = config.CreateMapper();
+
+
+            _sut = new ArchetypeByIdQueryHandler(_archetypeService, mapper);
         }
 
         [TestCase(0)]

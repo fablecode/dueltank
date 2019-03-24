@@ -6,16 +6,19 @@ using MediatR;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace dueltank.application.Queries.DeckById
 {
     public class DeckByIdQueryHandler : IRequestHandler<DeckByIdQuery, DeckDetailOutputModel>
     {
         private readonly IDeckService _deckService;
+        private readonly IMapper _mapper;
 
-        public DeckByIdQueryHandler(IDeckService deckService)
+        public DeckByIdQueryHandler(IDeckService deckService, IMapper mapper)
         {
             _deckService = deckService;
+            _mapper = mapper;
         }
 
         public async Task<DeckDetailOutputModel> Handle(DeckByIdQuery request, CancellationToken cancellationToken)
@@ -35,9 +38,9 @@ namespace dueltank.application.Queries.DeckById
                 var sideList = deckResult.SideDeck.SelectMany(c => Enumerable.Repeat(c, c.Quantity)).OrderBy(c => c.SortOrder).ToList();
 
                 // we map to cardoutputmodel
-                response.MainDeck = mainList.Select(CardMapperHelper.MapToCardOutputModel).ToList();
-                response.ExtraDeck = extraList.Select(CardMapperHelper.MapToCardOutputModel).ToList();
-                response.SideDeck = sideList.Select(CardMapperHelper.MapToCardOutputModel).ToList();
+                response.MainDeck = mainList.Select(card => CardMapperHelper.MapToCardOutputModel(_mapper, card)).ToList();
+                response.ExtraDeck = extraList.Select(card => CardMapperHelper.MapToCardOutputModel(_mapper, card)).ToList();
+                response.SideDeck = sideList.Select(card => CardMapperHelper.MapToCardOutputModel(_mapper, card)).ToList();
 
                 return response;
             }

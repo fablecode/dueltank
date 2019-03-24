@@ -8,6 +8,8 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
+using dueltank.application.Mappings.Profiles;
 
 namespace dueltank.application.unit.tests.QueryTests
 {
@@ -22,7 +24,16 @@ namespace dueltank.application.unit.tests.QueryTests
         public void SetUp()
         {
             _banlistService = Substitute.For<IBanlistService>();
-            _sut = new LatestBanlistQueryHandler(_banlistService);
+
+            var config = new MapperConfiguration
+            (
+                cfg => { cfg.AddProfile(new CardProfile()); }
+            );
+
+            var mapper = config.CreateMapper();
+
+
+            _sut = new LatestBanlistQueryHandler(_banlistService, mapper);
         }
 
         [Test]
