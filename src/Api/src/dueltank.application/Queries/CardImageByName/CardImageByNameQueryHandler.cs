@@ -5,6 +5,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using dueltank.application.Configuration;
+using dueltank.Domain.Helpers;
 
 namespace dueltank.application.Queries.CardImageByName
 {
@@ -26,7 +27,7 @@ namespace dueltank.application.Queries.CardImageByName
         {
             const string defaultImage = "no-card-image.png";
 
-            var imageFilePath = _imageService.GetImagePath(request.Name, _settings.Value.CardImageFolderPath, defaultImage);
+            var imageFilePath = _imageService.GetImagePath(request.Name.SanitizeFileName(), _settings.Value.CardImageFolderPath, defaultImage);
 
             var response = new CardImageByNameResult
             {
