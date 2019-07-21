@@ -46,7 +46,7 @@ AS
 			*
 		FROM
 			@ArchetypeList
-		ORDER BY [@ArchetypeList].Id
+		ORDER BY [@ArchetypeList].Updated DESC
 		OFFSET @PageSize * (@PageIndex - 1) ROWS
 		FETCH NEXT @PageSize ROWS ONLY
 	END
@@ -87,7 +87,7 @@ AS
 			*
 		FROM
 			@ArchetypeList
-		ORDER BY [@ArchetypeList].Id
+		ORDER BY [@ArchetypeList].Updated DESC
 		OFFSET @PageSize * (@PageIndex - 1) ROWS
 		FETCH NEXT @PageSize ROWS ONLY
 	END

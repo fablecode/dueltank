@@ -259,10 +259,6 @@
     <Build Include="dbo\Storage\Full-Text Catalogs\ArchetypeCatalog.sql" />
     <Build Include="dbo\Storage\Full-Text Catalogs\CardCatalog.sql" />
     <Build Include="dbo\Storage\Full-Text Catalogs\DeckCatalog.sql" />
-    <Build Include="dbo\Programmability\Stored Procedures\ArchetypeSearch.sql">
-      <QuotedIdentifier>On</QuotedIdentifier>
-      <AnsiNulls>On</AnsiNulls>
-    </Build>
     <Build Include="dbo\Programmability\Stored Procedures\CardsByArchetypeId.sql">
       <QuotedIdentifier>On</QuotedIdentifier>
       <AnsiNulls>On</AnsiNulls>
@@ -308,6 +304,10 @@
       <AnsiNulls>On</AnsiNulls>
     </Build>
     <Build Include="dbo\Programmability\Stored Procedures\usp_GetDeckCardsByDeckId.sql">
+      <QuotedIdentifier>On</QuotedIdentifier>
+      <AnsiNulls>On</AnsiNulls>
+    </Build>
+    <Build Include="dbo\Programmability\Stored Procedures\ArchetypeSearch.sql">
       <QuotedIdentifier>On</QuotedIdentifier>
       <AnsiNulls>On</AnsiNulls>
     </Build>
