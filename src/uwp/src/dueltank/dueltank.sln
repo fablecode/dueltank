@@ -1,0 +1,69 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29209.62
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Core", "1. Core", "{9C35E3C4-47F5-4581-B4A9-CA3F4D08C88C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Domain", "2. Domain", "{2DE034D7-B0E3-4968-BE7D-35253D48489F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Application", "3. Application", "{482B17A0-6FA8-4CCD-8365-973948AC6425}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Infrastructure", "4. Infrastructure", "{A9DC08AC-13FC-4C45-8123-0A1C4070AE6A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5. Presentation", "5. Presentation", "{B1ED3DA8-978C-4C2F-9F66-FAE29E17B3FC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6. Tests", "6. Tests", "{E89DFD1B-8158-45D5-AB04-CDD7060B23C5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit", "Unit", "{6575D33C-F5B6-440D-94A3-14BD2E3F3721}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dueltank", "Presentation\dueltank\dueltank.csproj", "{C6D64BE2-C696-49E2-A101-36387AA55EED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Debug|ARM64 = Debug|ARM64
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|ARM = Release|ARM
+		Release|ARM64 = Release|ARM64
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Debug|ARM.ActiveCfg = Debug|ARM
+		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Debug|ARM.Build.0 = Debug|ARM
+		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Debug|ARM.Deploy.0 = Debug|ARM
+		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Debug|ARM64.Build.0 = Debug|ARM64
+		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Debug|ARM64.Deploy.0 = Debug|ARM64
+		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Debug|x64.ActiveCfg = Debug|x64
+		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Debug|x64.Build.0 = Debug|x64
+		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Debug|x64.Deploy.0 = Debug|x64
+		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Debug|x86.ActiveCfg = Debug|x86
+		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Debug|x86.Build.0 = Debug|x86
+		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Debug|x86.Deploy.0 = Debug|x86
+		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Release|ARM.ActiveCfg = Release|ARM
+		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Release|ARM.Build.0 = Release|ARM
+		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Release|ARM.Deploy.0 = Release|ARM
+		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Release|ARM64.ActiveCfg = Release|ARM64
+		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Release|ARM64.Build.0 = Release|ARM64
+		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Release|ARM64.Deploy.0 = Release|ARM64
+		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Release|x64.ActiveCfg = Release|x64
+		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Release|x64.Build.0 = Release|x64
+		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Release|x64.Deploy.0 = Release|x64
+		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Release|x86.ActiveCfg = Release|x86
+		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Release|x86.Build.0 = Release|x86
+		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Release|x86.Deploy.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6575D33C-F5B6-440D-94A3-14BD2E3F3721} = {E89DFD1B-8158-45D5-AB04-CDD7060B23C5}
+		{C6D64BE2-C696-49E2-A101-36387AA55EED} = {B1ED3DA8-978C-4C2F-9F66-FAE29E17B3FC}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {56115557-E2E9-42F3-82E9-D7DC4035514E}
+	EndGlobalSection
+EndGlobal

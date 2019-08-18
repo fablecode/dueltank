@@ -1,0 +1,63 @@
+﻿<Page
+    x:Class="dueltank.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:dueltank"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <!--title bar row-->
+            <RowDefinition Height="Auto" />
+            <!--page content row-->
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+
+        <!--title bar grid-->
+        <Grid Grid.Row="0" x:Name="AppTitleBar" Height="32" Background="Black">
+
+            <!-- Title -->
+            <!--you can customize whatever you want else in this grid-->
+            <Button x:Name="BackButton" Foreground="White" Style="{StaticResource NavigationBackButtonNormalStyle}"/>
+            <TextBlock Text="Dueltank" Foreground="White" VerticalAlignment="Center" Margin="45,0,0,0" Style="{StaticResource CaptionTextBlockStyle}"/>
+
+        </Grid>
+
+        <!--content grid-->
+        <Grid Grid.Row="1">
+            <NavigationView PaneDisplayMode="Left" AlwaysShowHeader="True" PaneTitle="Git Manager" IsBackButtonVisible="Collapsed">
+                <NavigationView.MenuItems>
+                    <NavigationViewItem Icon="Home" Content="Home" Tag="Home_Page" x:Name="Home" />
+                    <NavigationViewItem  Content="Decks" x:Name="Decks" Tag="Decks_Page">
+                        <NavigationViewItem.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81E;"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+                    <NavigationViewItem Content="Archetypes" x:Name="Archetypes" >
+                        <NavigationViewItem.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8C1;"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+                    <NavigationViewItem Content="Banlist" x:Name="Banlist" >
+                        <NavigationViewItem.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF140;"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+                </NavigationView.MenuItems>
+                <NavigationView.Content>
+                    <Frame x:Name="ContentFrame">
+                        <Frame.ContentTransitions>
+                            <TransitionCollection>
+                                <NavigationThemeTransition />
+                            </TransitionCollection>
+                        </Frame.ContentTransitions>
+                    </Frame>
+                </NavigationView.Content>
+            </NavigationView>
+        </Grid>
+    </Grid>
+</Page>
