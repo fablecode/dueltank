@@ -18,12 +18,12 @@
 
 
         <!--title bar grid-->
-        <Grid Grid.Row="0" x:Name="AppTitleBar" Height="32" Background="Black">
+        <Grid Grid.Row="0" x:Name="AppTitleBar" Height="32" Background="Red">
 
             <!-- Title -->
             <!--you can customize whatever you want else in this grid-->
-            <Button x:Name="BackButton" Foreground="White" Style="{StaticResource NavigationBackButtonNormalStyle}"/>
-            <TextBlock Text="Dueltank" Foreground="White" VerticalAlignment="Center" Margin="45,0,0,0" Style="{StaticResource CaptionTextBlockStyle}"/>
+            <Button x:Name="BackButton" Foreground="WhiteSmoke" Style="{StaticResource NavigationBackButtonNormalStyle}" />
+            <TextBlock Text="Dueltank" Foreground="WhiteSmoke" VerticalAlignment="Center" Margin="45,0,0,0" Style="{StaticResource CaptionTextBlockStyle}"/>
 
         </Grid>
 
