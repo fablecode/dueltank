@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace dueltank.Helpers
+namespace dueltank.ViewModels.Infrastructure.Common
 {
     /// <summary>
     /// A command whose sole purpose is to relay its functionality 

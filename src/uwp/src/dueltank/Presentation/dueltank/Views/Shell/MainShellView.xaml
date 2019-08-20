@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="dueltank.MainPage"
+    x:Class="dueltank.Views.Shell.MainShellView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:dueltank"
@@ -8,22 +8,25 @@
     xmlns:vm="using:dueltank.ViewModels"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-    xmlns:m="using:dueltank.Models"
+    xmlns:vms="using:dueltank.ViewModels.Shell"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.DataContext>
-        <vm:MainPageViewModel/>
+        <vms:MainShellViewModel/>
     </Page.DataContext>
 
     <Page.Resources>
-        <DataTemplate x:Key="NavigationItemDataTemplate" x:DataType="m:NavigationItemDataModel">
-            <NavigationViewItem Content="{Binding Content}"  >
+
+        <!-- NavigationView data template -->
+        <DataTemplate x:Key="NavigationItemDataTemplate" x:DataType="vms:NavigationItem">
+            <NavigationViewItem Content="{x:Bind Label}" Tag="{x:Bind Tag}">
                 <NavigationViewItem.Icon>
-                    <FontIcon FontFamily="{Binding FontFamily}" Glyph="{Binding Glyph}"/>
+                    <FontIcon FontFamily="{x:Bind FontFamily}" Glyph="{x:Bind Glyph}"/>
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
         </DataTemplate>
+
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -53,8 +56,10 @@
                 AlwaysShowHeader="False" 
                 PaneTitle="{Binding HamburgerTitle}" 
                 IsBackButtonVisible="Collapsed"
+                IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay}"
                 MenuItemsSource="{Binding NavigationViewItems}"
-                MenuItemTemplate="{StaticResource NavigationItemDataTemplate}">
+                MenuItemTemplate="{StaticResource NavigationItemDataTemplate}"
+                SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
 
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="ItemInvoked">

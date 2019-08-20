@@ -119,14 +119,25 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\RelayCommand.cs" />
-    <Compile Include="MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
+    <Compile Include="Services\Infrastructure\NavigationService.cs" />
+    <Compile Include="ViewModels\Archetypes\ArchetypesViewModel.cs" />
+    <Compile Include="ViewModels\Banlist\BanlistViewModel.cs" />
+    <Compile Include="ViewModels\Cards\CardsViewModel.cs" />
+    <Compile Include="ViewModels\Home\HomeViewModel.cs" />
+    <Compile Include="ViewModels\Decks\DecksViewModel.cs" />
+    <Compile Include="ViewModels\Infrastructure\Common\RelayCommand.cs" />
+    <Compile Include="Views\Shell\MainShellView.xaml.cs">
+      <DependentUpon>MainShellView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models\NavigationItemDataModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\MainPageViewModel.cs" />
-    <Compile Include="ViewModels\ViewModel.cs" />
+    <Compile Include="ViewModels\Infrastructure\Services\INavigationService.cs" />
+    <Compile Include="ViewModels\Infrastructure\Common\UserInfo.cs" />
+    <Compile Include="ViewModels\Shell\MainShellViewModel.cs" />
+    <Compile Include="ViewModels\Infrastructure\ViewModels\ObservableObject.cs" />
+    <Compile Include="ViewModels\Infrastructure\ViewModels\ViewModelBase.cs" />
+    <Compile Include="ViewModels\Shell\NavigationItem.cs" />
+    <Compile Include="ViewModels\Shell\ShellArgs.cs" />
+    <Compile Include="ViewModels\Shell\ShellViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -148,12 +159,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainPage.xaml">
+    <Page Include="Views\Shell\MainShellView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json">
+      <Version>2.2.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection">
+      <Version>2.2.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions">
+      <Version>2.2.0</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.8</Version>
     </PackageReference>
@@ -163,7 +183,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Icons\" />
-    <Folder Include="Views\" />
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
