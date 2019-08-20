@@ -2,6 +2,14 @@
     x:Class="dueltank.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:dueltank">
+    xmlns:local="using:dueltank"
+    xmlns:viewManagement="using:Windows.UI.ViewManagement">
+
+    <Application.Resources>
+        <Style x:Key="AppTitleBarStyle" TargetType="Grid">
+            <Setter Property="Background" Value="Red"/>
+            <Setter Property="Height" Value="32"/>
+        </Style>
+    </Application.Resources>
 
 </Application>
