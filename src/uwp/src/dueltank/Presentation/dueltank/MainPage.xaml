@@ -8,12 +8,23 @@
     xmlns:vm="using:dueltank.ViewModels"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:m="using:dueltank.Models"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.DataContext>
         <vm:MainPageViewModel/>
     </Page.DataContext>
+
+    <Page.Resources>
+        <DataTemplate x:Key="NavigationItemDataTemplate" x:DataType="m:NavigationItemDataModel">
+            <NavigationViewItem Content="{Binding Content}"  >
+                <NavigationViewItem.Icon>
+                    <FontIcon FontFamily="{Binding FontFamily}" Glyph="{Binding Glyph}"/>
+                </NavigationViewItem.Icon>
+            </NavigationViewItem>
+        </DataTemplate>
+    </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
@@ -36,7 +47,15 @@
 
         <!--content grid-->
         <Grid Grid.Row="1">
-            <NavigationView PaneDisplayMode="Left" AlwaysShowHeader="True" PaneTitle="{Binding HamburgerTitle}" IsBackButtonVisible="Collapsed">
+            <NavigationView
+                x:Name="navigationView"
+                PaneDisplayMode="Left" 
+                AlwaysShowHeader="False" 
+                PaneTitle="{Binding HamburgerTitle}" 
+                IsBackButtonVisible="Collapsed"
+                MenuItemsSource="{Binding NavigationViewItems}"
+                MenuItemTemplate="{StaticResource NavigationItemDataTemplate}">
+
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="ItemInvoked">
                         <core:EventTriggerBehavior.Actions>
@@ -45,24 +64,6 @@
                     </core:EventTriggerBehavior>
                 </interactivity:Interaction.Behaviors>
 
-                <NavigationView.MenuItems>
-                    <NavigationViewItem Icon="Home" Content="Home" Tag="Home_Page" x:Name="Home" />
-                    <NavigationViewItem  Content="Decks" x:Name="Decks" Tag="Decks_Page">
-                        <NavigationViewItem.Icon>
-                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE81E;"/>
-                        </NavigationViewItem.Icon>
-                    </NavigationViewItem>
-                    <NavigationViewItem Content="Archetypes" x:Name="Archetypes" >
-                        <NavigationViewItem.Icon>
-                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8C1;"/>
-                        </NavigationViewItem.Icon>
-                    </NavigationViewItem>
-                    <NavigationViewItem Content="Banlist" x:Name="Banlist" >
-                        <NavigationViewItem.Icon>
-                            <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF140;"/>
-                        </NavigationViewItem.Icon>
-                    </NavigationViewItem>
-                </NavigationView.MenuItems>
                 <NavigationView.Content>
                     <Frame x:Name="ContentFrame">
                         <Frame.ContentTransitions>
@@ -72,6 +73,7 @@
                         </Frame.ContentTransitions>
                     </Frame>
                 </NavigationView.Content>
+
             </NavigationView>
         </Grid>
     </Grid>
