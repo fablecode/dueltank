@@ -6,6 +6,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using dueltank.Configuration;
+using dueltank.ViewModels.Infrastructure.Services;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -16,11 +18,22 @@ namespace dueltank.Views.Shell
     /// </summary>
     public sealed partial class MainShellView : Page
     {
+        private INavigationService _navigationService;
+
         public MainShellView()
         {
+            //InitializeContext();
             InitializeComponent();
+            InitializeNavigation();
 
-            NavigationCacheMode = NavigationCacheMode.Enabled;
+            //NavigationCacheMode = NavigationCacheMode.Enabled;
+        }
+
+        private void InitializeNavigation()
+        {
+            _navigationService = ServiceLocator.Current.GetService<INavigationService>();
+            _navigationService.Initialize(ContentFrame);
+            ContentFrame.Navigated += OnFrameNavigated;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

@@ -1,4 +1,5 @@
-﻿using dueltank.ViewModels.Archetypes;
+﻿using System;
+using dueltank.ViewModels.Archetypes;
 using dueltank.ViewModels.Banlist;
 using dueltank.ViewModels.Cards;
 using dueltank.ViewModels.Decks;
@@ -12,7 +13,7 @@ namespace dueltank.ViewModels.Shell
 
     public class MainShellViewModel : ShellViewModel
     {
-        private RelayCommand<NavigationViewItemInvokedEventArgs> _navigationItemInvoked;
+        private RelayCommand<NavigationViewSelectionChangedEventArgs> _navigationItemInvoked;
         private string _hamburgerTitle = "Home";
         private bool _isPaneOpen;
 
@@ -61,18 +62,32 @@ namespace dueltank.ViewModels.Shell
             set => Set(ref _selectedItem, value);
         }
 
-        public RelayCommand<NavigationViewItemInvokedEventArgs> NavigationItemInvoked
+        public RelayCommand<NavigationViewSelectionChangedEventArgs> NavigationItemInvoked
         {
             get
             {
-                return _navigationItemInvoked ?? (_navigationItemInvoked = new RelayCommand<NavigationViewItemInvokedEventArgs>(OnNavigationItemInvoked, param => true));
+                return _navigationItemInvoked ?? (_navigationItemInvoked = new RelayCommand<NavigationViewSelectionChangedEventArgs>(OnNavigationItemInvoked, param => true));
             }
             set => _navigationItemInvoked = value;
         }
 
-        private void OnNavigationItemInvoked(NavigationViewItemInvokedEventArgs navigationViewItemInvokedEventArgs)
+        private void OnNavigationItemInvoked(NavigationViewSelectionChangedEventArgs navigationViewItemInvokedEventArgs)
         {
-            HamburgerTitle = (string)navigationViewItemInvokedEventArgs.InvokedItem;
+
+            if (navigationViewItemInvokedEventArgs.SelectedItem is NavigationItem item)
+            {
+                HamburgerTitle = item.Label;
+
+                //NavigateTo(item.ViewModel);
+            }
+        }
+
+        public async void NavigateTo(Type viewModel)
+        {
+            switch (viewModel.Name)
+            {
+
+            }
         }
     }
 }

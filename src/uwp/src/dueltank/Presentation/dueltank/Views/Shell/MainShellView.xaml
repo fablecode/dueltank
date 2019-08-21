@@ -62,7 +62,7 @@
                 SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
 
                 <interactivity:Interaction.Behaviors>
-                    <core:EventTriggerBehavior EventName="ItemInvoked">
+                    <core:EventTriggerBehavior EventName="SelectionChanged">
                         <core:EventTriggerBehavior.Actions>
                             <core:InvokeCommandAction Command="{Binding NavigationItemInvoked}" />
                         </core:EventTriggerBehavior.Actions>

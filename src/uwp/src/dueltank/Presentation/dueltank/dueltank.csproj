@@ -119,6 +119,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Configuration\ServiceLocator.cs" />
+    <Compile Include="Configuration\Startup.cs" />
     <Compile Include="Services\Infrastructure\NavigationService.cs" />
     <Compile Include="ViewModels\Archetypes\ArchetypesViewModel.cs" />
     <Compile Include="ViewModels\Banlist\BanlistViewModel.cs" />

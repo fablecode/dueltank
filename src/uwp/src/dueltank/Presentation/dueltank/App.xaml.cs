@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using dueltank.Configuration;
 using dueltank.Views.Shell;
 
 namespace dueltank
@@ -28,14 +30,22 @@ namespace dueltank
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
+            await ActivateAsync(e);
+        }
+
+        private async Task ActivateAsync(LaunchActivatedEventArgs e)
+        {
+            var rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
             if (rootFrame == null)
             {
+                // Setup the application
+                await Startup.ConfigureAsync();
+
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
 
@@ -59,10 +69,12 @@ namespace dueltank
                     // parameter
                     rootFrame.Navigate(typeof(MainShellView), e.Arguments);
                 }
+
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
         }
+
 
         /// <summary>
         /// Invoked when Navigation to a certain page fails
