@@ -43,7 +43,7 @@
             <StackPanel Orientation="Horizontal">
                 <!-- Title -->
                 <!--you can customize whatever you want else in this grid-->
-                <Button x:Name="BackButton" Foreground="White" Style="{StaticResource NavigationBackButtonNormalStyle}" />
+                <Button x:Name="NavigationBackButton" Foreground="White" Style="{StaticResource NavigationBackButtonNormalStyle}" IsEnabled="{Binding CanGoBack}"/>
                 <TextBlock Text="{Binding AppTitle}" Foreground="White" VerticalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}"/>
             </StackPanel>
         </Grid>

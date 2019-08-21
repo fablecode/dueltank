@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.UI;
 using Windows.UI.ViewManagement;
@@ -7,7 +8,11 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using dueltank.Configuration;
+using dueltank.Services.Infrastructure;
+using dueltank.ViewModels.Home;
 using dueltank.ViewModels.Infrastructure.Services;
+using dueltank.ViewModels.Shell;
+using dueltank.Views.Home;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -22,11 +27,8 @@ namespace dueltank.Views.Shell
 
         public MainShellView()
         {
-            //InitializeContext();
             InitializeComponent();
             InitializeNavigation();
-
-            //NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
         private void InitializeNavigation()
@@ -36,11 +38,37 @@ namespace dueltank.Views.Shell
             ContentFrame.Navigated += OnFrameNavigated;
         }
 
+        private void OnFrameNavigated(object sender, NavigationEventArgs e)
+        {
+            var targetType = NavigationService.GetViewModel(e.SourcePageType);
+            var viewModel = (MainShellViewModel) DataContext;
+
+            switch (targetType.Name)
+            {
+                case "SettingsViewModel":
+                    viewModel.SelectedItem = navigationView.SettingsItem;
+                    break;
+                default:
+                    viewModel.SelectedItem = viewModel.NavigationViewItems.FirstOrDefault(r => r.ViewModel == targetType);
+                    break;
+            }
+            UpdateBackButton();
+        }
+
+        private void UpdateBackButton()
+        {
+            NavigationBackButton.IsEnabled = _navigationService.CanGoBack;
+        }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
             CustomizeTitleBar();
+
+            var viewModel = (MainShellViewModel)DataContext;
+
+            viewModel.NavigateTo(typeof(HomeViewModel));
         }
 
         private void CustomizeTitleBar()
