@@ -116,7 +116,7 @@ namespace dueltank.Services.Infrastructure
 
         public async Task CloseViewAsync()
         {
-            int currentId = ApplicationView.GetForCurrentView().Id;
+            var currentId = ApplicationView.GetForCurrentView().Id;
             await ApplicationViewSwitcher.SwitchAsync(MainViewId, currentId, ApplicationViewSwitchingOptions.ConsolidateViews);
         }
     }

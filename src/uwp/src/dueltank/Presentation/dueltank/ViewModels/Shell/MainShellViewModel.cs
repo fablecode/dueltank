@@ -1,17 +1,15 @@
-﻿using System;
+﻿using dueltank.Configuration;
 using dueltank.ViewModels.Archetypes;
 using dueltank.ViewModels.Banlist;
 using dueltank.ViewModels.Cards;
 using dueltank.ViewModels.Decks;
-using dueltank.ViewModels.Infrastructure.Common;
-using System.Collections.Generic;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
-using dueltank.Configuration;
-using dueltank.Services.Infrastructure;
 using dueltank.ViewModels.Home;
+using dueltank.ViewModels.Infrastructure.Common;
 using dueltank.ViewModels.Infrastructure.Services;
-using dueltank.Views.Home;
+using System;
+using System.Collections.Generic;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace dueltank.ViewModels.Shell
 {
@@ -19,9 +17,12 @@ namespace dueltank.ViewModels.Shell
     public class MainShellViewModel : ShellViewModel
     {
         private readonly INavigationService _navigationService;
-        private RelayCommand<NavigationViewSelectionChangedEventArgs> _navigationItemInvoked;
         private string _hamburgerTitle = "Home";
         private bool _isPaneOpen;
+        private object _selectedItem;
+
+        private RelayCommand<NavigationViewSelectionChangedEventArgs> _navigationItemInvoked;
+        private RelayCommand<RoutedEventArgs> _backButtonInvoked;
 
         private readonly NavigationItem _homeItem = new NavigationItem(0xE80F, "Home", typeof(HomeViewModel));
         private readonly NavigationItem _decksItem = new NavigationItem(0xECAA, "Decks", typeof(DecksViewModel));
@@ -66,7 +67,6 @@ namespace dueltank.ViewModels.Shell
             set => Set(ref _isPaneOpen, value);
         }
 
-        private object _selectedItem;
         public object SelectedItem
         {
             get => _selectedItem;
@@ -85,6 +85,14 @@ namespace dueltank.ViewModels.Shell
             }
             set => _navigationItemInvoked = value;
         }
+        public RelayCommand<RoutedEventArgs> BackButtonInvoked
+        {
+            get
+            {
+                return _backButtonInvoked ?? (_backButtonInvoked = new RelayCommand<RoutedEventArgs>(OnBackButtonInvoked, param => true));
+            }
+            set => _backButtonInvoked = value;
+        }
 
         #endregion
 
@@ -97,6 +105,13 @@ namespace dueltank.ViewModels.Shell
                 HamburgerTitle = item.Label;
 
                 NavigateTo(item.ViewModel);
+            }
+        }
+        private void OnBackButtonInvoked(RoutedEventArgs routedEventArgs)
+        {
+            if (_navigationService.CanGoBack)
+            {
+                _navigationService.GoBack();
             }
         }
 

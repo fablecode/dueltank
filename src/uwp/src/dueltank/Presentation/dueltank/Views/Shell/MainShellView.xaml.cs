@@ -1,18 +1,18 @@
-﻿using System;
+﻿using dueltank.Configuration;
+using dueltank.Services.Infrastructure;
+using dueltank.ViewModels.Home;
+using dueltank.ViewModels.Infrastructure.Services;
+using dueltank.ViewModels.Shell;
+using System;
 using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using dueltank.Configuration;
-using dueltank.Services.Infrastructure;
-using dueltank.ViewModels.Home;
-using dueltank.ViewModels.Infrastructure.Services;
-using dueltank.ViewModels.Shell;
-using dueltank.Views.Home;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -31,17 +31,97 @@ namespace dueltank.Views.Shell
             InitializeNavigation();
         }
 
+        private static SystemNavigationManager CurrentView => SystemNavigationManager.GetForCurrentView();
+
+
+        #region private helpers
+
         private void InitializeNavigation()
         {
             _navigationService = ServiceLocator.Current.GetService<INavigationService>();
             _navigationService.Initialize(ContentFrame);
+            CurrentView.BackRequested += OnBackRequested;
             ContentFrame.Navigated += OnFrameNavigated;
+        }
+
+        private void UpdateBackButton()
+        {
+            if (_navigationService.CanGoBack)
+            {
+                NavigationBackButton.Visibility = Visibility.Visible;
+                AppTitleTextBlock.Padding = new Thickness(40,0,0,0);
+            }
+            else
+            {
+                NavigationBackButton.Visibility = Visibility.Collapsed;
+                AppTitleTextBlock.Padding = new Thickness(10, 0, 0, 0);
+            }
+        }
+
+        private void CustomizeTitleBar()
+        {
+            // Hide default title bar.
+            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+            coreTitleBar.ExtendViewIntoTitleBar = true;
+
+            Window.Current.SetTitleBar(trickyTitleBar);
+
+            // customize buttons' colors
+            //AppTitleBar.Height = coreTitleBar.Height;
+            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+
+            titleBar.BackgroundColor = Colors.Red;
+            titleBar.ForegroundColor = Colors.White;
+
+            titleBar.ButtonBackgroundColor = Colors.Red;
+            titleBar.ButtonHoverBackgroundColor = GetSolidColorBrush("#40FFFFFF ").Color;
+            titleBar.ButtonHoverForegroundColor = Colors.White;
+            titleBar.ButtonInactiveForegroundColor = GetSolidColorBrush("#FFF58989").Color;
+            titleBar.ButtonInactiveBackgroundColor = Colors.Red;
+        } 
+
+        #endregion
+
+        public SolidColorBrush GetSolidColorBrush(string hex)
+        {
+            hex = hex.Replace("#", string.Empty);
+            var a = (byte) Convert.ToUInt32(hex.Substring(0, 2), 16);
+            var r = (byte) Convert.ToUInt32(hex.Substring(2, 2), 16);
+            var g = (byte) Convert.ToUInt32(hex.Substring(4, 2), 16);
+            var b = (byte) Convert.ToUInt32(hex.Substring(6, 2), 16);
+            var myBrush = new SolidColorBrush(Color.FromArgb(a, r, g, b));
+            return myBrush;
+        }
+
+        #region Overridden members
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            CustomizeTitleBar();
+
+            var viewModel = (MainShellViewModel)DataContext;
+
+            viewModel.NavigateTo(typeof(HomeViewModel));
+        }
+
+        #endregion
+
+        #region Event handlers
+
+        private void OnBackRequested(object sender, BackRequestedEventArgs e)
+        {
+            if (_navigationService.CanGoBack)
+            {
+                _navigationService.GoBack();
+            }
         }
 
         private void OnFrameNavigated(object sender, NavigationEventArgs e)
         {
             var targetType = NavigationService.GetViewModel(e.SourcePageType);
-            var viewModel = (MainShellViewModel) DataContext;
+            var viewModel = (MainShellViewModel)DataContext;
 
             switch (targetType.Name)
             {
@@ -55,52 +135,6 @@ namespace dueltank.Views.Shell
             UpdateBackButton();
         }
 
-        private void UpdateBackButton()
-        {
-            NavigationBackButton.IsEnabled = _navigationService.CanGoBack;
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            CustomizeTitleBar();
-
-            var viewModel = (MainShellViewModel)DataContext;
-
-            viewModel.NavigateTo(typeof(HomeViewModel));
-        }
-
-        private void CustomizeTitleBar()
-        {
-            // customize title area
-            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
-            Window.Current.SetTitleBar(AppTitleBar);
-
-
-            // customize buttons' colors
-            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-
-            titleBar.BackgroundColor = Colors.Red;
-            titleBar.ForegroundColor = Colors.White;
-
-
-            titleBar.ButtonBackgroundColor = Colors.Red;
-            titleBar.ButtonHoverBackgroundColor = GetSolidColorBrush("#40FFFFFF ").Color;
-            titleBar.ButtonHoverForegroundColor = Colors.White;
-            titleBar.ButtonInactiveForegroundColor = GetSolidColorBrush("#FFF58989").Color;
-            titleBar.ButtonInactiveBackgroundColor = Colors.Red;
-        }
-
-        public SolidColorBrush GetSolidColorBrush(string hex)
-        {
-            hex = hex.Replace("#", string.Empty);
-            var a = (byte) Convert.ToUInt32(hex.Substring(0, 2), 16);
-            var r = (byte) Convert.ToUInt32(hex.Substring(2, 2), 16);
-            var g = (byte) Convert.ToUInt32(hex.Substring(4, 2), 16);
-            var b = (byte) Convert.ToUInt32(hex.Substring(6, 2), 16);
-            var myBrush = new SolidColorBrush(Color.FromArgb(a, r, g, b));
-            return myBrush;
-        }
+        #endregion
     }
 }

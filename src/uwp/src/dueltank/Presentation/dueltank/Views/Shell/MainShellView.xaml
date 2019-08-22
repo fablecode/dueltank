@@ -38,14 +38,26 @@
         </Grid.RowDefinitions>
 
 
-        <!--title bar grid-->
-        <Grid Grid.Row="0" x:Name="AppTitleBar" Style="{StaticResource AppTitleBarStyle}">
-            <StackPanel Orientation="Horizontal">
-                <!-- Title -->
-                <!--you can customize whatever you want else in this grid-->
-                <Button x:Name="NavigationBackButton" Foreground="White" Style="{StaticResource NavigationBackButtonNormalStyle}" IsEnabled="{Binding CanGoBack}"/>
-                <TextBlock Text="{Binding AppTitle}" Foreground="White" VerticalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}"/>
-            </StackPanel>
+        <!--title bar. Title bar area does not  support firing click or tap events-->
+        <Grid Grid.Row="0" Style="{StaticResource AppTitleBarStyle}">
+            <!-- Title (non-clickable layer) -->
+            <TextBlock x:Name="AppTitleTextBlock" Text="{Binding AppTitle}" Foreground="White" VerticalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}"/>
+
+            <!-- title bar area (Middle layer) Trick: set this as custom title bar-->
+            <Grid x:Name="trickyTitleBar" Background="Transparent"/>
+
+            <!-- Full screen button (clickable layer) -->
+            <Grid HorizontalAlignment="Left">
+                <Button x:Name="NavigationBackButton" Foreground="White" Style="{StaticResource NavigationBackButtonSmallStyle}">
+                    <interactivity:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="Click">
+                            <core:EventTriggerBehavior.Actions>
+                                <core:InvokeCommandAction Command="{Binding BackButtonInvoked}" />
+                            </core:EventTriggerBehavior.Actions>
+                        </core:EventTriggerBehavior>
+                    </interactivity:Interaction.Behaviors>
+                </Button>
+            </Grid>
         </Grid>
 
         <!--content grid-->
