@@ -7,15 +7,15 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="d460c2b8-874e-4546-9077-20dd9db08703"
-    Publisher="CN=poult"
+    Name="41511FableCode.DuelTank"
+    Publisher="CN=6993FE60-B691-4698-9906-44077E189C10"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="d460c2b8-874e-4546-9077-20dd9db08703" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="ad9e59b5-2e1f-459a-992f-ba3d5b3b1278" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>dueltank</DisplayName>
-    <PublisherDisplayName>poult</PublisherDisplayName>
+    <DisplayName>DuelTank</DisplayName>
+    <PublisherDisplayName>FableCode</PublisherDisplayName>
     <Logo>Assets\VisualAssets\StoreLogo.png</Logo>
   </Properties>
 
@@ -47,5 +47,6 @@
   <Capabilities>
     <Capability Name="internetClient" />
     <uap:Capability Name="userAccountInformation"/>
+    <Capability Name="internetClientServer"/>
   </Capabilities>
 </Package>
