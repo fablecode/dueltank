@@ -9,6 +9,7 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:vms="using:dueltank.ViewModels.Shell"
+    xmlns:infracommon="using:dueltank.ViewModels.Infrastructure.Common"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -26,6 +27,24 @@
                 </NavigationViewItem.Icon>
             </NavigationViewItem>
         </DataTemplate>
+
+        <DataTemplate x:Name="NavigationViewItemProfile" x:DataType="infracommon:UserInfo">
+            <Grid Width="300" Height="40">
+                <Grid IsTapEnabled="False">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="32" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="4" />
+                    </Grid.ColumnDefinitions>
+                    <Viewbox Margin="-2,9,0,9" HorizontalAlignment="Left">
+                        <PersonPicture ProfilePicture="{x:Bind PictureSource, Converter={StaticResource ObjectToImageConverter}}" DisplayName="{x:Bind DisplayName}" />
+                    </Viewbox>
+                    <TextBlock Grid.Column="1" Text="{x:Bind DisplayName}" VerticalAlignment="Center" />
+                </Grid>
+                <Button Margin="-4,0,0,0" BorderThickness="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0" />
+            </Grid>
+        </DataTemplate>
+
 
     </Page.Resources>
 
@@ -64,11 +83,10 @@
         <Grid Grid.Row="1">
             <NavigationView
                 x:Name="navigationView"
-                PaneDisplayMode="Left" 
                 AlwaysShowHeader="False" 
                 PaneTitle="{Binding HamburgerTitle}" 
-                IsBackButtonVisible="Collapsed"
                 IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay}"
+                IsBackButtonVisible="Collapsed"
                 MenuItemsSource="{Binding NavigationViewItems}"
                 MenuItemTemplate="{StaticResource NavigationItemDataTemplate}"
                 SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
@@ -90,6 +108,20 @@
                         </Frame.ContentTransitions>
                     </Frame>
                 </NavigationView.Content>
+
+                <NavigationView.PaneFooter>
+                    <NavigationViewItem Icon="AddFriend" Content="Sign in">
+
+                        <interactivity:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="Tapped">
+                                <core:EventTriggerBehavior.Actions>
+                                    <core:InvokeCommandAction Command="{Binding SignInNavigationItemInvoked}" />
+                                </core:EventTriggerBehavior.Actions>
+                            </core:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
+
+                    </NavigationViewItem>
+                </NavigationView.PaneFooter>
 
             </NavigationView>
         </Grid>

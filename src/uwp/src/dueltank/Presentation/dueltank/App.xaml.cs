@@ -35,6 +35,7 @@ namespace dueltank
             await ActivateAsync(e);
         }
 
+
         private async Task ActivateAsync(LaunchActivatedEventArgs e)
         {
             var rootFrame = Window.Current.Content as Frame;
