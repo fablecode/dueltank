@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Windows.Security.Authentication.Web.Core;
 using Windows.Security.Credentials;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.ApplicationSettings;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -26,7 +27,7 @@ namespace dueltank.ViewModels.Shell
         // Then, you must associate the app with the store.
         const string MicrosoftAccountProviderId = "https://login.microsoft.com";
         const string ConsumerAuthority = "consumers";
-        const string AccountScopeRequested = "wl.basic";
+        const string AccountScopeRequested = "wl.basic,wl.emails";
         const string AccountClientId = "none";
         const string StoredAccountKey = "accountid";
 
@@ -180,10 +181,11 @@ namespace dueltank.ViewModels.Shell
 
             // The Microsoft account provider is always present in Windows 10 devices, as is the Azure AD plugin.
             // If a non-installed plugin or incorect identity is specified, FindAccountProviderAsync will return null   
-            WebAccountProvider provider = await WebAuthenticationCoreManager.FindAccountProviderAsync(MicrosoftAccountProviderId, ConsumerAuthority);
+            WebAccountProvider msaProvider= await WebAuthenticationCoreManager.FindAccountProviderAsync(MicrosoftAccountProviderId, ConsumerAuthority);
 
-            WebAccountProviderCommand providerCommand = new WebAccountProviderCommand(provider, WebAccountProviderCommandInvoked);
-            e.WebAccountProviderCommands.Add(providerCommand);
+            WebAccountProviderCommand msaProviderCommand = new WebAccountProviderCommand(msaProvider, WebAccountProviderCommandInvoked);
+
+            e.WebAccountProviderCommands.Add(msaProviderCommand);
         }
 
         private async Task AddWebAccount(AccountsSettingsPaneCommandsRequestedEventArgs e)
