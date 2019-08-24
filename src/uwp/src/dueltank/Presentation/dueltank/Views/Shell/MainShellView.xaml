@@ -37,7 +37,7 @@
                         <ColumnDefinition Width="4" />
                     </Grid.ColumnDefinitions>
                     <Viewbox Margin="-2,9,0,9" HorizontalAlignment="Left">
-                        <PersonPicture ProfilePicture="{x:Bind PictureSource, Converter={StaticResource ObjectToImageConverter}}" DisplayName="{x:Bind DisplayName}" />
+                        <PersonPicture ProfilePicture="{x:Bind PictureSource, Converter={StaticResource ObjectToImageConverter}}" DisplayName="{x:Bind DisplayName}"/>
                     </Viewbox>
                     <TextBlock Grid.Column="1" Text="{x:Bind DisplayName}" VerticalAlignment="Center" />
                 </Grid>
@@ -110,17 +110,29 @@
                 </NavigationView.Content>
 
                 <NavigationView.PaneFooter>
-                    <NavigationViewItem Icon="AddFriend" Content="Sign in">
+                    <StackPanel Orientation="Vertical">
+                        <NavigationViewItem Icon="AddFriend" Content="Sign in" Visibility="{Binding IsAuthenticated, Mode=OneWay, ConverterParameter=Reverse, Converter={StaticResource BoolInverterToVisibility}}">
 
-                        <interactivity:Interaction.Behaviors>
-                            <core:EventTriggerBehavior EventName="Tapped">
-                                <core:EventTriggerBehavior.Actions>
-                                    <core:InvokeCommandAction Command="{Binding SignInNavigationItemInvoked}" />
-                                </core:EventTriggerBehavior.Actions>
-                            </core:EventTriggerBehavior>
-                        </interactivity:Interaction.Behaviors>
+                            <interactivity:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="Tapped">
+                                    <core:EventTriggerBehavior.Actions>
+                                        <core:InvokeCommandAction Command="{Binding SignInNavigationItemInvoked}" />
+                                    </core:EventTriggerBehavior.Actions>
+                                </core:EventTriggerBehavior>
+                            </interactivity:Interaction.Behaviors>
 
-                    </NavigationViewItem>
+                        </NavigationViewItem>
+                        <NavigationViewItem ContentTemplate="{StaticResource NavigationViewItemProfile}" Content="{Binding UserInfo}" Visibility="{Binding IsAuthenticated, Mode=OneWay, ConverterParameter=Reverse, Converter={StaticResource BoolToVisibility}}">
+                            <interactivity:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="Tapped">
+                                    <core:EventTriggerBehavior.Actions>
+                                        <core:InvokeCommandAction Command="{Binding SignOutNavigationItemInvoked}" />
+                                    </core:EventTriggerBehavior.Actions>
+                                </core:EventTriggerBehavior>
+                            </interactivity:Interaction.Behaviors>
+
+                        </NavigationViewItem>
+                    </StackPanel>
                 </NavigationView.PaneFooter>
 
             </NavigationView>

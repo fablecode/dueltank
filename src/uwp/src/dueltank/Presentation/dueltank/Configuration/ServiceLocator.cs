@@ -41,6 +41,7 @@ namespace dueltank.Configuration
         public static void Configure(IServiceCollection serviceCollection)
         {
             serviceCollection.AddScoped<INavigationService, NavigationService>();
+            serviceCollection.AddScoped<IMessageService, MessageService>();
 
             serviceCollection.AddTransient<ArchetypesViewModel>();
             serviceCollection.AddTransient<BanlistViewModel>();

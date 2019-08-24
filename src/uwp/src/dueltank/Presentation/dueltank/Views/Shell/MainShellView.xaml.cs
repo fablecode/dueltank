@@ -6,6 +6,7 @@ using dueltank.ViewModels.Shell;
 using System;
 using System.Linq;
 using Windows.ApplicationModel.Core;
+using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
@@ -13,6 +14,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using dueltank.ViewModels.Infrastructure.Common;
+using Microsoft.Toolkit.Uwp.Helpers;
+using Newtonsoft.Json;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -95,13 +99,20 @@ namespace dueltank.Views.Shell
 
         #region Overridden members
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
             CustomizeTitleBar();
 
             var viewModel = (MainShellViewModel)DataContext;
+            var localFolder = ApplicationData.Current.LocalFolder;
+
+            if (await localFolder.FileExistsAsync(MainShellViewModel.UserInfoLocalStorageKey))
+            {
+                viewModel.UserInfo = JsonConvert.DeserializeObject<UserInfo>(await StorageFileHelper.ReadTextFromLocalFileAsync(MainShellViewModel.UserInfoLocalStorageKey));
+                viewModel.IsAuthenticated = viewModel.UserInfo != null;
+            }
 
             viewModel.NavigateTo(typeof(HomeViewModel));
         }

@@ -8,9 +8,12 @@ namespace dueltank.ViewModels.Infrastructure.Common
         {
             AccountName = "Fable Code",
             FirstName = "Fable",
-            LastName = "Code"
+            LastName = "Code",
         };
 
+        public string Id { get; set; }
+        public string Email { get; set; }
+        public string Username { get; set; }
         public string AccountName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -19,5 +22,7 @@ namespace dueltank.ViewModels.Infrastructure.Common
         public string DisplayName => $"{FirstName} {LastName}";
 
         public bool IsEmpty => string.IsNullOrEmpty(DisplayName.Trim());
+        public string AppToken { get; set; }
+        public string JwtToken { get; set; }
     }
 }
