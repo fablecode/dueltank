@@ -6,7 +6,7 @@ namespace dueltank.application.Queries.ArchetypeSearch
 {
     public class ArchetypeSearchQuery : IRequest<ArchetypeSearchResultOutputModel>
     {
-        public string SearchTerm { get; set; };
+        public string SearchTerm { get; set; }
         public int PageSize { get; set; } = 8;
         public int PageIndex { get; set; } = 1;
     }
