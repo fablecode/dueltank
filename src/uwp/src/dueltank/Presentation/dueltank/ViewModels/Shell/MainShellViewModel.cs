@@ -8,6 +8,7 @@ using dueltank.ViewModels.Infrastructure.Common;
 using dueltank.ViewModels.Infrastructure.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Data.Json;
@@ -109,7 +110,7 @@ namespace dueltank.ViewModels.Shell
 
         public UserInfo UserInfo
         {
-            get => _userInfo;
+            get => _userInfo ?? UserInfo.Default;
             set => Set(ref _userInfo, value);
         }
 
@@ -298,7 +299,15 @@ namespace dueltank.ViewModels.Shell
                             AppToken = token,
                         };
 
-                        userInfo.PictureSource = $"https://apis.live.net/v5.0/{userAccountInfo.Id}/picture?type=large";
+                        IRandomAccessStream streamReference = await userAccount.GetPictureAsync(WebAccountPictureSize.Size424x424);
+                        if (streamReference != null)
+                        {
+                            BitmapImage bitmapImage = new BitmapImage();
+                            bitmapImage.SetSource(streamReference);
+                            userInfo.PictureSource = bitmapImage;
+                        }
+
+                        //userInfo.PictureSource = $"https://apis.live.net/v5.0/{userAccountInfo.Id}/picture?type=large";
 
                         await RemoveUserLocalFile();
                         await StorageFileHelper.WriteTextToLocalFileAsync(JsonConvert.SerializeObject(userInfo), UserInfoLocalStorageKey);

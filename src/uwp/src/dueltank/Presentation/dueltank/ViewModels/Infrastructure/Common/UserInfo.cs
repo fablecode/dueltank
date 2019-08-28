@@ -1,4 +1,5 @@
 ﻿using System;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace dueltank.ViewModels.Infrastructure.Common
 {
@@ -6,9 +7,6 @@ namespace dueltank.ViewModels.Infrastructure.Common
     {
         public static readonly UserInfo Default = new UserInfo
         {
-            AccountName = "Fable Code",
-            FirstName = "Fable",
-            LastName = "Code",
         };
 
         public string Id { get; set; }
@@ -17,7 +15,7 @@ namespace dueltank.ViewModels.Infrastructure.Common
         public string AccountName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public object PictureSource { get; set; }
+        public BitmapImage PictureSource { get; set; }
 
         public string DisplayName => $"{FirstName} {LastName}";
 

@@ -122,7 +122,8 @@
                             </interactivity:Interaction.Behaviors>
 
                         </NavigationViewItem>
-                        <NavigationViewItem ContentTemplate="{StaticResource NavigationViewItemProfile}" Content="{Binding UserInfo}" Visibility="{Binding IsAuthenticated, Mode=OneWay, ConverterParameter=Reverse, Converter={StaticResource BoolToVisibility}}">
+                        <NavigationViewItem Content="{Binding UserInfo.DisplayName}" Visibility="{Binding IsAuthenticated, Mode=OneWay, ConverterParameter=Reverse, Converter={StaticResource BoolToVisibility}}">
+
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="Tapped">
                                     <core:EventTriggerBehavior.Actions>
@@ -130,6 +131,10 @@
                                     </core:EventTriggerBehavior.Actions>
                                 </core:EventTriggerBehavior>
                             </interactivity:Interaction.Behaviors>
+
+                            <NavigationViewItem.Icon>
+                                <FontIcon Glyph="&#xEA4A;"/>
+                            </NavigationViewItem.Icon>
 
                         </NavigationViewItem>
                     </StackPanel>
