@@ -296,7 +296,6 @@ namespace dueltank.ViewModels.Shell
                             FirstName = userAccountInfo.First_Name,
                             LastName = userAccountInfo.Last_Name,
                             Email = userAccountInfo.Emails.Preferred ?? userAccountInfo.Emails.Account,
-                            AppToken = token,
                         };
 
                         IRandomAccessStream streamReference = await userAccount.GetPictureAsync(WebAccountPictureSize.Size424x424);

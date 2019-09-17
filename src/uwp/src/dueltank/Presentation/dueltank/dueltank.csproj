@@ -124,6 +124,8 @@
     <Compile Include="Configuration\Startup.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\ObjectToImageConverter.cs" />
+    <Compile Include="Services\Infrastructure\CommonServices.cs" />
+    <Compile Include="Services\Infrastructure\ContextService.cs" />
     <Compile Include="Services\Infrastructure\MessageService.cs" />
     <Compile Include="Services\Infrastructure\NavigationService.cs" />
     <Compile Include="ViewModels\Archetypes\ArchetypesViewModel.cs" />
@@ -132,6 +134,8 @@
     <Compile Include="ViewModels\Home\HomeViewModel.cs" />
     <Compile Include="ViewModels\Decks\DecksViewModel.cs" />
     <Compile Include="ViewModels\Infrastructure\Common\RelayCommand.cs" />
+    <Compile Include="ViewModels\Infrastructure\Services\ICommonServices.cs" />
+    <Compile Include="ViewModels\Infrastructure\Services\IContextService.cs" />
     <Compile Include="ViewModels\Infrastructure\Services\IMessageService.cs" />
     <Compile Include="Views\Decks\DecksView.xaml.cs">
       <DependentUpon>DecksView.xaml</DependentUpon>

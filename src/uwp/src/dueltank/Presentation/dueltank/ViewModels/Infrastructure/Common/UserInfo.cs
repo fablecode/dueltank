@@ -20,7 +20,6 @@ namespace dueltank.ViewModels.Infrastructure.Common
         public string DisplayName => $"{FirstName} {LastName}";
 
         public bool IsEmpty => string.IsNullOrEmpty(DisplayName.Trim());
-        public string AppToken { get; set; }
         public string JwtToken { get; set; }
     }
 }
