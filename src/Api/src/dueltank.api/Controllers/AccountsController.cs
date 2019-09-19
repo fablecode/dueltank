@@ -20,9 +20,12 @@ using System.Collections.Specialized;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using Newtonsoft.Json;
 
 namespace dueltank.api.Controllers
 {
@@ -438,6 +441,80 @@ namespace dueltank.api.Controllers
             return BadRequest(ModelState.Errors());
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ExternalMicrosoftLoginConfirmation([FromBody] ExternalMicrosoftLoginConfirmationViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var existingUser = await _userManager.FindByNameAsync(model.Username);
+
+                if (existingUser == null)
+                {
+                    var info = new ExternalLoginInfo(User,
+                        "Microsoft",
+                        model.Id,
+                        "Microsoft");
+
+                    var restApi = new Uri(@"https://apis.live.net/v5.0/me?access_token=" + model.Token);
+
+                    using (var client = new HttpClient())
+                    {
+                        var infoResult = await client.GetAsync(restApi);
+                        var content = await infoResult.Content.ReadAsStringAsync();
+                        var userAccountInfo = JsonConvert.DeserializeObject<MicrosoftUserInfo>(content);
+
+                        var user = new ApplicationUser
+                        {
+                            UserName = model.Username,
+                            Email = userAccountInfo.Emails.Preferred ?? userAccountInfo.Emails.Account,
+                            FullName = userAccountInfo.Name
+                        };
+
+                        // create new user
+                        var createIdentityResult = await _userManager.CreateAsync(user);
+                        if (createIdentityResult.Succeeded)
+                        {
+                            // Add new user to default role
+                            await _userManager.AddToRoleAsync(user, ApplicationRoles.RoleUser);
+
+                            //var info = new ExternalLoginInfo();
+
+                            // add login
+                            var addLoginIdentityResult = await _userManager.AddLoginAsync(user, info);
+                            if (addLoginIdentityResult.Succeeded)
+                            {
+                                // sign in new user
+                                await _signInManager.SignInAsync(user, false);
+                                _logger.LogInformation("User created an account using {Name} provider.",
+                                    info.LoginProvider);
+
+                                return Ok(new
+                                {
+                                    token = await BuildToken(user),
+                                    user = new
+                                    {
+                                        user.Id,
+                                        Name = user.UserName,
+                                        user.ProfileImageUrl
+                                    }
+                                });
+                            }
+                            return BadRequest(addLoginIdentityResult.Errors.Descriptions());
+
+                        }
+
+                        return BadRequest(createIdentityResult.Errors.Descriptions());
+                    }
+
+                }
+
+                return BadRequest(new[] { $"The username {model.Username} already exists" });
+            }
+
+            return BadRequest(ModelState.Errors());
+        }
+
         /// <summary>
         ///     Confirm email address
         /// </summary>
@@ -551,4 +628,26 @@ namespace dueltank.api.Controllers
 
         #endregion
     }
+
+    public class MicrosoftUserInfo
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string First_Name { get; set; }
+        public string Last_Name { get; set; }
+        public string Link { get; set; }
+        public object Gender { get; set; }
+        public MicrosoftUserEmails Emails { get; set; }
+        public string Locale { get; set; }
+        public object Updated_Time { get; set; }
+    }
+
+    public class MicrosoftUserEmails
+    {
+        public string Preferred { get; set; }
+        public string Account { get; set; }
+        public object Personal { get; set; }
+        public object Business { get; set; }
+    }
+
 }

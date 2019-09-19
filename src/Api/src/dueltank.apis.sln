@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27428.2027
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29306.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dueltank.api", "dueltank.api\dueltank.api.csproj", "{092A9532-99D6-46CF-BA6E-7FD01A1054B7}"
 EndProject
@@ -35,9 +35,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dueltank.core.unit.tests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dueltank.infrastructure.unit.tests", "Tests\Unit\dueltank.infrastructure.unit.tests\dueltank.infrastructure.unit.tests.csproj", "{C7F1027F-573A-4521-9D19-539FB3903B7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dueltank.tests.core", "Tests\dueltank.tests.core\dueltank.tests.core.csproj", "{29742753-97A8-43A2-A40E-2DE98B9A9D37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dueltank.tests.core", "Tests\dueltank.tests.core\dueltank.tests.core.csproj", "{29742753-97A8-43A2-A40E-2DE98B9A9D37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dueltank.api.unit.tests", "Tests\Unit\dueltank.api.unit.tests\dueltank.api.unit.tests.csproj", "{D24B2B66-630C-4B94-8DDC-0ED85BAA7EFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dueltank.api.unit.tests", "Tests\Unit\dueltank.api.unit.tests\dueltank.api.unit.tests.csproj", "{D24B2B66-630C-4B94-8DDC-0ED85BAA7EFE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,6 +95,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{092A9532-99D6-46CF-BA6E-7FD01A1054B7} = {CD2DFAE5-94E5-4855-8B0A-8057B840867C}
+		{F5FD2FC5-CEA6-4147-BA80-77A97047782E} = {CD2DFAE5-94E5-4855-8B0A-8057B840867C}
 		{88BD5487-ACAD-43BE-9CBE-E53260A7D178} = {B6AAB487-DB1F-4F2B-AB36-7BA49AC7440C}
 		{0D84DD1D-4985-4938-AE68-932246547472} = {F5FD2FC5-CEA6-4147-BA80-77A97047782E}
 		{5F12E0EB-00BA-43B4-9293-5475102A6BD8} = {E3F9FE68-5F5B-442B-A6D9-0075243E9546}
