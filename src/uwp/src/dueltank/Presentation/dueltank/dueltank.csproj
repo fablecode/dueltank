@@ -131,6 +131,7 @@
     <Compile Include="ViewModels\Archetypes\ArchetypesViewModel.cs" />
     <Compile Include="ViewModels\Banlist\BanlistViewModel.cs" />
     <Compile Include="ViewModels\Cards\CardsViewModel.cs" />
+    <Compile Include="ViewModels\Dialogs\UsernameContentDialogViewModel.cs" />
     <Compile Include="ViewModels\Home\HomeViewModel.cs" />
     <Compile Include="ViewModels\Decks\DecksViewModel.cs" />
     <Compile Include="ViewModels\Infrastructure\Common\RelayCommand.cs" />
@@ -139,6 +140,9 @@
     <Compile Include="ViewModels\Infrastructure\Services\IMessageService.cs" />
     <Compile Include="Views\Decks\DecksView.xaml.cs">
       <DependentUpon>DecksView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\UsernameDialog\UsernameContentDialog.xaml.cs">
+      <DependentUpon>UsernameContentDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Home\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
@@ -232,6 +236,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Dialogs\UsernameDialog\UsernameContentDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Home\HomeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -259,6 +267,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
       <Version>2.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="ReactiveProperty">
+      <Version>6.1.2</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

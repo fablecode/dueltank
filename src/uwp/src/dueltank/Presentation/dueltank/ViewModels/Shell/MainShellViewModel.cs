@@ -23,6 +23,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.Web.Http;
+using dueltank.Views.Dialogs.UsernameDialog;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
 
@@ -278,6 +279,7 @@ namespace dueltank.ViewModels.Shell
 
                     var userAccount = webTokenRequestResult.ResponseData[0].WebAccount;
                     var token = webTokenRequestResult.ResponseData[0].Token;
+                    var properties = webTokenRequestResult.ResponseData[0].Properties;
 
                     ApplicationData.Current.LocalSettings.Values[StoredAccountKey] = userAccount.Id;
 
@@ -295,13 +297,17 @@ namespace dueltank.ViewModels.Shell
                             Id = userAccountInfo.Id,
                             FirstName = userAccountInfo.First_Name,
                             LastName = userAccountInfo.Last_Name,
-                            Email = userAccountInfo.Emails.Preferred ?? userAccountInfo.Emails.Account,
+                            Email = userAccountInfo.Emails.Preferred ?? userAccountInfo.Emails.Account
                         };
+
+                        var usernameDialog = new UsernameContentDialog(userInfo);
+
+                        var dialogResult = await usernameDialog.ShowAsync();
 
                         IRandomAccessStream streamReference = await userAccount.GetPictureAsync(WebAccountPictureSize.Size424x424);
                         if (streamReference != null)
                         {
-                            BitmapImage bitmapImage = new BitmapImage();
+                            var bitmapImage = new BitmapImage();
                             bitmapImage.SetSource(streamReference);
                             userInfo.PictureSource = bitmapImage;
                         }
