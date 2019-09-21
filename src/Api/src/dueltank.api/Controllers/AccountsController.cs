@@ -32,6 +32,7 @@ namespace dueltank.api.Controllers
     [Route("api/[controller]/[action]")]
     public class AccountsController : Controller
     {
+        private const string MicrosoftLoginProvider = "Microsoft";
         private readonly ILogger<AccountsController> _logger;
         private readonly IMediator _mediator;
         private readonly IOptions<JwtSettings> _jwtSettings;
@@ -451,12 +452,7 @@ namespace dueltank.api.Controllers
 
                 if (existingUser == null)
                 {
-                    var info = new ExternalLoginInfo(User,
-                        "Microsoft",
-                        model.Id,
-                        "Microsoft");
-
-                    var restApi = new Uri(@"https://apis.live.net/v5.0/me?access_token=" + model.Token);
+                    var restApi = new Uri(@"https://apis.live.net/v5.0/me?access_token=" + model.AccessToken);
 
                     using (var client = new HttpClient())
                     {
@@ -478,7 +474,7 @@ namespace dueltank.api.Controllers
                             // Add new user to default role
                             await _userManager.AddToRoleAsync(user, ApplicationRoles.RoleUser);
 
-                            //var info = new ExternalLoginInfo();
+                            var info = new ExternalLoginInfo(User, MicrosoftLoginProvider,userAccountInfo.Id,MicrosoftLoginProvider);
 
                             // add login
                             var addLoginIdentityResult = await _userManager.AddLoginAsync(user, info);

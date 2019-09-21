@@ -7,10 +7,6 @@ namespace dueltank.api.Models.AccountViewModels
     {
         [Required]
         [DataType(DataType.Text)]
-        public string Id { get; set; }
-
-        [Required]
-        [DataType(DataType.Text)]
-        public string Token { get; set; }
+        public string AccessToken { get; set; }
     }
 }
