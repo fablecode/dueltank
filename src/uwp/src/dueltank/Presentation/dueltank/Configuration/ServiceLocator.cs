@@ -40,6 +40,8 @@ namespace dueltank.Configuration
 
         public static void Configure(IServiceCollection serviceCollection)
         {
+            serviceCollection.AddHttpClient();
+
             // Services
             serviceCollection.AddScoped<INavigationService, NavigationService>();
             serviceCollection.AddScoped<IMessageService, MessageService>();

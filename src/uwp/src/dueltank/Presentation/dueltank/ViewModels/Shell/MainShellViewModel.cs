@@ -9,6 +9,7 @@ using dueltank.ViewModels.Infrastructure.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Data.Json;
@@ -22,7 +23,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.Web.Http;
 using dueltank.Views.Dialogs.UsernameDialog;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
@@ -42,6 +42,7 @@ namespace dueltank.ViewModels.Shell
         public const string UserInfoLocalStorageKey = "userinfo.json";
 
         private readonly INavigationService _navigationService;
+        private readonly IHttpClientFactory _httpClientFactory;
         private string _hamburgerTitle = "Home";
         private bool _isPaneOpen;
         private object _selectedItem;
@@ -60,13 +61,14 @@ namespace dueltank.ViewModels.Shell
         private RelayCommand<TappedRoutedEventArgs> _signOutNavigationItemInvoked;
 
         public MainShellViewModel()
-            : this(ServiceLocator.Current.GetService<INavigationService>())
+            : this(ServiceLocator.Current.GetService<INavigationService>(), ServiceLocator.Current.GetService<IHttpClientFactory>())
         {
             AppTitle = "DuelTank";
         }
-        public MainShellViewModel(INavigationService navigationService)
+        public MainShellViewModel(INavigationService navigationService, IHttpClientFactory httpClientFactory)
         {
             _navigationService = navigationService;
+            _httpClientFactory = httpClientFactory;
 
             AccountsSettingsPane.GetForCurrentView().AccountCommandsRequested += OnAccountCommandsRequested;
         }
@@ -285,7 +287,7 @@ namespace dueltank.ViewModels.Shell
 
                     var restApi = new Uri(@"https://apis.live.net/v5.0/me?access_token=" + token);
 
-                    using (var client = new HttpClient())
+                    using (var client = _httpClientFactory.CreateClient())
                     {
                         var infoResult = await client.GetAsync(restApi);
                         string content = await infoResult.Content.ReadAsStringAsync();

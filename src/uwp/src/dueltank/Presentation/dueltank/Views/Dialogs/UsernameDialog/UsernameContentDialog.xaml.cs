@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using dueltank.ViewModels.Dialogs;
 using dueltank.ViewModels.Infrastructure.Common;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -45,6 +46,10 @@ namespace dueltank.Views.Dialogs.UsernameDialog
         private void UsernameContentDialog_Opened(ContentDialog sender, ContentDialogOpenedEventArgs args)
         {
             Result = UsernameResult.Nothing;
+
+            var viewModel = DataContext as UsernameContentDialogViewModel;
+
+            viewModel?.LoadUserInfo(_userInfo);
         }
 
         private void UsernameContentDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
