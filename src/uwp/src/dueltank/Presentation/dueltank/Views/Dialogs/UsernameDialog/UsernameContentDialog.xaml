@@ -28,6 +28,6 @@
                 </core:EventTriggerBehavior>
             </interactivity:Interaction.Behaviors>
         </TextBox>
-        <TextBlock Text="{Binding UsernameErrorMessage.Value, Mode=OneWay}" Foreground="Red" Style="{ThemeResource BodyTextBlockStyle}" Visibility="{Binding UsernameErrorMessage.HasErrors, Mode=OneWay, ConverterParameter=Reverse, Converter={StaticResource BoolToVisibility}}"/>
+        <TextBlock Text="{Binding UsernameErrorMessage.Value, Mode=OneWay}" Foreground="Red" Style="{ThemeResource BodyTextBlockStyle}" />
     </StackPanel>
 </ContentDialog>

@@ -4,7 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:dueltank"
     xmlns:viewManagement="using:Windows.UI.ViewManagement"
-    xmlns:converters="using:dueltank.Converters">
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:converters1="using:dueltank.Converters">
 
     <Application.Resources>
         <Style x:Key="AppTitleBarStyle" TargetType="Grid">
@@ -15,7 +16,7 @@
         <!--  Converters  -->
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibility" FalseValue="Collapsed" TrueValue="Visible" />
         <converters:BoolToVisibilityConverter x:Key="BoolInverterToVisibility" FalseValue="Visible" TrueValue="Collapsed" />
-        <converters:ObjectToImageConverter x:Key="ObjectToImageConverter" />
+        <converters1:ObjectToImageConverter x:Key="ObjectToImageConverter" />
 
     </Application.Resources>
 

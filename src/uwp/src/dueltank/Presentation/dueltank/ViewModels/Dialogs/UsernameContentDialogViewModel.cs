@@ -38,20 +38,9 @@ namespace dueltank.ViewModels.Dialogs
         {
             _httpClientFactory = httpClientFactory;
 
-            Username = new ReactiveProperty<string>(mode: ReactivePropertyMode.Default | ReactivePropertyMode.IgnoreInitialValidationError | ReactivePropertyMode.DistinctUntilChanged)
+            Username = new ReactiveProperty<string>(mode: ReactivePropertyMode.Default | ReactivePropertyMode.IgnoreInitialValidationError)
                 .SetValidateAttribute(() => Username);
 
-            Username.Subscribe(async x =>
-            {
-                // Detect if Internet can be reached
-                if (NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
-                {
-                    var body = await IsUsernameValidAsync(x);
-
-                    bool.TryParse(body, out var isUserNameValid);
-                }
-            });
-            
             // You can combine some ObserveHasErrors values.
             FormHasErrors = new[]
                 {
@@ -61,17 +50,17 @@ namespace dueltank.ViewModels.Dialogs
                 .ToReactiveProperty();
 
             UsernameErrorMessage = Username.ObserveErrorChanged
-                .Select(x => x?.OfType<string>()?.FirstOrDefault())
+                .Select(x => x?.OfType<string>().FirstOrDefault())
                 .ToReactiveProperty();
         }
 
-        private async Task<string> IsUsernameValidAsync(string x)
+        private async Task<string> IsUsernameAvailable(string username)
         {
             return await DispatcherHelper.ExecuteOnUIThreadAsync<string>(async () =>
             {
                 using (var httpClient = _httpClientFactory.CreateClient())
                 {
-                    var usernameResult = await httpClient.GetAsync($"https://api.dueltank.com/api/Accounts/VerifyUsername?username={x}");
+                    var usernameResult = await httpClient.GetAsync($"https://api.dueltank.com/api/Accounts/VerifyUsername?username={username}");
                     return await usernameResult.Content.ReadAsStringAsync();
                 }
             });
