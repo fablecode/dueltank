@@ -29,6 +29,9 @@ namespace dueltank.ViewModels.Dialogs
 
         public ReactiveProperty<bool> FormHasErrors { get; }
 
+        public ReactiveCommand RegisterUserCommand { get; }
+
+
         public UsernameContentDialogViewModel()
         : this(ServiceLocator.Current.GetService<IHttpClientFactory>())
         {
@@ -52,16 +55,23 @@ namespace dueltank.ViewModels.Dialogs
             UsernameErrorMessage = Username.ObserveErrorChanged
                 .Select(x => x?.OfType<string>().FirstOrDefault())
                 .ToReactiveProperty();
+
+            RegisterUserCommand = new ReactiveCommand();
+            RegisterUserCommand.Subscribe(_ =>
+            {
+                var isValidUsername = IsUsernameAvailable(Username.Value).GetAwaiter();
+            });
         }
 
-        private async Task<string> IsUsernameAvailable(string username)
+        private async Task<bool> IsUsernameAvailable(string username)
         {
-            return await DispatcherHelper.ExecuteOnUIThreadAsync<string>(async () =>
+            return await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
             {
                 using (var httpClient = _httpClientFactory.CreateClient())
                 {
-                    var usernameResult = await httpClient.GetAsync($"https://api.dueltank.com/api/Accounts/VerifyUsername?username={username}");
-                    return await usernameResult.Content.ReadAsStringAsync();
+                    var usernameResult = await httpClient.GetAsync($"http://localhost:56375/api/Accounts/VerifyUsername?username={username}");
+
+                    return bool.TryParse(await usernameResult.Content.ReadAsStringAsync(), out _);
                 }
             });
         }
