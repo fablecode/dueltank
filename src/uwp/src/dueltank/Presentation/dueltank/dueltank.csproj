@@ -131,18 +131,15 @@
     <Compile Include="ViewModels\Archetypes\ArchetypesViewModel.cs" />
     <Compile Include="ViewModels\Banlist\BanlistViewModel.cs" />
     <Compile Include="ViewModels\Cards\CardsViewModel.cs" />
-    <Compile Include="ViewModels\Dialogs\UsernameContentDialogViewModel.cs" />
     <Compile Include="ViewModels\Home\HomeViewModel.cs" />
     <Compile Include="ViewModels\Decks\DecksViewModel.cs" />
     <Compile Include="ViewModels\Infrastructure\Common\RelayCommand.cs" />
     <Compile Include="ViewModels\Infrastructure\Services\ICommonServices.cs" />
     <Compile Include="ViewModels\Infrastructure\Services\IContextService.cs" />
     <Compile Include="ViewModels\Infrastructure\Services\IMessageService.cs" />
+    <Compile Include="ViewModels\Username\UsernameViewModel.cs" />
     <Compile Include="Views\Decks\DecksView.xaml.cs">
       <DependentUpon>DecksView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Dialogs\UsernameDialog\UsernameContentDialog.xaml.cs">
-      <DependentUpon>UsernameContentDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Home\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
@@ -159,6 +156,9 @@
     <Compile Include="ViewModels\Shell\NavigationItem.cs" />
     <Compile Include="ViewModels\Shell\ShellArgs.cs" />
     <Compile Include="ViewModels\Shell\ShellViewModel.cs" />
+    <Compile Include="Views\Username\UsernameView.xaml.cs">
+      <DependentUpon>UsernameView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -236,10 +236,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Dialogs\UsernameDialog\UsernameContentDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Home\HomeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -247,6 +243,10 @@
     <Page Include="Views\Shell\MainShellView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Username\UsernameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -289,6 +289,12 @@
     <None Include="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Application\dueltank.application\dueltank.application.csproj">
+      <Project>{2c7893bf-75a6-4112-b94c-604615b63846}</Project>
+      <Name>dueltank.application</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

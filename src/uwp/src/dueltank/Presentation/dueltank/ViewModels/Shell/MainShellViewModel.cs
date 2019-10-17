@@ -23,7 +23,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
-using dueltank.Views.Dialogs.UsernameDialog;
+using dueltank.ViewModels.Username;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
 
@@ -302,25 +302,27 @@ namespace dueltank.ViewModels.Shell
                             Email = userAccountInfo.Emails.Preferred ?? userAccountInfo.Emails.Account
                         };
 
-                        var usernameDialog = new UsernameContentDialog(userInfo);
+                        //var usernameDialog = new UsernameContentDialog(userInfo);
 
-                        var dialogResult = await usernameDialog.ShowAsync();
+                        //var dialogResult = await usernameDialog.ShowAsync();
 
-                        IRandomAccessStream streamReference = await userAccount.GetPictureAsync(WebAccountPictureSize.Size424x424);
-                        if (streamReference != null)
-                        {
-                            var bitmapImage = new BitmapImage();
-                            bitmapImage.SetSource(streamReference);
-                            userInfo.PictureSource = bitmapImage;
-                        }
+                        _navigationService.Navigate<UsernameViewModel>(userInfo);
 
-                        //userInfo.PictureSource = $"https://apis.live.net/v5.0/{userAccountInfo.Id}/picture?type=large";
+                        //IRandomAccessStream streamReference = await userAccount.GetPictureAsync(WebAccountPictureSize.Size424x424);
+                        //if (streamReference != null)
+                        //{
+                        //    var bitmapImage = new BitmapImage();
+                        //    bitmapImage.SetSource(streamReference);
+                        //    userInfo.PictureSource = bitmapImage;
+                        //}
 
-                        await RemoveUserLocalFile();
-                        await StorageFileHelper.WriteTextToLocalFileAsync(JsonConvert.SerializeObject(userInfo), UserInfoLocalStorageKey);
+                        ////userInfo.PictureSource = $"https://apis.live.net/v5.0/{userAccountInfo.Id}/picture?type=large";
 
-                        UserInfo = userInfo;
-                        IsAuthenticated = true;
+                        //await RemoveUserLocalFile();
+                        //await StorageFileHelper.WriteTextToLocalFileAsync(JsonConvert.SerializeObject(userInfo), UserInfoLocalStorageKey);
+
+                        //UserInfo = userInfo;
+                        //IsAuthenticated = true;
                     }
                 }
 

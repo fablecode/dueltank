@@ -19,18 +19,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit", "Unit", "{6575D33C-F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dueltank", "Presentation\dueltank\dueltank.csproj", "{C6D64BE2-C696-49E2-A101-36387AA55EED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dueltank.application", "Application\dueltank.application\dueltank.application.csproj", "{2C7893BF-75A6-4112-B94C-604615B63846}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
 		Debug|ARM64 = Debug|ARM64
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
 		Release|ARM = Release|ARM
 		Release|ARM64 = Release|ARM64
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Debug|ARM.ActiveCfg = Debug|ARM
 		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Debug|ARM.Build.0 = Debug|ARM
 		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Debug|ARM.Deploy.0 = Debug|ARM
@@ -43,6 +48,7 @@ Global
 		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Debug|x86.ActiveCfg = Debug|x86
 		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Debug|x86.Build.0 = Debug|x86
 		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Debug|x86.Deploy.0 = Debug|x86
+		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Release|Any CPU.ActiveCfg = Release|x86
 		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Release|ARM.ActiveCfg = Release|ARM
 		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Release|ARM.Build.0 = Release|ARM
 		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Release|ARM.Deploy.0 = Release|ARM
@@ -55,6 +61,26 @@ Global
 		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Release|x86.ActiveCfg = Release|x86
 		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Release|x86.Build.0 = Release|x86
 		{C6D64BE2-C696-49E2-A101-36387AA55EED}.Release|x86.Deploy.0 = Release|x86
+		{2C7893BF-75A6-4112-B94C-604615B63846}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C7893BF-75A6-4112-B94C-604615B63846}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C7893BF-75A6-4112-B94C-604615B63846}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{2C7893BF-75A6-4112-B94C-604615B63846}.Debug|ARM.Build.0 = Debug|Any CPU
+		{2C7893BF-75A6-4112-B94C-604615B63846}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{2C7893BF-75A6-4112-B94C-604615B63846}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{2C7893BF-75A6-4112-B94C-604615B63846}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2C7893BF-75A6-4112-B94C-604615B63846}.Debug|x64.Build.0 = Debug|Any CPU
+		{2C7893BF-75A6-4112-B94C-604615B63846}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2C7893BF-75A6-4112-B94C-604615B63846}.Debug|x86.Build.0 = Debug|Any CPU
+		{2C7893BF-75A6-4112-B94C-604615B63846}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C7893BF-75A6-4112-B94C-604615B63846}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C7893BF-75A6-4112-B94C-604615B63846}.Release|ARM.ActiveCfg = Release|Any CPU
+		{2C7893BF-75A6-4112-B94C-604615B63846}.Release|ARM.Build.0 = Release|Any CPU
+		{2C7893BF-75A6-4112-B94C-604615B63846}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{2C7893BF-75A6-4112-B94C-604615B63846}.Release|ARM64.Build.0 = Release|Any CPU
+		{2C7893BF-75A6-4112-B94C-604615B63846}.Release|x64.ActiveCfg = Release|Any CPU
+		{2C7893BF-75A6-4112-B94C-604615B63846}.Release|x64.Build.0 = Release|Any CPU
+		{2C7893BF-75A6-4112-B94C-604615B63846}.Release|x86.ActiveCfg = Release|Any CPU
+		{2C7893BF-75A6-4112-B94C-604615B63846}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +88,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{6575D33C-F5B6-440D-94A3-14BD2E3F3721} = {E89DFD1B-8158-45D5-AB04-CDD7060B23C5}
 		{C6D64BE2-C696-49E2-A101-36387AA55EED} = {B1ED3DA8-978C-4C2F-9F66-FAE29E17B3FC}
+		{2C7893BF-75A6-4112-B94C-604615B63846} = {482B17A0-6FA8-4CCD-8365-973948AC6425}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {56115557-E2E9-42F3-82E9-D7DC4035514E}

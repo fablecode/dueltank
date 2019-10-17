@@ -1,21 +1,18 @@
 ﻿using System;
-using dueltank.Configuration;
-using dueltank.ViewModels.Infrastructure.ViewModels;
-using Reactive.Bindings;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using dueltank.Configuration;
 using dueltank.ViewModels.Infrastructure.Common;
-using Microsoft.Toolkit.Uwp.Connectivity;
+using dueltank.ViewModels.Infrastructure.ViewModels;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Reactive.Bindings.Extensions;
+using Reactive.Bindings;
 
-namespace dueltank.ViewModels.Dialogs
+namespace dueltank.ViewModels.Username
 {
-    public class UsernameContentDialogViewModel : ViewModelBase
+    public class UsernameViewModel : ViewModelBase
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private UserInfo _userInfo;
@@ -32,12 +29,12 @@ namespace dueltank.ViewModels.Dialogs
         public ReactiveCommand RegisterUserCommand { get; }
 
 
-        public UsernameContentDialogViewModel()
+        public UsernameViewModel()
         : this(ServiceLocator.Current.GetService<IHttpClientFactory>())
         {
         }
 
-        public UsernameContentDialogViewModel(IHttpClientFactory httpClientFactory)
+        public UsernameViewModel(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
 

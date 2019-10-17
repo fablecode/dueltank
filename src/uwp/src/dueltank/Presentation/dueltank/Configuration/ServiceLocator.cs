@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using Windows.UI.ViewManagement;
+using dueltank.application.Configuration;
 using dueltank.Services.Infrastructure;
 using dueltank.ViewModels.Archetypes;
 using dueltank.ViewModels.Banlist;
@@ -9,6 +10,7 @@ using dueltank.ViewModels.Decks;
 using dueltank.ViewModels.Home;
 using dueltank.ViewModels.Infrastructure.Services;
 using dueltank.ViewModels.Shell;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace dueltank.Configuration
@@ -56,6 +58,13 @@ namespace dueltank.Configuration
             serviceCollection.AddTransient<HomeViewModel>();
             serviceCollection.AddTransient<ShellViewModel>();
             serviceCollection.AddTransient<MainShellViewModel>();
+
+
+            IConfigurationRoot configurationRoot = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", true, true)
+                .Build();
+
+            serviceCollection.Configure<AppSettings>(configurationRoot.GetSection(nameof(AppSettings)));
 
             _rootServiceProvider = serviceCollection.BuildServiceProvider();
         }
