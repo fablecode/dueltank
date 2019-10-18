@@ -5,7 +5,10 @@ using System.Net.Http;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using dueltank.Configuration;
+using dueltank.ViewModels.Home;
+using dueltank.ViewModels.Infrastructure;
 using dueltank.ViewModels.Infrastructure.Common;
+using dueltank.ViewModels.Infrastructure.Services;
 using dueltank.ViewModels.Infrastructure.ViewModels;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Reactive.Bindings;
@@ -14,6 +17,8 @@ namespace dueltank.ViewModels.Username
 {
     public class UsernameViewModel : ViewModelBase
     {
+        private readonly IAccountService _accountService;
+        private readonly INavigationService _navigationService;
         private readonly IHttpClientFactory _httpClientFactory;
         private UserInfo _userInfo;
 
@@ -27,15 +32,27 @@ namespace dueltank.ViewModels.Username
         public ReactiveProperty<bool> FormHasErrors { get; }
 
         public ReactiveCommand RegisterUserCommand { get; }
+        public ReactiveCommand CancelRegisterUserCommand { get; }
+
+        private bool _isBusy = true;
+
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set => Set(ref _isBusy, value);
+        }
+
 
 
         public UsernameViewModel()
-        : this(ServiceLocator.Current.GetService<IHttpClientFactory>())
+        : this(ServiceLocator.Current.GetService<IAccountService>(),ServiceLocator.Current.GetService<INavigationService>(), ServiceLocator.Current.GetService<IHttpClientFactory>())
         {
         }
 
-        public UsernameViewModel(IHttpClientFactory httpClientFactory)
+        public UsernameViewModel(IAccountService accountService, INavigationService navigationService, IHttpClientFactory httpClientFactory)
         {
+            _accountService = accountService;
+            _navigationService = navigationService;
             _httpClientFactory = httpClientFactory;
 
             Username = new ReactiveProperty<string>(mode: ReactivePropertyMode.Default | ReactivePropertyMode.IgnoreInitialValidationError)
@@ -57,6 +74,13 @@ namespace dueltank.ViewModels.Username
             RegisterUserCommand.Subscribe(_ =>
             {
                 var isValidUsername = IsUsernameAvailable(Username.Value).GetAwaiter();
+            });
+
+            CancelRegisterUserCommand = new ReactiveCommand();
+            CancelRegisterUserCommand.Subscribe(_ =>
+            {
+                _accountService.SignOut();
+                _navigationService.Navigate<HomeViewModel>();
             });
         }
 

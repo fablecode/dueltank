@@ -8,6 +8,7 @@ using dueltank.ViewModels.Banlist;
 using dueltank.ViewModels.Cards;
 using dueltank.ViewModels.Decks;
 using dueltank.ViewModels.Home;
+using dueltank.ViewModels.Infrastructure;
 using dueltank.ViewModels.Infrastructure.Services;
 using dueltank.ViewModels.Shell;
 using Microsoft.Extensions.Configuration;
@@ -49,6 +50,7 @@ namespace dueltank.Configuration
             serviceCollection.AddScoped<IMessageService, MessageService>();
             serviceCollection.AddScoped<IContextService, ContextService>();
             serviceCollection.AddScoped<ICommonServices, CommonServices>();
+            serviceCollection.AddScoped<IAccountService, AccountService>();
 
             // ViewModels
             serviceCollection.AddTransient<ArchetypesViewModel>();

@@ -124,6 +124,7 @@
     <Compile Include="Configuration\Startup.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\ObjectToImageConverter.cs" />
+    <Compile Include="Services\Infrastructure\AccountService.cs" />
     <Compile Include="Services\Infrastructure\CommonServices.cs" />
     <Compile Include="Services\Infrastructure\ContextService.cs" />
     <Compile Include="Services\Infrastructure\MessageService.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="ViewModels\Home\HomeViewModel.cs" />
     <Compile Include="ViewModels\Decks\DecksViewModel.cs" />
     <Compile Include="ViewModels\Infrastructure\Common\RelayCommand.cs" />
+    <Compile Include="ViewModels\Infrastructure\IAccountService.cs" />
     <Compile Include="ViewModels\Infrastructure\Services\ICommonServices.cs" />
     <Compile Include="ViewModels\Infrastructure\Services\IContextService.cs" />
     <Compile Include="ViewModels\Infrastructure\Services\IMessageService.cs" />
@@ -143,6 +145,9 @@
     </Compile>
     <Compile Include="Views\Home\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Shared\LoadingUserControl.xaml.cs">
+      <DependentUpon>LoadingUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Shell\MainShellView.xaml.cs">
       <DependentUpon>MainShellView.xaml</DependentUpon>
@@ -167,6 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Images\d-logo.png" />
+    <Content Include="Assets\Images\logo-wt.png" />
     <Content Include="Assets\VisualAssets\BadgeLogo.scale-100.png" />
     <Content Include="Assets\VisualAssets\BadgeLogo.scale-125.png" />
     <Content Include="Assets\VisualAssets\BadgeLogo.scale-150.png" />
@@ -240,6 +246,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Shared\LoadingUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Shell\MainShellView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -272,6 +282,9 @@
       <Version>5.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
+      <Version>5.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
       <Version>5.1.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">

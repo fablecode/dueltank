@@ -8,6 +8,7 @@
     xmlns:vms="using:dueltank.ViewModels.Username"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -26,7 +27,8 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Grid.Column="1">
-            <Image Source="/Assets/VisualAssets/StoreLogo.scale-400.png" Height="200" Width="200"/>
+
+            <Image Source="/Assets/Images/logo-wt.png" AutomationProperties.Name="Dueltank"/>
             <TextBox Name="UserNameTextBox" Header="Enter username" PlaceholderText="Username" Text="{Binding Username.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <interactivity:Interaction.Behaviors>
                     <core:EventTriggerBehavior EventName="LostFocus">
@@ -46,9 +48,17 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <ProgressBar Grid.Row="0" Grid.Column="0" IsIndeterminate="False"/>
+                <controls:Loading x:Name="LoadingControl" IsLoading="{Binding IsBusy}" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">
+                    <StackPanel Orientation="Horizontal" Padding="12">
+                        <Grid Margin="0,0,8,0">
+                            <ProgressRing IsActive="True" Foreground="Blue" />
+                        </Grid>
+                        <TextBlock Text="It's ok, we are working on it :)" Foreground="Black" VerticalAlignment="Center" />
+                    </StackPanel>
+                </controls:Loading>
+
                 <Button Grid.Row="0" Grid.Column="1" Content="OK" HorizontalAlignment="Center" IsEnabled="{Binding FormHasErrors.Value}"/>
-                <Button Grid.Row="0" Grid.Column="2" Content="Cancel" HorizontalAlignment="Center"/>
+                <Button Grid.Row="0" Grid.Column="2" Content="Cancel" HorizontalAlignment="Center" Command="{Binding CancelRegisterUserCommand}"/>
             </Grid>
         </StackPanel>
     </Grid>

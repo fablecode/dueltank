@@ -5,13 +5,13 @@
     xmlns:local="using:dueltank.Views.Home"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:vms="using:dueltank.ViewModels.Home"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="5*"/>
-            <ColumnDefinition Width="3*"/>
-        </Grid.ColumnDefinitions>
-    </Grid>
+    <Page.DataContext>
+        <vms:HomeViewModel/>
+    </Page.DataContext>
+
 </Page>

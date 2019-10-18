@@ -5,7 +5,8 @@
     xmlns:local="using:dueltank"
     xmlns:viewManagement="using:Windows.UI.ViewManagement"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
-    xmlns:converters1="using:dueltank.Converters">
+    xmlns:converters1="using:dueltank.Converters"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <Application.Resources>
         <Style x:Key="AppTitleBarStyle" TargetType="Grid">
@@ -17,6 +18,18 @@
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibility" FalseValue="Collapsed" TrueValue="Visible" />
         <converters:BoolToVisibilityConverter x:Key="BoolInverterToVisibility" FalseValue="Visible" TrueValue="Collapsed" />
         <converters1:ObjectToImageConverter x:Key="ObjectToImageConverter" />
+
+        <ControlTemplate x:Key="IsBusyDefaultTemplate">
+            <controls:Loading x:Name="LoadingControl" IsLoading="{Binding BindingContext.IsBusy}">
+                <StackPanel Orientation="Horizontal" Padding="12">
+                    <Grid Margin="0,0,8,0">
+                        <Image Source="/Assets/VisualAssets/BadgeLogo.scale-200.png" Height="50" />
+                        <ProgressRing IsActive="True" Foreground="Blue" />
+                    </Grid>
+                    <TextBlock Text="It's ok, we are working on it :)" Foreground="Black" VerticalAlignment="Center" />
+                </StackPanel>
+            </controls:Loading>
+        </ControlTemplate>
 
     </Application.Resources>
 
