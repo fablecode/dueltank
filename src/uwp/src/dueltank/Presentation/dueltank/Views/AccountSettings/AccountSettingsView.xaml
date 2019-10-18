@@ -1,0 +1,42 @@
+﻿<Page
+    x:Class="dueltank.Views.AccountSettings.AccountSettingsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:dueltank.Views.Username"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:accounts="using:dueltank.ViewModels.Accounts"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.DataContext>
+        <accounts:AccountSettingsViewModel/>
+    </Page.DataContext>
+
+    <Grid VerticalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="1">
+            <Image Source="/Assets/Images/logo-wt.png" AutomationProperties.Name="Dueltank"/>
+            <controls:Loading x:Name="LoadingControl" IsLoading="{Binding IsBusy}">
+                <StackPanel Orientation="Horizontal" Padding="12">
+                    <Grid Margin="0,0,8,0">
+                        <ProgressRing IsActive="True" Foreground="Blue" />
+                    </Grid>
+                    <TextBlock Text="Signing in..." Foreground="Black" VerticalAlignment="Center" />
+                </StackPanel>
+            </controls:Loading>
+
+        </StackPanel>
+    </Grid>
+</Page>

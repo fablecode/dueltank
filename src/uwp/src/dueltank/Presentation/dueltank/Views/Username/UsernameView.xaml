@@ -5,15 +5,15 @@
     xmlns:local="using:dueltank.Views.Username"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:vms="using:dueltank.ViewModels.Username"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:accounts="using:dueltank.ViewModels.Accounts"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.DataContext>
-        <vms:UsernameViewModel/>
+        <accounts:UsernameViewModel/>
     </Page.DataContext>
 
     <Grid VerticalAlignment="Center">

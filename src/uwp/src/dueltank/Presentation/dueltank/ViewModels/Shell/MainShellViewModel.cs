@@ -23,8 +23,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
+using dueltank.ViewModels.Accounts;
 using dueltank.ViewModels.Infrastructure;
-using dueltank.ViewModels.Username;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
 
@@ -191,7 +191,7 @@ namespace dueltank.ViewModels.Shell
 
         private void OnSignInNavigationItemInvoked(TappedRoutedEventArgs obj)
         {
-            _accountService.SignIn();
+            NavigateTo(typeof(AccountSettingsViewModel));
         }
 
         #endregion

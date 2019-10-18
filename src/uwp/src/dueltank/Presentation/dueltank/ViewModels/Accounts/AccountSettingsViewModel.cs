@@ -6,20 +6,22 @@ using Windows.Security.Credentials;
 using Windows.Storage;
 using Windows.UI.ApplicationSettings;
 using dueltank.Configuration;
-using dueltank.ViewModels.Accounts;
 using dueltank.ViewModels.Infrastructure;
 using dueltank.ViewModels.Infrastructure.Common;
 using dueltank.ViewModels.Infrastructure.Services;
+using dueltank.ViewModels.Infrastructure.ViewModels;
 using dueltank.ViewModels.Shell;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
 
-namespace dueltank.Services.Infrastructure
+namespace dueltank.ViewModels.Accounts
 {
-    public class AccountService : IAccountService
+    public class AccountSettingsViewModel : ViewModelBase
     {
+        private readonly IAccountService _accountService;
         private readonly INavigationService _navigationService;
         private readonly IHttpClientFactory _httpClientFactory;
+        private bool _isBusy;
 
         // To obtain Microsoft account tokens, you must register your application online
         // Then, you must associate the app with the store.
@@ -30,32 +32,39 @@ namespace dueltank.Services.Infrastructure
         private const string StoredAccountKey = "accountid";
         private const string UserInfoLocalStorageKey = "userinfo.json";
 
-        public AccountService()
-        : this(ServiceLocator.Current.GetService<INavigationService>(), ServiceLocator.Current.GetService<IHttpClientFactory>())
+
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set => Set(ref _isBusy, value);
+        }
+
+        public AccountSettingsViewModel()
+            : this(ServiceLocator.Current.GetService<IAccountService>(), ServiceLocator.Current.GetService<INavigationService>(), ServiceLocator.Current.GetService<IHttpClientFactory>())
         {
 
         }
-        public AccountService(INavigationService navigationService, IHttpClientFactory httpClientFactory)
+
+        public AccountSettingsViewModel(IAccountService accountService, INavigationService navigationService, IHttpClientFactory httpClientFactory)
         {
+            _accountService = accountService;
             _navigationService = navigationService;
             _httpClientFactory = httpClientFactory;
 
-            AccountsSettingsPane.GetForCurrentView().AccountCommandsRequested += OnAccountCommandsRequested;
         }
 
-        public void SignIn()
+        public void ShowAccountSettingsDialog()
         {
+            AccountsSettingsPane.GetForCurrentView().AccountCommandsRequested += OnAccountCommandsRequested;
             AccountsSettingsPane.Show();
-        }
-        public Task SignOut()
-        {
-            return LogoffAndRemoveAccount();
         }
 
 
         // This event handler is called when the Account settings pane is to be launched.
         private async void OnAccountCommandsRequested(AccountsSettingsPane sender, AccountsSettingsPaneCommandsRequestedEventArgs e)
         {
+            IsBusy = true;
+
             // In order to make async calls within this callback, the deferral object is needed
             AccountsSettingsPaneEventDeferral deferral = e.GetDeferral();
 
@@ -74,6 +83,11 @@ namespace dueltank.Services.Infrastructure
             }
 
             deferral.Complete();
+        }
+
+        private bool IsSignedIn()
+        {
+            return ApplicationData.Current.LocalSettings.Values.ContainsKey(StoredAccountKey);
         }
 
         private async Task AddWebAccount(AccountsSettingsPaneCommandsRequestedEventArgs e)
@@ -174,6 +188,7 @@ namespace dueltank.Services.Infrastructure
 
                         //UserInfo = userInfo;
                         //IsAuthenticated = true;
+                        IsBusy = false;
                     }
                 }
 
@@ -251,5 +266,6 @@ namespace dueltank.Services.Infrastructure
         {
             ApplicationData.Current.LocalSettings.Values.Remove(StoredAccountKey);
         }
+
     }
 }

@@ -139,7 +139,8 @@
     <Compile Include="ViewModels\Infrastructure\Services\ICommonServices.cs" />
     <Compile Include="ViewModels\Infrastructure\Services\IContextService.cs" />
     <Compile Include="ViewModels\Infrastructure\Services\IMessageService.cs" />
-    <Compile Include="ViewModels\Username\UsernameViewModel.cs" />
+    <Compile Include="ViewModels\Accounts\AccountSettingsViewModel.cs" />
+    <Compile Include="ViewModels\Accounts\UsernameViewModel.cs" />
     <Compile Include="Views\Decks\DecksView.xaml.cs">
       <DependentUpon>DecksView.xaml</DependentUpon>
     </Compile>
@@ -161,6 +162,9 @@
     <Compile Include="ViewModels\Shell\NavigationItem.cs" />
     <Compile Include="ViewModels\Shell\ShellArgs.cs" />
     <Compile Include="ViewModels\Shell\ShellViewModel.cs" />
+    <Compile Include="Views\AccountSettings\AccountSettingsView.xaml.cs">
+      <DependentUpon>AccountSettingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Username\UsernameView.xaml.cs">
       <DependentUpon>UsernameView.xaml</DependentUpon>
     </Compile>
@@ -251,6 +255,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Shell\MainShellView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AccountSettings\AccountSettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -13,7 +13,7 @@ using dueltank.ViewModels.Infrastructure.ViewModels;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Reactive.Bindings;
 
-namespace dueltank.ViewModels.Username
+namespace dueltank.ViewModels.Accounts
 {
     public class UsernameViewModel : ViewModelBase
     {

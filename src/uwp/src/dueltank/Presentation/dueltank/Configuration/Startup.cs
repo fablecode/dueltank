@@ -1,9 +1,10 @@
 ﻿using System.Threading.Tasks;
 using dueltank.Services.Infrastructure;
+using dueltank.ViewModels.Accounts;
 using dueltank.ViewModels.Decks;
 using dueltank.ViewModels.Home;
 using dueltank.ViewModels.Shell;
-using dueltank.ViewModels.Username;
+using dueltank.Views.AccountSettings;
 using dueltank.Views.Decks;
 using dueltank.Views.Home;
 using dueltank.Views.Shell;
@@ -31,6 +32,7 @@ namespace dueltank.Configuration
             NavigationService.Register<HomeViewModel, HomeView>();
             NavigationService.Register<DecksViewModel, DecksView>();
             NavigationService.Register<UsernameViewModel, UsernameView>();
+            NavigationService.Register<AccountSettingsViewModel, AccountSettingsView>();
         }
     }
 }
