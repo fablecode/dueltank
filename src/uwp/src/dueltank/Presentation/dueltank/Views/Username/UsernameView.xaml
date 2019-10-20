@@ -53,7 +53,7 @@
                         <Grid Margin="0,0,8,0">
                             <ProgressRing IsActive="True" Foreground="Blue" />
                         </Grid>
-                        <TextBlock Text="It's ok, we are working on it :)" Foreground="Black" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding IsBusyText}" Foreground="Black" VerticalAlignment="Center" />
                     </StackPanel>
                 </controls:Loading>
 

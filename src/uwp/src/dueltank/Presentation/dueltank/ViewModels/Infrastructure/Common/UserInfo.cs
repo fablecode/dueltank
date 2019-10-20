@@ -18,6 +18,7 @@ namespace dueltank.ViewModels.Infrastructure.Common
         public string JwtToken { get; set; }
         public string ProviderId { get; set; }
         public string Authority { get; set; }
+        public string WebTokenRequestResultToken { get; set; }
         public BitmapImage PictureSource { get; set; }
 
         public string DisplayName => $"{FirstName} {LastName}";

@@ -298,7 +298,8 @@ namespace dueltank.ViewModels.Accounts
                             LastName = userAccountInfo.Last_Name,
                             Email = userAccountInfo.Emails.Preferred ?? userAccountInfo.Emails.Account,
                             ProviderId = userAccount.WebAccountProvider.Id,
-                            Authority = userAccount.WebAccountProvider.Authority
+                            Authority = userAccount.WebAccountProvider.Authority,
+                            WebTokenRequestResultToken = token
                         };
 
                         _navigationService.Navigate<UsernameViewModel>(userInfo);
