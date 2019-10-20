@@ -177,6 +177,7 @@
   <ItemGroup>
     <Content Include="Assets\Images\d-logo.png" />
     <Content Include="Assets\Images\logo-wt.png" />
+    <Content Include="Assets\smalltile-sdk.png" />
     <Content Include="Assets\VisualAssets\BadgeLogo.scale-100.png" />
     <Content Include="Assets\VisualAssets\BadgeLogo.scale-125.png" />
     <Content Include="Assets\VisualAssets\BadgeLogo.scale-150.png" />
