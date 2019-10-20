@@ -40,7 +40,7 @@ namespace dueltank.Services.Infrastructure
             _navigationService = navigationService;
             _httpClientFactory = httpClientFactory;
 
-            AccountsSettingsPane.GetForCurrentView().AccountCommandsRequested += OnAccountCommandsRequested;
+            //AccountsSettingsPane.GetForCurrentView().AccountCommandsRequested += OnAccountCommandsRequested;
         }
 
         public void SignIn()

@@ -15,11 +15,13 @@ namespace dueltank.ViewModels.Infrastructure.Common
         public string AccountName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string JwtToken { get; set; }
+        public string ProviderId { get; set; }
+        public string Authority { get; set; }
         public BitmapImage PictureSource { get; set; }
 
         public string DisplayName => $"{FirstName} {LastName}";
 
         public bool IsEmpty => string.IsNullOrEmpty(DisplayName.Trim());
-        public string JwtToken { get; set; }
     }
 }

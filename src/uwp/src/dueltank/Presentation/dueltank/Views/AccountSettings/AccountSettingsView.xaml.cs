@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using Windows.UI.ApplicationSettings;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using dueltank.ViewModels.Accounts;
 using dueltank.ViewModels.Infrastructure.Common;
@@ -24,12 +25,20 @@ namespace dueltank.Views.AccountSettings
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            var viewModel = DataContext as UsernameViewModel;
-            viewModel?.LoadUserInfo(e.Parameter as UserInfo);
+
+            var viewModel = DataContext as AccountSettingsViewModel;
+            //viewModel?.LoadUserInfo(e.Parameter as UserInfo);
+
+            AccountsSettingsPane.GetForCurrentView().AccountCommandsRequested += (DataContext as AccountSettingsViewModel).OnAccountCommandsRequested;
 
             base.OnNavigatedTo(e);
         }
 
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            AccountsSettingsPane.GetForCurrentView().AccountCommandsRequested -= (DataContext as AccountSettingsViewModel).OnAccountCommandsRequested;
 
+            base.OnNavigatingFrom(e);
+        }
     }
 }

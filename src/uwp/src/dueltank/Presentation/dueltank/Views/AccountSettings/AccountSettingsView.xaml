@@ -28,7 +28,7 @@
 
         <StackPanel Grid.Row="0" Grid.Column="1">
             <Image Source="/Assets/Images/logo-wt.png" AutomationProperties.Name="Dueltank"/>
-            <controls:Loading x:Name="LoadingControl" IsLoading="{Binding IsBusy}">
+            <controls:Loading x:Name="LoadingControl" IsLoading="true">
                 <StackPanel Orientation="Horizontal" Padding="12">
                     <Grid Margin="0,0,8,0">
                         <ProgressRing IsActive="True" Foreground="Blue" />

@@ -57,7 +57,7 @@
                     </StackPanel>
                 </controls:Loading>
 
-                <Button Grid.Row="0" Grid.Column="1" Content="OK" HorizontalAlignment="Center" IsEnabled="{Binding FormHasErrors.Value}"/>
+                <Button Grid.Row="0" Grid.Column="1" Content="OK" HorizontalAlignment="Center" IsEnabled="{Binding FormHasErrors.Value}" Command="{Binding RegisterUserCommand}"/>
                 <Button Grid.Row="0" Grid.Column="2" Content="Cancel" HorizontalAlignment="Center" Command="{Binding CancelRegisterUserCommand}"/>
             </Grid>
         </StackPanel>

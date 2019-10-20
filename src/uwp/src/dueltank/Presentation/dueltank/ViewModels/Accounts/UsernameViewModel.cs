@@ -4,12 +4,14 @@ using System.Linq;
 using System.Net.Http;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using dueltank.application.Configuration;
 using dueltank.Configuration;
 using dueltank.ViewModels.Home;
 using dueltank.ViewModels.Infrastructure;
 using dueltank.ViewModels.Infrastructure.Common;
 using dueltank.ViewModels.Infrastructure.Services;
 using dueltank.ViewModels.Infrastructure.ViewModels;
+using Microsoft.Extensions.Options;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Reactive.Bindings;
 
@@ -45,7 +47,12 @@ namespace dueltank.ViewModels.Accounts
 
 
         public UsernameViewModel()
-        : this(ServiceLocator.Current.GetService<IAccountService>(),ServiceLocator.Current.GetService<INavigationService>(), ServiceLocator.Current.GetService<IHttpClientFactory>())
+        : this
+            (
+            ServiceLocator.Current.GetService<IAccountService>(),
+            ServiceLocator.Current.GetService<INavigationService>(), 
+            ServiceLocator.Current.GetService<IHttpClientFactory>()
+            )
         {
         }
 
@@ -71,9 +78,9 @@ namespace dueltank.ViewModels.Accounts
                 .ToReactiveProperty();
 
             RegisterUserCommand = new ReactiveCommand();
-            RegisterUserCommand.Subscribe(_ =>
+            RegisterUserCommand.Subscribe(async _ =>
             {
-                var isValidUsername = IsUsernameAvailable(Username.Value).GetAwaiter();
+
             });
 
             CancelRegisterUserCommand = new ReactiveCommand();
