@@ -511,6 +511,51 @@ namespace dueltank.api.Controllers
             return BadRequest(ModelState.Errors());
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> MicrosoftLogin([FromQuery] string token)
+        {
+            if (!string.IsNullOrWhiteSpace(token))
+            {
+                var restApi = new Uri(@"https://apis.live.net/v5.0/me?access_token=" + token);
+
+                using (var client = new HttpClient())
+                {
+                    var infoResult = await client.GetAsync(restApi);
+                    var content = await infoResult.Content.ReadAsStringAsync();
+                    var userAccountInfo = JsonConvert.DeserializeObject<MicrosoftUserInfo>(content);
+
+                    var existingUser =
+                        await _userManager.FindByEmailAsync(userAccountInfo.Emails.Preferred ??
+                                                            userAccountInfo.Emails.Account);
+
+                    if (existingUser != null)
+                    {
+                        var user = new ApplicationUser
+                        {
+                            Id = userAccountInfo.Id,
+                            UserName = userAccountInfo.Name,
+                            Email = userAccountInfo.Emails.Preferred ?? userAccountInfo.Emails.Account,
+                            FullName = userAccountInfo.Name
+                        };
+
+                        return Ok(new
+                        {
+                            token = await BuildToken(user),
+                            user = new
+                            {
+                                user.Id,
+                                Name = user.UserName,
+                                user.ProfileImageUrl
+                            }
+                        });
+                    }
+                }
+            }
+
+            return BadRequest();
+        }
+
         /// <summary>
         ///     Confirm email address
         /// </summary>

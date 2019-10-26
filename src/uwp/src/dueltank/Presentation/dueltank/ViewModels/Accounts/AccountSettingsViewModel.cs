@@ -80,7 +80,8 @@ namespace dueltank.ViewModels.Accounts
 
         public void ShowAccountSettingsDialog()
         {
-            AccountsSettingsPane.Show();
+            _accountService.SignIn();
+            //AccountsSettingsPane.Show();
 
 
             //defaultProvider = await WebAuthenticationCoreManager.FindAccountProviderAsync(DefaultProviderId);

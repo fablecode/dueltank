@@ -5,6 +5,8 @@ using System.Net.Http;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Security.Authentication.Web.Core;
+using Windows.Security.Credentials;
 using Windows.Storage;
 using dueltank.application.Configuration;
 using dueltank.Configuration;
@@ -34,6 +36,10 @@ namespace dueltank.ViewModels.Accounts
         const string StoredAccountIdKey = "accountid";
         const string StoredProviderIdKey = "providerid";
         const string StoredAuthorityKey = "authority";
+
+        const string AppSpecificProviderId = "dueltankproviderid";
+        const string AppSpecificProviderName = "App specific provider";
+
 
 
         [Required(ErrorMessage = "The username is required.")]
@@ -128,6 +134,76 @@ namespace dueltank.ViewModels.Accounts
                 _accountService.SignOut();
                 _navigationService.Navigate<HomeViewModel>();
             });
+        }
+
+        private async Task LogoffAndRemoveAccount()
+        {
+            if (HasAccountStored())
+            {
+                WebAccount account = await GetWebAccount();
+
+                // Check if the account has been deleted already by Token Broker
+                if (account != null)
+                {
+                    if (account.WebAccountProvider.Id == AppSpecificProviderId)
+                    {
+                        // perform actions to sign out of the app specific provider
+                    }
+                    else
+                    {
+                        await account.SignOutAsync();
+                    }
+                }
+                account = null;
+                RemoveAccountData();
+            }
+        }
+
+        private bool HasAccountStored()
+        {
+            return (ApplicationData.Current.LocalSettings.Values.ContainsKey(StoredAccountIdKey) &&
+                    ApplicationData.Current.LocalSettings.Values.ContainsKey(StoredProviderIdKey) &&
+                    ApplicationData.Current.LocalSettings.Values.ContainsKey(StoredAuthorityKey));
+        }
+
+        private async Task<WebAccount> GetWebAccount()
+        {
+            String accountID = ApplicationData.Current.LocalSettings.Values[StoredAccountIdKey] as String;
+            String providerID = ApplicationData.Current.LocalSettings.Values[StoredProviderIdKey] as String;
+            String authority = ApplicationData.Current.LocalSettings.Values[StoredAuthorityKey] as String;
+
+            WebAccount account;
+
+            WebAccountProvider provider = await GetProvider(providerID, authority);
+
+            if (providerID == AppSpecificProviderId)
+            {
+                account = new WebAccount(provider, accountID, WebAccountState.None);
+            }
+            else
+            {
+                account = await WebAuthenticationCoreManager.FindAccountAsync(provider, accountID);
+
+                // The account has been deleted if FindAccountAsync returns null
+                if (account == null)
+                {
+                    RemoveAccountData();
+                }
+            }
+
+            return account;
+        }
+
+        private async Task<WebAccountProvider> GetProvider(string ProviderID, string AuthorityId = "")
+        {
+            if (ProviderID == AppSpecificProviderId)
+            {
+                return new WebAccountProvider(AppSpecificProviderId, AppSpecificProviderName, new Uri("/Assets/smallTile-sdk.png"));
+            }
+            else
+            {
+                return await WebAuthenticationCoreManager.FindAccountProviderAsync(ProviderID, AuthorityId);
+            }
         }
 
         private static async Task RemoveUserLocalFile()

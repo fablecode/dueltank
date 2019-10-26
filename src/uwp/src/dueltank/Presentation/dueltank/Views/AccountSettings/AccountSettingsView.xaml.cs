@@ -29,14 +29,14 @@ namespace dueltank.Views.AccountSettings
             var viewModel = DataContext as AccountSettingsViewModel;
             //viewModel?.LoadUserInfo(e.Parameter as UserInfo);
 
-            AccountsSettingsPane.GetForCurrentView().AccountCommandsRequested += (DataContext as AccountSettingsViewModel).OnAccountCommandsRequested;
+            //AccountsSettingsPane.GetForCurrentView().AccountCommandsRequested += (DataContext as AccountSettingsViewModel).OnAccountCommandsRequested;
 
             base.OnNavigatedTo(e);
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            AccountsSettingsPane.GetForCurrentView().AccountCommandsRequested -= (DataContext as AccountSettingsViewModel).OnAccountCommandsRequested;
+            //AccountsSettingsPane.GetForCurrentView().AccountCommandsRequested -= (DataContext as AccountSettingsViewModel).OnAccountCommandsRequested;
 
             base.OnNavigatingFrom(e);
         }

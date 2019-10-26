@@ -46,13 +46,19 @@ namespace dueltank.Configuration
             serviceCollection.AddHttpClient();
 
             // Services
-            serviceCollection.AddScoped<INavigationService, NavigationService>();
+
+            // Scoped
             serviceCollection.AddScoped<IMessageService, MessageService>();
             serviceCollection.AddScoped<IContextService, ContextService>();
             serviceCollection.AddScoped<ICommonServices, CommonServices>();
-            serviceCollection.AddScoped<IAccountService, AccountService>();
+
+            // Singleton
+            serviceCollection.AddSingleton<INavigationService, NavigationService>();
+            serviceCollection.AddSingleton<IAccountService, AccountService>();
 
             // ViewModels
+
+            // Transient
             serviceCollection.AddTransient<ArchetypesViewModel>();
             serviceCollection.AddTransient<BanlistViewModel>();
             serviceCollection.AddTransient<CardsViewModel>();
