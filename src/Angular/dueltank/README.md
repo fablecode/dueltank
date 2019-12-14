@@ -5,9 +5,6 @@
 # Dueltank
 A web-based repository for storing, building or uploading [Yu-Gi-Oh](https://www.yugioh-card.com/en/) decks.
 
-## Live Url
-[https://www.dueltank.com](https://www.dueltank.com)
-
 ## Installing
 ```
  $ git clone https://github.com/fablecode/dueltank.git
