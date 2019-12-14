@@ -8,9 +8,6 @@ A C# .NET Core 2.1 api for [DuelTank](https://www.dueltank.com) data such as Dec
  $ git clone https://github.com/fablecode/ygo-api.git
 ```
 
-## Api Url
-[https://api.dueltank.com](https://api.dueltank.com)
-
 ## Prerequisite
 1. Setup the [Database](https://github.com/fablecode/dueltank/tree/master/src/Database/src)
 
